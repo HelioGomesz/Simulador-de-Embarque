@@ -16,8 +16,8 @@
     align-items: center;        /*Centralizar a caixa */
     background-image: url(Plano\ de\ fundo\ pagweb.png.webp);      /*Carregar a imagem de fundo */
     background-size: cover;       /* Posição da imagem preencher o espaço disponivel*/
-    background-position: 50%;     /* posicionamento da imagem*/
-    padding: 20px;                /* espaçamento do elemento na pagina*/
+    background-position: 60%;     /* posicionamento da imagem*/
+    padding: 70px;                /* espaçamento do elemento na pagina*/
   }
   
   form {
@@ -25,6 +25,8 @@
     background-color: white; /*Cor de fundo do form */
     padding: 100px;       /*Espaçamento do form igualmente*/
     border-radius: 5px;  /*Curvar os cantos do form*/
+    text-transform: uppercase;
+
   
     /* flex container */
     display: flex;
@@ -50,7 +52,7 @@
     border-bottom-width: 3px;         /* Largura debaixo do botão*/
     font-size: 16px;                  /* Tamanho da fonte*/
     color: white;                   /* Cor da fonte*/
-    font-weight: 700;                 /* Peso da fonte/Negrito*/
+    font-weight: 700px;                 /* Peso da fonte/Negrito*/
     text-transform: uppercase;        /* fonte maiusculo*/
   }
   
@@ -60,6 +62,7 @@
     border-radius: 15px;            /* Arredondar os cantos*/
     border: none;                   /* Sem borda*/
     background-color: #f1f1f1;    /* cor de fundo da caixa de input*/
+    align-self: center; 
   }
   
   a {     /* Ancora de link*/
@@ -70,7 +73,7 @@
   .barra-horizontal {
     background-color: #256a8a;  /*Cor da barra */
     height: 4px;    /*altura da barra */
-    width: 260px;   /*Tamanho da barra */
+    width: 500px;   /*Tamanho da barra */
   }
   
   .campo-input {
