@@ -8,13 +8,13 @@
     font-family: "Calibri";
     color: #404040;
     /* flex container */
-    display: flex;
+    display: block;
     height: 100vh;              /*Mexer na altura disponivel na tela usando o vh */
     /* viewport height */
     background-color: brown;
     justify-content: center;    /*Centralizar a caixa na tela toda*/
     align-items: center;        /*Centralizar a caixa */
-    background-image: url(Plano\ de\ fundo\ pagweb.png.webp);      /*Carregar a imagem de fundo */
+    background-image: url(Plano\ de\ fundo1.png.webp);      /*Carregar a imagem de fundo */
     background-size: cover;       /* Posição da imagem preencher o espaço disponivel*/
     background-position: 60%;     /* posicionamento da imagem*/
     padding: 70px;                /* espaçamento do elemento na pagina*/
@@ -83,11 +83,6 @@
     gap: 5px;   /* espaçamento de  */
   }
   
-  .usar-depois {
-    /* flex container opção de direcionar as posições */
-    display: flex;
-    gap: 10px;  /* empurar/espaçar entre os elementos */
-  }
   
   .titulo {
     display: flex;
@@ -95,7 +90,4 @@
     gap: 5px;
   }
   
-  .esqueceu-senha {
-    text-align: center;       /* Centralizar o texto*/
-  }
   
