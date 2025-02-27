@@ -11,20 +11,20 @@
     display: block;
     height: 100vh;              /*Mexer na altura disponivel na tela usando o vh */
     /* viewport height */
-    background-color: brown;
+    background-color: rgb(201, 90, 90);
     justify-content: center;    /*Centralizar a caixa na tela toda*/
     align-items: center;        /*Centralizar a caixa */
     background-image: url(Plano\ de\ fundo1.png.webp);      /*Carregar a imagem de fundo */
     background-size: cover;       /* Posição da imagem preencher o espaço disponivel*/
-    background-position: 60%;     /* posicionamento da imagem*/
-    padding: 70px;                /* espaçamento do elemento na pagina*/
+    background-position: 50%;     /* posicionamento da imagem*/
+    padding: 50px;                /* espaçamento do elemento na pagina*/
   }
   
   form {
     /* flex child do body*/
     background-color: white; /*Cor de fundo do form */
     padding: 200px;       /*Espaçamento do form igualmente*/
-    /*border-radius: 5px;  /*Curvar os cantos do form*/
+    border-radius: 5px;  /*Curvar os cantos do form*/
     text-transform: uppercase;
 
   
@@ -42,10 +42,11 @@
   }
   /*Selecionar pela tag button do html*/
   button {
-    padding: 10px;                    /* Distribuir os espaços internos */
-    align-self: flex-end;               /* Centralizar */
-    width: 160px;                     /* largura do botão */
-    border-radius: 25px;              /* Borda do botão */
+    padding: 5px;                    /* Distribuir os espaços internos */
+    align-self: flex-end;               /* Canto esquerdo da tela*/
+    width: 100px;                     /* largura do botão */
+    border-radius: 5px;              /* Borda do botão */
+
     /* background-color: #3393c1; */
     background-image: linear-gradient(#256a8a, #3393c1); 
     border: solid 1px #256a8a;      /* Gradiente - misturar as cores do botão*/
@@ -70,5 +71,6 @@
     flex-direction: column;
     gap: 5px;
   }
+  
   
   
