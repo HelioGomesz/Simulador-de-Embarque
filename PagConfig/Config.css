@@ -39,10 +39,11 @@
     font-size: 32px;
     align-self: center;
   }
+  
   /*Selecionar pela tag button do html*/
   button {
     padding: 10px;                    /* Distribuir os espaços internos */
-    align-self: center;               /* Centralizar */
+    align-self: flex-start;               /* Centralizar */
     width: 160px;                     /* largura do botão */
     border-radius: 25px;              /* Borda do botão */
     /* background-color: #3393c1; */
@@ -56,6 +57,8 @@
     text-transform: uppercase;        /* fonte maiusculo*/
   }
   
+
+
   /*Selecionar pela tag input do html*/
   input {
     padding: 10px 20px;             /* tamanho da caixa de input*/

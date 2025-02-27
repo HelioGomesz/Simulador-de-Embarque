@@ -23,7 +23,7 @@
   form {
     /* flex child do body*/
     background-color: white; /*Cor de fundo do form */
-    padding: 100px;       /*Espaçamento do form igualmente*/
+    padding: 200px;       /*Espaçamento do form igualmente*/
     /*border-radius: 5px;  /*Curvar os cantos do form*/
     text-transform: uppercase;
 
@@ -37,12 +37,13 @@
   h1 {
     
     font-size: 50px;
-    align-self: center;
+    align-content: flex-start;
+    
   }
   /*Selecionar pela tag button do html*/
   button {
     padding: 10px;                    /* Distribuir os espaços internos */
-    align-self: center;               /* Centralizar */
+    align-self: flex-end;               /* Centralizar */
     width: 160px;                     /* largura do botão */
     border-radius: 25px;              /* Borda do botão */
     /* background-color: #3393c1; */
@@ -61,13 +62,11 @@
   .barra-horizontal {
     background-color: #256a8a;  /*Cor da barra */
     height: 4px;    /*altura da barra */
-    width: 500px;   /*Tamanho da barra */
+    width: 1000px;   /*Tamanho da barra */
   }
   
-  
-  
   .titulo {
-    display: flex;
+    display: run-in;
     flex-direction: column;
     gap: 5px;
   }
