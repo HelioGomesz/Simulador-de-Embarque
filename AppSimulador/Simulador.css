@@ -24,7 +24,7 @@
     /* flex child do body*/
     background-color: white; /*Cor de fundo do form */
     padding: 100px;       /*Espaçamento do form igualmente*/
-    border-radius: 5px;  /*Curvar os cantos do form*/
+    /*border-radius: 5px;  /*Curvar os cantos do form*/
     text-transform: uppercase;
 
   
@@ -36,7 +36,7 @@
   
   h1 {
     
-    font-size: 32px;
+    font-size: 50px;
     align-self: center;
   }
   /*Selecionar pela tag button do html*/
@@ -55,19 +55,7 @@
     font-weight: 700px;                 /* Peso da fonte/Negrito*/
     text-transform: uppercase;        /* fonte maiusculo*/
   }
-  
-  /*Selecionar pela tag input do html*/
-  input {
-    padding: 10px 20px;             /* tamanho da caixa de input*/
-    border-radius: 15px;            /* Arredondar os cantos*/
-    border: none;                   /* Sem borda*/
-    background-color: #f1f1f1;    /* cor de fundo da caixa de input*/
-    align-self: center; 
-  }
-  
-  a {     /* Ancora de link*/
-    color: #009dff;
-  }
+   
   
   /*Utilizar o . para selecionar pela class */
   .barra-horizontal {
@@ -76,12 +64,6 @@
     width: 500px;   /*Tamanho da barra */
   }
   
-  .campo-input {
-    /* flex container - opção de direcionar as posições */
-    display: flex;
-    flex-direction: column;    /* Direcionamento das informações um embaixo do outro */
-    gap: 5px;   /* espaçamento de  */
-  }
   
   
   .titulo {
