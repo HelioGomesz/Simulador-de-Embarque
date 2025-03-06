@@ -67,13 +67,107 @@
   .titulo {
     display: run-in;
     flex-direction: column;
-    font-size: 200px;
+    font-size: 100px;
     color: white; 
-    gap: 50px;
+    gap: 20px;
     text-transform: uppercase; 
     font-family: "Calibri"
     
   }
   
-  
+  /* Container para organizar as colunas */
+.container {
+  display: flex;
+  justify-content: flex-start;  /*Alinhamento dos blocos dos containers para um lado da página*/
+  gap: 10px;
+}
+
+/* Estilo para as colunas */
+.column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Estilo base para os quadrados */
+.square {
+  width: 80px;
+  height: 80px;
+  background-color: rgb(209, 110, 70);
+  margin: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+  color: white;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+  font-size: 12px; /* Ajuste para melhor legibilidade */
+  overflow: hidden;
+  padding: 5px;
+  word-wrap: break-word;
+}
+
+/* Estilo para o modal */
+.modal {
+  display: none; 
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(18, 14, 219, 0.5);
+  padding-top: 60px;
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 25px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 400px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Estilo quando o quadrado for preenchido */
+.clicked {
+  background-color: rgb(27, 165, 22);
+}
+
+/* Estilo para os campos adicionais */
+.product-field {
+  margin-bottom: 15px;
+}
+
+#addProductBtn {
+  background-color: #ff9800;
+  color: white;
+  padding: 5px;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+#addProductBtn:hover {
+  background-color: #fb8c00;
+}
+
   
