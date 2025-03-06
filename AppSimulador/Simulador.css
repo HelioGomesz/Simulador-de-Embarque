@@ -20,19 +20,6 @@
     padding: 50px;                /* espaçamento do elemento na pagina*/
   }
   
-  form {
-    /* flex child do body*/
-    background-color: white; /*Cor de fundo do form */
-    padding: 200px;       /*Espaçamento do form igualmente*/
-    border-radius: 5px;  /*Curvar os cantos do form*/
-    text-transform: uppercase;
-
-  
-    /* flex container */
-    display: flex;
-    flex-direction: column;
-    gap: 25px; /* Espaçamento entre os elemntos dentro do form */
-  }
   
   h1 {
     
@@ -69,7 +56,12 @@
   .titulo {
     display: run-in;
     flex-direction: column;
-    gap: 5px;
+    font-size: 200px;
+    color: white; 
+    gap: 50px;
+    text-transform: uppercase; 
+    font-family: "Calibri"
+    
   }
   
   
