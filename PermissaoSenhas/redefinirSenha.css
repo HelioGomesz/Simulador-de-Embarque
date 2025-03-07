@@ -14,7 +14,7 @@
     background-color: brown;
     justify-content: center;    /*Centralizar a caixa na tela toda*/
     align-items: center;        /*Centralizar a caixa */
-    background-image: url(Plano\ de\ fundo\ redefinição\ senha.webp);      /*Carregar a imagem de fundo */
+    background-image: url(Plano\ de\ fundo\ RedefinirSenha.png.webp);      /*Carregar a imagem de fundo */
     background-size: cover;       /* Posição da imagem preencher o espaço disponivel*/
     background-position: 50%;     /* posicionamento da imagem*/
     padding: 20px;                /* espaçamento do elemento na pagina*/
