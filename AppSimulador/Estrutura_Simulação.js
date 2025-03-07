@@ -88,3 +88,5 @@ document.querySelectorAll('.square').forEach(square => {
 document.querySelector('.close').addEventListener('click', closeModal);
 document.getElementById('productForm').addEventListener('submit', handleFormSubmit);
 document.getElementById('addProductBtn').addEventListener('click', addProductField);
+
+
