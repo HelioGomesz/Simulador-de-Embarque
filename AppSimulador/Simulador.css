@@ -8,7 +8,7 @@ body {
   font-family: 'Calibri';
   color: #404040;
   /* flex container */
-  display: block;
+  display: block; /*Ajustar a posição dos quadrados do container na pagina*/
   height: 100vh; /*Mexer na altura disponivel na tela usando o vh */
   /* viewport height */
   background-color: rgb(201, 90, 90);
@@ -29,19 +29,20 @@ form {
   /* flex container */
   display: flex;
   flex-direction: column;
-  gap: 25px; /* Espaçamento entre os elemntos dentro do form */
+  gap: 50px; /* Espaçamento entre os elementos dentro do form */
 }
 
 h1 {
+  /*Ajuste do titulo*/
   font-size: 50px;
   align-content: flex-start;
 }
 /*Selecionar pela tag button do html*/
 button {
-  padding: 5px; /* Distribuir os espaços internos */
-  align-self: flex-end; /* Canto esquerdo da tela*/
-  width: 100px; /* largura do botão */
-  border-radius: 5px; /* Borda do botão */
+  padding: 10px; /* Distribuir os espaços internos */
+  align-self: center; /* botões no centro da tela*/
+  width: 160px; /* largura do botão */
+  border-radius: 25px; /* Borda do botão */
 
   /* background-color: #3393c1; */
   background-image: linear-gradient(#256a8a, #3393c1);
@@ -54,6 +55,14 @@ button {
   text-transform: uppercase; /* fonte maiusculo*/
 }
 
+/*Selecionar pela tag input do html*/
+input {
+  padding: 10px 20px; /* tamanho da caixa de input*/
+  border-radius: 15px; /* Arredondar os cantos*/
+  border: none; /* Sem borda*/
+  background-color: #f1f1f1; /* cor de fundo da caixa de input*/
+}
+
 /*Utilizar o . para selecionar pela class */
 .barra-horizontal {
   background-color: #256a8a; /*Cor da barra */
@@ -62,7 +71,7 @@ button {
 }
 
 .titulo {
-  display: run-in;
+  display: flex;
   flex-direction: column;
   font-size: 100px;
   color: white;
@@ -78,14 +87,14 @@ button {
   gap: 10px;
 }
 
-/* Estilo para as colunas */
+/* Estilo para as colunas do container*/
 .column {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* Estilo base para os quadrados */
+/* Estilo base para os quadrados do container */
 .square {
   width: 80px;
   height: 80px;
@@ -100,13 +109,13 @@ button {
   color: white;
   font-family: Arial, sans-serif;
   box-sizing: border-box;
-  font-size: 12px; /* Ajuste para melhor legibilidade */
+  font-size: 12px; /* Ajuste para melhor legibilidade dentro dos quadrado*/
   overflow: hidden;
   padding: 5px;
   word-wrap: break-word;
 }
 
-/* Estilo para o modal */
+/* Estilo para o modal do formulário*/
 .modal {
   display: none;
   position: fixed;
@@ -119,18 +128,19 @@ button {
   background-color: rgba(18, 14, 219, 0.5);
   padding-top: 60px;
 }
-
+/* Estilo da forma do formulário*/
 .modal-content {
   background-color: #fefefe;
   margin: 5% auto;
   padding: 25px;
   border: 1px solid #888;
-  width: 80%;
+  width: 90%;
   max-width: 400px;
+  border-radius: 25px;
 }
-
+/* Estilo do botão de fechar form*/
 .close {
-  color: #aaa;
+  color: #7d7d80;
   float: right;
   font-size: 28px;
   font-weight: bold;
@@ -143,14 +153,14 @@ button {
   cursor: pointer;
 }
 
-/* Estilo quando o quadrado for preenchido */
+/* Estilo quando o quadrado do container for preenchido */
 .clicked {
   background-color: rgb(27, 165, 22);
 }
 
 /* Estilo para os campos adicionais */
 .product-field {
-  margin-bottom: 15px;
+  margin-bottom: 25px;
 }
 
 #addProductBtn {
