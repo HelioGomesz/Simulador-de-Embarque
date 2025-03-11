@@ -113,3 +113,4 @@ document
       pdf.save('simulação.pdf');
     });
   });
+  

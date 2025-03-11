@@ -21,11 +21,10 @@ body {
 }
 
 #conteudo {
-  
 padding: 20px;
 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 margin-bottom: 20px;
-border-radius: 8px;
+border-radius: 2px;
 background-image: url(Plano\ de\ fundo1.png.webp);
 background-size: cover; /* Posição da imagem preencher o espaço disponivel*/
 background-position: 50%;
@@ -54,8 +53,6 @@ button {
   align-self: center; /* botões no centro da tela*/
   width: 160px; /* largura do botão */
   border-radius: 25px; /* Borda do botão */
-
-  /* background-color: #3393c1; */
   background-image: linear-gradient(#256a8a, #3393c1);
   border: solid 1px #256a8a; /* Gradiente - misturar as cores do botão*/
   border-right-width: 3px; /* Largura da borda direita do botão*/
@@ -78,7 +75,7 @@ input {
 .barra-horizontal {
   background-color: #256a8a; /*Cor da barra */
   height: 4px; /*altura da barra */
-  width: 1000px; /*Tamanho da barra */
+  width: 1600px; /*Tamanho da barra */
 }
 
 .titulo {
