@@ -20,6 +20,17 @@ body {
   padding: 50px; /* espaçamento do elemento na pagina*/
 }
 
+#conteudo {
+  
+padding: 20px;
+box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+margin-bottom: 20px;
+border-radius: 8px;
+background-image: url(Plano\ de\ fundo1.png.webp);
+background-size: cover; /* Posição da imagem preencher o espaço disponivel*/
+background-position: 50%;
+}
+
 form {
   /* flex child do body*/
   background-color: white; /*Cor de fundo do form */
@@ -156,6 +167,7 @@ input {
 /* Estilo quando o quadrado do container for preenchido */
 .clicked {
   background-color: rgb(27, 165, 22);
+
 }
 
 /* Estilo para os campos adicionais */
@@ -175,3 +187,4 @@ input {
 #addProductBtn:hover {
   background-color: #fb8c00;
 }
+

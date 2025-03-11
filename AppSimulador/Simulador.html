@@ -5,13 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Simulador de Embarque</title>
     <link rel="stylesheet" href="Simulador.css" />
+    
     <!-- referncia para salvar arquivo em pdf-->
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js"
-      integrity="sha512-MpDFIChbcXl2QgipQrt1VcPHMldRILetapBl5MPCA9Y8r7qvlwx1/Mc9hNTzY+kS5kX6PdoDq41ws1HiVNLdZA=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    ></script>
+
     <script src="Estrutura_Simulação.js" defer></script>
   </head>
 
@@ -21,18 +17,17 @@
   </div>
 
   <button>Config</button>
-  <!-- Abrir uma nova página para configurações-->
+  <!-- Abrir uma nova página para configurações(Incluir/Alterar/Excluir/salvar)-->
   <button>Salvar</button>
   <!-- Salva e libera o botão de exportar pdf-->
   <button>Sair</button>
-  <!-- voltar para pagina de login-->
+  <!-- fechar a pagina e voltar para pagina de login-->
 
   <body>
     <!-- Contêiner para duas colunas -->
 
-    <div class="container">
-      <div id="estrutura"></div>
-      <div class="column">
+    <div id="conteudo"class="container">
+          <div class="column">
         <div class="square" data-id="1"></div>
         <div class="square" data-id="2"></div>
         <div class="square" data-id="3"></div>
@@ -55,9 +50,9 @@
         <div class="square" data-id="18"></div>
       </div>
     </div>
-
-    <button id="generate-pdf">Exportar pdf</button>
-    <!-- botão no canto esquerdo/direito da pagina - Abrir uma nova pág mostrando a pagina em pdf-->
+        <button id="generate-pdf">Exportar pdf</button>
+  </div>
+    <!-- botão no canto esquerdo/direito da pagina - Abrir uma nova pág mostrando a pagina em pdf ou baixar direto-->
 
     <!-- Modal Formulário -->
     <div id="modal" class="modal">
@@ -82,7 +77,8 @@
         </form>
       </div>
     </div>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <script src="Estrutura_Simulação.js"></script>
   </body>
 </html>
