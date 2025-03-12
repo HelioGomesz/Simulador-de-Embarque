@@ -22,7 +22,7 @@ body {
 
 #conteudo {
   padding: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.1);
   margin-bottom: 10px;
   border-radius: 2px;
   background-image: url(Plano\ de\ fundo1.png.webp);
@@ -49,7 +49,7 @@ h1 {
 }
 /*Selecionar pela tag button do html*/
 button {
-  padding: 10px; /* Distribuir os espaços internos */
+  padding: 20px; /* Distribuir os espaços internos */
   align-self: center; /* botões no centro da tela*/
   width: 160px; /* largura do botão */
   border-radius: 25px; /* Borda do botão */
@@ -69,6 +69,7 @@ input {
   border-radius: 15px; /* Arredondar os cantos*/
   border: none; /* Sem borda*/
   background-color: #f1f1f1; /* cor de fundo da caixa de input*/
+  font-weight: 700px;
 }
 
 .titulo {
@@ -81,11 +82,26 @@ input {
   font-family: 'Monteserrat';
 }
 
+.btn-pdf {
+  padding: 20px; /* Distribuir os espaços internos */
+  align-self: center; /* botões no centro da tela*/
+  width: 160px; /* largura do botão */
+  border-radius: 25px; /* Borda do botão */
+  background-image: linear-gradient(#256a8a, #3393c1);
+  border: solid 1px #256a8a; /* Gradiente - misturar as cores do botão*/
+  border-right-width: 3px; /* Largura da borda direita do botão*/
+  border-bottom-width: 3px; /* Largura debaixo do botão*/
+  font-size: 18px; /* Tamanho da fonte*/
+  color: white; /* Cor da fonte*/
+  font-weight: 700px; /* Peso da fonte/Negrito*/
+  text-transform: uppercase; /* fonte maiusculo*/
+}
+
 /* Container para organizar as colunas */
 .container {
   display: flex;
-  justify-content: flex-start; /*Alinhamento dos blocos dos containers para um lado da página*/
-  gap: 10px;
+  justify-content: center; /*Alinhamento dos blocos dos containers para um lado da página*/
+  gap: 20px;
 }
 
 /* Estilo para as colunas do container*/
@@ -97,8 +113,8 @@ input {
 
 /* Estilo base para os quadrados do container */
 .square {
-  width: 100px;
-  height: 85px;
+  width: 150px;
+  height: 100px;
   background-color: rgb(209, 110, 70);
   margin: 1px;
   display: flex;
@@ -110,11 +126,21 @@ input {
   color: white;
   font-family: Arial, sans-serif;
   box-sizing: border-box;
-  font-size: 12px; /* Ajuste para melhor legibilidade dentro dos quadrado*/
+  font-size: 24px; /* Ajuste para melhor legibilidade dentro dos quadrado*/
   overflow: hidden;
   padding: 5px;
   word-wrap: break-word;
-  border-radius: 5px;
+  border-radius: 10px;
+}
+/*Declarar esse cupon no js para funcionamento de coleta de dados do simulador*/
+.cupon {
+  width: 1000px;
+  height: 900px;
+  background-color: #ecd3b4;
+  border-radius: 15px;
+  color: #070707;
+  text-align: center;
+  background-position: 90%;
 }
 
 /* Estilo para o modal do formulário*/

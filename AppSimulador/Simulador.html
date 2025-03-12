@@ -7,19 +7,20 @@
     <link rel="stylesheet" href="Simulador.css" />
   </head>
 
-  <div class="titulo">
-    <h1>Simulador</h1>
-    <div class="barra-horizontal"></div>
-  </div>
-
-  <button>Config</button>
-  <!-- Abrir uma nova página para configurações(Incluir/Alterar/Excluir/salvar)-->
-  <button>Salvar</button>
-  <!-- Salva e libera o botão de exportar pdf-->
-  <button>Sair</button>
-  <!-- fechar a pagina e voltar para pagina de login-->
 
   <body>
+
+    <div class="titulo">
+      <h1>Simulador</h1>
+    </div>
+  
+    <button class="btn-config">Config</button>
+    <!-- Abrir uma nova página para configurações(Incluir/Alterar/Excluir/salvar)-->
+    <button class="btn-salvar">Salvar</button>
+    <!-- Salva e libera o botão de exportar pdf-->
+    <button class="btn-sair">Sair</button>
+    <!-- fechar a pagina e voltar para pagina de login-->
+
     <!-- Contêiner para duas colunas -->
 
     <div id="conteudo"class="container">
@@ -45,11 +46,13 @@
         <div class="square" data-id="17"></div>
         <div class="square" data-id="18"></div>
       </div>
+      <div class="cupon" data-id="19"></div>
     </div>
-        <button id="generate-pdf">Exportar pdf</button>  <!-- botão no canto esquerdo/direito da pagina - Abrir uma nova pág mostrando a pagina em pdf ou baixar direto-->
-
+        <button class="btn-pdf" id="generate-pdf">Exportar pdf</button>  <!-- botão no canto esquerdo/direito da pagina - Abrir uma nova pág mostrando a pagina em pdf ou baixar direto-->
   </div>
    
+  
+  
     <!-- Modal Formulário -->
     <div id="modal" class="modal">
       <div class="modal-content">
