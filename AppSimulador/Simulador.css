@@ -133,7 +133,7 @@ input {
   border-radius: 10px;
 }
 /*Declarar esse cupon no js para funcionamento de coleta de dados do simulador*/
-.cupon {
+.cupom {
   width: 1000px;
   height: 900px;
   background-color: #ecd3b4;
