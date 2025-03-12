@@ -21,13 +21,13 @@ body {
 }
 
 #conteudo {
-padding: 20px;
-box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-margin-bottom: 20px;
-border-radius: 2px;
-background-image: url(Plano\ de\ fundo1.png.webp);
-background-size: cover; /* Posição da imagem preencher o espaço disponivel*/
-background-position: 10%;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  border-radius: 2px;
+  background-image: url(Plano\ de\ fundo1.png.webp);
+  background-size: cover; /* Posição da imagem preencher o espaço disponivel*/
+  background-position: 10%;
 }
 
 form {
@@ -104,10 +104,10 @@ input {
 
 /* Estilo base para os quadrados do container */
 .square {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 85px;
   background-color: rgb(209, 110, 70);
-  margin: 5px;
+  margin: 1px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -121,6 +121,7 @@ input {
   overflow: hidden;
   padding: 5px;
   word-wrap: break-word;
+  border-radius: 5px;
 }
 
 /* Estilo para o modal do formulário*/
@@ -164,7 +165,6 @@ input {
 /* Estilo quando o quadrado do container for preenchido */
 .clicked {
   background-color: rgb(27, 165, 22);
-
 }
 
 /* Estilo para os campos adicionais */
@@ -184,4 +184,3 @@ input {
 #addProductBtn:hover {
   background-color: #fb8c00;
 }
-
