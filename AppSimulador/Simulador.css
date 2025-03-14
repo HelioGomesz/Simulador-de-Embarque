@@ -5,7 +5,7 @@
 }
 /*Selecionar pela tag body do html*/
 body {
-  font-family: 'Calibri';
+  font-family: "Calibri";
   color: #404040;
   /* flex container */
   display: block; /*Ajustar a posição dos quadrados do container na pagina*/
@@ -43,7 +43,7 @@ form {
 }
 
 h1 {
-  /*Ajuste do titulo*/
+  /*Ajuste do titulo do formulário*/
   font-size: 50px;
   align-content: flex-start;
 }
@@ -71,7 +71,6 @@ input {
   background-color: #f1f1f1; /* cor de fundo da caixa de input*/
   font-weight: 750;
   border: solid 1px #7c8081;
-   
 }
 
 .titulo {
@@ -81,11 +80,11 @@ input {
   color: rgb(243, 240, 240);
   gap: 10px;
   text-transform: uppercase;
-  font-family: 'Monteserrat';
+  font-family: "Monteserrat";
 }
 
 .btn-pdf {
-  padding: 20px; /* Distribuir os espaços internos */
+  padding: 70px; /* Distribuir os espaços internos */
   align-self: center; /* botões no centro da tela*/
   width: 160px; /* largura do botão */
   border-radius: 25px; /* Borda do botão */
@@ -209,4 +208,3 @@ input {
 #addProductBtn:hover {
   background-color: #fb8c00;
 }
-
