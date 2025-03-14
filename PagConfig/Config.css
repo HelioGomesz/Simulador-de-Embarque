@@ -23,18 +23,26 @@ body {
 form {
   /* flex child do body*/
   background-color: white; /*Cor de fundo do form */
-  padding: 50px; /*Espaçamento do form igualmente*/
+  padding: 10px; /*Espaçamento do form igualmente*/
   border-radius: 25px; /*Curvar os cantos do form*/
   /* flex container */
   display: flex;
   flex-direction: column;
-  gap: 50px; /* Espaçamento entre os elementos dentro do form */
+  gap: 5px; /* Espaçamento entre os elementos dentro do form */
 }
 
 h1 {
   /*Ajuste do titulo do formulário*/
   font-size: 50px;
   align-content: flex-start;
+}
+
+h2 {
+  /*Ajuste do titulo do formulário*/
+  font-size: 50px;
+  align-content: flex-start;
+  text-transform: uppercase; /* fonte maiusculo*/
+  text-align: center;
 }
 /*Selecionar pela tag button do html para estilizar todos*/
 button {
@@ -54,11 +62,11 @@ button {
 
 /*Selecionar pela tag input do html*/
 input {
-  padding: 15px 40px; /*tamanho da caixa de input*/
+  padding: 15px 15px; /*tamanho da caixa de input*/
   border-radius: 10px; /* Arredondar os cantos*/
   border: none; /* Sem borda*/
   background-color: #f1f1f1; /* cor de fundo da caixa de input*/
-  font-weight: 750;
+  font-weight: 500;
   border: solid 1px #7c8081;
 }
 
@@ -79,35 +87,6 @@ input {
   gap: 20px;
 }
 
-/* Estilo para as colunas do container*/
-.rows {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* Estilo base para os quadrados do container */
-.square {
-  width: 2000px;
-  height: 500px;
-  background-color: rgb(245, 241, 240);
-  margin: 500px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  cursor: pointer;
-  text-align: center;
-  color: rgb(5, 5, 5);
-  font-family: Arial, sans-serif;
-  box-sizing: border-box;
-  font-size: 24px; /* Ajuste para melhor legibilidade dentro dos quadrado*/
-  overflow: hidden;
-  padding: 5px;
-  word-wrap: break-word;
-  border-radius: 10px;
-}
-
 /* Estilo para o modal do formulário*/
 .modal {
   display: none;
@@ -119,7 +98,7 @@ input {
   height: 100%;
   overflow: auto;
   background-color: rgba(14, 14, 209, 0.5);
-  padding-top: 60px;
+  padding-top: 50px;
 }
 /* Estilo da forma do formulário*/
 .modal-content {
@@ -144,15 +123,6 @@ input {
   color: black;
   text-decoration: none;
   cursor: pointer;
-}
-
-#addProductBtn {
-  background-color: #ff9800;
-  color: white;
-  padding: 5px;
-  border: none;
-  cursor: pointer;
-  margin-bottom: 10px;
 }
 
 #addProductBtn:hover {

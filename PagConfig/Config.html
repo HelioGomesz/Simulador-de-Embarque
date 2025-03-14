@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Simulador de Embarque</title>
+    <title>Configuração</title>
     <link rel="stylesheet" href="config.css" />
   </head>
 
@@ -11,42 +11,65 @@
     <div class="titulo">
       <h1>CONFIGURAÇÃO</h1>
     </div>
+    <button onclick="abrirFormulario('modal1')">Incluir</button>
+    <button onclick="abrirFormulario('modal2')">Alterar</button>
+    <button onclick="abrirFormulario('modal3')">Excluir</button>
 
-    <button class="btn-incluir">Incluir</button>
-    <!-- Abrir uma nova página para configurações(Incluir/Alterar/Excluir/salvar)-->
-    <button class="btn-alterar">Alterar</button>
-    <!-- Salva e libera o botão de exportar pdf-->
-    <button class="btn-excluir">Excluir</button>
-    <!-- fechar a pagina e voltar para pagina de login-->
-
-    <div id="conteudo"class="container">
-      <div class="rows">
-      <div class="square" data-id="produtosCadastrados"></div>
-    </div>
-    <!-- Modal Formulário -->
-    <div id="modal" class="modal">
+    <div class="modal" id="modal1">
       <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>INCLUIR</h2>
-        <form id="productForm">
-          <div id="productFields">
-            <div class="product-field">
-              <label for="produto1">PRODUTO:</label>
-              <input type="text" id="produto1" name="produto[]" required />
-
-              <label for="qtdPP1">QTD PP:</label>
-              <input type="number" id="qtdPP1" name="qtdPP[]" required />
-
-              <label for="qtdPG1">QTD PG:</label>
-              <input type="number" id="qtdPG1" name="qtdPG[]" required />
-            </div>
-          </div>
-
-          <button type="submit">SALVAR</button>
+        <span class="close-btn" onclick="fecharFormulario('modal1')"
+          >&times;</span
+        >
+        <h2>Incluir</h2>
+        <form>
+          <label for="Produto1">PRODUTO:</label>
+          <input type="text" id="nome1" name="nome1" /><br /><br />
+          <label for="QtdePP1">Qtde PP:</label>
+          <input type="number" id="QtdePP1" name="QtdePP1" /><br /><br />
+          <label for="QtdePG2">Qtde PG:</label>
+          <input type="number" id="QtdePG2" name="QtdePG2" /><br /><br />
+          <button type="submit">Incluir</button>
         </form>
       </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <div class="modal" id="modal2">
+      <div class="modal-content">
+        <span class="close-btn" onclick="fecharFormulario('modal2')"
+          >&times;</span
+        >
+        <h2>Alterar</h2>
+        <form>
+          <label for="Produto2">PRODUTO:</label>
+          <input type="text" id="Produto2" name="Produto2" /><br /><br />
+          <label for="QtdePP2">Qtde PP:</label>
+          <input type="number" id="QtdePP2" name="QtdePP2" /><br /><br />
+          <label for="QtdePG2">Qtde PG:</label>
+          <input type="number" id="QtdePG2" name="QtdePG2" /><br /><br />
+          <button type="submit">Alterar</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal" id="modal3">
+      <div class="modal-content">
+        <span class="close-btn" onclick="fecharFormulario('modal3')"
+          >&times;</span
+        >
+        <h2>Excluir</h2>
+        <form>
+          <label for="produto3">PRODUTO:</label>
+          <input type="text" id="produto3" name="produto3" /><br /><br />
+
+          <label for="QtdePP3">Qtde PP:</label>
+          <input type="number" id="QtdePP3" name="QtdePP3" /><br /><br />
+          <label for="QtdePG3">Qtde PP:</label>
+          <input type="number" id="QtdePG3" name="QtdePG3" /><br /><br />
+
+          <button type="submit">Excluir</button>
+        </form>
+      </div>
+    </div>
     <script src="Config.js"></script>
   </body>
 </html>
