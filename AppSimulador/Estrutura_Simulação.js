@@ -93,15 +93,20 @@ document
   .getElementById('addProductBtn')
   .addEventListener('click', addProductField);
 
+ 
+  //Inserir aqui o evento de listar no cupon
+
+
+
   //código para gerar pdf e ajuste das config.
 
   document.getElementById('generate-pdf').addEventListener('click', () => {
     const { jsPDF } = window.jspdf;
   
-    // Capturar o conteúdo usando html2canvas e gerar pdf
+    // Capturar o conteúdo da pagina usando html2canvas e gerar pdf
     html2canvas(document.querySelector('#conteudo'),{
       scale: 2, //aumenta a resolução da captura
-      useCORS: true //permite capturar imagens externas sem bloquei de CORS
+      useCORS: true //permite capturar imagens externas sem bloqueio de CORS
     }).then(canvas => {
       const imgData = canvas.toDataURL('image/png');
       const pdf = new jsPDF('l', 'mm', 'a4'); // Formato A4

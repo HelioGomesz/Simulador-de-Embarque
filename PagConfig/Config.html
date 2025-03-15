@@ -1,41 +1,75 @@
 <!DOCTYPE html>
 <html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configurações de cadastro</title>
-    <link rel="stylesheet" href="Config.css" />
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Configuração</title>
+    <link rel="stylesheet" href="config.css" />
+  </head>
 
-    <form action="">
-        <div class="titulo">
-          <h1>Incluir</h1>
-          <div class="barra-horizontal"></div>
-        </div>
-  
-        <div class="campo-input">
-          <label for="Produto">Produto*</label>
-          <input type="text" id="text" />
-        </div>
-  
-        <div class="campo-input">
-          <label for="numero">Quantidade(PP)*</label>
-          <input type="number" id="number" />
-        </div>
-  
-        <div class="campo-input">
-            <label for="numero">Quantidade(PG)*</label>
-            <input type="number" id="number" />
-          </div>
+  <body>
+    <div class="titulo">
+      <h1>CONFIGURAÇÃO</h1>
+    </div>
+    <button onclick="abrirFormulario('modal1')">Incluir</button>
+    <button onclick="abrirFormulario('modal2')">Alterar</button>
+    <button onclick="abrirFormulario('modal3')">Excluir</button>
 
-  
-        <button>Incluir</button>  <!--Cadastrar novo produto-->
-        <button>Alterar</button>  <!-- Alterar item já cadastrado-->
-        <button>Excluir</button>  <!-- Excluir item cadastrado -->
-        <button>Salvar</button>  <!-- Excluir item cadastrado -->
-  
+    <div class="modal" id="modal1">
+      <div class="modal-content">
+        <span class="close-btn" onclick="fecharFormulario('modal1')"
+          >&times;</span
+        >
+        <h2>Incluir</h2>
+        <form>
+          <label for="Produto1">PRODUTO:</label>
+          <input type="text" id="nome1" name="nome1" /><br /><br />
+          <label for="QtdePP1">Qtde PP:</label>
+          <input type="number" id="QtdePP1" name="QtdePP1" /><br /><br />
+          <label for="QtdePG2">Qtde PG:</label>
+          <input type="number" id="QtdePG2" name="QtdePG2" /><br /><br />
+          <button type="submit">Incluir</button>
+        </form>
+      </div>
+    </div>
 
-      </form>
-</body>
+    <div class="modal" id="modal2">
+      <div class="modal-content">
+        <span class="close-btn" onclick="fecharFormulario('modal2')"
+          >&times;</span
+        >
+        <h2>Alterar</h2>
+        <form>
+          <label for="Produto2">PRODUTO:</label>
+          <input type="text" id="Produto2" name="Produto2" /><br /><br />
+          <label for="QtdePP2">Qtde PP:</label>
+          <input type="number" id="QtdePP2" name="QtdePP2" /><br /><br />
+          <label for="QtdePG2">Qtde PG:</label>
+          <input type="number" id="QtdePG2" name="QtdePG2" /><br /><br />
+          <button type="submit">Alterar</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="modal" id="modal3">
+      <div class="modal-content">
+        <span class="close-btn" onclick="fecharFormulario('modal3')"
+          >&times;</span
+        >
+        <h2>Excluir</h2>
+        <form>
+          <label for="produto3">PRODUTO:</label>
+          <input type="text" id="produto3" name="produto3" /><br /><br />
+
+          <label for="QtdePP3">Qtde PP:</label>
+          <input type="number" id="QtdePP3" name="QtdePP3" /><br /><br />
+          <label for="QtdePG3">Qtde PP:</label>
+          <input type="number" id="QtdePG3" name="QtdePG3" /><br /><br />
+
+          <button type="submit">Excluir</button>
+        </form>
+      </div>
+    </div>
+    <script src="Config.js"></script>
+  </body>
 </html>
