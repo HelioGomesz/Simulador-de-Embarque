@@ -1,104 +1,130 @@
 * {
-    margin: 10;
-    padding: 10;
-    box-sizing: border-box;
-  }
-  /*Selecionar pela tag body do html*/
-  body {
-    font-family: "Calibri";
-    color: #404040;
-    /* flex container */
-    display: flex;
-    height: 100vh;              /*Mexer na altura disponivel na tela usando o vh */
-    /* viewport height */
-    background-color: brown;
-    justify-content: center;    /*Centralizar a caixa na tela toda*/
-    align-items: center;        /*Centralizar a caixa */
-    background-image: url(Plano\ de\ fundo\ pagweb.png.webp);      /*Carregar a imagem de fundo */
-    background-size: cover;       /* Posição da imagem preencher o espaço disponivel*/
-    background-position: 60%;     /* posicionamento da imagem*/
-    padding: 70px;                /* espaçamento do elemento na pagina*/
-  }
-  
-  form {
-    /* flex child do body*/
-    background-color: white; /*Cor de fundo do form */
-    padding: 100px;       /*Espaçamento do form igualmente*/
-    border-radius: 5px;  /*Curvar os cantos do form*/
-    text-transform: uppercase;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/*Selecionar pela tag body do html*/
+body {
+  font-family: "Calibri";
+  color: #404040;
+  /* flex container */
+  display: block; /*Ajustar a posição dos quadrados do container na pagina*/
+  height: 100vh; /*Mexer na altura disponivel na tela usando o vh */
+  /* viewport height */
+  background-color: rgb(243, 237, 237);
+  justify-content: center; /*Centralizar a caixa na tela toda*/
+  align-items: center; /*Centralizar a caixa */
+  background-image: url(Plano\ de\ fundo\ pagweb.png.webp); /*Carregar a imagem de fundo */
+  background-size: cover; /* Posição da imagem preencher o espaço disponivel*/
+  background-position: 50%; /* posicionamento da imagem*/
+  padding: 50px; /* espaçamento do elemento na pagina*/
+}
 
-  
-    /* flex container */
-    display: flex;
-    flex-direction: column;
-    gap: 25px; /* Espaçamento entre os elemntos dentro do form */
-  }
-  
-  h1 {
-    
-    font-size: 32px;
-    align-self: center;
-  }
-  
-  /*Selecionar pela tag button do html*/
-  button {
-    padding: 10px;                    /* Distribuir os espaços internos */
-    align-self: flex-start;               /* Centralizar */
-    width: 160px;                     /* largura do botão */
-    border-radius: 25px;              /* Borda do botão */
-    /* background-color: #3393c1; */
-    background-image: linear-gradient(#256a8a, #3393c1); 
-    border: solid 1px #256a8a;      /* Gradiente - misturar as cores do botão*/
-    border-right-width: 3px;          /* Largura da borda direita do botão*/
-    border-bottom-width: 3px;         /* Largura debaixo do botão*/
-    font-size: 16px;                  /* Tamanho da fonte*/
-    color: white;                   /* Cor da fonte*/
-    font-weight: 700px;                 /* Peso da fonte/Negrito*/
-    text-transform: uppercase;        /* fonte maiusculo*/
-  }
-  
+form {
+  /* flex child do body*/
+  background-color: white; /*Cor de fundo do form */
+  padding: 10px; /*Espaçamento do form igualmente*/
+  border-radius: 25px; /*Curvar os cantos do form*/
+  /* flex container */
+  display: flex;
+  flex-direction: column;
+  gap: 5px; /* Espaçamento entre os elementos dentro do form */
+}
 
+h1 {
+  /*Ajuste do titulo do formulário*/
+  font-size: 50px;
+  align-content: flex-start;
+}
 
-  /*Selecionar pela tag input do html*/
-  input {
-    padding: 10px 20px;             /* tamanho da caixa de input*/
-    border-radius: 15px;            /* Arredondar os cantos*/
-    border: none;                   /* Sem borda*/
-    background-color: #f1f1f1;    /* cor de fundo da caixa de input*/
-    align-self: center; 
-  }
-  
-  a {     /* Ancora de link*/
-    color: #009dff;
-  }
-  
-  /*Utilizar o . para selecionar pela class */
-  .barra-horizontal {
-    background-color: #256a8a;  /*Cor da barra */
-    height: 4px;    /*altura da barra */
-    width: 500px;   /*Tamanho da barra */
-  }
-  
-  .campo-input {
-    /* flex container - opção de direcionar as posições */
-    display: flex;
-    flex-direction: column;    /* Direcionamento das informações um embaixo do outro */
-    gap: 5px;   /* espaçamento de  */
-  }
-  
-  .usar-depois {
-    /* flex container opção de direcionar as posições */
-    display: flex;
-    gap: 10px;  /* empurar/espaçar entre os elementos */
-  }
-  
-  .titulo {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-  
-  .esqueceu-senha {
-    text-align: center;       /* Centralizar o texto*/
-  }
-  
+h2 {
+  /*Ajuste do titulo do formulário*/
+  font-size: 50px;
+  align-content: flex-start;
+  text-transform: uppercase; /* fonte maiusculo*/
+  text-align: center;
+}
+/*Selecionar pela tag button do html para estilizar todos*/
+button {
+  padding: 20px; /* Distribuir os espaços internos */
+  align-self: center; /* botões no centro da tela*/
+  width: 160px; /* largura do botão */
+  border-radius: 25px; /* Borda do botão */
+  background-image: linear-gradient(#256a8a, #3393c1);
+  border: solid 1px #256a8a; /* Gradiente - misturar as cores do botão*/
+  border-right-width: 3px; /* Largura da borda direita do botão*/
+  border-bottom-width: 3px; /* Largura debaixo do botão*/
+  font-size: 16px; /* Tamanho da fonte*/
+  color: white; /* Cor da fonte*/
+  font-weight: 700px; /* Peso da fonte/Negrito*/
+  text-transform: uppercase; /* fonte maiusculo*/
+}
+
+/*Selecionar pela tag input do html*/
+input {
+  padding: 15px 15px; /*tamanho da caixa de input*/
+  border-radius: 10px; /* Arredondar os cantos*/
+  border: none; /* Sem borda*/
+  background-color: #f1f1f1; /* cor de fundo da caixa de input*/
+  font-weight: 500;
+  border: solid 1px #7c8081;
+}
+
+.titulo {
+  display: flex;
+  flex-direction: column;
+  font-size: 200px;
+  color: rgb(243, 240, 240);
+  gap: 10px;
+  text-transform: uppercase;
+  font-family: "Monteserrat";
+}
+
+/* Classe Container para organizar as colunas */
+.container {
+  display: flex;
+  justify-content: center; /*Alinhamento dos blocos dos containers para um lado da página*/
+  gap: 20px;
+}
+
+/* Estilo para o modal do formulário*/
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(14, 14, 209, 0.5);
+  padding-top: 50px;
+}
+/* Estilo da forma do formulário*/
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 25px;
+  border: 1px solid #888;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 25px;
+}
+/* Estilo do botão de fechar form*/
+.close {
+  color: #7d7d80;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#addProductBtn:hover {
+  background-color: #fb8c00;
+}
