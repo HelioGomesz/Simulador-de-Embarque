@@ -1,3 +1,4 @@
+
 // Banco de dados simulando produtos já existentes
 const productsDatabase = {
   'LM0001-4000850': { qtdPP: 250, qtdPG: 510 },
