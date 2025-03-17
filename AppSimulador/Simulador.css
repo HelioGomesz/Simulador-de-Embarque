@@ -84,7 +84,7 @@ input {
 }
 
 .btn-pdf {
-  padding: 70px; /* Distribuir os espaços internos */
+  padding: 20px; /* Distribuir os espaços internos */
   align-self: center; /* botões no centro da tela*/
   width: 160px; /* largura do botão */
   border-radius: 25px; /* Borda do botão */
@@ -92,7 +92,7 @@ input {
   border: solid 1px #256a8a; /* Gradiente - misturar as cores do botão*/
   border-right-width: 3px; /* Largura da borda direita do botão*/
   border-bottom-width: 3px; /* Largura debaixo do botão*/
-  font-size: 18px; /* Tamanho da fonte*/
+  font-size: 16px; /* Tamanho da fonte*/
   color: white; /* Cor da fonte*/
   font-weight: 700px; /* Peso da fonte/Negrito*/
   text-transform: uppercase; /* fonte maiusculo*/
