@@ -1,0 +1,39 @@
+{   
+    "usuarios": [
+        {
+            "id": 1,
+            "email":"admin@lumicenter.com",
+            "senha":"1234"
+        },
+        {
+            "id": 2,
+            "email":"helio.gomes@lumicenter.com",
+            "senha":"30870761#Hg"
+        },
+        {
+            "id": 3,
+            "email":"abcde@lumicenter.com",
+            "senha":"12345"
+        }
+    ],
+
+    "produto":[
+        {
+            "LM0001-4000840":{
+                "qtdPP":152,
+                "qtdGG":510
+            },
+            "LM0001-4000850":{
+                "qtdPP":152,
+                "qtdGG":510
+            }
+        }
+        
+    ]
+
+    
+
+
+
+}
+
