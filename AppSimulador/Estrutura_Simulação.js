@@ -1,24 +1,23 @@
-
 // Banco de dados simulando produtos já existentes
 const productsDatabase = {
-  'LM0001-4000850': { qtdPP: 250, qtdPG: 510 },
+  "LM0001-4000850": { qtdPP: 250, qtdPG: 510 },
 };
 
 // Abre o modal para coletar informações do produto
 function openModal() {
-  document.getElementById('modal').style.display = 'block';
+  document.getElementById("modal").style.display = "block";
 }
 
 // Fecha o modal
 function closeModal() {
-  document.getElementById('modal').style.display = 'none';
+  document.getElementById("modal").style.display = "none";
 }
 
 // Função para adicionar um novo conjunto de campos de produto
 function addProductField() {
-  const productFields = document.getElementById('productFields');
-  const newProductField = document.createElement('div');
-  newProductField.classList.add('product-field');
+  const productFields = document.getElementById("productFields");
+  const newProductField = document.createElement("div");
+  newProductField.classList.add("product-field");
 
   const productCount = productFields.children.length + 1; // Contador para criar IDs exclusivos
 
@@ -66,57 +65,57 @@ function handleFormSubmit(event) {
 
 // Atualiza o quadrado com as informações fornecidas
 function updateSquareWithInfo(produto, qtdPP, qtdPG) {
-  const square = document.querySelector('.clicked');
+  const square = document.querySelector(".clicked");
   square.textContent = `${produto}\nPP: ${qtdPP}\nPG: ${qtdPG}`;
-  square.classList.add('clicked');
-  square.style.fontSize = '10px';
+  square.classList.add("clicked");
+  square.style.fontSize = "10px";
 }
 
 // Função chamada quando um quadrado é clicado
 function handleSquareClick(event) {
-  document.querySelectorAll('.square').forEach((square) => {
-    square.classList.remove('clicked');
+  document.querySelectorAll(".square").forEach((square) => {
+    square.classList.remove("clicked");
   });
-  event.target.classList.add('clicked');
+  event.target.classList.add("clicked");
   openModal();
 }
 
 // Adiciona eventos aos quadrados
-document.querySelectorAll('.square').forEach((square) => {
-  square.addEventListener('click', handleSquareClick);
+document.querySelectorAll(".square").forEach((square) => {
+  square.addEventListener("click", handleSquareClick);
 });
 
-document.querySelector('.close').addEventListener('click', closeModal);
+document.querySelector(".close").addEventListener("click", closeModal);
 document
-  .getElementById('productForm')
-  .addEventListener('submit', handleFormSubmit);
+  .getElementById("productForm")
+  .addEventListener("submit", handleFormSubmit);
 document
-  .getElementById('addProductBtn')
-  .addEventListener('click', addProductField);
+  .getElementById("addProductBtn")
+  .addEventListener("click", addProductField);
 
- 
-  //Inserir aqui o evento de listar no cupon
+//Inserir aqui o evento de listar no cupon
 
+//código para gerar pdf e ajuste das config.
 
+document.getElementById("generate-pdf").addEventListener("click", () => {
+  const { jsPDF } = window.jspdf;
 
-  //código para gerar pdf e ajuste das config.
+  // Capturar o conteúdo da pagina usando html2canvas e gerar pdf
+  html2canvas(document.querySelector("#conteudo"), {
+    scale: 2, //aumenta a resolução da captura
+    useCORS: true, //permite capturar imagens externas sem bloqueio de CORS
+  }).then((canvas) => {
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF("l", "mm", "a4"); // Formato A4
 
-  document.getElementById('generate-pdf').addEventListener('click', () => {
-    const { jsPDF } = window.jspdf;
-  
-    // Capturar o conteúdo da pagina usando html2canvas e gerar pdf
-    html2canvas(document.querySelector('#conteudo'),{
-      scale: 2, //aumenta a resolução da captura
-      useCORS: true //permite capturar imagens externas sem bloqueio de CORS
-    }).then(canvas => {
-      const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('l', 'mm', 'a4'); // Formato A4
-  
-      const imgWidth = 297 //Largura em mm para A4
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
-  
-      pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-      pdf.save('simulação.pdf');
-    });
+    const imgWidth = 297; //Largura em mm para A4
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+    pdf.save("simulação.pdf");
   });
-  
+});
+
+function navigateTo(page) {
+  window.location.href = page;
+}

@@ -7,19 +7,25 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css">
     <link rel="stylesheet" href="Simulador.css" />
   </head>
-
+  
   <body>
 
     <div class="titulo">
       <h1>Simulador</h1>
     </div>
   
-    <button class="btn-config">Config</button>
-    <!-- Abrir uma nova página para configurações(Incluir/Alterar/Excluir/salvar)-->
-    <button class="btn-salvar">Salvar</button>
-    <!-- Salva e libera o botão de exportar pdf-->
-    <button class="btn-sair">Sair</button>
-    <!-- fechar a pagina e voltar para pagina de login-->
+    <div id="Menu" class="MenuBotoes">
+      <!-- Abrir uma nova página para configurações(Incluir/Alterar/Excluir/salvar)-->
+      <button class="btn-config" onclick="navigateTo('/PagConfig/config.html')">
+          <i class="fa-solid fa-gear"></i>
+  
+      <button class="btn-salvar" onclick="navigateTo('/PagConfig/config.html')">
+          <i class="fa-solid fa-floppy-disk"></i>
+  
+      <button class="btn-sair" onclick="navigateTo('/PagLogin/Login.html')">
+          <i class="fa-solid fa-xmark"></i>        
+      </div>    
+  
 
     <!-- Contêiner para duas colunas -->
 
@@ -46,11 +52,15 @@
         <div class="square" data-id="17"></div>
         <div class="square" data-id="18"></div>
       </div>
-    <div class="cupom" data-id="areaCupom"></div>
+    <div data-id="areaCupom" class="cupom" ></div>
       <div class="tituloCupom">
         <h1>Cupom de Embarque</h1>
       </div>
-      <button class="btn-pdf" id="generate-pdf">Exportar pdf</button>  <!-- botão no canto esquerdo/direito da pagina - Abrir uma nova pág mostrando a pagina em pdf ou baixar direto-->
+     <!-- botão no canto esquerdo/direito da pagina - Abrir uma nova pág mostrando a pagina em pdf ou baixar direto-->
+      <div class="ExportarDoc" >
+        <button class="btn-pdf" id="generate-pdf">Exportar pdf</button>
+        <i class="fa-solid fa-file-pdf"></i> 
+     </div>
     </div>
   </div>
      

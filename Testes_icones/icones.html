@@ -1,119 +1,49 @@
 <!DOCTYPE html>
 <html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ícones Navegáveis</title>
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: flex-end;
-            align-items: initial;
-            height: 100vh;
-            background-color: #f4f7f5;
-        }
-        .menu {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .icon-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-        .icon-button {
-            background: #0a0f14;
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 24px;
-            display: flex;
-            align-items: initial;
-            justify-content: center;
-            width: 70px;
-            height: 70px;
-            transition: background 0.3s ease;
-        }
-        .icon-button:hover {
-            background: #9ba8b6;
-        }
-        .icon-label {
-            margin-top: 8px;
-            font-size: 14px;
-            color: #333;
-            font-weight: bold;
-        }
-    </style>
-</head>
-<body>
+    <link rel="stylesheet" href="icones.css" />
+    <script
+      src="https://kit.fontawesome.com/a076d05399.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
     <div class="menu">
-        <div class="icon-container">
-            <button class="icon-button" onclick="navigateTo('config.html')">
-                <i class="fas fa-cogs"></i>
-            </button>
-            <span class="icon-label">Configurações</span>
-        </div>
-        <div class="icon-container">
-            <button class="icon-button" onclick="navigateTo('salvar.html')">
-                <i class="fas fa-save"></i>
-            </button>
-            <span class="icon-label">Salvar</span>
-        </div>
-        <div class="icon-container">
-            <button class="icon-button" onclick="navigateTo('alterar.html')">
-                <i class="fas fa-edit"></i>
-            </button>
-            <span class="icon-label">Alterar</span>
-        </div>
-        <div class="icon-container">
-            <button class="icon-button" onclick="navigateTo('sair.html')">
-                <i class="fas fa-sign-out-alt"></i>
-            </button>
-            <span class="icon-label">Sair</span>
-        </div>
-        <div class="icon-container">
-            <button class="icon-button" onclick="navigateTo('home.html')">
-                <i class="fas fa-home"></i>
-            </button>
-            <span class="icon-label">Home</span>
-        </div>
-        <div class="icon-container">
-            <button class="icon-button" onclick="navigateTo('user.html')">
-                <i class="fas fa-user"></i>
-            </button>
-            <span class="icon-label">Usuário</span>
-        </div>
-        <div class="icon-container">
-            <button class="icon-button" onclick="navigateTo('info.html')">
-                <i class="fas fa-info-circle"></i>
-            </button>
-            <span class="icon-label">Informações</span>
-        </div>
-        <div class="icon-container">
-            <button class="icon-button" onclick="navigateTo('help.html')">
-                <i class="fas fa-question-circle"></i>
-            </button>
-            <span class="icon-label">Ajuda</span>
-        </div>
-        <div class="icon-container">
-            <button class="icon-button" onclick="navigateTo('contact.html')">
-                <i class="fas fa-envelope"></i>
-            </button>
-            <span class="icon-label">Contato</span>
-        </div>
-    </div>
-    
+      <div class="icon-container">
+        <button class="icon-button" onclick="navigateTo('icones2.html')">
+          <i class="fas fa-cogs"></i>
+        </button>
+        <span class="icon-label">Configurações</span>
+      </div>
+
+      <div class="icon-container">
+        <button class="icon-button" onclick="navigateTo('salvar.html')">
+          <i class="fas fa-save"></i>
+        </button>
+        <span class="icon-label">Salvar</span>
+      </div>
+
+      <div class="icon-container">
+        <button class="icon-button" onclick="navigateTo('alterar.html')">
+          <i class="fas fa-edit"></i>
+        </button>
+        <span class="icon-label">Alterar</span>
+      </div>
+
+      <div class="icon-container">
+        <button class="icon-button" onclick="navigateTo('sair.html')">
+          <i class="fas fa-sign-out-alt"></i>
+        </button>
+        <span class="icon-label">Sair</span>
+      </div>
+
     <script>
-        function navigateTo(page) {
-            window.location.href = page;
-        }
+      function navigateTo(page) {
+        window.location.href = page;
+      }
     </script>
-</body>
+  </body>
 </html>

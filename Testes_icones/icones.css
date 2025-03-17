@@ -1,0 +1,44 @@
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: initial; /*AJustar os elementos no corpo da pagina*/
+  align-items: initial;
+  height: 100vh;
+  background-color: #cedfeb;
+}
+.menu {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.icon-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.icon-button {
+  background: #115da8;
+  color: white;
+  border: none;
+  padding: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 24px;
+  display: flex;
+  align-items: initial;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  transition: background 0.3s ease;
+}
+.icon-button:hover {
+  background: #b2b3b4;
+}
+.icon-label {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #333;
+  font-weight: bold;
+}
