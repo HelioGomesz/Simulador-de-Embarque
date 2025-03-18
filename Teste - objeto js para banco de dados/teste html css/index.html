@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulador de Embarque</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Cabeçalho -->
+  <header>
+    <div class="container">
+      <h1>Simulador</h1>
+      <nav>
+        <ul>
+          <!-- Ícone de configurações -->
+          <li>
+            <button class="icon-btn" onclick="openSettings()">
+              ⚙️
+            </button>
+          </li>
+          <!-- Ícone de sair -->
+          <li>
+            <button class="icon-btn" onclick="logout()">
+              🚪
+            </button>
+          </li>
+          <!-- Ícone de exportar PDF -->
+          <li>
+            <button class="icon-btn" onclick="exportPDF()">
+              📄
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Corpo do projeto -->
+  <section class="simulador">
+    <div class="container">
+      <div class="grid">
+        <!-- 18 quadrados (2 colunas de 9) -->
+        <script>
+          for (let i = 1; i <= 18; i++) {
+            document.write(`<div class="square" onclick="openForm(${i})">${i}</div>`);
+          }
+        </script>
+      </div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+/* ======== ESTILO GERAL ======== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ======== CABEÇALHO ======== */
+header {
+  background-color: #143f6d;
+  color: white;
+  padding: 20px 0;
+}
+
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  font-size: 25px;
+}
+
+/* ======== NAVEGAÇÃO COM ÍCONES ======== */
+nav ul {
+  display: flex;
+  list-style: none;
+}
+
+nav ul li {
+  margin-left: 20px;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.icon-btn:hover {
+  color: #cce7ff;
+}
+
+/* ======== QUADRADOS DO SIMULADOR ======== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  padding-top: 20px;
+}
+
+.square {
+  width: 100%;
+  padding: 30px;
+  background-color: #ddd;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  border: 2px solid #bbb;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.square:hover {
+  background-color: #ccc;
+}
+
+/* Cor fixa após clique */
+.square.clicked {
+  background-color: #4caf50;
+  color: white;
+}
+
+/* ======== RESPONSIVO ======== */
+@media (max-width: 768px) {
+  nav ul {
+    flex-direction: row;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+  
+
+
