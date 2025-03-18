@@ -1,71 +1,55 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Simulador de Embarque</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css">
     <link rel="stylesheet" href="Simulador.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css">
   </head>
-  
   <body>
+    <!-- Cabeçalho da página -->
+    <header>
+      <h1 style="color: white">Simulador</h1>
 
-    <div class="titulo">
-      <h1>Simulador</h1>
-    </div>
-  
-    <div id="Menu" class="MenuBotoes">
-      <!-- Abrir uma nova página para configurações(Incluir/Alterar/Excluir/salvar)-->
-      <button class="btn-config" onclick="navigateTo('/PagConfig/config.html')">
-          <i class="fa-solid fa-gear"></i>
-  
-      <button class="btn-salvar" onclick="navigateTo('/PagConfig/config.html')">
-          <i class="fa-solid fa-floppy-disk"></i>
-  
-      <button class="btn-sair" onclick="navigateTo('/PagLogin/Login.html')">
-          <i class="fa-solid fa-xmark"></i>        
-      </div>    
-  
-
-    <!-- Contêiner para duas colunas -->
+        <a href="../PagConfig/config.html"
+          ><img src="../Imagens/engrenagem.png" alt="icone config"
+        /></a>
+        <a href="../PagLogin/Login.html"
+          ><img src="../Imagens/Sair.png" alt="icone sair"
+        /></a>
+        <button class="btn-pdf" id="generate-pdf"> 
+          <img src="../Imagens/pdf.png" alt="icone pdf">
+        </button>
+      </div>
+    </header>
 
     <div id="conteudo"class="container">
-        <div class="column">
-        <div class="square" data-id="1"></div>
-        <div class="square" data-id="2"></div>
-        <div class="square" data-id="3"></div>
-        <div class="square" data-id="4"></div>
-        <div class="square" data-id="5"></div>
-        <div class="square" data-id="6"></div>
-        <div class="square" data-id="7"></div>
-        <div class="square" data-id="8"></div>
-        <div class="square" data-id="9"></div>
-      </div>
-        <div class="column">
-        <div class="square" data-id="10"></div>
-        <div class="square" data-id="11"></div>
-        <div class="square" data-id="12"></div>
-        <div class="square" data-id="13"></div>
-        <div class="square" data-id="14"></div>
-        <div class="square" data-id="15"></div>
-        <div class="square" data-id="16"></div>
-        <div class="square" data-id="17"></div>
-        <div class="square" data-id="18"></div>
-      </div>
-    <div data-id="areaCupom" class="cupom" ></div>
-      <div class="tituloCupom">
-        <h1>Cupom de Embarque</h1>
-      </div>
-     <!-- botão no canto esquerdo/direito da pagina - Abrir uma nova pág mostrando a pagina em pdf ou baixar direto-->
-      <div class="ExportarDoc" >
-        <button class="btn-pdf" id="generate-pdf">Exportar pdf</button>
-        <i class="fa-solid fa-file-pdf"></i> 
-     </div>
+      <div class="column">
+      <div class="square" data-id="1"></div>
+      <div class="square" data-id="2"></div>
+      <div class="square" data-id="3"></div>
+      <div class="square" data-id="4"></div>
+      <div class="square" data-id="5"></div>
+      <div class="square" data-id="6"></div>
+      <div class="square" data-id="7"></div>
+      <div class="square" data-id="8"></div>
+      <div class="square" data-id="9"></div>
     </div>
-  </div>
-     
-    <!-- Modal Formulário -->
-    <div id="modal" class="modal">
+      <div class="column">
+      <div class="square" data-id="10"></div>
+      <div class="square" data-id="11"></div>
+      <div class="square" data-id="12"></div>
+      <div class="square" data-id="13"></div>
+      <div class="square" data-id="14"></div>
+      <div class="square" data-id="15"></div>
+      <div class="square" data-id="16"></div>
+      <div class="square" data-id="17"></div>
+      <div class="square" data-id="18"></div>
+    </div>
+    </div>
+     <!-- Modal Formulário -->
+     <!-- <div id="modal" class="modal">
       <div class="modal-content">
         <span class="close">&times;</span>
         <h2>INPUT DE PRODUTOS</h2>
@@ -84,11 +68,9 @@
           </div>
           <button type="button" id="addProductBtn">Incluir +</button>
           <button type="submit">OK</button>
-        </form>
+        </form> -->
       </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <script src="Estrutura_Simulação.js"></script>
   </body>
 </html>
