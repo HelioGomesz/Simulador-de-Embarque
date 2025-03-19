@@ -14,7 +14,7 @@ body {
 
 .container {
   width: 90%;
-  max-width: 1200px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
@@ -28,11 +28,12 @@ header {
 header .container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: left;
 }
 
 header h1 {
   font-size: 25px;
+  text-align: center;
 }
 
 /* ======== NAVEGAÇÃO COM ÍCONES ======== */
@@ -63,12 +64,12 @@ nav ul li {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 15px;
-  padding-top: 20px;
+  padding-top: 10px;
 }
 
 .square {
-  width: 100%;
-  padding: 30px;
+  width: 50%;
+  padding: 15px;
   background-color: #ddd;
   text-align: center;
   font-size: 20px;
