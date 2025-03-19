@@ -10,17 +10,22 @@
   <body>
     <!-- Cabeçalho da página -->
     <header>
-      <h1 style="color: white">Simulador</h1>
+      <div class="titulo"> 
+        <h1>Simulador</h1>
+      </div>
 
-        <a href="../PagConfig/config.html"
-          ><img src="../Imagens/engrenagem.png" alt="icone config"
-        /></a>
-        <a href="../PagLogin/Login.html"
-          ><img src="../Imagens/Sair.png" alt="icone sair"
-        /></a>
-        <button class="btn-pdf" id="generate-pdf"> 
+        <div>
+          <a href="../PagConfig/config.html"
+            ><img src="../Imagens/engrenagem.png" alt="icone config"
+          /></a>
+          <a href="../PagLogin/Login.html"
+            ><img src="../Imagens/Sair.png" alt="icone sair"
+          /></a>
+        </div>
+
+        <div class="btn-pdf" id="generate-pdf"> 
           <img src="../Imagens/pdf.png" alt="icone pdf">
-        </button>
+        </div>
       </div>
     </header>
 
@@ -47,9 +52,8 @@
       <div class="square" data-id="17"></div>
       <div class="square" data-id="18"></div>
     </div>
-    </div>
      <!-- Modal Formulário -->
-     <!-- <div id="modal" class="modal">
+     <div id="modal" class="modal">
       <div class="modal-content">
         <span class="close">&times;</span>
         <h2>INPUT DE PRODUTOS</h2>
@@ -68,9 +72,11 @@
           </div>
           <button type="button" id="addProductBtn">Incluir +</button>
           <button type="submit">OK</button>
-        </form> -->
+        </form>
       </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <script src="Estrutura_Simulação.js"></script>
   </body>
 </html>

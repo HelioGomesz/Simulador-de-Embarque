@@ -22,7 +22,7 @@ body {
 header {
   background-color: #143f6d;
   color: white;
-  padding: 20px 0;
+  padding: 15px 0;
 }
 
 header .container {
@@ -32,8 +32,14 @@ header .container {
 }
 
 header h1 {
+<<<<<<< HEAD
   font-size: 25px;
   text-align: center;
+=======
+  font-size: 50px;
+  display: ;
+  text-align: start;
+>>>>>>> 8c1a8d3ca8632c5b64f7a981c79c655c120d959d
 }
 
 /* ======== NAVEGAÇÃO COM ÍCONES ======== */
@@ -69,10 +75,15 @@ nav ul li {
 
 .square {
   width: 50%;
+<<<<<<< HEAD
   padding: 15px;
+=======
+  padding: 30px;
+>>>>>>> 8c1a8d3ca8632c5b64f7a981c79c655c120d959d
   background-color: #ddd;
   text-align: center;
-  font-size: 20px;
+  font-size: 18px;
+  word-wrap: break-word;
   font-weight: bold;
   border: 2px solid #bbb;
   cursor: pointer;
@@ -99,16 +110,3 @@ nav ul li {
     grid-template-columns: 1fr;
   }
 }
-
-
-
-
-
-
-
-
-
-
-  
-
-
