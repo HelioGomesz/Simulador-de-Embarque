@@ -14,7 +14,7 @@ body {
 
 .container {
   width: 90%;
-  max-width: 1200px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
@@ -28,13 +28,18 @@ header {
 header .container {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: left;
 }
 
 header h1 {
+<<<<<<< HEAD
+  font-size: 25px;
+  text-align: center;
+=======
   font-size: 50px;
   display: ;
   text-align: start;
+>>>>>>> 8c1a8d3ca8632c5b64f7a981c79c655c120d959d
 }
 
 /* ======== NAVEGAÇÃO COM ÍCONES ======== */
@@ -65,12 +70,16 @@ nav ul li {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 15px;
-  padding-top: 20px;
+  padding-top: 10px;
 }
 
 .square {
   width: 50%;
+<<<<<<< HEAD
+  padding: 15px;
+=======
   padding: 30px;
+>>>>>>> 8c1a8d3ca8632c5b64f7a981c79c655c120d959d
   background-color: #ddd;
   text-align: center;
   font-size: 18px;
