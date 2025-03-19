@@ -1,12 +1,35 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quadrados Animados e Clicáveis</title>
-    <link rel="stylesheet" href="styles.css" />
+    <title>Simulador de Embarque</title>
+    <link rel="stylesheet" href="SimuladorEmbarque.css" />
   </head>
   <body>
+    <!-- Cabeçalho -->
+    <header>
+      <div class="icones-header">
+        <h1>Simulador de Embarque</h1>
+        <nav>
+          <ul>
+            <!-- Ícone de configurações -->
+            <li>
+              <button class="icon-btn" onclick="openSettings()">⚙️</button>
+            </li>
+            <!-- Ícone de sair -->
+            <li>
+              <button class="icon-btn" onclick="logout()">🚪</button>
+            </li>
+            <!-- Ícone de exportar PDF -->
+            <li>
+              <button class="icon-btn" onclick="exportPDF()">📄</button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
     <!-- Contêiner para duas colunas -->
     <div class="container">
       <div class="column">
@@ -56,6 +79,6 @@
         </form>
       </div>
     </div>
-    <script src="script.js"></script>
+    <script src="Estrutura_Simulação.js"></script>
   </body>
 </html>
