@@ -1,0 +1,32 @@
+# Pasta com módulos do Node.js
+node_modules/
+
+# Arquivos de configuração npm
+package-lock.json
+
+# Cache npm
+.npm/
+
+# Pasta de builds do Electron
+/out/
+/dist/
+/build/
+
+# Logs de execução
+*.log
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# Configurações do editor de código
+.vscode/
+.idea/
+
+# Arquivos temporários
+*.temp
+*.bak
+
+# Cache Electron
+.cache/
+electron-debug.log
