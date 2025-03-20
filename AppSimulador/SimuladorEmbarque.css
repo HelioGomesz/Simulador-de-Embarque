@@ -14,18 +14,19 @@ body {
 }
 
 .icones-header {
-  width: 100%; /*Posição dos icones*/
+  width: 98%; /*Posição dos icones*/
 }
 
 /* ======== CABEÇALHO ======== */
 header {
+  display: flex;
   background-color: #256a8a;
   color: white;
-  padding: 2px 0;
+  padding: 0;
 }
 
 header .icones-header {
-  display: inline-flex;
+  display: flex;
   justify-content: space-between;
   align-items: right;
 }
@@ -33,12 +34,15 @@ header .icones-header {
 header h1 {
   font-size: 60px;
   text-align: left;
+  margin: 0.1%;
 }
 
 /* ======== NAVEGAÇÃO COM ÍCONES ======== */
 nav ul {
   display: flex;
   list-style: none;
+  text-align: center;
+  row-gap: 5%;
 }
 
 nav ul li {
@@ -50,7 +54,7 @@ nav ul li {
   background: none;
   border: none;
   color: white;
-  font-size: 50px;
+  font-size: 40px;
   cursor: pointer;
   transition: color 0.3s ease;
   text-decoration: none; /* Remove o sublinhado do link */

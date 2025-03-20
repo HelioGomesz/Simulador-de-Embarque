@@ -7,6 +7,45 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <header>
+      <div class="icones-header">
+        <h1>Simulador de Embarque</h1>
+        <nav>
+          <ul>
+            <!-- Ícone de configurações -->
+            <li>
+              <a href="configuracoes.html" class="icon-btn">
+                <div class="icon-container">
+                  ⚙️
+                  <span>Configurações</span>
+                </div>
+              </a>
+            </li>
+            <!-- Ícone de sair -->
+            <li>
+              <a href="logout.html" class="icon-btn">
+                <div class="icon-container">
+                  🚪
+                  <span>Sair</span>
+                </div>
+              </a>
+            </li>
+            <!-- Ícone de exportar PDF -->
+            <li>
+              <button class="icon-btn" onclick="exportPDF()">
+                <div class="icon-container">
+                  📄
+                  <span>Exportar PDF</span>
+                </div>
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+    
+
+
     <!-- Contêiner para duas colunas -->
     <div class="container">
       <div class="column">

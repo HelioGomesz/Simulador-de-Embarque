@@ -1,94 +1,188 @@
+/* ======== ESTILO GERAL ======== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
+  display: block;
+}
+
+.icones-header {
+  width: 90%; /*Posição dos icones*/
+}
+
+/* ======== CABEÇALHO ======== */
+header {
+  background-color: #256a8a;
+  color: white;
+  padding: 2px 0;
+}
+
+header .icones-header {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: right;
+}
+
+header h1 {
+  font-size: 60px;
+  text-align: left;
+}
+
+/* ======== NAVEGAÇÃO COM ÍCONES ======== */
+nav ul {
+  display: flex;
+  list-style: none;
+}
+
+nav ul li {
+  margin-left: 80px;
+  margin-right: 0;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 50px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  text-decoration: none; /* Remove o sublinhado do link */
+  display: flex; /* Mantém o comportamento de botão */
+  flex-direction: column;
+  align-items: center;
+}
+.icon-btn span {
+  font-size: 0.9rem; /* Ajusta o tamanho do texto */
+  margin-top: 10px; /* Adiciona um pequeno espaçamento entre ícone e texto */
+  color: #333; /* Define a cor do texto */
+}
+
+.icon-btn:hover {
+  color: #cce7ff;
+}
+
+.icon-btn {
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icon-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.icon-container span {
+  font-size: 0.9rem;
+  margin-top: 4px;
+  color: #333;
+}
+
 /* Container para organizar as colunas */
 .container {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
 
 /* Estilo para as colunas */
 .column {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Estilo base para os quadrados */
 .square {
-    width: 120px;
-    height: 120px;
-    background-color: green;
-    margin: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    text-align: center;
-    color: white;
-    font-family: Arial, sans-serif;
-    box-sizing: border-box;
-    font-size: 12px; /* Ajuste para melhor legibilidade */
-    overflow: hidden;
-    padding: 5px;
-    word-wrap: break-word;
+  width: 120px;
+  height: 120px;
+  background-color: green;
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  text-align: center;
+  color: white;
+  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+  font-size: 12px; /* Ajuste para melhor legibilidade */
+  overflow: hidden;
+  padding: 5px;
+  word-wrap: break-word;
 }
 
 /* Estilo para o modal */
 .modal {
-    display: none; 
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-    padding-top: 60px;
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding-top: 60px;
 }
 
 .modal-content {
-    background-color: #fefefe;
-    margin: 5% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 400px;
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 400px;
 }
 
 .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
 }
 
 .close:hover,
 .close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 /* Estilo quando o quadrado for preenchido */
 .clicked {
-    background-color: pink;
+  background-color: pink;
 }
 
 /* Estilo para os campos adicionais */
 .product-field {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 
 #addProductBtn {
-    background-color: #ff9800;
-    color: white;
-    padding: 5px;
-    border: none;
-    cursor: pointer;
-    margin-bottom: 10px;
+  background-color: #ff9800;
+  color: white;
+  padding: 5px;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 10px;
 }
 
 #addProductBtn:hover {
-    background-color: #fb8c00;
+  background-color: #fb8c00;
 }
