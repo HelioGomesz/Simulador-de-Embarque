@@ -1,23 +1,23 @@
 // Banco de dados simulando produtos já existentes
 const productsDatabase = {
-  "LM0001-4000850": { qtdPP: 250, qtdPG: 510 },
+  'LM0001-4000850': { qtdPP: 250, qtdPG: 510 },
 };
 
-// Abre o modal para coletar informações do produto
+// ABRE O MODAL PARA COLETAR INPUTS DO FORM -MODAL
 function openModal() {
-  document.getElementById("modal").style.display = "block";
+  document.getElementById('modal').style.display = 'block';
 }
 
-// Fecha o modal
+// FECHA O FORM - MODAL
 function closeModal() {
-  document.getElementById("modal").style.display = "none";
+  document.getElementById('modal').style.display = 'none';
 }
 
-// Função para adicionar um novo conjunto de campos de produto
+// FUNÇÃO PARA ADICIONAR UM NOVO CONJUNTO DE INPUTS NO FORM
 function addProductField() {
-  const productFields = document.getElementById("productFields");
-  const newProductField = document.createElement("div");
-  newProductField.classList.add("product-field");
+  const productFields = document.getElementById('productFields');
+  const newProductField = document.createElement('div');
+  newProductField.classList.add('product-field');
 
   const productCount = productFields.children.length + 1; // Contador para criar IDs exclusivos
 
@@ -35,7 +35,7 @@ function addProductField() {
   productFields.appendChild(newProductField);
 }
 
-// Função chamada quando o formulário for enviado
+// FUNÇÃO CHAMADA QUANDO O FORM FOR PREENCHIDO
 function handleFormSubmit(event) {
   event.preventDefault();
 
@@ -49,53 +49,53 @@ function handleFormSubmit(event) {
     const qtdPP = qtdPPInputs[index].value;
     const qtdPG = qtdPGInputs[index].value;
 
-    // Verifica se o produto já está na base de dados
+    // VERIFICA SE O PRODUTO ESTÁ CADASTRADO NA BASE DE DADOS
     if (productsDatabase[produto]) {
       // Se o produto já existe, preenche as quantidades automaticamente
       qtdPPInputs[index].value = productsDatabase[produto].qtdPP;
       qtdPGInputs[index].value = productsDatabase[produto].qtdPG;
     }
 
-    // Atualiza a informação no quadrado correspondente
+    // ATUALIZA A INFORMAÇÃO NO QUADRADO CORRESPONDENTE
     updateSquareWithInfo(produto, qtdPP, qtdPG);
   });
 
   closeModal();
 }
 
-// Atualiza o quadrado com as informações fornecidas
+// ATUALIZA O QUADRADO COM AS INFORMAÇÕES FORNECIDAS
 function updateSquareWithInfo(produto, qtdPP, qtdPG) {
-  const square = document.querySelector(".clicked");
+  const square = document.querySelector('.clicked');
   square.textContent = `${produto}\nPP: ${qtdPP}\nPG: ${qtdPG}`;
-  square.classList.add("clicked");
-  square.style.fontSize = "10px";
+  square.classList.add('clicked');
+  square.style.fontSize = '10px';
 }
 
-// Função chamada quando um quadrado é clicado
+// FUNÇÃO CHAMDA QUANDO UM QUADRADO É CLICADO
 function handleSquareClick(event) {
-  document.querySelectorAll(".square").forEach((square) => {
-    square.classList.remove("clicked");
+  document.querySelectorAll('.square').forEach((square) => {
+    square.classList.remove('clicked');
   });
-  event.target.classList.add("clicked");
+  event.target.classList.add('clicked');
   openModal();
 }
 
-// Adiciona eventos aos quadrados
-document.querySelectorAll(".square").forEach((square) => {
-  square.addEventListener("click", handleSquareClick);
+// ADICIONA O EVENTO NOS QUADRADOS (SQUARE)
+document.querySelectorAll('.square').forEach((square) => {
+  square.addEventListener('click', handleSquareClick);
 });
 
-document.querySelector(".close").addEventListener("click", closeModal);
+document.querySelector('.close').addEventListener('click', closeModal);
 document
-  .getElementById("productForm")
-  .addEventListener("submit", handleFormSubmit);
+  .getElementById('productForm')
+  .addEventListener('submit', handleFormSubmit);
 document
-  .getElementById("addProductBtn")
-  .addEventListener("click", addProductField);
+  .getElementById('addProductBtn')
+  .addEventListener('click', addProductField);
 
-//Inserir aqui o evento de listar no cupon
+//INSERIR AQUI O EVENTO DO CUPON - LISTAGEM DE PRODUTOS NO CONTAINER
 
-// Ação para exportar em PDF
+// FUNÇÃO PARA EXPORTAR PDF DA PAGINA
 function exportPDF() {
   window.print(); // Gera um PDF a partir da página
 }

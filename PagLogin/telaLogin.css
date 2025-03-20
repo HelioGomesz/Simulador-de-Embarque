@@ -25,7 +25,6 @@ form {
   background-color: white; /*Cor de fundo do form */
   padding: 50px; /*Espaçamento do form igualmente*/
   border-radius: 25px; /*Curvar os cantos do form*/
-
   /* flex container */
   display: flex;
   flex-direction: column;

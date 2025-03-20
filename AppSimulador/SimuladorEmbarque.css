@@ -10,16 +10,16 @@ body {
   background-color: #f9f9f9;
   color: #333;
   line-height: 1.6;
+  display: block;
 }
 
 .icones-header {
-  width: 95%;
-  max-width: 1000px;
+  width: 100%; /*Posição dos icones*/
 }
 
 /* ======== CABEÇALHO ======== */
 header {
-  background-color: #143f6d;
+  background-color: #256a8a;
   color: white;
   padding: 10px 0;
 }
@@ -50,7 +50,7 @@ nav ul li {
   background: none;
   border: none;
   color: white;
-  font-size: 50px;
+  font-size: 60px;
   cursor: pointer;
   transition: color 0.3s ease;
 }
@@ -60,11 +60,11 @@ nav ul li {
 }
 
 .square {
-  width: 80px;
+  width: 100px;
   height: 120px;
   padding: 5px;
   background-color: #ddd;
-  margin: 10px; /*Espaço entre os square*/
+  margin: 5px; /*Espaço entre os square*/
   display: flex;
   text-align: center;
   font-size: 18px;
@@ -90,29 +90,55 @@ nav ul li {
   display: flex;
   flex-direction: row;
   align-items: center;
+  column-gap: 2px;
 }
 
 /*AREA DO FORMULÁRIO*/
+form {
+  background-color: white; /*Cor de fundo do form */
+  padding: 50px; /*Espaçamento do form igualmente*/
+  border-radius: 25px; /*Curvar os cantos do form*/
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
 .modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgba(0, 0, 0, 0.4);
-  padding-top: 60px;
+  display: flex;
+  padding: 50px;
+  border-radius: 25px;
+  flex-direction: row;
+  gap: 25px;
 }
 
 .modal-content {
+  display: flex;
   background-color: #fefefe;
-  margin: 5% auto;
-  padding: 20px;
+  margin: 2% auto;
+  padding: 10px;
   border: 1px solid #888;
-  width: 80%;
-  max-width: 400px;
+  border-radius: 25px;
+  width: 20%;
+  height: 500px;
+}
+
+h2 {
+  padding: 5px;
+  font-size: 20px;
+  align-self: top;
+}
+
+/* label {
+  column-gap: auto;
+  text-align: top;
+  gap: 50px;
+} */
+
+input {
+  padding: 10px 20px; /* tamanho da caixa de input*/
+  border-radius: 15px; /* Arredondar os cantos*/
+  border: none; /* Sem borda*/
+  background-color: #f1f1f1;
 }
 
 .close {
@@ -140,16 +166,38 @@ nav ul li {
 }
 
 #addProductBtn {
-  background-color: #ff9800;
-  color: white;
-  padding: 5px;
-  border: none;
-  cursor: pointer;
-  margin-bottom: 10px;
+  padding: 10px; /* Distribuir os espaços internos */
+  align-self: center; /* Centralizar botão */
+  width: 160px; /* largura do botão */
+  border-radius: 25px; /* Borda do botão */
+  /* background-color: #3393c1; */
+  background-image: linear-gradient(#256a8a, #3393c1);
+  border: solid 1px #256a8a; /* Gradiente - misturar as cores do botão*/
+  border-right-width: 3px; /* Largura da borda direita do botão*/
+  border-bottom-width: 3px; /* Largura debaixo do botão*/
+  font-size: 16px; /* Tamanho da fonte*/
+  color: white; /* Cor da fonte*/
+  font-weight: 700px; /* Peso da fonte/Negrito*/
+  text-transform: uppercase;
 }
 
 #addProductBtn:hover {
   background-color: #fb8c00;
+}
+
+#subButton {
+  padding: 10px; /* Distribuir os espaços internos */
+  align-self: center; /* Centralizar botão */
+  width: 160px; /* largura do botão */
+  border-radius: 25px; /* Borda do botão */
+  background-image: linear-gradient(#256a8a, #3393c1);
+  border: solid 1px #256a8a; /* Gradiente - misturar as cores do botão*/
+  border-right-width: 3px; /* Largura da borda direita do botão*/
+  border-bottom-width: 3px; /* Largura debaixo do botão*/
+  font-size: 16px; /* Tamanho da fonte*/
+  color: white; /* Cor da fonte*/
+  font-weight: 700px; /* Peso da fonte/Negrito*/
+  text-transform: uppercase;
 }
 
 /* ======== RESPONSIVO ======== */
