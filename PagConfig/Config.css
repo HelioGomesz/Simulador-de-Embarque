@@ -2,22 +2,72 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 /*Selecionar pela tag body do html*/
 body {
-  font-family: "Calibri";
-  color: #404040;
-  /* flex container */
-  display: block; /*Ajustar a posição dos quadrados do container na pagina*/
-  height: 100vh; /*Mexer na altura disponivel na tela usando o vh */
-  /* viewport height */
-  background-color: rgb(243, 237, 237);
-  justify-content: center; /*Centralizar a caixa na tela toda*/
-  align-items: center; /*Centralizar a caixa */
-  background-image: url(Plano\ de\ fundo\ pagweb.png.webp); /*Carregar a imagem de fundo */
-  background-size: cover; /* Posição da imagem preencher o espaço disponivel*/
-  background-position: 50%; /* posicionamento da imagem*/
-  padding: 50px; /* espaçamento do elemento na pagina*/
+  background-color: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
+  display: block;
+}
+.icones-header {
+  width: 98%; /*Posição dos icones*/
+}
+
+/* ======== CABEÇALHO ======== */
+header {
+  display: flex;
+  background-color: #256a8a;
+  color: white;
+  padding: 0;
+}
+
+header .icones-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: right;
+}
+
+header h1 {
+  font-size: 60px;
+  text-align: left;
+  margin: 0.1%;
+}
+
+/* ======== NAVEGAÇÃO COM ÍCONES ======== */
+nav ul {
+  display: flex;
+  list-style: none;
+  text-align: center;
+  row-gap: 5%;
+}
+
+nav ul li {
+  margin-left: 80px;
+  margin-right: 0;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 40px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  text-decoration: none; /* Remove o sublinhado do link */
+  display: flex; /* Mantém o comportamento de botão */
+  flex-direction: column;
+  align-items: center;
+}
+.icon-btn span {
+  font-size: 0.9rem; /* Ajusta o tamanho do texto */
+  margin-top: 10px; /* Adiciona um pequeno espaçamento entre ícone e texto */
+  color: #333; /* Define a cor do texto */
+}
+
+.icon-btn:hover {
+  color: #cce7ff;
 }
 
 form {
@@ -127,4 +177,64 @@ input {
 
 #addProductBtn:hover {
   background-color: #fb8c00;
+}
+
+/*NOVA SEÇÃO ATUALIZADA 20/03*/
+.icones-header {
+  width: 98%; /*Posição dos icones*/
+}
+
+/* ======== CABEÇALHO ======== */
+header {
+  display: flex;
+  background-color: #256a8a;
+  color: white;
+  padding: 0;
+}
+
+header .icones-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: right;
+}
+
+header h1 {
+  font-size: 60px;
+  text-align: left;
+  margin: 0.1%;
+}
+
+/* ======== NAVEGAÇÃO COM ÍCONES ======== */
+nav ul {
+  display: flex;
+  list-style: none;
+  text-align: center;
+  row-gap: 5%;
+}
+
+nav ul li {
+  margin-left: 80px;
+  margin-right: 0;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 40px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  text-decoration: none; /* Remove o sublinhado do link */
+  display: flex; /* Mantém o comportamento de botão */
+  flex-direction: column;
+  align-items: center;
+}
+.icon-btn span {
+  font-size: 0.9rem; /* Ajusta o tamanho do texto */
+  margin-top: 10px; /* Adiciona um pequeno espaçamento entre ícone e texto */
+  color: #333; /* Define a cor do texto */
+}
+
+.icon-btn:hover {
+  color: #cce7ff;
 }
