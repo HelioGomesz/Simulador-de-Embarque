@@ -1,100 +1,152 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quadrados Animados e Clicáveis</title>
-    <link rel="stylesheet" href="styles.css" />
+    <title>Gestão de Pallets</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: white;
+        text-align: center;
+      }
+      .header {
+        background: #333;
+        color: white;
+        padding: 15px;
+        font-size: 20px;
+      }
+      .container {
+        display: flex;
+        justify-content: left;
+        margin-left: 3%;
+        align-items: center;
+        height: calc(100vh - 60px);
+        gap: 20px;
+        background-size: 40px 40px;
+      }
+      .column {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        padding: 2px;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 5px;
+        box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+      }
+      .square {
+        width: 80px;
+        height: 80px;
+        background-color: #ccc;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.3s, background-color 0.3s;
+        box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+      }
+      .square:hover {
+        transform: scale(1.1);
+      }
+      .large {
+        width: 120px;
+      }
+      .modal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        padding: 20px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+      }
+      .modal select,
+      .modal input {
+        display: block;
+        margin: 10px 0;
+      }
+    </style>
   </head>
   <body>
-    <header>
-      <div class="icones-header">
-        <h1>Simulador de Embarque</h1>
-        <nav>
-          <ul>
-            <!-- Ícone de configurações -->
-            <li>
-              <a href="configuracoes.html" class="icon-btn">
-                <div class="icon-container">
-                  ⚙️
-                  <span>Configurações</span>
-                </div>
-              </a>
-            </li>
-            <!-- Ícone de sair -->
-            <li>
-              <a href="logout.html" class="icon-btn">
-                <div class="icon-container">
-                  🚪
-                  <span>Sair</span>
-                </div>
-              </a>
-            </li>
-            <!-- Ícone de exportar PDF -->
-            <li>
-              <button class="icon-btn" onclick="exportPDF()">
-                <div class="icon-container">
-                  📄
-                  <span>Exportar PDF</span>
-                </div>
-              </button>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </header>
-    
-
-
-    <!-- Contêiner para duas colunas -->
+    <div class="header">Gestão de Pallets</div>
     <div class="container">
-      <div class="column">
-        <div class="square" data-id="1"></div>
-        <div class="square" data-id="2"></div>
-        <div class="square" data-id="3"></div>
-        <div class="square" data-id="4"></div>
-        <div class="square" data-id="5"></div>
-        <div class="square" data-id="6"></div>
-        <div class="square" data-id="7"></div>
-        <div class="square" data-id="8"></div>
-        <div class="square" data-id="9"></div>
+      <div class="column" id="smallSquares">
+        <script>
+          for (let i = 1; i <= 9; i++) {
+            document.write(
+              `<div class='square small' data-id='small-${i}'>P ${i}</div>`
+            );
+          }
+        </script>
       </div>
-      <div class="column">
-        <div class="square" data-id="10"></div>
-        <div class="square" data-id="11"></div>
-        <div class="square" data-id="12"></div>
-        <div class="square" data-id="13"></div>
-        <div class="square" data-id="14"></div>
-        <div class="square" data-id="15"></div>
-        <div class="square" data-id="16"></div>
-        <div class="square" data-id="17"></div>
-        <div class="square" data-id="18"></div>
+      <div class="column" id="largeSquares">
+        <script>
+          for (let i = 1; i <= 9; i++) {
+            document.write(
+              `<div class='square large' data-id='large-${i}'>G ${i}</div>`
+            );
+          }
+        </script>
       </div>
     </div>
-
-    <!-- Modal Formulário -->
-    <div id="modal" class="modal">
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Informe os dados do Produto</h2>
-        <form id="productForm">
-          <div id="productFields">
-            <div class="product-field">
-              <label for="produto1">Produto:</label>
-              <input type="text" id="produto1" name="produto[]" required />
-
-              <label for="qtdPP1">QTD PP:</label>
-              <input type="number" id="qtdPP1" name="qtdPP[]" required />
-
-              <label for="qtdPG1">QTD PG:</label>
-              <input type="number" id="qtdPG1" name="qtdPG[]" required />
-            </div>
-          </div>
-          <button type="button" id="addProductBtn">+</button>
-          <button type="submit">OK</button>
-        </form>
+    <div class="modal" id="modal">
+      <h3>Adicionar Produto</h3>
+      <div id="formContent">
+        <select id="produto">
+          <option value="Produto 1">Produto 1</option>
+          <option value="Produto 2">Produto 2</option>
+          <option value="Produto 3">Produto 3</option>
+          <option value="Produto 4">Produto 4</option>
+          <option value="Produto 5">Produto 5</option>
+          <option value="Produto 6">Produto 6</option>
+          <option value="Produto 7">Produto 7</option>
+          <option value="Produto 8">Produto 8</option>
+          <option value="Produto 9">Produto 9</option>
+          <option value="Produto 10">Produto 10</option>
+        </select>
+        <input type="number" id="quantidade" placeholder="Quantidade" />
       </div>
+      <button onclick="addEntry()">Incluir</button>
+      <button onclick="resetForm()">Excluir</button>
+      <button onclick="closeModal()">Fechar</button>
     </div>
-    <script src="script.js"></script>
+    <script>
+      let selectedSquare = null;
+      document.querySelectorAll(".square").forEach((square) => {
+        square.addEventListener("click", function () {
+          selectedSquare = this;
+          document.getElementById("modal").style.display = "block";
+        });
+      });
+      function addEntry() {
+        if (selectedSquare) {
+          selectedSquare.style.backgroundColor = "green";
+          selectedSquare.textContent =
+            document.getElementById("produto").value +
+            " - " +
+            document.getElementById("quantidade").value;
+          closeModal();
+        }
+      }
+      function resetForm() {
+        document.getElementById("produto").value = "Produto 1";
+        document.getElementById("quantidade").value = "";
+        if (selectedSquare) {
+          selectedSquare.style.backgroundColor = "#ccc";
+          selectedSquare.textContent = selectedSquare.dataset.id.includes(
+            "small"
+          )
+            ? "P"
+            : "G";
+        }
+      }
+      function closeModal() {
+        document.getElementById("modal").style.display = "none";
+      }
+    </script>
   </body>
 </html>
