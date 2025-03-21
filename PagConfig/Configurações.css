@@ -62,7 +62,7 @@ nav ul li {
 .icon-btn span {
   font-size: 0.9rem;
   margin-top: 10px;
-  color: #333;
+  color: #faf9f9;
 }
 .icon-btn:hover {
   color: #cce7ff;
@@ -100,6 +100,8 @@ nav ul li {
 form {
   display: flex;
   flex-direction: column;
+  gap: 15px; /* Espaçamento entre os elemntos dentro do form */
+  background-color: white; /*Cor de fundo do form */
 }
 
 label {
