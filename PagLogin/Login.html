@@ -4,50 +4,59 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Página de Login - Simulador de Embarque</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css">   <!-- Link para Hover.css (usando CDN) -->
-    <link rel="stylesheet" href="telaLogin.css" />                      <!-- Link para o CSS personalizado -->
-    
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css"
+    />
+    <!-- Link para Hover.css (usando CDN) -->
+    <link rel="stylesheet" href="telaLogin.css" />
+    <!-- Link para o CSS personalizado -->
   </head>
 
   <body>
-       <form action="">  
-      <div class="titulo">  <!--Ajuste do titilo na pagina de login-->
-        <h1>Bem Vindo!</h1>  <!--Mensagem na tela de login-->
-        <div class="barra-horizontal"></div>   <!--Ajuste da barra da tela de login-->
+    <form action="">
+      <div class="titulo">
+        <!--Ajuste do titilo na pagina de login-->
+        <h1>Bem Vindo!</h1>
+        <!--Mensagem na tela de login-->
+        <div class="barra-horizontal"></div>
+        <!--Ajuste da barra da tela de login-->
       </div>
 
-      <div class="campo-input"> <!--campo de input do email na página de login-->
+      <div class="campo-input">
+        <!--campo de input do email na página de login-->
         <label for="email">Usuário*</label>
-        <input 
-        type="email" 
-        id="email"
-        placeholder="Digite seu email..." />  <!--Adicionado o placeholder no campo em branco do input-->
+        <input type="email" id="email" placeholder="Digite seu email..." />
+        <!--Adicionado o placeholder no campo em branco do input-->
       </div>
 
-      <div class="campo-input">   <!--campo de input da senha na página de login-->
+      <div class="campo-input">
+        <!--campo de input da senha na página de login-->
         <label for="password">Senha*</label>
-        <input 
-        type="password" 
-        id="password" 
-        placeholder="Digite sua senha..." /> <!--Adicionado o placeholder no campo em branco do input-->
+        <input
+          type="password"
+          id="password"
+          placeholder="Digite sua senha..."
+        />
+        <!--Adicionado o placeholder no campo em branco do input-->
       </div>
 
-      <div class="lembrar-me">     <!--Campo de lembrete de informações de usuário e senha-->
+      <div class="lembrar-me">
+        <!--Campo de lembrete de informações de usuário e senha-->
         <input type="checkbox" />
         <p>Lembrar-me</p>
       </div>
 
-      <button type = "button" id="botao-Login">Entrar</button>  <!--Teste do evento click do botão-->
-      
+      <button type="button" id="botao-Login">Entrar</button>
+      <!--Teste do evento click do botão-->
 
       <p class="esqueceu-senha">
         Esqueceu sua senha?
         <a href="../PermissaoSenhas/RedefinirSenhas.html">Clique aqui!</a>
-
       </p>
     </form>
 
-    <script src="ValidarLogin.js"></script> <!--Teste para link com login-->
+    <script src="ValidarLogin.js"></script>
+    <!--Teste para link com login-->
   </body>
-  
 </html>

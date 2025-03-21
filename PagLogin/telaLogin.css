@@ -2,19 +2,17 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 /*Selecionar pela tag body do html*/
 body {
-  font-family: 'Calibri';
-  color: #404040;
+  color: #333;
   /* flex container */
   display: flex;
   height: 100vh; /*Mexer na altura disponivel na tela usando o vh */
-  /* viewport height */
-  background-color: brown;
+  background-color: rgb(252, 250, 250);
   justify-content: center; /*Centralizar a caixa na tela toda*/
   align-items: center; /*Centralizar a caixa */
-  background-image: url(Plano\ de\ fundo\ pagweb.png.webp); /*Carregar a imagem de fundo */
   background-size: cover; /* Posição da imagem preencher o espaço disponivel*/
   background-position: 50%; /* posicionamento da imagem*/
   padding: 20px; /* espaçamento do elemento na pagina*/
@@ -28,7 +26,7 @@ form {
   /* flex container */
   display: flex;
   flex-direction: column;
-  gap: 25px; /* Espaçamento entre os elemntos dentro do form */
+  gap: 40px; /* Espaçamento entre os elemntos dentro do form */
 }
 
 h1 {
@@ -38,27 +36,27 @@ h1 {
 }
 /*Selecionar pela tag button do html*/
 button {
-  padding: 10px; /* Distribuir os espaços internos */
-  align-self: center; /* Centralizar botão */
-  width: 160px; /* largura do botão */
-  border-radius: 25px; /* Borda do botão */
-  /* background-color: #3393c1; */
-  background-image: linear-gradient(#256a8a, #3393c1);
+  background-color: #256a8a;
+  color: white; /* Cor da fonte*/
   border: solid 1px #256a8a; /* Gradiente - misturar as cores do botão*/
+  padding: 10px; /* Distribuir os espaços internos */
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px;
   border-right-width: 3px; /* Largura da borda direita do botão*/
   border-bottom-width: 3px; /* Largura debaixo do botão*/
   font-size: 16px; /* Tamanho da fonte*/
-  color: white; /* Cor da fonte*/
   font-weight: 700px; /* Peso da fonte/Negrito*/
   text-transform: uppercase; /* fonte maiusculo*/
+}
 }
 
 /*Selecionar pela tag input do html*/
 input {
-  padding: 10px 20px; /* tamanho da caixa de input*/
-  border-radius: 15px; /* Arredondar os cantos*/
-  border: none; /* Sem borda*/
-  background-color: #f1f1f1; /* cor de fundo da caixa de input*/
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 a {
@@ -70,7 +68,7 @@ a {
 .barra-horizontal {
   background-color: #256a8a; /*Cor da barra */
   height: 4px; /*altura da barra */
-  width: 210px; /*Tamanho da barra */
+  width: 250px; /*Tamanho da barra */
 }
 
 .campo-input {
