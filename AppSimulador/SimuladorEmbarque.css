@@ -113,7 +113,7 @@ form {
   border-radius: 25px; /*Curvar os cantos do form*/
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 20px;
 }
 
 .modal {
