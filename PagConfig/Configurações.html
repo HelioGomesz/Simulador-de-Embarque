@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Configuração</title>
+    <link rel="stylesheet" href="Configurações.css" />
+    <script defer src="Configurações.js"></script>
+  </head>
+  <body>
+    <header>
+      <div class="icon-container">
+        <h1>Configuração</h1>
+        <nav>
+          <ul>
+            <li>
+              <button
+                class="icon-btn"
+                onclick="abrirFormulario('modalIncluir')"
+              >
+                ➕<span>Incluir</span>
+              </button>
+            </li>
+            <li>
+              <button
+                class="icon-btn"
+                onclick="abrirFormulario('modalAlterar')"
+              >
+                ✏️<span>Alterar</span>
+              </button>
+            </li>
+            <li>
+              <button
+                class="icon-btn"
+                onclick="abrirFormulario('modalExcluir')"
+              >
+                ❌<span>Excluir</span>
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Modal Incluir -->
+    <div class="modal" id="modalIncluir">
+      <div class="modal-content">
+        <span class="close-btn" onclick="fecharFormulario('modalIncluir')"
+          >&times;</span
+        >
+        <h2>Incluir Produto</h2>
+        <form id="formIncluir">
+          <label>Produto:</label>
+          <input type="text" id="produtoIncluir" required />
+          <label>Pallet Pequeno:</label>
+          <input type="number" id="palletPequenoIncluir" required />
+          <label>Pallet Grande:</label>
+          <input type="number" id="palletGrandeIncluir" required />
+          <button type="submit">Salvar</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal Alterar -->
+    <div class="modal" id="modalAlterar">
+      <div class="modal-content">
+        <span class="close-btn" onclick="fecharFormulario('modalAlterar')"
+          >&times;</span
+        >
+        <h2>Alterar Produto</h2>
+        <form id="formAlterar">
+          <label>Produto:</label>
+          <input type="text" id="produtoAlterar" required />
+          <label>Pallet Pequeno:</label>
+          <input type="number" id="palletPequenoAlterar" required />
+          <label>Pallet Grande:</label>
+          <input type="number" id="palletGrandeAlterar" required />
+          <button type="submit">Salvar</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal Excluir -->
+    <div class="modal" id="modalExcluir">
+      <div class="modal-content">
+        <span class="close-btn" onclick="fecharFormulario('modalExcluir')"
+          >&times;</span
+        >
+        <h2>Excluir Produto</h2>
+        <form id="formExcluir">
+          <label>Produto:</label>
+          <input type="text" id="produtoExcluir" required />
+          <button type="submit">Excluir</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
