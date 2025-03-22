@@ -21,7 +21,7 @@ header {
 }
 
 .icon-container {
-  width: 98%;
+  width: 99%; /*Ajusta a posição dos icones na header*/
 }
 header .icon-container {
   display: flex;
@@ -36,7 +36,7 @@ header h1 {
 /* ======== NAVEGAÇÃO COM ÍCONES - ORGANIZA NA HEADER ======== */
 nav ul {
   display: flex;
-  list-style: none;
+  list-style: none; /*Retira o formato de lista*/
   text-align: center;
   row-gap: 5%;
 }
