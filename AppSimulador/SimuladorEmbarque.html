@@ -20,7 +20,7 @@
             </li>
             <!-- Ícone de sair -->
             <li>
-              <a href="../PaginaIniciar.HTML" class="icon-btn">🚪</a>
+              <a href="../PagIniciar/PaginaIniciar.HTML" class="icon-btn">🚪</a>
               <span>Sair</span>
             </li>
             <!-- Ícone de exportar PDF -->
@@ -28,7 +28,7 @@
               <a href="" class="icon-btn" onclick="exportPDF()">📄</a>
               <span>Exportar</span>
             </li>
-          </ul>
+          </ul> 
         </nav>
       </div>
     </header>
@@ -54,26 +54,26 @@
         </script>
 
     <!-- Modal Formulário -->
-    <div id="modal" class="modal">
-      <div class="modal-content">
-        <span class="close">&times;</span>
-        <h2>Informe os dados do Produto</h2>
-        <form id="productForm">
-          <div id="productFields">
-            <div class="product-field">
-              <label for="produto1">PRODUTO:</label>
-              <input type="text" id="produto1" name="produto[]" required />
+        <div id="modal" class="modal">
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Informe os dados do Produto</h2>
+            <form id="productForm">
+              <div id="productFields">
+                <div class="product-field">
+                  <label for="produto1">PRODUTO:</label>
+                  <input type="text" id="produto1" name="produto[]" required />
 
-              <label for="qtdPP1">QTD PP:</label>
-              <input type="number" id="qtdPP1" name="qtdPP[]" required />
+                  <label for="qtdPP1">QTD PP:</label>
+                  <input type="number" id="qtdPP1" name="qtdPP[]" required />
 
-              <label for="qtdPG1">QTD PG:</label>
-              <input type="number" id="qtdPG1" name="qtdPG[]" required />
-            </div>
-          </div>
-          <button type="button" id="addProductBtn">+</button>
-          <button type="submit" id="subButton">OK</button>
-        </form>
+                  <label for="qtdPG1">QTD PG:</label>
+                  <input type="number" id="qtdPG1" name="qtdPG[]" required />
+                </div>
+              </div>
+              <button type="button" id="addProductBtn">+</button>
+              <button type="submit" id="subButton">OK</button>
+            </form>
       </div>
     </div>
     <script src="Estrutura_Simulação.js"></script>

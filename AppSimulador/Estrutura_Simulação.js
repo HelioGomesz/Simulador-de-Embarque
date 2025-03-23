@@ -1,23 +1,23 @@
 // Banco de dados simulando produtos já existentes
 const productsDatabase = {
-  "LM0001-4000850": { qtdPP: 250, qtdPG: 510 },
+  'LM0001-4000850': { qtdPP: 250, qtdPG: 510 },
 };
 
 // ABRE O MODAL PARA COLETAR INPUTS DO FORM -MODAL
 function openModal() {
-  document.getElementById("modal").style.display = "block";
+  document.getElementById('modal').style.display = 'block';
 }
 
 // FECHA O FORM - MODAL
 function closeModal() {
-  document.getElementById("modal").style.display = "none";
+  document.getElementById('modal').style.display = 'none';
 }
 
 // FUNÇÃO PARA ADICIONAR UM NOVO CONJUNTO DE INPUTS NO FORM
 function addProductField() {
-  const productFields = document.getElementById("productFields");
-  const newProductField = document.createElement("div");
-  newProductField.classList.add("product-field");
+  const productFields = document.getElementById('productFields');
+  const newProductField = document.createElement('div');
+  newProductField.classList.add('product-field');
 
   const productCount = productFields.children.length + 1; // Contador para criar IDs exclusivos
 
@@ -65,33 +65,33 @@ function handleFormSubmit(event) {
 
 // ATUALIZA O QUADRADO COM AS INFORMAÇÕES FORNECIDAS
 function updateSquareWithInfo(produto, qtdPP, qtdPG) {
-  const square = document.querySelector(".clicked");
+  const square = document.querySelector('.clicked');
   square.textContent = `${produto}\nPP: ${qtdPP}\nPG: ${qtdPG}`;
-  square.classList.add("clicked");
-  square.style.fontSize = "10px";
+  square.classList.add('clicked');
+  square.style.fontSize = '10px';
 }
 
 // FUNÇÃO CHAMDA QUANDO UM QUADRADO É CLICADO
 function handleSquareClick(event) {
-  document.querySelectorAll(".square").forEach((square) => {
-    square.classList.remove("clicked");
+  document.querySelectorAll('.square').forEach((square) => {
+    square.classList.remove('clicked');
   });
-  event.target.classList.add("clicked");
+  event.target.classList.add('clicked');
   openModal();
 }
 
 // ADICIONA O EVENTO NOS QUADRADOS (SQUARE)
-document.querySelectorAll(".square").forEach((square) => {
-  square.addEventListener("click", handleSquareClick);
+document.querySelectorAll('.square').forEach((square) => {
+  square.addEventListener('click', handleSquareClick);
 });
 
-document.querySelector(".close").addEventListener("click", closeModal);
+document.querySelector('.close').addEventListener('click', closeModal);
 document
-  .getElementById("productForm")
-  .addEventListener("submit", handleFormSubmit);
+  .getElementById('productForm')
+  .addEventListener('submit', handleFormSubmit);
 document
-  .getElementById("addProductBtn")
-  .addEventListener("click", addProductField);
+  .getElementById('addProductBtn')
+  .addEventListener('click', addProductField);
 
 //INSERIR AQUI O EVENTO DO CUPON - LISTAGEM DE PRODUTOS NO CONTAINER
 
