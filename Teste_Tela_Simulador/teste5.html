@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Gestão de Pallets</title>
+    <title>Teste Simulador5</title>
     <style>
       body {
         font-family: Arial, sans-serif;
         margin: 0;
-        padding: 20px;
+        padding: 100px;
         background: white;
         display: flex;
         justify-content: space-around;
@@ -16,7 +16,7 @@
       }
       .container {
         display: flex;
-        gap: 20px;
+        gap: 2px;
       }
       .column {
         display: flex;
@@ -27,7 +27,8 @@
         border-radius: 10px;
       }
       .cube {
-        width: 100px;
+        position: relative;
+        width: 120px;
         height: 100px;
         background-color: #ccc;
         display: flex;
@@ -41,8 +42,15 @@
         border: 1px solid #999;
       }
       .cube:hover {
-        transform: rotateY(20deg) rotateX(20deg) scale(1.1);
+        transform: rotateY(20deg) rotateX(20deg) rotateZ(0deg) scale(1.1);
       }
+
+      @keyframes rotate {
+        100% {
+          transform: rotateX(0deg) rotateY(140deg) rotateZ(0deg);
+        }
+      }
+
       .large {
         width: 150px;
       }
@@ -65,7 +73,7 @@
         padding: 20px;
         background: #f9f9f9;
         border: 1px solid #ddd;
-        width: 250px;
+        width: 500px;
       }
     </style>
   </head>
@@ -91,24 +99,28 @@
       </div>
     </div>
     <div class="cupom">
-      <h3>Cupom</h3>
+      <h3>Cupom de Embarque</h3>
       <ul id="cupomList"></ul>
       <p>
         <strong>Total de Itens:</strong> <span id="totalQuantidade">0</span>
       </p>
       <p>
-        <strong>Sequência de Pallets:</strong>
+        <strong>N° do Pallet:</strong>
         <span id="sequenciaPalets"></span>
       </p>
     </div>
     <div class="modal" id="modal">
       <h3>Adicionar Produto</h3>
       <select id="produto">
-        <option value="Produto 1">Produto 1</option>
-        <option value="Produto 2">Produto 2</option>
-        <option value="Produto 3">Produto 3</option>
-        <option value="Produto 4">Produto 4</option>
-        <option value="Produto 5">Produto 5</option>
+        <option value="LM0001-4000840">LM0001-4000840</option>
+        <option value="LM0006-4000840">LM0006-4000840</option>
+        <option value="LM0001-8000840">LM0001-8000840</option>
+        <option value="LM0001-8000850">LM0001-8000850</option>
+        <option value="LM0006-4000830">LM0006-4000830</option>
+        <option value="LM0006-4000840">LM0006-4000840</option>
+        <option value="LM0006-4000850">LM0006-4000850</option>
+        <option value="LM0006-4000865">LM0006-4000865</option>
+        <option value="LM0008-7000840">LM0008-7000840</option>
       </select>
       <input type="number" id="quantidade" placeholder="Quantidade" />
       <button onclick="addEntry()">Incluir</button>
@@ -133,8 +145,8 @@
           const quantidade =
             parseInt(document.getElementById("quantidade").value) || 0;
           const tamanho = selectedCube.classList.contains("small")
-            ? "Pequeno"
-            : "Grande";
+            ? "Pallet"
+            : "Pallet";
           const palletNum = selectedCube.textContent;
           selectedCube.style.backgroundColor = "green";
           selectedCube.textContent = `${produto} - ${quantidade}`;
@@ -157,7 +169,7 @@
       }
 
       function resetForm() {
-        document.getElementById("produto").value = "Produto 1";
+        document.getElementById("produto").value = "Produtos";
         document.getElementById("quantidade").value = "";
         if (selectedCube) {
           selectedCube.style.backgroundColor = "#ccc";

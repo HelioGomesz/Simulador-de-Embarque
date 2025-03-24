@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cubos 3D Clicáveis</title>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f0f0f0;
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 40px;
+      }
+      .fileira {
+        display: flex;
+        gap: 20px;
+        transform: rotate(135deg);
+      }
+      .cube {
+        width: 50px;
+        height: 50px;
+        background-color: #3498db;
+        perspective: 500px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transform-style: preserve-3d;
+        transition: transform 0.3s ease;
+      }
+      .cube:hover {
+        transform: rotateY(90deg);
+      }
+      .cube-inner {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: #2980b9;
+        transform: rotateX(45deg);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="fileira">
+        <div class="cube" onclick="openForm(1)">
+          <div class="cube-inner"></div>
+        </div>
+        <div class="cube" onclick="openForm(2)">
+          <div class="cube-inner"></div>
+        </div>
+        <div class="cube" onclick="openForm(3)">
+          <div class="cube-inner"></div>
+        </div>
+        <div class="cube" onclick="openForm(4)">
+          <div class="cube-inner"></div>
+        </div>
+        <div class="cube" onclick="openForm(5)">
+          <div class="cube-inner"></div>
+        </div>
+        <div class="cube" onclick="openForm(6)">
+          <div class="cube-inner"></div>
+        </div>
+        <div class="cube" onclick="openForm(7)">
+          <div class="cube-inner"></div>
+        </div>
+        <div class="cube" onclick="openForm(8)">
+          <div class="cube-inner"></div>
+        </div>
+        <div class="cube" onclick="openForm(9)">
+          <div class="cube-inner"></div>
+        </div>
+      </div>
+      <div class="fileira">
+        <div class="cube" onclick="openForm(10)">
+          <div class="cube-inner"></div>
+        </div>
+        <div class="cube" onclick="openForm(11)">
+          <div class="cube-inner"></div>
+        </div>
+        <div class="cube" onclick="openForm(12)">
+          <div class="cube-inner"></div>
+        </div>
+        <div class="cube" onclick="openForm(13)">
+          <div class="cube-inner"></div>
+        </div>
+        <div class="cube" onclick="openForm(14)">
+          <div class="cube-inner"></div>
+        </div>
+        <div class="cube" onclick="openForm(15)">
+          <div class="cube-inner"></div>
+        </div>
+        <div class="cube" onclick="openForm(16)">
+          <div class="cube-inner"></div>
+        </div>
+        <div class="cube" onclick="openForm(17)">
+          <div class="cube-inner"></div>
+        </div>
+        <div class="cube" onclick="openForm(18)">
+          <div class="cube-inner"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Formulário -->
+    <div id="formModal" style="display: none">
+      <form
+        action="#"
+        method="POST"
+        style="
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          padding: 20px;
+          background-color: white;
+          border: 2px solid #3498db;
+          border-radius: 10px;
+        "
+      >
+        <h2>Formulário de Cubo</h2>
+        <label for="cuboid">Cuboid Selecionado:</label>
+        <input type="text" id="cuboid" name="cuboid" readonly />
+        <br /><br />
+        <input type="submit" value="Enviar" />
+        <button type="button" onclick="closeForm()">Fechar</button>
+      </form>
+    </div>
+
+    <script>
+      function openForm(cubeId) {
+        document.getElementById("cuboid").value = "Cubo " + cubeId;
+        document.getElementById("formModal").style.display = "block";
+      }
+
+      function closeForm() {
+        document.getElementById("formModal").style.display = "none";
+      }
+    </script>
+  </body>
+</html>
