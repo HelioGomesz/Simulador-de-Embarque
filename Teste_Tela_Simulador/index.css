@@ -1,0 +1,22 @@
+/* Criar um contêiner para alinhar lado a lado */
+.main-container {
+  display: flex;
+  justify-content: left;
+  align-items: flex-start;
+  gap: 20px; /* Espaçamento entre os elementos */
+  padding: 20px;
+}
+
+/* Ajustar o container para não ocupar toda a largura */
+.container {
+  flex: 1; /* Faz com que o container ocupe mais espaço */
+}
+
+/* Ajustar o cupom para ocupar menos espaço */
+.cupom {
+  width: 300px; /* Define uma largura fixa para o cupom */
+  background: #f7e0b6;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+}

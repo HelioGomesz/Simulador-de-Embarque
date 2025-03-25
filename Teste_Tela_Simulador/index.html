@@ -51,36 +51,36 @@
     </div>
     <script>
       let selectedSquare = null;
-      document.querySelectorAll('.square').forEach((square) => {
-        square.addEventListener('click', function () {
+      document.querySelectorAll(".square").forEach((square) => {
+        square.addEventListener("click", function () {
           selectedSquare = this;
-          document.getElementById('modal').style.display = 'block';
+          document.getElementById("modal").style.display = "block";
         });
       });
       function addEntry() {
         if (selectedSquare) {
-          selectedSquare.style.backgroundColor = 'green';
+          selectedSquare.style.backgroundColor = "green";
           selectedSquare.textContent =
-            document.getElementById('produto').value +
-            ' - ' +
-            document.getElementById('quantidade').value;
+            document.getElementById("produto").value +
+            " - " +
+            document.getElementById("quantidade").value;
           closeModal();
         }
       }
       function resetForm() {
-        document.getElementById('produto').value = 'Produto 1';
-        document.getElementById('quantidade').value = '';
+        document.getElementById("produto").value = "Produto 1";
+        document.getElementById("quantidade").value = "";
         if (selectedSquare) {
-          selectedSquare.style.backgroundColor = '#ccc';
+          selectedSquare.style.backgroundColor = "#ccc";
           selectedSquare.textContent = selectedSquare.dataset.id.includes(
-            'small'
+            "small"
           )
-            ? 'P'
-            : 'G';
+            ? "P"
+            : "G";
         }
       }
       function closeModal() {
-        document.getElementById('modal').style.display = 'none';
+        document.getElementById("modal").style.display = "none";
       }
     </script>
   </body>
