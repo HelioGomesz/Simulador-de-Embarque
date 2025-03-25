@@ -4,8 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Teste Simulador5</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    
     <style>
       * {
         box-sizing: border-box;
@@ -135,7 +133,7 @@
 
       /* ======== CONTAINER COM OS 18 CUBOS ======== */
       .container {
-        display: flex  ;
+        display: block  ; /*EM TESTE PARA AJUSTE DE ELEMENTO RESPONSIVO NO ELECTRON*/
         justify-content: left;
         margin-left: 3%;
         align-items: center;
@@ -381,14 +379,7 @@
 
       // FUNÇÃO PARA EXPORTAR PDF DA PAGINA
       function exportPDF() {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF({
-          orientation: "landscape", // Pode ser "portrait" ou "landscape"
-          unit: "mm",
-          format: "a4",
-        
-  });
-     // Gera um PDF a partir da página
+  window.print(); // Gera um PDF a partir da página
 }
     </script>
   </body>
