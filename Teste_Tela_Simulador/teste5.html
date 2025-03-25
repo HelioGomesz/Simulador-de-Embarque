@@ -5,32 +5,104 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Teste Simulador5</title>
     <style>
-      body {
-        font-family: Arial, sans-serif;
+      * {
+        box-sizing: border-box;
         margin: 0;
-        padding: 100px;
-        background: white;
-        display: flex;
-        justify-content: space-around;
-        align-items: flex-start;
+        padding: 0;
+        font-family: Arial, sans-serif;
       }
-      .container {
+
+      body {        
+        color: #0a0a0a; /*fonte do corpo*/
+        line-height: 1.5;
+        display: block;
+      }
+       /* ======== CABEÇALHO ======== */
+      .icones-header {
+        width: 98%; /*Posição dos icones*/
+      }
+     
+      header {        
+        background-color: #256a8a;    
+        color: white;
+        padding: 0;
+      }
+
+      header .icones-header {
         display: flex;
-        gap: 2px;
+        justify-content: space-between;
+        align-items: right;
+      }
+
+      header h1 {
+        font-size: 60px;
+        text-align: left;
+        margin: 0.1%;
+      }
+
+      /* ======== NAVEGAÇÃO COM ÍCONES ======== */
+      nav ul {
+        display: flex;
+        list-style: none;
+        text-align: center;
+        row-gap: 5%;
+      }
+
+      nav ul li {
+        margin-left: 80px;
+        margin-right: 0;
+      }
+
+      .icon-btn {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 40px;
+        cursor: pointer;
+        transition: color 0.3s ease;
+        text-decoration: none; /* Remove o sublinhado do link */
+        display: flex; /* Mantém o comportamento de botão */
+        flex-direction: column;
+        align-items: center;
+      }
+      .icon-btn span {
+        font-size: 0.9rem; /* Ajusta o tamanho do texto */
+        margin-top: 10px; /* Adiciona um pequeno espaçamento entre ícone e texto */
+        color: #333; /* Define a cor do texto */
+      }
+
+      .icon-btn:hover {
+        color: #cce7ff;
+      }
+
+      
+      /* ======== CONTAINER COM OS 18 CUBOS ======== */
+      .container {
+        display: flex  ;
+        justify-content: left;
+        margin-left: 2%;
+        align-items: center;
+        height: calc(100vh - 80px);
+        gap: 20px;
+        background-size: 10px 10px;
+        
+          
       }
       .column {
         display: flex;
         flex-direction: column;
-        gap: 10px;
-        padding: 10px;
+        gap: 1px;
+        padding: 1px;
         background: #f0f0f0;
-        border-radius: 10px;
+        border-radius: 5px;
+        box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
       }
-      .cube {
-        position: relative;
-        width: 120px;
-        height: 100px;
-        background-color: #ccc;
+      .cube {        
+        width: 100px;
+        height: 80px;
+        background-color: #6b4205;
+        font-size: 12px;
+        word-wrap: break-word;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -45,13 +117,16 @@
         transform: rotateY(20deg) rotateX(20deg) rotateZ(0deg) scale(1.1);
       }
 
-      @keyframes rotate {
+      @keyframes rotate { 
         100% {
-          transform: rotateX(0deg) rotateY(140deg) rotateZ(0deg);
+          transform: rotateX(10deg) rotateY(100deg) rotateZ(0deg);
         }
       }
 
       .large {
+        width: 200px;
+      }
+      .small {
         width: 150px;
       }
       .modal {
@@ -59,25 +134,99 @@
         position: fixed;
         top: 50%;
         left: 50%;
+        width: 15%;
+        height: 30%;
         transform: translate(-50%, -50%);
         background: white;
         padding: 20px;
+        padding-top: 50px;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        overflow: auto;
       }
-      .modal input,
+      .modal-content {
+        background-color: #fefefe;
+        margin: 5% auto;
+        padding: 25px;
+        width: 90%;
+        max-width: 400px;
+        border-radius: 25px;
+      }
+      h2 {
+        padding: 10px;  
+        font-size: 24px;
+        align-self: top;
+        text-align: center;
+      }
+      .modal input{
+        display: block; 
+        margin: 5px 0;  
+        padding: 10px;
+      }
       .modal select {
-        display: block;
-        margin: 10px 0;
+        display: block; 
+        margin: 5px 0;  
+        padding: 10px;
       }
-      .cupom {
-        padding: 20px;
+      /*SEÇÃO CRIADA PARA O CUPOM DE EMBARQUE*/
+      section .cupom {
+        display: block ;               
+        width: 700px;
+          
+      }
+      .cupom {        
+        justify-items: left;
+        align-content: center;        
+        padding: 60px;
         background: #f9f9f9;
-        border: 1px solid #ddd;
-        width: 500px;
+        border: 1px solid #ddd; 
+        width: 500px;                
       }
+      button {
+        padding: 2px;
+        align-self: center; /* Centralizar botão */
+        font-size: 18px; /* Tamanho da fonte*/
+        width: 60px; /* largura do botão */
+        color: rgb(252, 250, 250); /* Cor da fonte*/
+        background-color: #256a8a;
+        border: solid 1px #256a8a; /* Gradiente - misturar as cores do botão*/
+        border-right-width: 5px; /* Largura da borda direita do botão*/
+        border-bottom-width: 5px; /* Largura debaixo do botão*/
+        
+      }
+
+      button:hover {
+        background-color: #00abfb;  
+      }
+
     </style>
   </head>
   <body>
+    <!-- Cabeçalho -->
+    <header>
+      <div class="icones-header">
+        <h1>Simulador de Embarque</h1>
+        <nav>
+          <ul>
+            <!-- Ícone de configurações -->
+            <li>
+              <a href="../PagConfig/Configurações.html" class="icon-btn">⚙️</a>
+              <span>Configurações</span>
+            </li>
+            <!-- Ícone de sair -->
+            <li>
+              <a href="../PagIniciar/PaginaIniciar.HTML" class="icon-btn">🚪</a>
+              <span>Sair</span>
+            </li>
+            <!-- Ícone de exportar PDF -->
+            <li>
+              <a href="" class="icon-btn" onclick="exportPDF()">📄</a>
+              <span>Exportar</span>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
     <div class="container">
       <div class="column" id="smallCubes">
         <script>
@@ -98,7 +247,8 @@
         </script>
       </div>
     </div>
-    <div class="cupom">
+    <section>
+    <div class="cupom">      
       <h3>Cupom de Embarque</h3>
       <ul id="cupomList"></ul>
       <p>
@@ -107,10 +257,12 @@
       <p>
         <strong>N° do Pallet:</strong>
         <span id="sequenciaPalets"></span>
-      </p>
+      </p>  
     </div>
+    </section>
     <div class="modal" id="modal">
-      <h3>Adicionar Produto</h3>
+      <div class="modal-content">
+      <h2>Adicionar Produto</h2>
       <select id="produto">
         <option value="LM0001-4000840">LM0001-4000840</option>
         <option value="LM0006-4000840">LM0006-4000840</option>
@@ -132,56 +284,61 @@
       let totalQuantidade = 0;
       let sequenciaPalets = [];
 
-      document.querySelectorAll(".cube").forEach((cube) => {
-        cube.addEventListener("click", function () {
+      document.querySelectorAll('.cube').forEach((cube) => {
+        cube.addEventListener('click', function () {
           selectedCube = this;
-          document.getElementById("modal").style.display = "block";
+          document.getElementById('modal').style.display = 'block';
         });
       });
 
       function addEntry() {
         if (selectedCube) {
-          const produto = document.getElementById("produto").value;
+          const produto = document.getElementById('produto').value;
           const quantidade =
-            parseInt(document.getElementById("quantidade").value) || 0;
-          const tamanho = selectedCube.classList.contains("small")
-            ? "Pallet"
-            : "Pallet";
+            parseInt(document.getElementById('quantidade').value) || 0;
+          const tamanho = selectedCube.classList.contains('small')
+            ? 'Pallet'
+            : 'Pallet';
           const palletNum = selectedCube.textContent;
-          selectedCube.style.backgroundColor = "green";
+          selectedCube.style.backgroundColor = 'green';
           selectedCube.textContent = `${produto} - ${quantidade}`;
           document.getElementById(
-            "cupomList"
+            'cupomList'
           ).innerHTML += `<li>${tamanho} - ${palletNum}: ${produto} - ${quantidade}</li>`;
 
           totalQuantidade += quantidade;
-          document.getElementById("totalQuantidade").textContent =
+          document.getElementById('totalQuantidade').textContent =
             totalQuantidade;
 
           if (!sequenciaPalets.includes(selectedCube.dataset.id)) {
             sequenciaPalets.push(selectedCube.dataset.id);
           }
-          document.getElementById("sequenciaPalets").textContent =
-            sequenciaPalets.join(", ");
+          document.getElementById('sequenciaPalets').textContent =
+            sequenciaPalets.join(', ');
 
           closeModal();
         }
       }
 
       function resetForm() {
-        document.getElementById("produto").value = "Produtos";
-        document.getElementById("quantidade").value = "";
+        document.getElementById('produto').value = 'Produtos';
+        document.getElementById('quantidade').value = '';
         if (selectedCube) {
-          selectedCube.style.backgroundColor = "#ccc";
-          selectedCube.textContent = selectedCube.dataset.id.includes("small")
-            ? "P"
-            : "G";
+          selectedCube.style.backgroundColor = '#ccc';
+          selectedCube.textContent = selectedCube.dataset.id.includes('small')
+            ? 'P'
+            : 'G';
         }
       }
 
       function closeModal() {
-        document.getElementById("modal").style.display = "none";
+        document.getElementById('modal').style.display = 'none';
       }
+
+      // FUNÇÃO PARA EXPORTAR PDF DA PAGINA
+      function exportPDF() {
+  window.print(); // Gera um PDF a partir da página
+}
     </script>
   </body>
 </html>
