@@ -85,11 +85,13 @@ nav ul li {
   display: flex;
   flex-direction: column;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+  background: #f0f0f0;
   gap: 10px;
   border-radius: 5px;
 }
 
 .square {
+  position: relative;
   width: 80px;
   height: 80px;
   background-color: #ccc;
@@ -99,11 +101,19 @@ nav ul li {
   font-weight: bold;
   cursor: pointer;
   transition: transform 0.3s, background-color 0.3s;
-  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+  transform-style: preserve-3d;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+  border: 1px solid #999;
 }
 
 .square:hover {
-  transform: scale(1.1);
+  transform: rotateY(20deg) rotateX(20deg) rotateZ(0deg) scale(1.1);
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotateX(0deg) rotateY(140deg) rotateZ(0deg);
+  }
 }
 
 /* Cor fixa após clique */
@@ -130,8 +140,11 @@ form {
   top: 0;
   width: 100%;
   height: 100%;
+  transform: translate(0.1%, 10%);
+  padding: 20px;
   overflow: auto;
   padding-top: 50px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 }
 
 .modal-content {
@@ -142,6 +155,13 @@ form {
   width: 90%;
   max-width: 400px;
   border-radius: 25px;
+}
+.cupom {
+  display: block;
+  padding: 60px;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  width: 500px;
 }
 
 h2 {
