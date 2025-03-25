@@ -1,148 +1,113 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Cubos 3D Clicáveis</title>
+    <title>Exportar PDF</title>
     <style>
       body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-        background-color: #f0f0f0;
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        text-align: center;
       }
-      .container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 40px;
+      .content {
+        padding: 20px;
+        border: 1px solid #000;
+        width: 90%;
+        margin: auto;
+        background-color: #f9f9f9;
       }
-      .fileira {
-        display: flex;
-        gap: 20px;
-        transform: rotate(135deg);
+      img {
+        width: 150px;
+        height: auto;
+        margin: 10px;
       }
-      .cube {
-        width: 50px;
-        height: 50px;
-        background-color: #3498db;
-        perspective: 500px;
+      canvas {
+        display: block;
+        margin: 10px auto;
+      }
+      .chart-container {
+        width: 80%;
+        height: 300px;
+        margin: auto;
+      }
+      button {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: #28a745;
+        color: white;
+        border: none;
         cursor: pointer;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        transform-style: preserve-3d;
-        transition: transform 0.3s ease;
-      }
-      .cube:hover {
-        transform: rotateY(90deg);
-      }
-      .cube-inner {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background-color: #2980b9;
-        transform: rotateX(45deg);
       }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
-    <div class="container">
-      <div class="fileira">
-        <div class="cube" onclick="openForm(1)">
-          <div class="cube-inner"></div>
-        </div>
-        <div class="cube" onclick="openForm(2)">
-          <div class="cube-inner"></div>
-        </div>
-        <div class="cube" onclick="openForm(3)">
-          <div class="cube-inner"></div>
-        </div>
-        <div class="cube" onclick="openForm(4)">
-          <div class="cube-inner"></div>
-        </div>
-        <div class="cube" onclick="openForm(5)">
-          <div class="cube-inner"></div>
-        </div>
-        <div class="cube" onclick="openForm(6)">
-          <div class="cube-inner"></div>
-        </div>
-        <div class="cube" onclick="openForm(7)">
-          <div class="cube-inner"></div>
-        </div>
-        <div class="cube" onclick="openForm(8)">
-          <div class="cube-inner"></div>
-        </div>
-        <div class="cube" onclick="openForm(9)">
-          <div class="cube-inner"></div>
-        </div>
-      </div>
-      <div class="fileira">
-        <div class="cube" onclick="openForm(10)">
-          <div class="cube-inner"></div>
-        </div>
-        <div class="cube" onclick="openForm(11)">
-          <div class="cube-inner"></div>
-        </div>
-        <div class="cube" onclick="openForm(12)">
-          <div class="cube-inner"></div>
-        </div>
-        <div class="cube" onclick="openForm(13)">
-          <div class="cube-inner"></div>
-        </div>
-        <div class="cube" onclick="openForm(14)">
-          <div class="cube-inner"></div>
-        </div>
-        <div class="cube" onclick="openForm(15)">
-          <div class="cube-inner"></div>
-        </div>
-        <div class="cube" onclick="openForm(16)">
-          <div class="cube-inner"></div>
-        </div>
-        <div class="cube" onclick="openForm(17)">
-          <div class="cube-inner"></div>
-        </div>
-        <div class="cube" onclick="openForm(18)">
-          <div class="cube-inner"></div>
-        </div>
+    <div class="content" id="content">
+      <h1>Relatório de Exemplo</h1>
+      <p>
+        Este é um exemplo de conteúdo que será exportado para PDF, incluindo
+        imagens, gráficos e texto formatado.
+      </p>
+
+      <img src="https://via.placeholder.com/150" alt="Imagem 1" />
+      <img src="https://via.placeholder.com/150" alt="Imagem 2" />
+      <img src="https://via.placeholder.com/150" alt="Imagem 3" />
+      <img src="https://via.placeholder.com/150" alt="Imagem 4" />
+
+      <p>Mais um parágrafo demonstrativo.</p>
+
+      <div class="chart-container">
+        <canvas id="myChart"></canvas>
       </div>
     </div>
+    <button onclick="gerarPDF()">Exportar para PDF</button>
 
-    <!-- Formulário -->
-    <div id="formModal" style="display: none">
-      <form
-        action="#"
-        method="POST"
-        style="
-          position: fixed;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          padding: 20px;
-          background-color: white;
-          border: 2px solid #3498db;
-          border-radius: 10px;
-        "
-      >
-        <h2>Formulário de Cubo</h2>
-        <label for="cuboid">Cuboid Selecionado:</label>
-        <input type="text" id="cuboid" name="cuboid" readonly />
-        <br /><br />
-        <input type="submit" value="Enviar" />
-        <button type="button" onclick="closeForm()">Fechar</button>
-      </form>
-    </div>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script>
-      function openForm(cubeId) {
-        document.getElementById("cuboid").value = "Cubo " + cubeId;
-        document.getElementById("formModal").style.display = "block";
-      }
+      // Gerar um gráfico usando Chart.js
+      document.addEventListener("DOMContentLoaded", function () {
+        const ctx = document.getElementById("myChart").getContext("2d");
+        new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio"],
+            datasets: [
+              {
+                label: "Vendas Mensais",
+                data: [12, 19, 3, 5, 2],
+                backgroundColor: "rgba(75, 192, 192, 0.2)",
+                borderColor: "rgba(75, 192, 192, 1)",
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+          },
+        });
+      });
 
-      function closeForm() {
-        document.getElementById("formModal").style.display = "none";
+      function gerarPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({
+          orientation: "landscape",
+          unit: "mm",
+          format: "a4",
+        });
+
+        html2canvas(document.querySelector("#content"), { scale: 2 }).then(
+          (canvas) => {
+            const imgData = canvas.toDataURL("image/png");
+            const imgWidth = 277;
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+            doc.addImage(imgData, "PNG", 10, 10, imgWidth, imgHeight);
+            doc.save("relatorio.pdf");
+          }
+        );
       }
     </script>
   </body>

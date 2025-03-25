@@ -4,6 +4,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Teste Simulador5</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
     <style>
       * {
         box-sizing: border-box;
@@ -90,23 +92,52 @@
 
       /* Ajustar o container para não ocupar toda a largura */
       .container {
-        flex: 0.5; /* Faz com que o container ocupe mais espaço */
+        flex: 0.5; /* Faz com que o container ocupe o espaço desejável*/
       }
-
-/* Ajustar o cupom para ocupar menos espaço */
+      
+      /* Ajustar o cupom para ocupar menos espaço */
       .cupom {
+        margin-top: 3%;
         width: 500px; /* Define uma largura fixa para o cupom */
         background: #f7e0b6;
         padding: 25px;
         border-radius: 10px;
         box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
       }
+      .cupom p {
+        padding: 20px;  
+        font-size: 24px;
+        align-self: top;
+        text-align: center;
+      }
+      .cupom span {
+        padding: 20px;  
+        font-size: 24px;
+        align-self: top;
+        text-align: center;
+      }
+      h3 {
+        padding: 10px;  
+        font-size: 24px;
+        align-self: top;
+        text-align: center;
+      }
+      .cupom ul {   
+        border-bottom: 1px solid #000; /* Linha preta semelhante a uma pauta de caderno */
+        padding-bottom: 10px; /* Espaçamento antes da linha */
+        margin-bottom: 5px; /* Espaçamento entre os itens */
+        list-style: none; /* Remove o marcador padrão da lista */     
+        padding: 25px;  
+        font-size: 20px;
+        align-self: top;
+        text-align: center;
+      }
 
       /* ======== CONTAINER COM OS 18 CUBOS ======== */
       .container {
         display: flex  ;
         justify-content: left;
-        margin-left: 2%;
+        margin-left: 3%;
         align-items: center;
         height: calc(100vh - 200px);
         gap: 2px;
@@ -269,7 +300,7 @@
       <h3>Cupom de Embarque</h3>
       <ul id="cupomList"></ul>
       <p><strong>Total de Itens:</strong> <span id="totalQuantidade">0</span></p>
-      <p><strong>N° do Pallet:</strong> <span id="sequenciaPalets"></span></p>
+      <!-- <p><strong>N° do Pallet:</strong> <span id="sequenciaPalets"></span></p> -->
     </div>
   </div>
     
@@ -350,7 +381,14 @@
 
       // FUNÇÃO PARA EXPORTAR PDF DA PAGINA
       function exportPDF() {
-  window.print(); // Gera um PDF a partir da página
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({
+          orientation: "landscape", // Pode ser "portrait" ou "landscape"
+          unit: "mm",
+          format: "a4",
+        
+  });
+     // Gera um PDF a partir da página
 }
     </script>
   </body>
