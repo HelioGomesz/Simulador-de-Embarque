@@ -14,8 +14,12 @@
 
       body {        
         color: #0a0a0a; /*fonte do corpo*/
-        line-height: 1.5;
-        display: block;
+        font: bold;
+        line-height: 1.5; /*altura do header*/
+        display: flexbox;
+        justify-content: space-around;
+        background: rgb(166, 185, 207);
+
       }
        /* ======== CABEÇALHO ======== */
       .icones-header {
@@ -75,43 +79,65 @@
         color: #cce7ff;
       }
 
-      
+      /* Criar um contêiner para alinhar lado a lado */
+      .main-container {
+        display: flex;
+        justify-content: left;
+        align-items: flex-start;
+        gap: 20px; /* Espaçamento entre os elementos */
+        padding: 20px;
+      }
+
+      /* Ajustar o container para não ocupar toda a largura */
+      .container {
+        flex: 0.5; /* Faz com que o container ocupe mais espaço */
+      }
+
+/* Ajustar o cupom para ocupar menos espaço */
+      .cupom {
+        width: 500px; /* Define uma largura fixa para o cupom */
+        background: #f7e0b6;
+        padding: 25px;
+        border-radius: 10px;
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+      }
+
       /* ======== CONTAINER COM OS 18 CUBOS ======== */
       .container {
         display: flex  ;
         justify-content: left;
         margin-left: 2%;
         align-items: center;
-        height: calc(100vh - 80px);
-        gap: 20px;
-        background-size: 10px 10px;
-        
+        height: calc(100vh - 200px);
+        gap: 2px;
+        background-size: 10px 10px;              
           
       }
       .column {
         display: flex;
         flex-direction: column;
-        gap: 1px;
-        padding: 1px;
-        background: #f0f0f0;
-        border-radius: 5px;
-        box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.1);
+        gap: 10px;
+        padding: 10px;
+        background: #ffffff;
+        border-radius: 10px;
+        
       }
       .cube {        
-        width: 100px;
-        height: 80px;
-        background-color: #6b4205;
-        font-size: 12px;
-        word-wrap: break-word;
+        position: relative;
+        width: 120px;
+        height: 90px;
+        background-color: #da7;
         display: flex;
         justify-content: center;
+        text-align: center;
         align-items: center;
         font-weight: bold;
         cursor: pointer;
         transition: transform 0.3s, background-color 0.3s;
         transform-style: preserve-3d;
-        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
-        border: 1px solid #999;
+        box-shadow: 5px 5px 10px rgba(5, 5, 5, 0.8);
+        border: 1px solid #fff;
+        
       }
       .cube:hover {
         transform: rotateY(20deg) rotateX(20deg) rotateZ(0deg) scale(1.1);
@@ -125,9 +151,11 @@
 
       .large {
         width: 200px;
+        
       }
       .small {
         width: 150px;
+        
       }
       .modal {
         display: none;
@@ -137,7 +165,8 @@
         width: 15%;
         height: 30%;
         transform: translate(-50%, -50%);
-        background: white;
+        border-radius: 10px;    /*Curva os cantos do formulário*/
+        background: white;    /*Cor de fundo do formulário*/
         padding: 20px;
         padding-top: 50px;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
@@ -167,20 +196,7 @@
         margin: 5px 0;  
         padding: 10px;
       }
-      /*SEÇÃO CRIADA PARA O CUPOM DE EMBARQUE*/
-      section .cupom {
-        display: block ;               
-        width: 700px;
-          
-      }
-      .cupom {        
-        justify-items: left;
-        align-content: center;        
-        padding: 60px;
-        background: #f9f9f9;
-        border: 1px solid #ddd; 
-        width: 500px;                
-      }
+      
       button {
         padding: 2px;
         align-self: center; /* Centralizar botão */
@@ -227,39 +243,36 @@
       </div>
     </header>
 
-    <div class="container">
-      <div class="column" id="smallCubes">
-        <script>
-          for (let i = 1; i <= 9; i++) {
-            document.write(
-              `<div class='cube small' data-id='small-${i}'>P ${i}</div>`
-            );
-          }
-        </script>
+    <div class="main-container">
+      <div class="container">
+        <div class="column" id="smallCubes">
+          <script>
+            for (let i = 1; i <= 9; i++) {
+              document.write(
+                `<div class='cube small' data-id='small-${i}'>P ${i}</div>`
+              );
+            }
+          </script>
+        </div>
+        <div class="column" id="largeCubes">
+          <script>
+            for (let i = 1; i <= 9; i++) {
+              document.write(
+                `<div class='cube large' data-id='large-${i}'>G ${i}</div>`
+              );
+            }
+          </script>
+        </div>
       </div>
-      <div class="column" id="largeCubes">
-        <script>
-          for (let i = 1; i <= 9; i++) {
-            document.write(
-              `<div class='cube large' data-id='large-${i}'>G ${i}</div>`
-            );
-          }
-        </script>
-      </div>
-    </div>
-    <section>
-    <div class="cupom">      
+    
+    <div class="cupom">
       <h3>Cupom de Embarque</h3>
       <ul id="cupomList"></ul>
-      <p>
-        <strong>Total de Itens:</strong> <span id="totalQuantidade">0</span>
-      </p>
-      <p>
-        <strong>N° do Pallet:</strong>
-        <span id="sequenciaPalets"></span>
-      </p>  
+      <p><strong>Total de Itens:</strong> <span id="totalQuantidade">0</span></p>
+      <p><strong>N° do Pallet:</strong> <span id="sequenciaPalets"></span></p>
     </div>
-    </section>
+  </div>
+    
     <div class="modal" id="modal">
       <div class="modal-content">
       <h2>Adicionar Produto</h2>
@@ -300,7 +313,7 @@
             ? 'Pallet'
             : 'Pallet';
           const palletNum = selectedCube.textContent;
-          selectedCube.style.backgroundColor = 'green';
+          selectedCube.style.backgroundColor = '#492';
           selectedCube.textContent = `${produto} - ${quantidade}`;
           document.getElementById(
             'cupomList'
