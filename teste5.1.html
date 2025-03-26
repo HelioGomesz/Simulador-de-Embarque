@@ -118,6 +118,8 @@
         align-self: top;
         text-align: center;
       }
+
+      
       /* Criar um contêiner para alinhar lado a lado */
       .main-container {
         display: flex;
@@ -317,6 +319,11 @@
       <!-- <p><strong>N° do Pallet:</strong> <span id="sequenciaPalets"></span></p> -->
     </div>
   </div>
+   
+  <div class="cupom">
+    <h3>Resumo Geral</h3>
+    <ul id="resumoList"></ul>
+  </div>
     
     <div class="modal" id="modal">
       <div class="modal-content">
@@ -350,35 +357,7 @@
           document.getElementById('modal').style.display = 'block';
         });
       });
-
-      function addEntry() {
-        if (selectedCube) {
-          const produto = document.getElementById('produto').value;
-          const quantidade =
-            parseInt(document.getElementById('quantidade').value) || 0;
-          const tamanho = selectedCube.classList.contains('small')
-            ? 'Pallet'
-            : 'Pallet';
-          const palletNum = selectedCube.textContent;
-          selectedCube.style.backgroundColor = '#492';
-          selectedCube.textContent = `${produto} - ${quantidade}`;
-          document.getElementById(
-            'cupomList'
-          ).innerHTML += `<li>${tamanho} - ${palletNum}: ${produto} - ${quantidade}</li>`;
-
-          totalQuantidade += quantidade;
-          document.getElementById('totalQuantidade').textContent =
-            totalQuantidade;
-
-          if (!sequenciaPalets.includes(selectedCube.dataset.id)) {
-            sequenciaPalets.push(selectedCube.dataset.id);
-          }
-          document.getElementById('sequenciaPalets').textContent =
-            sequenciaPalets.join(', ');
-
-          closeModal();
-        }
-      }
+ 
 
       function resetForm() {
         document.getElementById('produto').value = 'Produtos';
@@ -394,6 +373,41 @@
       function closeModal() {
         document.getElementById('modal').style.display = 'none';
       }
+
+// RESUMO DO CUPOM DE EMBARQUE COM O TOTAL DE PRODUTOS
+      let produtosResumo = {};
+
+  function addEntry() {
+    if (selectedCube) {
+      const produto = document.getElementById('produto').value;
+      const quantidade = parseInt(document.getElementById('quantidade').value) || 0;
+      const tamanho = selectedCube.classList.contains('small') ? 'Pallet' : 'Pallet';
+      const palletNum = selectedCube.textContent;
+      selectedCube.style.backgroundColor = '#492';
+      selectedCube.textContent = `${produto} - ${quantidade}`;
+      
+      document.getElementById('cupomList').innerHTML += `<li>${tamanho} - ${palletNum}: ${produto} - ${quantidade}</li>`;
+
+      totalQuantidade += quantidade;
+      document.getElementById('totalQuantidade').textContent = totalQuantidade;
+
+      if (!produtosResumo[produto]) {
+        produtosResumo[produto] = 0;
+      }
+      produtosResumo[produto] += quantidade;
+      atualizarResumo();
+      
+      closeModal();
+    }
+  }
+
+  function atualizarResumo() {
+    const resumoList = document.getElementById('resumoList');
+    resumoList.innerHTML = '';
+    for (let produto in produtosResumo) {
+      resumoList.innerHTML += `<li>${produto}: ${produtosResumo[produto]}</li>`;
+    }
+  }
 
       // FUNÇÃO PARA EXPORTAR PDF DA PAGINA
       function exportPDF() {

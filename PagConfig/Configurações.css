@@ -12,7 +12,7 @@ body {
   display: block;
 }
 
-/* Estilização do Header */
+/* ======== CABEÇALHO ======== */
 header {
   display: flex; /*Coloca o titulo no inicio*/
   padding: 0;

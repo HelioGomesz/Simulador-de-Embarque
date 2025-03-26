@@ -3,112 +3,76 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Exportar PDF</title>
+    <title>Gerador de Cupom Fiscal</title>
     <style>
       body {
         font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         margin: 20px;
+      }
+      .cupom {
+        width: 300px;
+        padding: 15px;
+        border: 1px dashed black;
+        margin-top: 20px;
         text-align: center;
+        background-color: #ed9;
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
       }
-      .content {
-        padding: 20px;
-        border: 1px solid #000;
-        width: 90%;
-        margin: auto;
-        background-color: #f9f9f9;
-      }
-      img {
-        width: 150px;
-        height: auto;
-        margin: 10px;
-      }
-      canvas {
-        display: block;
-        margin: 10px auto;
-      }
-      .chart-container {
-        width: 80%;
-        height: 300px;
-        margin: auto;
-      }
-      button {
-        display: block;
-        margin: 20px auto;
-        padding: 10px 20px;
-        background-color: #28a745;
-        color: white;
-        border: none;
-        cursor: pointer;
+      .hidden {
+        display: none;
       }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
-    <div class="content" id="content">
-      <h1>Relatório de Exemplo</h1>
-      <p>
-        Este é um exemplo de conteúdo que será exportado para PDF, incluindo
-        imagens, gráficos e texto formatado.
-      </p>
+    <h2>Preencha os dados do cupom fiscal</h2>
+    <form id="formCupom">
+      <label>Nome do Cliente: <input type="text" id="cliente" required /></label
+      ><br /><br />
+      <label>Produto: <input type="text" id="produto" required /></label
+      ><br /><br />
+      <label>Quantidade: <input type="number" id="quantidade" required /></label
+      ><br /><br />
+      <label
+        >Preço Unitário:
+        <input type="number" id="preco" step="0.01" required /></label
+      ><br /><br />
+      <button type="submit">Gerar Cupom</button>
+    </form>
 
-      <img src="https://via.placeholder.com/150" alt="Imagem 1" />
-      <img src="https://via.placeholder.com/150" alt="Imagem 2" />
-      <img src="https://via.placeholder.com/150" alt="Imagem 3" />
-      <img src="https://via.placeholder.com/150" alt="Imagem 4" />
-
-      <p>Mais um parágrafo demonstrativo.</p>
-
-      <div class="chart-container">
-        <canvas id="myChart"></canvas>
-      </div>
+    <div id="cupomFiscal" class="cupom hidden">
+      <h3>Cupom Fiscal</h3>
+      <p><strong>Cliente:</strong> <span id="cupomCliente"></span></p>
+      <p><strong>Produto:</strong> <span id="cupomProduto"></span></p>
+      <p><strong>Quantidade:</strong> <span id="cupomQuantidade"></span></p>
+      <p><strong>Preço Unitário:</strong> R$ <span id="cupomPreco"></span></p>
+      <p><strong>Total:</strong> R$ <span id="cupomTotal"></span></p>
     </div>
-    <button onclick="gerarPDF()">Exportar para PDF</button>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script>
-      // Gerar um gráfico usando Chart.js
-      document.addEventListener("DOMContentLoaded", function () {
-        const ctx = document.getElementById("myChart").getContext("2d");
-        new Chart(ctx, {
-          type: "bar",
-          data: {
-            labels: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio"],
-            datasets: [
-              {
-                label: "Vendas Mensais",
-                data: [12, 19, 3, 5, 2],
-                backgroundColor: "rgba(75, 192, 192, 0.2)",
-                borderColor: "rgba(75, 192, 192, 1)",
-                borderWidth: 1,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-          },
-        });
-      });
+      document
+        .getElementById("formCupom")
+        .addEventListener("submit", function (event) {
+          event.preventDefault();
 
-      function gerarPDF() {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF({
-          orientation: "landscape",
-          unit: "mm",
-          format: "a4",
-        });
+          const cliente = document.getElementById("cliente").value;
+          const produto = document.getElementById("produto").value;
+          const quantidade = parseInt(
+            document.getElementById("quantidade").value
+          );
+          const preco = parseFloat(document.getElementById("preco").value);
+          const total = (quantidade * preco).toFixed(2);
 
-        html2canvas(document.querySelector("#content"), { scale: 2 }).then(
-          (canvas) => {
-            const imgData = canvas.toDataURL("image/png");
-            const imgWidth = 277;
-            const imgHeight = (canvas.height * imgWidth) / canvas.width;
-            doc.addImage(imgData, "PNG", 10, 10, imgWidth, imgHeight);
-            doc.save("relatorio.pdf");
-          }
-        );
-      }
+          document.getElementById("cupomCliente").textContent = cliente;
+          document.getElementById("cupomProduto").textContent = produto;
+          document.getElementById("cupomQuantidade").textContent = quantidade;
+          document.getElementById("cupomPreco").textContent = preco.toFixed(2);
+          document.getElementById("cupomTotal").textContent = total;
+
+          document.getElementById("cupomFiscal").classList.remove("hidden");
+        });
     </script>
   </body>
 </html>
