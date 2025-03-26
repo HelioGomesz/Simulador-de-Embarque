@@ -47,7 +47,7 @@
       /* ======== NAVEGAÇÃO COM ÍCONES ======== */
       nav ul {
         display: flex;
-        list-style: none;
+        list-style: none; /*Retira o formato de lista*/
         text-align: center;
         row-gap: 5%;
       }
@@ -72,7 +72,7 @@
       .icon-btn span {
         font-size: 0.9rem; /* Ajusta o tamanho do texto */
         margin-top: 10px; /* Adiciona um pequeno espaçamento entre ícone e texto */
-        color: #333; /* Define a cor do texto */
+        color: #fdf8f8; /* Define a cor do texto */
       }
 
       .icon-btn:hover {
@@ -80,7 +80,6 @@
       }
 
       
-
       /* Ajustar o cupom para ocupar menos espaço */
       .cupom {
         margin-top: 3%;
@@ -169,7 +168,7 @@
         
       }
       .cube:hover {
-        transform: rotateY(180deg) rotateX(20deg) rotateZ(0deg) scale(1.1); /*Ajuste da rotação dos quadrados do container*/
+        transform: rotateY(0deg) rotateX(20deg) rotateZ(0deg) scale(1.1); /*Ajuste da rotação dos quadrados do container*/
       }
 
       @keyframes rotate { 
@@ -202,45 +201,61 @@
         overflow: auto;
       }
       .modal-content {
-        background-color: #fefefe;
-        margin: 5% auto;
-        padding: 25px;
-        width: 90%;
-        max-width: 400px;
-        border-radius: 25px;
+        background: #fff;        
+        padding: 20px;
+        width: 300px;
+        text-align: center;
+        border-radius: 8px;
+        
       }
       h2 {
-        padding: 10px;  
-        font-size: 24px;
-        align-self: top;
-        text-align: center;
+        display: flex;
+        padding: 15px;  
+        font-size: 24px;        
+        justify-content: center;         
+        
+               
       }
-      .modal input{
-        display: block; 
-        margin: 5px 0;  
-        padding: 10px;
-      }
+
       .modal select {
         display: block; 
-        margin: 5px 0;  
+        width: 250px;
+        margin: 5px;  
         padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+      .modal input{
+        display: flex;
+        width: 250px;
+        margin: 5px;  
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+
       }
       
+      
       button {
-        padding: 5px;
-        align-self: center; /* Centralizar botão */
-        font-size: 20px; /* Tamanho da fonte*/
-        width: 65px; /* largura do botão */
-        color: white; /* Cor da fonte*/
         background-color: #256a8a;
-        border: none;                          
+        color: white; /* Cor da fonte*/
+        border: none; 
+        padding: 5px;
         cursor: pointer;
         border-radius: 5px;
-        transition: background-color 0.3s; 
+        margin-top: 10px;
+        border-right-width: 3px; /* Largura da borda direita do botão*/
+        border-bottom-width: 3px; /* Largura debaixo do botão*/
+        font-size: 16px; /* Tamanho da fonte*/
+        font-weight: 700px; /* Peso da fonte/Negrito*/
+        text-transform: uppercase; /* fonte maiusculo*/
+      
       }
 
       button:hover {
-        background-color: #00abfb;  
+        background-color: #0056b3;  
       }
 
     </style>
