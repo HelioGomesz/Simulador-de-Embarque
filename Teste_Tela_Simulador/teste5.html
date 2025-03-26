@@ -35,7 +35,7 @@
       header .icones-header {
         display: flex;
         justify-content: space-between;
-        align-items: right;
+        
       }
 
       header h1 {
@@ -164,17 +164,17 @@
         cursor: pointer;
         transition: transform 0.3s, background-color 0.3s;
         transform-style: preserve-3d;
-        box-shadow: 5px 5px 10px rgba(5, 5, 5, 0.8);
+        box-shadow: 10px 10px 10px rgba(5, 5, 5, 0.8);
         border: 1px solid #fff;
         
       }
       .cube:hover {
-        transform: rotateY(20deg) rotateX(20deg) rotateZ(0deg) scale(1.1);
+        transform: rotateY(180deg) rotateX(20deg) rotateZ(0deg) scale(1.1); /*Ajuste da rotação dos quadrados do container*/
       }
 
       @keyframes rotate { 
         100% {
-          transform: rotateX(10deg) rotateY(100deg) rotateZ(0deg);
+          transform: rotateX(10deg) rotateY(10deg) rotateZ(180deg);
         }
       }
 
