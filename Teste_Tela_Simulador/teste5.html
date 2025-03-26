@@ -13,12 +13,12 @@
       }
 
       body {        
-        color: #0a0a0a; /*fonte do corpo*/
-        font: bold;
-        line-height: 1.5; /*altura do header*/
-        display: flexbox;
-        justify-content: space-around;
-        background: rgb(166, 185, 207);
+        body {        
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;  
+      }
 
       }
        /* ======== CABEÇALHO ======== */
@@ -79,20 +79,8 @@
         color: #cce7ff;
       }
 
-      /* Criar um contêiner para alinhar lado a lado */
-      .main-container {
-        display: flex;
-        justify-content: left;
-        align-items: flex-start;
-        gap: 20px; /* Espaçamento entre os elementos */
-        padding: 20px;
-      }
-
-      /* Ajustar o container para não ocupar toda a largura */
-      .container {
-        flex: 0.5; /* Faz com que o container ocupe o espaço desejável*/
-      }
       
+
       /* Ajustar o cupom para ocupar menos espaço */
       .cupom {
         margin-top: 3%;
@@ -130,25 +118,37 @@
         align-self: top;
         text-align: center;
       }
+      /* Criar um contêiner para alinhar lado a lado */
+      .main-container {
+        display: flex;
+        justify-content: left;
+        align-items: flex-start;  /*Ajusta o crescimento do cupom*/        
+        gap: 20px; /* Espaçamento entre os elementos */
+        padding: 20px;
+        min-height: 100vh;  /* Garante que ocupe toda a tela */
+      }
 
       /* ======== CONTAINER COM OS 18 CUBOS ======== */
       .container {
-        display: block  ; /*EM TESTE PARA AJUSTE DE ELEMENTO RESPONSIVO NO ELECTRON*/
-        justify-content: left;
-        margin-left: 3%;
-        align-items: center;
-        height: calc(100vh - 200px);
-        gap: 2px;
-        background-size: 10px 10px;              
-          
+        display: flex  ;       
+        justify-content: left;        
+        align-items: center;     
+        min-height: 300px;  /* Define um mínimo para evitar colapso */
+        margin-left: 3%; /*Ajusta a distancia do container da extremidade esquerda*/
+        margin-top: 3%;  /*AJusta a distancia do container da header*/
+        flex: 0.3;  /* Faz com que o container ocupe o espaço desejável*/
+        /* background-size: 10px 10px;  */             
+
+
       }
       .column {
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        gap: 5px;
         padding: 10px;
         background: #ffffff;
-        border-radius: 10px;
+        border-radius: 5px;
+        /* flex-grow: 1; Faz as colunas crescerem uniformemente */
         
       }
       .cube {        
@@ -227,16 +227,16 @@
       }
       
       button {
-        padding: 2px;
+        padding: 5px;
         align-self: center; /* Centralizar botão */
-        font-size: 18px; /* Tamanho da fonte*/
-        width: 60px; /* largura do botão */
-        color: rgb(252, 250, 250); /* Cor da fonte*/
+        font-size: 20px; /* Tamanho da fonte*/
+        width: 65px; /* largura do botão */
+        color: white; /* Cor da fonte*/
         background-color: #256a8a;
-        border: solid 1px #256a8a; /* Gradiente - misturar as cores do botão*/
-        border-right-width: 5px; /* Largura da borda direita do botão*/
-        border-bottom-width: 5px; /* Largura debaixo do botão*/
-        
+        border: none;                          
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s; 
       }
 
       button:hover {
@@ -305,6 +305,7 @@
     <div class="modal" id="modal">
       <div class="modal-content">
       <h2>Adicionar Produto</h2>
+      <label for="Produto"></label>
       <select id="produto">
         <option value="LM0001-4000840">LM0001-4000840</option>
         <option value="LM0006-4000840">LM0006-4000840</option>
@@ -316,6 +317,7 @@
         <option value="LM0006-4000865">LM0006-4000865</option>
         <option value="LM0008-7000840">LM0008-7000840</option>
       </select>
+      <label for="Quantidade"></label>
       <input type="number" id="quantidade" placeholder="Quantidade" />
       <button onclick="addEntry()">Incluir</button>
       <button onclick="resetForm()">Excluir</button>
