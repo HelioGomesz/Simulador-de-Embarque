@@ -82,11 +82,11 @@
       
       /* Ajustar o cupom para ocupar menos espaço */
       .cupom {
-        margin-top: 3%;
+        margin-top: 5%;
         width: 500px; /* Define uma largura fixa para o cupom */
-        background: #eee;
+        background: #cecccc;
         border: 1px dashed black; /*Tracejar as bordas do cupom*/
-        padding: 25px;
+        padding: 20px;
         border-radius: 5px;
         box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
       }
@@ -118,15 +118,29 @@
         align-self: top;
         text-align: center;
       }
-      /* Criar um contêiner para alinhar lado a lado */
-      .main-container {
+            
+      /* Criar um contêiner para alinhar os elementos lado a lado */
+      .page-container {
         display: flex;
-        justify-content: left;
-        align-items: flex-start;  /*Ajusta o crescimento do cupom*/        
+        justify-content: space-between; /* Distribui os elementos igualmente */
+        align-items: flex-start; /* Alinha ao topo */
         gap: 20px; /* Espaçamento entre os elementos */
         padding: 20px;
-        min-height: 100vh;  /* Garante que ocupe toda a tela */
+        width: 100%;
       }
+
+      .main-container {
+      flex: 1; /* Ocupa o espaço disponível */
+      display: flex;
+      justify-content: flex-start;
+    }
+
+      .cupom-container {
+      display: flex;      
+      gap: 20px;
+    }
+
+      
 
       /* ======== CONTAINER COM OS 18 CUBOS ======== */
       .container {
@@ -201,9 +215,7 @@
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
         z-index: 1000; /* Garante que o modal fique sobre outros elementos */
         overflow-y: auto; /* Permite rolagem se necessário */
-        
       }
-
       .modal-overlay {
         display: none;
         position: fixed;
@@ -213,7 +225,9 @@
         height: 100%;
         background: rgba(0, 0, 0, 0.5);
         z-index: 999; /* Coloca o overlay abaixo do modal */
-}
+      }
+
+
 
       .modal-content {
         background: #fff;        
@@ -227,7 +241,7 @@
         display: flex;
         padding: 15px;  
         font-size: 24px;        
-        justify-content: center;         
+        justify-content: center;      
         
                
       }
@@ -302,36 +316,45 @@
       </div>
     </header>
 
-    <div class="main-container">
-      <div class="container">
-        <div class="column" id="smallCubes">
-          <script>
-            for (let i = 1; i <= 9; i++) {
-              document.write(
-                `<div class='cube small' data-id='small-${i}'>P ${i}</div>`
-              );
-            }
-          </script>
-        </div>
-        <div class="column" id="largeCubes">
-          <script>
-            for (let i = 1; i <= 9; i++) {
-              document.write(
-                `<div class='cube large' data-id='large-${i}'>G ${i}</div>`
-              );
-            }
-          </script>
+    <div class="page-container">
+      <div class="main-container">
+        <div class="container">
+          <div class="column" id="smallCubes">
+            <script>
+              for (let i = 1; i <= 9; i++) {
+                document.write(
+                  `<div class='cube small' data-id='small-${i}'>P ${i}</div>`
+                );
+              }
+            </script>
+          </div>
+          <div class="column" id="largeCubes">
+            <script>
+              for (let i = 1; i <= 9; i++) {
+                document.write(
+                  `<div class='cube large' data-id='large-${i}'>G ${i}</div>`
+                );
+              }
+            </script>
+          </div>
         </div>
       </div>
     
-    <div class="cupom">
-      <h3>Cupom de Embarque</h3>
-      <ul id="cupomList"></ul>
-      <p><strong>Total de Itens:</strong> <span id="totalQuantidade">0</span></p>
-      <!-- <p><strong>N° do Pallet:</strong> <span id="sequenciaPalets"></span></p> -->
+      <div class="cupom-container">
+        <div class="cupom">
+          <h3>Cupom de Embarque</h3>
+          <ul id="cupomList"></ul>
+          <p><strong>Total de Itens:</strong> <span id="totalQuantidade">0</span></p>
+        </div>
+    
+        <div class="cupom">
+          <h3>Resumo Geral</h3>
+          <ul id="resumoList"></ul>
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="modal-overlay" id="modal-overlay" onclick="closeModal()"></div>    
+    
+    
     <div class="modal" id="modal">
       <div class="modal-content">
       <h2>Adicionar Produto</h2>
@@ -345,7 +368,14 @@
         <option value="LM0006-4000840">LM0006-4000840</option>
         <option value="LM0006-4000850">LM0006-4000850</option>
         <option value="LM0006-4000865">LM0006-4000865</option>
-        <option value="LM0008-7000840">LM0008-7000840</option>
+        <option value="LM0008-7000850">LM0008-7000850</option>
+        <option value="LM0008-1300840">LM0008-1300840</option>
+        <option value="LM0008-1300840">LM0008-1300840</option>
+        <option value="LM0008-1300850">LM0008-1300850</option>
+        <option value="LM0008-2000840">LM0008-2000840</option>
+        <option value="LM0008-2000850">LM0008-2000850</option>
+        <option value="LM0009-4000840">LM0009-4000840</option>
+
       </select>
       <label for="Quantidade"></label>
       <input type="number" id="quantidade" placeholder="Quantidade" />
@@ -364,35 +394,7 @@
           document.getElementById('modal').style.display = 'block';
         });
       });
-
-      function addEntry() {
-        if (selectedCube) {
-          const produto = document.getElementById('produto').value;
-          const quantidade =
-            parseInt(document.getElementById('quantidade').value) || 0;
-          const tamanho = selectedCube.classList.contains('small')
-            ? 'Pallet'
-            : 'Pallet';
-          const palletNum = selectedCube.textContent;
-          selectedCube.style.backgroundColor = '#492';
-          selectedCube.textContent = `${produto} - ${quantidade}`;
-          document.getElementById(
-            'cupomList'
-          ).innerHTML += `<li>${tamanho} - ${palletNum}: ${produto} - ${quantidade}</li>`;
-
-          totalQuantidade += quantidade;
-          document.getElementById('totalQuantidade').textContent =
-            totalQuantidade;
-
-          if (!sequenciaPalets.includes(selectedCube.dataset.id)) {
-            sequenciaPalets.push(selectedCube.dataset.id);
-          }
-          document.getElementById('sequenciaPalets').textContent =
-            sequenciaPalets.join(', ');
-
-          closeModal();
-        }
-      }
+ 
 
       function resetForm() {
         document.getElementById('produto').value = 'Produtos';
@@ -405,15 +407,44 @@
         }
       }
 
-      function openModal() {
-      document.getElementById('modal').style.display = 'block';
-      document.getElementById('modal-overlay').style.display = 'block';
-    }
+      function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+      }
 
-    function closeModal() {
-      document.getElementById('modal').style.display = 'none';
-      document.getElementById('modal-overlay').style.display = 'none';
+// RESUMO DO CUPOM DE EMBARQUE COM O TOTAL DE PRODUTOS
+      let produtosResumo = {};
+
+  function addEntry() {
+    if (selectedCube) {
+      const produto = document.getElementById('produto').value;
+      const quantidade = parseInt(document.getElementById('quantidade').value) || 0;
+      const tamanho = selectedCube.classList.contains('small') ? 'Pallet' : 'Pallet';
+      const palletNum = selectedCube.textContent;
+      selectedCube.style.backgroundColor = '#492';
+      selectedCube.textContent = `${produto} - ${quantidade}`;
+      
+      document.getElementById('cupomList').innerHTML += `<li>${tamanho} - ${palletNum}: ${produto} - ${quantidade}</li>`;
+
+      totalQuantidade += quantidade;
+      document.getElementById('totalQuantidade').textContent = totalQuantidade;
+
+      if (!produtosResumo[produto]) {
+        produtosResumo[produto] = 0;
+      }
+      produtosResumo[produto] += quantidade;
+      atualizarResumo();
+      
+      closeModal();
     }
+  }
+
+  function atualizarResumo() {
+    const resumoList = document.getElementById('resumoList');
+    resumoList.innerHTML = '';
+    for (let produto in produtosResumo) {
+      resumoList.innerHTML += `<li>${produto}: ${produtosResumo[produto]}</li>`;
+    }
+  }
 
       // FUNÇÃO PARA EXPORTAR PDF DA PAGINA
       function exportPDF() {
