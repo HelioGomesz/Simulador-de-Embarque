@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Teste Simulador5</title>
+    <title>simuladorRev5</title>
     <style>
       * {
         box-sizing: border-box;
@@ -227,16 +227,25 @@
         z-index: 999; /* Coloca o overlay abaixo do modal */
       }
 
-
-
       .modal-content {
         background: #fff;        
         padding: 20px;
         width: 300px;
         text-align: center;
-        border-radius: 8px;
-        
+        border-radius: 8px;        
       }
+      /* Adicionado cursor: grab; ao cabeçalho do modal para indicar que ele pode ser arrastado. */
+      .modal-header {
+        cursor: grab;
+        background: #256a8a;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        font-size: 18px;
+        border-radius: 10px 10px 0 0;
+      }
+
+
       h2 {
         display: flex;
         padding: 15px;  
@@ -339,25 +348,26 @@
           </div>
         </div>
       </div>
-    
+    <!-- Cupom da página para resumo das informações -->
       <div class="cupom-container">
         <div class="cupom">
           <h3>Cupom de Embarque</h3>
           <ul id="cupomList"></ul>
           <p><strong>Total de Itens:</strong> <span id="totalQuantidade">0</span></p>
         </div>
-    
-        <div class="cupom">
+            <div class="cupom">
           <h3>Resumo Geral</h3>
           <ul id="resumoList"></ul>
         </div>
       </div>
     </div>
     
-    
+    <!-- Formulário para inserção das informações -->
     <div class="modal" id="modal">
-      <div class="modal-content">
-      <h2>Adicionar Produto</h2>
+      <div class="modal-header" id="modal-header">
+        <h2>Adicionar Produto</h2>
+      </div>
+      <div class="modal-content">  
       <label for="Produto"></label>
       <select id="produto">
         <option value="LM0001-4000840">LM0001-4000840</option>
@@ -437,7 +447,37 @@
       closeModal();
     }
   }
+// Adicionado a lógica para permitir o arrasto do modal com o mouse - efeito mão
+  function makeModalDraggable() {
+  const modal = document.getElementById("modal");
+  const header = document.getElementById("modal-header");
+  let offsetX = 0, offsetY = 0, mouseX = 0, mouseY = 0;
 
+  header.onmousedown = function (event) {
+    event.preventDefault();
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+
+    document.onmousemove = function (event) {
+      offsetX = event.clientX - mouseX;
+      offsetY = event.clientY - mouseY;
+      modal.style.left = (modal.offsetLeft + offsetX) + "px";
+      modal.style.top = (modal.offsetTop + offsetY) + "px";
+      mouseX = event.clientX;
+      mouseY = event.clientY;
+    };
+
+    document.onmouseup = function () {
+      document.onmousemove = null;
+      document.onmouseup = null;
+    };
+  };
+}
+
+// Inicia o comportamento de arrastar ao carregar a página
+window.onload = makeModalDraggable;
+
+// Lógica para inserir os dados no cupom de resumo geral
   function atualizarResumo() {
     const resumoList = document.getElementById('resumoList');
     resumoList.innerHTML = '';
