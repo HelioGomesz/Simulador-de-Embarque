@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Teste Simulador5.1</title>
+    <title>Teste Simulador5.2</title>
     <style>
       * {
         box-sizing: border-box;
@@ -82,11 +82,11 @@
       
       /* Ajustar o cupom para ocupar menos espaço */
       .cupom {
-        margin-top: 3%;
+        margin-top: 5%;
         width: 500px; /* Define uma largura fixa para o cupom */
         background: #cecccc;
         border: 1px dashed black; /*Tracejar as bordas do cupom*/
-        padding: 25px;
+        padding: 20px;
         border-radius: 5px;
         box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
       }
@@ -119,15 +119,28 @@
         text-align: center;
       }
             
-      /* Criar um contêiner para alinhar lado a lado */
-      .main-container {
+      /* Criar um contêiner para alinhar os elementos lado a lado */
+      .page-container {
         display: flex;
-        justify-content: left;
-        align-items: flex-start;  /*Ajusta o crescimento do cupom*/        
+        justify-content: space-between; /* Distribui os elementos igualmente */
+        align-items: flex-start; /* Alinha ao topo */
         gap: 20px; /* Espaçamento entre os elementos */
         padding: 20px;
-        min-height: 100vh;  /* Garante que ocupe toda a tela */
+        width: 100%;
       }
+
+      .main-container {
+      flex: 1; /* Ocupa o espaço disponível */
+      display: flex;
+      justify-content: flex-start;
+    }
+
+      .cupom-container {
+      display: flex;      
+      gap: 20px;
+    }
+
+      
 
       /* ======== CONTAINER COM OS 18 CUBOS ======== */
       .container {
@@ -138,7 +151,7 @@
         margin-left: 3%; /*Ajusta a distancia do container da extremidade esquerda*/
         margin-top: 3%;  /*AJusta a distancia do container da header*/
         flex: 0.3;  /* Faz com que o container ocupe o espaço desejável*/
-                 
+        /* background-size: 10px 10px;  */             
 
 
       }
@@ -237,7 +250,8 @@
         border-radius: 5px;
         font-size: 16px;
 
-      }      
+      }
+      
       
       button {
         background-color: #256a8a;
@@ -288,40 +302,44 @@
       </div>
     </header>
 
-    <div class="main-container">
-      <div class="container">
-        <div class="column" id="smallCubes">
-          <script>
-            for (let i = 1; i <= 9; i++) {
-              document.write(
-                `<div class='cube small' data-id='small-${i}'>P ${i}</div>`
-              );
-            }
-          </script>
-        </div>
-        <div class="column" id="largeCubes">
-          <script>
-            for (let i = 1; i <= 9; i++) {
-              document.write(
-                `<div class='cube large' data-id='large-${i}'>G ${i}</div>`
-              );
-            }
-          </script>
+    <div class="page-container">
+      <div class="main-container">
+        <div class="container">
+          <div class="column" id="smallCubes">
+            <script>
+              for (let i = 1; i <= 9; i++) {
+                document.write(
+                  `<div class='cube small' data-id='small-${i}'>P ${i}</div>`
+                );
+              }
+            </script>
+          </div>
+          <div class="column" id="largeCubes">
+            <script>
+              for (let i = 1; i <= 9; i++) {
+                document.write(
+                  `<div class='cube large' data-id='large-${i}'>G ${i}</div>`
+                );
+              }
+            </script>
+          </div>
         </div>
       </div>
     
-    <div class="cupom">
-      <h3>Cupom de Embarque</h3>
-      <ul id="cupomList"></ul>
-      <p><strong>Total de Itens:</strong> <span id="totalQuantidade">0</span></p>
-      <!-- <p><strong>N° do Pallet:</strong> <span id="sequenciaPalets"></span></p> -->
+      <div class="cupom-container">
+        <div class="cupom">
+          <h3>Cupom de Embarque</h3>
+          <ul id="cupomList"></ul>
+          <p><strong>Total de Itens:</strong> <span id="totalQuantidade">0</span></p>
+        </div>
+    
+        <div class="cupom">
+          <h3>Resumo Geral</h3>
+          <ul id="resumoList"></ul>
+        </div>
+      </div>
     </div>
-  </div>
-   
-  <div class="cupom">
-    <h3>Resumo Geral</h3>
-    <ul id="resumoList"></ul>
-  </div>
+    
     
     <div class="modal" id="modal">
       <div class="modal-content">
