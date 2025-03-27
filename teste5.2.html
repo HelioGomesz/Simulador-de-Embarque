@@ -205,16 +205,30 @@
         position: fixed;
         top: 50%;
         left: 50%;
-        width: 15%;
-        height: 30%;
+        width: 350px; /* Ajuste para um tamanho mais responsivo */
+        height: auto;
+        max-height: 80vh; /* Limita a altura para evitar cortes */
         transform: translate(-50%, -50%);
         border-radius: 10px;    /*Curva os cantos do formulário*/
         background: white;    /*Cor de fundo do formulário*/
-        padding: 20px;
-        padding-top: 50px;
+        padding: 20px;        
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-        overflow: auto;
+        z-index: 1000; /* Garante que o modal fique sobre outros elementos */
+        overflow-y: auto; /* Permite rolagem se necessário */
       }
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999; /* Coloca o overlay abaixo do modal */
+      }
+
+
+
       .modal-content {
         background: #fff;        
         padding: 20px;
