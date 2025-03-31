@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Teste Simulador5.3</title>
+    <title>Teste Simulador5.1</title>
     <style>
       * {
         box-sizing: border-box;
@@ -355,6 +355,8 @@
           <h3>Cupom de Embarque</h3>
           <ul id="cupomList"></ul>
           <p><strong>Total de Itens:</strong> <span id="totalQuantidade">0</span></p>
+          <p><strong>Peso Total:</strong> <span id="totalPeso">0</span> Kg</p>
+
         </div>
             <div class="cupom">
           <h3>Resumo Geral</h3>
@@ -396,115 +398,168 @@
       <button onclick="resetForm()">Excluir</button> 
       <button onclick="closeModal()">Fechar</button>
     </div>
-    <script>
-      let selectedCube = null;
-      let totalQuantidade = 0;
-      let sequenciaPalets = [];
-      let totalPeso = 0;
-
-      objDataBase = {
-        produtos:[
-          {codigo:"LM0006-4000840", qtdPP: 160, qtdPG: 224 },
-          {codigo:"LM0001-4000840", qtdPP: 210, qtdPG: 300}
-        ]}
-
-      document.querySelectorAll('.cube').forEach((cube) => {
-        cube.addEventListener('click', function () {
-          selectedCube = this;
-          document.getElementById('modal').style.display = 'block';
-        });
-      });
- 
-      // Reseta o  formulário ao clicar no botão excluir (Incluir código para retirar do cupom as informações excluidas)
-      function resetForm() {
-        document.getElementById('produto').value = 'Produtos';
-        document.getElementById('quantidade').value = '0';
-        document.getElementById('peso').value = "peso";
-        if (selectedCube) {
-          selectedCube.style.backgroundColor = '#b40';
-          selectedCube.textContent = selectedCube.dataset.id.includes('small')
-            ? 'P'
-            : 'G';
-        }
-      }
-      // Fecha o formulário ao clicar no botão fechar
-      function closeModal() {
-        document.getElementById('modal').style.display = 'none';
-      }
-
-// RESUMO DO CUPOM DE EMBARQUE COM O TOTAL DE PRODUTOS
-      let produtosResumo = {};
-
-  function addEntry() {
-    if (selectedCube) {
-      const produto = document.getElementById('produto').value;
-      const quantidade = parseInt(document.getElementById('quantidade').value) || 0;
-      const peso = parseInt(document.getElementById('peso').value) || 0;
-
-      // Inclusão das informações no pallet
-      const tamanho = selectedCube.classList.contains('small') ? 'P' : 'P';
-      const palletNum = selectedCube.textContent;
-      selectedCube.style.backgroundColor = '#492';
-      selectedCube.textContent = `${produto} - QTD ${quantidade}  - ${peso} Kg`;
-
-      // Inclusão das informações no cupom de embarque
-      document.getElementById('cupomList').innerHTML += `<li>${tamanho} - ${palletNum}: ${produto} ____ ${quantidade} ____${peso}</li>`;
-
-      totalQuantidade += quantidade;
-      document.getElementById('totalQuantidade').textContent = totalQuantidade;
-
-      if (!produtosResumo[produto]) {
-        produtosResumo[produto] = 0;
-      }
-      produtosResumo[produto] += quantidade;
-      atualizarResumo();
-      
-      closeModal();
-    }
-  }
-// Adicionado a lógica para permitir o arrasto do modal com o mouse - efeito mão
-  function makeModalDraggable() {
-  const modal = document.getElementById("modal");
-  const header = document.getElementById("modal-header");
-  let offsetX = 0, offsetY = 0, mouseX = 0, mouseY = 0;
-
-  header.onmousedown = function (event) {
-    event.preventDefault();
-    mouseX = event.clientX;
-    mouseY = event.clientY;
-
-    document.onmousemove = function (event) {
-      offsetX = event.clientX - mouseX;
-      offsetY = event.clientY - mouseY;
-      modal.style.left = (modal.offsetLeft + offsetX) + "px";
-      modal.style.top = (modal.offsetTop + offsetY) + "px";
-      mouseX = event.clientX;
-      mouseY = event.clientY;
-    };
-
-    document.onmouseup = function () {
-      document.onmousemove = null;
-      document.onmouseup = null;
-    };
-  };
-}
-
-// Inicia o comportamento de arrastar ao carregar a página
-window.onload = makeModalDraggable;
-
-// Lógica para inserir os dados no cupom de resumo geral
-  function atualizarResumo() {
-    const resumoList = document.getElementById('resumoList');
-    resumoList.innerHTML = '';
-    for (let produto in produtosResumo) {
-      resumoList.innerHTML += `<li>${produto}: ${produtosResumo[produto]}</li>`;
-    }
-  }
-
-      // FUNÇÃO PARA EXPORTAR PDF DA PAGINA
-      function exportPDF() {
-  window.print(); // Gera um PDF a partir da página
-}
-    </script>
+    
   </body>
+  <SCript>
+    let selectedCube = null;
+    let totalQuantidade = 0;
+    let sequenciaPalets = [];
+    let totalPeso = 0;
+    let produtosResumo = {};
+    
+    objDataBase = {
+    produtos:[
+      {codigo:"LM0006-4000840", qtdPP: 160, qtdPG: 224 },
+      {codigo:"LM0001-4000840", qtdPP: 210, qtdPG: 300}
+    ]}
+
+
+
+    document.querySelectorAll('.cube').forEach((cube) => {
+      cube.addEventListener('click', function () {
+        selectedCube = this;
+        document.getElementById('modal').style.display = 'block';
+      });
+    });
+    
+    // RESUMO DO CUPOM DE EMBARQUE COM O TOTAL DE PRODUTOS
+    
+    function addEntry() {
+      if (selectedCube) {
+        const produto = document.getElementById('produto').value;
+        const quantidade =
+          parseInt(document.getElementById('quantidade').value) || 0;
+        const peso = parseInt(document.getElementById('peso').value) || 0;
+    
+        // Atualiza o total de peso
+        totalPeso += peso;
+        document.getElementById('totalPeso').textContent = totalPeso + '';
+    
+        // Inclusão das informações no pallet
+        const tamanho = selectedCube.classList.contains('small') ? 'P' : 'P';
+        const palletNum = selectedCube.textContent;
+        selectedCube.style.backgroundColor = '#492';
+        selectedCube.textContent = `${produto} - QTD ${quantidade}  - ${peso} Kg`;
+    
+        // Inclusão das informações no cupom de embarque
+        document.getElementById(
+          'cupomList'
+        ).innerHTML += `<li>${tamanho} - ${palletNum}: ${produto} ____ ${quantidade} ____${peso}</li>`;
+    
+        totalQuantidade += quantidade;
+        document.getElementById('totalQuantidade').textContent = totalQuantidade;
+    
+        if (!produtosResumo[produto]) {
+          produtosResumo[produto] = 0;
+        }
+        produtosResumo[produto] += quantidade;
+        atualizarResumo();
+    
+        closeModal();
+      }
+    }
+    
+    // RESETA O FORMULARIO AO CLICAR NO BOTÃO EXCLUIR(Incluir código para retirar do cupom as informações excluidas)
+   
+    function resetForm() {
+    if (!selectedCube) return;
+    
+    // Recupera o ID do cubo selecionado
+    const cubeId = selectedCube.dataset.id;
+    const tamanho = cubeId.includes('small') ? 'P' : 'G';
+    const numero = cubeId.split('-')[1];
+    
+    // Remove o item correspondente do cupom de embarque
+    const cupomList = document.getElementById('cupomList');
+    const items = cupomList.getElementsByTagName('li');
+    let produtoRemovido = "";
+    let quantidadeRemovida = 0;
+
+    for (let i = 0; i < items.length; i++) {
+        if (items[i].textContent.includes(selectedCube.textContent.split(' ')[0])) {
+            const partes = items[i].textContent.split(" ____ ");
+            produtoRemovido = partes[0].split(": ")[1];
+            quantidadeRemovida = parseInt(partes[1]) || 0;
+            cupomList.removeChild(items[i]);
+            break;
+        }
+    }
+
+    // Atualiza os totais
+    const peso = parseInt(document.getElementById('peso').value) || 0;
+    totalQuantidade -= quantidadeRemovida;
+    totalPeso -= peso;
+    document.getElementById('totalQuantidade').textContent = totalQuantidade;
+    document.getElementById('totalPeso').textContent = totalPeso;
+
+    // Atualiza o resumo, removendo a quantidade correspondente
+    if (produtoRemovido && produtosResumo[produtoRemovido]) {
+        produtosResumo[produtoRemovido] -= quantidadeRemovida;
+        if (produtosResumo[produtoRemovido] <= 0) {
+            delete produtosResumo[produtoRemovido]; // Remove do resumo se a quantidade for zero
+        }
+        atualizarResumo();
+    }
+
+    // Restaurar o cubo do container para sua forma original (P1/G1)
+    selectedCube.style.backgroundColor = '#da7';
+    selectedCube.textContent = `${tamanho} ${numero}`;
+
+    // Fechar modal
+    closeModal();
+}
+
+    
+    // Fecha o formulário ao clicar no botão fechar
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
+    
+    // Lógica para inserir os dados no cupom de resumo geral
+    function atualizarResumo() {
+      const resumoList = document.getElementById('resumoList');
+      resumoList.innerHTML = '';
+      for (let produto in produtosResumo) {
+        resumoList.innerHTML += `<li>${produto}: ${produtosResumo[produto]}</li>`;
+      }
+    }
+    
+    // FUNÇÃO PARA PERMITIR ARRASTAR O FORMULÁRIO NA PAGINA COM O MOUSE
+    function makeModalDraggable() {
+      const modal = document.getElementById('modal');
+      const header = document.getElementById('modal-header');
+      let offsetX = 0,
+        offsetY = 0,
+        mouseX = 0,
+        mouseY = 0;
+    
+      header.onmousedown = function (event) {
+        event.preventDefault();
+        mouseX = event.clientX;
+        mouseY = event.clientY;
+    
+        document.onmousemove = function (event) {
+          offsetX = event.clientX - mouseX;
+          offsetY = event.clientY - mouseY;
+          modal.style.left = modal.offsetLeft + offsetX + 'px';
+          modal.style.top = modal.offsetTop + offsetY + 'px';
+          mouseX = event.clientX;
+          mouseY = event.clientY;
+        };
+    
+        document.onmouseup = function () {
+          document.onmousemove = null;
+          document.onmouseup = null;
+        };
+      };
+    }
+    // Inicia o comportamento de arrastar ao carregar a página
+    window.onload = makeModalDraggable;
+    
+    // FUNÇÃO PARA EXPORTAR PDF DA PAGINA
+    function exportPDF() {
+      window.print(); // Gera um PDF a partir da página
+    }
+    </SCript>
+  <!-- <script src="teste5.2.js"></script> -->
 </html>
