@@ -453,7 +453,7 @@
     
     // RESETA O FORMULARIO AO CLICAR NO BOTÃO EXCLUIR(Incluir código para retirar do cupom as informações excluidas)
    
-    function resetForm() {
+  function resetForm() {
     if (!selectedCube) return;
     
     // Recupera o ID do cubo selecionado
@@ -464,42 +464,28 @@
     // Remove o item correspondente do cupom de embarque
     const cupomList = document.getElementById('cupomList');
     const items = cupomList.getElementsByTagName('li');
-    let produtoRemovido = "";
-    let quantidadeRemovida = 0;
-
     for (let i = 0; i < items.length; i++) {
-        if (items[i].textContent.includes(selectedCube.textContent.split(' ')[0])) {
-            const partes = items[i].textContent.split(" ____ ");
-            produtoRemovido = partes[0].split(": ")[1];
-            quantidadeRemovida = parseInt(partes[1]) || 0;
-            cupomList.removeChild(items[i]);
-            break;
-        }
+      if (items[i].textContent.includes(selectedCube.textContent.split(' ')[0])) {
+        cupomList.removeChild(items[i]);
+        break;
+      }
     }
-
+    
     // Atualiza os totais
+    const quantidade = parseInt(document.getElementById('quantidade').value) || 0;
     const peso = parseInt(document.getElementById('peso').value) || 0;
-    totalQuantidade -= quantidadeRemovida;
+    totalQuantidade -= quantidade;
     totalPeso -= peso;
     document.getElementById('totalQuantidade').textContent = totalQuantidade;
     document.getElementById('totalPeso').textContent = totalPeso;
-
-    // Atualiza o resumo, removendo a quantidade correspondente
-    if (produtoRemovido && produtosResumo[produtoRemovido]) {
-        produtosResumo[produtoRemovido] -= quantidadeRemovida;
-        if (produtosResumo[produtoRemovido] <= 0) {
-            delete produtosResumo[produtoRemovido]; // Remove do resumo se a quantidade for zero
-        }
-        atualizarResumo();
-    }
-
-    // Restaurar o cubo do container para sua forma original (P1/G1)
+    
+    // Restaurar o cubo para sua forma original
     selectedCube.style.backgroundColor = '#da7';
     selectedCube.textContent = `${tamanho} ${numero}`;
-
+    
     // Fechar modal
     closeModal();
-}
+  }
 
     
     // Fecha o formulário ao clicar no botão fechar
