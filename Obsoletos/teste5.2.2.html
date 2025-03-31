@@ -400,7 +400,8 @@
     </div>
     
   </body>
-  <SCript>let selectedCube = null;
+  <SCript>
+    let selectedCube = null;
     let totalQuantidade = 0;
     let sequenciaPalets = [];
     let totalPeso = 0;
@@ -451,17 +452,41 @@
     }
     
     // RESETA O FORMULARIO AO CLICAR NO BOTÃO EXCLUIR(Incluir código para retirar do cupom as informações excluidas)
-    function resetForm() {
-      document.getElementById('produto').value = 'Produtos';
-      document.getElementById('quantidade').value = '0';
-      document.getElementById('peso').value = 'peso';
-      if (selectedCube) {
-        selectedCube.style.backgroundColor = '#b40';
-        selectedCube.textContent = selectedCube.dataset.id.includes('small')
-          ? 'P'
-          : 'G';
+   
+  function resetForm() {
+    if (!selectedCube) return;
+    
+    // Recupera o ID do cubo selecionado
+    const cubeId = selectedCube.dataset.id;
+    const tamanho = cubeId.includes('small') ? 'P' : 'G';
+    const numero = cubeId.split('-')[1];
+    
+    // Remove o item correspondente do cupom de embarque
+    const cupomList = document.getElementById('cupomList');
+    const items = cupomList.getElementsByTagName('li');
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].textContent.includes(selectedCube.textContent.split(' ')[0])) {
+        cupomList.removeChild(items[i]);
+        break;
       }
     }
+    
+    // Atualiza os totais
+    const quantidade = parseInt(document.getElementById('quantidade').value) || 0;
+    const peso = parseInt(document.getElementById('peso').value) || 0;
+    totalQuantidade -= quantidade;
+    totalPeso -= peso;
+    document.getElementById('totalQuantidade').textContent = totalQuantidade;
+    document.getElementById('totalPeso').textContent = totalPeso;
+    
+    // Restaurar o cubo para sua forma original
+    selectedCube.style.backgroundColor = '#da7';
+    selectedCube.textContent = `${tamanho} ${numero}`;
+    
+    // Fechar modal
+    closeModal();
+  }
+
     
     // Fecha o formulário ao clicar no botão fechar
     function closeModal() {
@@ -514,5 +539,5 @@
       window.print(); // Gera um PDF a partir da página
     }
     </SCript>
-  <script src="teste5.2.js"></script>
+  <!-- <script src="teste5.2.js"></script> -->
 </html>
