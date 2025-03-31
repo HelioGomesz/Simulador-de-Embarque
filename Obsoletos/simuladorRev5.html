@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Teste Simulador5.3</title>
+    <title>simuladorRev5</title>
     <style>
       * {
         box-sizing: border-box;
@@ -324,7 +324,7 @@
         </nav>
       </div>
     </header>
-<!-- Area dos quadrados do container -->
+
     <div class="page-container">
       <div class="main-container">
         <div class="container">
@@ -348,7 +348,6 @@
           </div>
         </div>
       </div>
-
     <!-- Cupom da página para resumo das informações -->
       <div class="cupom-container">
         <div class="cupom">
@@ -390,23 +389,14 @@
       </select>
       <label for="Quantidade"></label>
       <input type="number" id="quantidade" placeholder="Quantidade" />
-      <input type="number" id="peso" placeholder="Peso" />      
-
       <button onclick="addEntry()">Incluir</button>
-      <button onclick="resetForm()">Excluir</button> 
+      <button onclick="resetForm()">Excluir</button>
       <button onclick="closeModal()">Fechar</button>
     </div>
     <script>
       let selectedCube = null;
       let totalQuantidade = 0;
       let sequenciaPalets = [];
-      let totalPeso = 0;
-
-      objDataBase = {
-        produtos:[
-          {codigo:"LM0006-4000840", qtdPP: 160, qtdPG: 224 },
-          {codigo:"LM0001-4000840", qtdPP: 210, qtdPG: 300}
-        ]}
 
       document.querySelectorAll('.cube').forEach((cube) => {
         cube.addEventListener('click', function () {
@@ -415,19 +405,18 @@
         });
       });
  
-      // Reseta o  formulário ao clicar no botão excluir (Incluir código para retirar do cupom as informações excluidas)
+
       function resetForm() {
         document.getElementById('produto').value = 'Produtos';
-        document.getElementById('quantidade').value = '0';
-        document.getElementById('peso').value = "peso";
+        document.getElementById('quantidade').value = '';
         if (selectedCube) {
-          selectedCube.style.backgroundColor = '#b40';
+          selectedCube.style.backgroundColor = '#ccc';
           selectedCube.textContent = selectedCube.dataset.id.includes('small')
             ? 'P'
             : 'G';
         }
       }
-      // Fecha o formulário ao clicar no botão fechar
+
       function closeModal() {
         document.getElementById('modal').style.display = 'none';
       }
@@ -439,16 +428,12 @@
     if (selectedCube) {
       const produto = document.getElementById('produto').value;
       const quantidade = parseInt(document.getElementById('quantidade').value) || 0;
-      const peso = parseInt(document.getElementById('peso').value) || 0;
-
-      // Inclusão das informações no pallet
-      const tamanho = selectedCube.classList.contains('small') ? 'P' : 'P';
+      const tamanho = selectedCube.classList.contains('small') ? 'Pallet' : 'Pallet';
       const palletNum = selectedCube.textContent;
       selectedCube.style.backgroundColor = '#492';
-      selectedCube.textContent = `${produto} - QTD ${quantidade}  - ${peso} Kg`;
-
-      // Inclusão das informações no cupom de embarque
-      document.getElementById('cupomList').innerHTML += `<li>${tamanho} - ${palletNum}: ${produto} ____ ${quantidade} ____${peso}</li>`;
+      selectedCube.textContent = `${produto} - ${quantidade}`;
+      
+      document.getElementById('cupomList').innerHTML += `<li>${tamanho} - ${palletNum}: ${produto} - ${quantidade}</li>`;
 
       totalQuantidade += quantidade;
       document.getElementById('totalQuantidade').textContent = totalQuantidade;
