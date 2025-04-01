@@ -16,13 +16,14 @@
       body {        
         body {        
         display: flex;
+        position: absolute;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        height: 100vh;
         min-height: 100vh;
         overflow: hidden; /* Para evitar rolagem */
         
-          
       }
 
       }
@@ -146,8 +147,7 @@
       display: flex;      
       gap: 20px;
     }
-
-      
+     
 
       /* ======== CONTAINER COM OS 18 CUBOS ======== */
       .container {
@@ -188,8 +188,7 @@
         border: 1px solid #f7f0f0;
         color: antiquewhite;
         
-
-                
+               
       }
       .cube:hover {
         transform: rotateY(0deg) rotateX(20deg) rotateZ(0deg) scale(1.1); /*Ajuste da rotação dos quadrados do container*/
@@ -309,8 +308,8 @@
       /* Adicionar imagem do caminhão como fundo - Atrás do cubo do container */
       .caminhao-Container {
         display: flex;
-        position:fixed;
-        top: 51%;
+        position:absolute;
+        top: 70%;
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: -1; /* Mantém a imagem atrás dos cubos */
@@ -323,12 +322,11 @@
 
       .Caminhao-imagem {
         display: flex;
-        width: 600px; /* Ajuste conforme necessário */
-        max-width: 380px; /* Define um tamanho máximo */
+        width: 400px; /* Ajuste conforme necessário */
+        max-width: 350px; /* Define um tamanho máximo */
         height: auto;
         opacity: 0.6; /* Mantém um pouco de transparência */
-        flex: 1; /* Ocupa o espaço disponível */
-        display: flex;
+        flex: 0; /* Ocupa o espaço disponível */        
         justify-content: flex-start;
       }
      
@@ -362,7 +360,8 @@
     </header>
 <!-- AREA DOS QUADRADOS DO CONTAINER -->
  <div class="caminhao-Container">
-  <img src="Caminhão_container.svg" alt="fundoConatiner" class="Caminhao-imagem">
+
+  <img class="Caminhao-imagem" src="Caminhão_container.svg" alt="fundoConatiner" >
 </div>
  </div>
     <div class="page-container">
