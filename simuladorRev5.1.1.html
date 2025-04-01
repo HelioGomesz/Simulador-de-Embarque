@@ -3,13 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Teste Simulador5.2</title>
+    <title>Teste Simulador5.1.1</title>
     <style>
       * {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
         font-family: Arial, sans-serif;
+        
       }
 
       body {        
@@ -17,7 +18,11 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;  
+        justify-content: center;
+        min-height: 100vh;
+        overflow: hidden; /* Para evitar rolagem */
+        
+          
       }
 
       }
@@ -124,15 +129,17 @@
         display: flex;
         justify-content: space-between; /* Distribui os elementos igualmente */
         align-items: flex-start; /* Alinha ao topo */
-        gap: 20px; /* Espaçamento entre os elementos */
+        gap: 5px; /* Espaçamento entre os elementos */
         padding: 20px;
         width: 100%;
+           
       }
 
       .main-container {
       flex: 1; /* Ocupa o espaço disponível */
       display: flex;
       justify-content: flex-start;
+      
     }
 
       .cupom-container {
@@ -144,15 +151,14 @@
 
       /* ======== CONTAINER COM OS 18 CUBOS ======== */
       .container {
-        display: flex  ;       
+        display: flex;       
         justify-content: left;        
         align-items: center;     
         min-height: 300px;  /* Define um mínimo para evitar colapso */
-        margin-left: 3%; /*Ajusta a distancia do container da extremidade esquerda*/
-        margin-top: 3%;  /*AJusta a distancia do container da header*/
+        margin-left: 10%; /*Ajusta a distancia do container da extremidade esquerda*/
+        margin-top: 16%;  /*AJusta a distancia do container da header*/
         flex: 0.3;  /* Faz com que o container ocupe o espaço desejável*/
-        /* background-size: 10px 10px;  */             
-
+                       
 
       }
       .column {
@@ -160,16 +166,16 @@
         flex-direction: column;
         gap: 5px;
         padding: 10px;
-        background: #ffffff;
-        border-radius: 5px;
+        background: rgb(150, 68, 10);; /*Muda a cor de fundo do cubo
+        border-radius: 2px;
         /* flex-grow: 1; Faz as colunas crescerem uniformemente */
         
       }
       .cube {        
         position: relative;
-        width: 120px;
-        height: 90px;
-        background-color: #da7;
+        width: 100px;
+        height: 85px;
+        background-color: rgb(150, 68, 10);
         display: flex;
         justify-content: center;
         text-align: center;
@@ -178,9 +184,12 @@
         cursor: pointer;
         transition: transform 0.3s, background-color 0.3s;
         transform-style: preserve-3d;
-        box-shadow: 10px 10px 10px rgba(5, 5, 5, 0.8);
-        border: 1px solid #fff;
+        box-shadow: 5px 5px 5px rgba(5, 5, 5, 0.8);
+        border: 1px solid #f7f0f0;
+        color: antiquewhite;
         
+
+                
       }
       .cube:hover {
         transform: rotateY(0deg) rotateX(20deg) rotateZ(0deg) scale(1.1); /*Ajuste da rotação dos quadrados do container*/
@@ -193,13 +202,14 @@
       }
 
       .large {
-        width: 200px;
+        width: 180px;
         
       }
       .small {
-        width: 150px;
+        width: 140px;
         
       }
+
       .modal {
         display: none;
         position: fixed;
@@ -296,6 +306,32 @@
         background-color: #0056b3;  
       }
 
+      /* Adicionar imagem do caminhão como fundo - Atrás do cubo do container */
+      .caminhao-Container {
+        display: flex;
+        position:fixed;
+        top: 51%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: -1; /* Mantém a imagem atrás dos cubos */
+        width: 100%;
+        display: block;
+        justify-content: left;
+        margin-left: 165px;
+        
+    }
+
+      .Caminhao-imagem {
+        display: flex;
+        width: 600px; /* Ajuste conforme necessário */
+        max-width: 380px; /* Define um tamanho máximo */
+        height: auto;
+        opacity: 0.6; /* Mantém um pouco de transparência */
+        flex: 1; /* Ocupa o espaço disponível */
+        display: flex;
+        justify-content: flex-start;
+      }
+     
     </style>
   </head>
   <body>
@@ -305,7 +341,7 @@
         <h1>Simulador de Embarque</h1>
         <nav>
           <ul>
-            <!-- Ícone de configurações -->
+            <!-- AREA DA HEADER PARA AJUSTE DOS ICONES -->
             <li>
               <a href="../PagConfig/Configurações.html" class="icon-btn">⚙️</a>
               <span>Configurações</span>
@@ -324,7 +360,11 @@
         </nav>
       </div>
     </header>
-<!-- Area dos quadrados do container -->
+<!-- AREA DOS QUADRADOS DO CONTAINER -->
+ <div class="caminhao-Container">
+  <img src="Caminhão_container.svg" alt="fundoConatiner" class="Caminhao-imagem">
+</div>
+ </div>
     <div class="page-container">
       <div class="main-container">
         <div class="container">
@@ -388,8 +428,10 @@
         <option value="LM0008-2000840">LM0008-2000840</option>
         <option value="LM0008-2000850">LM0008-2000850</option>
         <option value="LM0009-4000840">LM0009-4000840</option>
-
+        <option value="LM0009-8000840">LM0009-8000840</option>
+        <option value="LM0009-8000850">LM0009-8000850</option>
       </select>
+
       <label for="Quantidade"></label>
       <input type="number" id="quantidade" placeholder="Quantidade" />
       <input type="number" id="peso" placeholder="Peso" />      
@@ -398,6 +440,7 @@
       <button onclick="resetForm()">Excluir</button> 
       <button onclick="closeModal()">Fechar</button>
     </div>
+
     
   </body>
   <SCript>
