@@ -442,7 +442,7 @@
 
     
   </body>
-  <SCript>
+  <script>
     let selectedCube = null;
     let totalQuantidade = 0;
     let sequenciaPalets = [];
@@ -478,7 +478,7 @@
         // Inclusão das informações no cupom de embarque
         document.getElementById(
           'cupomList'
-        ).innerHTML += `<li>${tamanho} - ${palletNum}: ${produto} ____ ${quantidade} ____${peso}</li>`;
+        ).innerHTML += `<li>${tamanho} - ${palletNum}: ${produto} ----- ${quantidade} -----${peso} Kg </li>`;
     
         totalQuantidade += quantidade;
         document.getElementById('totalQuantidade').textContent = totalQuantidade;
@@ -594,6 +594,6 @@
     function exportPDF() {
       window.print(); // Gera um PDF a partir da página
     }
-    </SCript>
+    </script>
   <!-- <script src="teste5.2.js"></script> -->
 </html>
