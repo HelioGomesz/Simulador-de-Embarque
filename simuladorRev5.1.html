@@ -18,6 +18,10 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;  
+        height: 100vh;
+        min-height: 100vh;
+        overflow: hidden; /* Para evitar rolagem */
+
       }
 
       }
@@ -92,13 +96,13 @@
       }
       .cupom p {
         padding: 20px;  
-        font-size: 24px;
+        font-size: 20px;
         align-self: top;
         text-align: center;
       }
       .cupom span {
         padding: 20px;  
-        font-size: 24px;
+        font-size: 20px;
         align-self: top;
         text-align: center;
       }
@@ -107,6 +111,7 @@
         font-size: 24px;
         align-self: top;
         text-align: center;
+        color: #256a8a;
       }
       .cupom ul {   
         border-bottom: 1px solid #000; /* Linha preta semelhante a uma pauta de caderno */
@@ -124,7 +129,7 @@
         display: flex;
         justify-content: space-between; /* Distribui os elementos igualmente */
         align-items: flex-start; /* Alinha ao topo */
-        gap: 20px; /* Espaçamento entre os elementos */
+        gap: 5px; /* Espaçamento entre os elementos */
         padding: 20px;
         width: 100%;
       }
@@ -150,7 +155,7 @@
         align-items: center;     
         min-height: 300px;  /* Define um mínimo para evitar colapso */
         margin-left: 3%; /*Ajusta a distancia do container da extremidade esquerda*/
-        margin-top: 3%;  /*AJusta a distancia do container da header*/
+        margin-top: 8%;  /*AJusta a distancia do container da header*/
         flex: 0.3;  /* Faz com que o container ocupe o espaço desejável*/
         /* background-size: 10px 10px;  */             
 
@@ -160,17 +165,17 @@
         display: flex;
         flex-direction: column;
         gap: 5px;
-        padding: 10px;
-        background: #ffffff;
+        padding: 5px;
+        background: rgb(218, 119, 48);;
         border-radius: 5px;
         /* flex-grow: 1; Faz as colunas crescerem uniformemente */
         
       }
       .cube {        
         position: relative;
-        width: 120px;
-        height: 90px;
-        background-color: #da7;
+        width: 90px;
+        height: 70px;
+        background-color: rgb(218, 119, 48);
         display: flex;
         justify-content: center;
         text-align: center;
@@ -179,8 +184,9 @@
         cursor: pointer;
         transition: transform 0.3s, background-color 0.3s;
         transform-style: preserve-3d;
-        box-shadow: 10px 10px 10px rgba(5, 5, 5, 0.8);
+        box-shadow: 5px 5px 5px rgba(5, 5, 5, 0.8);
         border: 1px solid #fff;
+        color: rgb(92, 72, 46);
         
       }
       .cube:hover {
@@ -194,11 +200,11 @@
       }
 
       .large {
-        width: 200px;
+        width: 130px;
         
       }
       .small {
-        width: 150px;
+        width: 80px;
         
       }
       .modal {
@@ -297,6 +303,7 @@
         background-color: #0056b3;  
       }
 
+      
     </style>
   </head>
   <body>
@@ -401,7 +408,7 @@
     </div>
     
   </body>
-  <SCript>
+  <script>
     let selectedCube = null;
     let totalQuantidade = 0;
     let sequenciaPalets = [];
@@ -439,13 +446,13 @@
         // Inclusão das informações no pallet
         const tamanho = selectedCube.classList.contains('small') ? 'P' : 'P';
         const palletNum = selectedCube.textContent;
-        selectedCube.style.backgroundColor = '#492';
+        selectedCube.style.backgroundColor = '#7d0';
         selectedCube.textContent = `${produto} - QTD ${quantidade}  - ${peso} Kg`;
     
         // Inclusão das informações no cupom de embarque
         document.getElementById(
           'cupomList'
-        ).innerHTML += `<li>${tamanho} - ${palletNum}: ${produto} ____ ${quantidade} ____${peso}</li>`;
+        ).innerHTML += `<li>${tamanho} - ${palletNum}: ${produto} ____ ${quantidade} ____ ${peso} Kg </li>`;
     
         totalQuantidade += quantidade;
         document.getElementById('totalQuantidade').textContent = totalQuantidade;
@@ -503,7 +510,7 @@
     }
 
     // Restaurar o cubo do container para sua forma original (P1/G1)
-    selectedCube.style.backgroundColor = '#da7';
+    selectedCube.style.backgroundColor = '#d70';
     selectedCube.textContent = `${tamanho} ${numero}`;
 
     // Fechar modal
@@ -561,6 +568,6 @@
     function exportPDF() {
       window.print(); // Gera um PDF a partir da página
     }
-    </SCript>
+    </script>
   <!-- <script src="teste5.2.js"></script> -->
 </html>

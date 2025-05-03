@@ -1,7 +1,7 @@
 document.getElementById("startButton").addEventListener("click", function () {
   document.body.style.backgroundColor = "#2ecc71";
   setTimeout(function () {
-    window.location.href = "../Teste_Tela_Simulador/simuladorRev5.1.html";
+    window.location.href = "../simuladorRev5.1.1.html";
   }, 500);
 });
 

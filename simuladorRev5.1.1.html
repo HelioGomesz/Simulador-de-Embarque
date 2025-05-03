@@ -98,13 +98,13 @@
       }
       .cupom p {
         padding: 20px;  
-        font-size: 24px;
+        font-size: 20px;
         align-self: top;
         text-align: center;
       }
       .cupom span {
         padding: 20px;  
-        font-size: 24px;
+        font-size: 20px;
         align-self: top;
         text-align: center;
       }
@@ -113,6 +113,7 @@
         font-size: 24px;
         align-self: top;
         text-align: center;
+        color: #256a8a;
       }
       .cupom ul {   
         border-bottom: 1px solid #000; /* Linha preta semelhante a uma pauta de caderno */
@@ -151,13 +152,20 @@
 
       /* ======== CONTAINER COM OS 18 CUBOS ======== */
       .container {
-        display: flex;       
+        display: flex ; 
+        position: absolute;      
         justify-content: left;        
         align-items: center;     
         min-height: 300px;  /* Define um mínimo para evitar colapso */
+<<<<<<< HEAD
         margin-left: 15%; /*Ajusta a distancia do container da extremidade esquerda*/
         margin-top: 30%;  /*AJusta a distancia do container da header*/
+=======
+        margin-left: 3%; /*Ajusta a distancia do container da extremidade esquerda*/
+        margin-top: 8%;  /*AJusta a distancia do container da header*/
+>>>>>>> b34ceae96aca8cc822d7767590bfa6e602e5d286
         flex: 0.3;  /* Faz com que o container ocupe o espaço desejável*/
+        /* background-size: 10px 10px;  */ 
                        
 
       }
@@ -165,17 +173,17 @@
         display: flex;
         flex-direction: column;
         gap: 5px;
-        padding: 10px;
-        background: rgb(150, 68, 10);; /*Muda a cor de fundo do cubo
+        padding: 5px;
+        background: rgb(218, 119, 48); /*Muda a cor de fundo do cubo
         border-radius: 2px;
         /* flex-grow: 1; Faz as colunas crescerem uniformemente */
         
       }
       .cube {        
         position: relative;
-        width: 100px;
-        height: 85px;
-        background-color: rgb(150, 68, 10);
+        width: 90px;
+        height: 70px;
+        background-color: rgb(218, 119, 48);
         display: flex;
         justify-content: center;
         text-align: center;
@@ -185,8 +193,8 @@
         transition: transform 0.3s, background-color 0.3s;
         transform-style: preserve-3d;
         box-shadow: 5px 5px 5px rgba(5, 5, 5, 0.8);
-        border: 1px solid #f7f0f0;
-        color: antiquewhite;
+        border: 1px solid #fff;
+        color: rgb(92, 72, 46);
         
                
       }
@@ -201,11 +209,11 @@
       }
 
       .large {
-        width: 180px;
+        width: 130px;
         
       }
       .small {
-        width: 140px;
+        width: 80px;
         
       }
 
@@ -307,16 +315,17 @@
 
       /* Adicionar imagem do caminhão como fundo - Atrás do cubo do container */
       .caminhao-Container {
-        display: flex;
-        position:absolute;
+        
+        position:relative;
         top: 70%;
         left: 50%;
         transform: translate(-50%, -50%);
         z-index: -1; /* Mantém a imagem atrás dos cubos */
-        width: 100%;
+        width: 105%;
+        height: 10px;
         display: block;
-        justify-content: left;
-        margin-left: 165px;
+        justify-content: center;
+        margin-left: 100px;
         
     }
 
@@ -472,7 +481,7 @@
         // Inclusão das informações no pallet
         const tamanho = selectedCube.classList.contains('small') ? 'P' : 'P';
         const palletNum = selectedCube.textContent;
-        selectedCube.style.backgroundColor = '#492';
+        selectedCube.style.backgroundColor = '#491';
         selectedCube.textContent = `${produto} - QTD ${quantidade}  - ${peso} Kg`;
     
         // Inclusão das informações no cupom de embarque
@@ -536,14 +545,13 @@
     }
 
     // Restaurar o cubo do container para sua forma original (P1/G1)
-    selectedCube.style.backgroundColor = '#da7';
+    selectedCube.style.backgroundColor = '#d70';
     selectedCube.textContent = `${tamanho} ${numero}`;
 
     // Fechar modal
     closeModal();
 }
 
-    
     // Fecha o formulário ao clicar no botão fechar
     function closeModal() {
       document.getElementById('modal').style.display = 'none';
