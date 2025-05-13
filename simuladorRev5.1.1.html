@@ -65,8 +65,7 @@
 
       .icon-btn {
         background: none;
-        border: none;
-        color: white;
+        border: none;        
         font-size: 40px;
         cursor: pointer;
         transition: color 0.3s ease;
@@ -89,8 +88,8 @@
       /* Ajustar o cupom para ocupar menos espaço */
       .cupom {
         margin-top: 5%;
-        width: 500px; /* Define uma largura fixa para o cupom */
-        background: #cecccc;
+        width: 600px; /* Define uma largura fixa para o cupom */
+        background: #f0f5d6;
         border: 1px dashed black; /*Tracejar as bordas do cupom*/
         padding: 20px;
         border-radius: 5px;
@@ -100,7 +99,7 @@
         padding: 20px;  
         font-size: 20px;
         align-self: top;
-        text-align: center;
+        text-align: left;
       }
       .cupom span {
         padding: 20px;  
@@ -161,13 +160,13 @@
         margin-top: 8%;  /*AJusta a distancia do container da header*/
         flex: 0.3;  /* Faz com que o container ocupe o espaço desejável*/
         /* background-size: 10px 10px;  */ 
-                       
+                     
 
       }
       .column {
         display: flex;
         flex-direction: column;
-        gap: 5px;
+        gap: 4px;
         padding: 5px;
         background: rgb(218, 119, 48); /*Muda a cor de fundo do cubo
         border-radius: 2px;
@@ -177,7 +176,7 @@
       .cube {        
         position: relative;
         width: 90px;
-        height: 70px;
+        height: 80px;
         background-color: rgb(218, 119, 48);
         display: flex;
         justify-content: center;
@@ -188,7 +187,8 @@
         transition: transform 0.3s, background-color 0.3s;
         transform-style: preserve-3d;
         box-shadow: 5px 5px 5px rgba(5, 5, 5, 0.8);
-        border: 1px solid #fff;
+        border: 2px solid #fff;
+        border-radius: 6px;  
         color: rgb(92, 72, 46);
         
                
@@ -204,11 +204,11 @@
       }
 
       .large {
-        width: 130px;
+        width: 140px;
         
       }
       .small {
-        width: 80px;
+        width: 120px;
         
       }
 
@@ -263,8 +263,7 @@
         padding: 15px;  
         font-size: 24px;        
         justify-content: center;      
-        
-               
+                       
       }
 
       .modal select {
@@ -286,8 +285,7 @@
         font-size: 16px;
 
       }
-      
-      
+            
       button {
         background-color: #256a8a;
         color: white; /* Cor da fonte*/
@@ -329,7 +327,7 @@
         width: 400px; /* Ajuste conforme necessário */
         max-width: 350px; /* Define um tamanho máximo */
         height: auto;
-        opacity: 0.6; /* Mantém um pouco de transparência */
+        opacity: 0.7; /* Mantém um pouco de transparência */
         flex: 0; /* Ocupa o espaço disponível */        
         justify-content: flex-start;
       }

@@ -357,42 +357,42 @@
 
     <script>
       let selectedCube = null;
-      document.querySelectorAll('.cube').forEach((cube) => {
-        cube.addEventListener('click', () => {
+      document.querySelectorAll(".cube").forEach((cube) => {
+        cube.addEventListener("click", () => {
           selectedCube = cube;
-          document.getElementById('modal').style.display = 'block';
+          document.getElementById("modal").style.display = "block";
         });
       });
 
       function addEntry() {
         if (!selectedCube) return;
-        const produto = document.getElementById('produto').value;
+        const produto = document.getElementById("produto").value;
         const quantidade =
-          parseInt(document.getElementById('quantidade').value) || 0;
-        const peso = parseInt(document.getElementById('peso').value) || 0;
+          parseInt(document.getElementById("quantidade").value) || 0;
+        const peso = parseInt(document.getElementById("peso").value) || 0;
 
-        selectedCube.style.backgroundColor = '#4a4';
+        selectedCube.style.backgroundColor = "#4a4";
         selectedCube.textContent = `${produto} - ${quantidade} - ${peso}Kg`;
 
         document.getElementById(
-          'cupomList'
+          "cupomList"
         ).innerHTML += `<li>${produto} - ${quantidade} - ${peso}Kg</li>`;
-        document.getElementById('totalQuantidade').textContent = quantidade;
-        document.getElementById('totalPeso').textContent = peso;
+        document.getElementById("totalQuantidade").textContent = quantidade;
+        document.getElementById("totalPeso").textContent = peso;
         closeModal();
       }
 
       function resetForm() {
         if (!selectedCube) return;
-        selectedCube.textContent = selectedCube.classList.contains('small')
-          ? `P ${selectedCube.dataset.id.split('-')[1]}`
-          : `G ${selectedCube.dataset.id.split('-')[1]}`;
-        selectedCube.style.backgroundColor = 'rgb(150, 68, 10)';
+        selectedCube.textContent = selectedCube.classList.contains("small")
+          ? `P ${selectedCube.dataset.id.split("-")[1]}`
+          : `G ${selectedCube.dataset.id.split("-")[1]}`;
+        selectedCube.style.backgroundColor = "rgb(150, 68, 10)";
         closeModal();
       }
 
       function closeModal() {
-        document.getElementById('modal').style.display = 'none';
+        document.getElementById("modal").style.display = "none";
       }
     </script>
   </body>
