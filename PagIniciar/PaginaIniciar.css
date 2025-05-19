@@ -48,12 +48,13 @@ button {
 }
 button:hover {
   background-color: #27ae60;
+  transform: rotateY(0deg) rotateX(20deg) rotateZ(0deg) scale(1.1); /*Ajuste da rotação do botão de iniciar*/
 }
 .truck {
   position: absolute;
   bottom: 13%;
   left: -200px;
-  width: 210px; /*Deixa o caminhão mais comprido*/
+  width: 220px; /*Deixa o caminhão mais comprido*/
   height: 80px;
   background: #97948e;
   border-radius: 5px;
