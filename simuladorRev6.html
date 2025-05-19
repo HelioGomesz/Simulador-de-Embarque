@@ -5,37 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Teste SimuladorRev6</title>
     <style>
-      * {
-        box-sizing: border-box;
+      body {       
+        box-sizing: border-box; 
         margin: 0;
-        padding: 0;
-        font-family: Arial, sans-serif;
-        
-      }
-
-      body {        
-        body {        
+        font-family: "Roboto", sans-serif;
         display: flex;
-        position: absolute;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
-        height: 100vh;
+        justify-content: flex-start;
         min-height: 100vh;
-        overflow: hidden; /* Para evitar rolagem */
-        
+        padding: 10px;        
       }
 
-      }
-       /* ======== CABEÇALHO ======== */
-      .icones-header {
-        width: 98%; /*Posição dos icones na header*/
-      }
-     
+      /* ======== CABEÇALHO ======== */   
       header {        
         background-color: #256a8a;    
-        color: white;
-        padding: 0;
+        color: white;        
+        text-align: center;
+        width: 100%;
+      }
+      
+      .icones-header {
+        width: 98%; /*Posição dos icones na header*/
       }
 
       header .icones-header {
@@ -86,17 +77,17 @@
       }
       
       /* ======== CUPONS ======== */
+
+      
       .cupom {
         margin-top: 5%;
         width: 600px; /* Define uma largura fixa para o cupom */
         background: rgb(245, 221, 142);
         border: 0.5px under black; /*Tracejar as bordas do cupom*/
-        padding: 10px;
+        padding: 20px;
         border-radius: 1px;
         box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
       }
-
-           
       /*Totais do cupom*/
       .cupom p {
         padding: 20px;  
@@ -119,7 +110,7 @@
         text-decoration: underline;
       }
       .cupom ul {   
-        /*border-bottom: 1px solid #000;  Linha preta semelhante a uma pauta de caderno */
+        border-bottom: 1px solid #000; /* Linha preta semelhante a uma pauta de caderno */
         padding-bottom: 10px; /* Espaçamento antes da linha */
         margin-bottom: 5px; /* Espaçamento entre os itens */
         list-style: none; /* Remove o marcador padrão da lista */     
@@ -136,8 +127,7 @@
         align-items: flex-start; /* Alinha ao topo */
         gap: 5px; /* Espaçamento entre os elementos */
         padding: 20px;
-        width: 100%;
-           
+        width: 100%;           
       }
 
       .main-container {
@@ -149,7 +139,7 @@
 
       .cupom-container {
       display: flex;      
-      gap: 15px;
+      gap: 20px;
     }
      
 
@@ -160,7 +150,7 @@
         justify-content: left;        
         align-items: center;     
         min-height: 290px;  /* Define um mínimo para evitar colapso */
-        margin-left: 2%; /*Ajusta a distancia do container da extremidade esquerda*/
+        margin-left: 5%; /*Ajusta a distancia do container da extremidade esquerda*/
         margin-top: 8%;  /*AJusta a distancia do container da header*/
         flex: 0.3;  /* Faz com que o container ocupe o espaço desejável*/
         /* background-size: 10px 10px;  */ 
@@ -170,8 +160,8 @@
       .column {
         display: flex;
         flex-direction: column;
-        gap: 4px;
-        padding: 5px;
+        gap: 3px;
+        padding: 4px;
         background: rgb(218, 119, 48); /*Muda a cor de fundo do cubo
         
         /* flex-grow: 1; Faz as colunas crescerem uniformemente */
@@ -179,8 +169,8 @@
       }
       .cube {        
         position: relative;
-        width: 69px;
-        height: 69px;
+        width: 50px;
+        height: 62px;
         background-color: rgb(218, 119, 48);
         display: flex;
         justify-content: center;
@@ -246,7 +236,7 @@
       .modal-content {
         background: #fff;        
         padding: 20px;
-        width: 300px;
+        width: 290px;
         text-align: center;
         border-radius: 8px;        
       }
@@ -272,7 +262,7 @@
 
       .modal select {
         display: block; 
-        width: 250px;
+        width: 260px;
         margin: 5px;  
         padding: 10px;
         border: 1px solid #ccc;
@@ -281,7 +271,7 @@
       }
       .modal input{
         display: flex;
-        width: 250px;
+        width: 260px;
         margin: 5px;  
         padding: 8px;
         border: 1px solid #ccc;
@@ -315,11 +305,11 @@
         
         position:relative;
         top: 70%;
-        left: 50%;
+        left: 58%;
         transform: translate(-50%, -50%);
         z-index: -1; /* Mantém a imagem atrás dos cubos */
-        width: 105%;
-        height: 10px;
+        width: 106%;
+        height: 15px;
         display: block;
         justify-content: center;
         margin-left: 100px;
@@ -329,7 +319,7 @@
       .Caminhao-imagem {
         display: flex;
         width: 290px; /* Ajuste conforme necessário */
-        max-width: 290px; /* Define um tamanho máximo da imagem na pagina */
+        max-width: 260px; /* Define um tamanho máximo da imagem na pagina */
         height: auto;
         opacity: 0.7; /* Mantém um pouco de transparência */
         flex: 0; /* Ocupa o espaço disponível */        
