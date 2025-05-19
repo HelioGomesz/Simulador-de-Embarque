@@ -29,7 +29,7 @@
       }
        /* ======== CABEÇALHO ======== */
       .icones-header {
-        width: 98%; /*Posição dos icones*/
+        width: 98%; /*Posição dos icones na header*/
       }
      
       header {        
@@ -65,8 +65,7 @@
 
       .icon-btn {
         background: none;
-        border: none;
-        color: white;
+        border: none;        
         font-size: 40px;
         cursor: pointer;
         transition: color 0.3s ease;
@@ -82,38 +81,40 @@
       }
 
       .icon-btn:hover {
-        color: #cce7ff;
+        
+        transform: rotateY(0deg) rotateX(20deg) rotateZ(0deg) scale(1.1); /*Ajuste da rotação dos icones na header*/
       }
-
       
-      /* Ajustar o cupom para ocupar menos espaço */
+      /* ======== CUPONS ======== */
       .cupom {
         margin-top: 5%;
-        width: 500px; /* Define uma largura fixa para o cupom */
-        background: #cecccc;
-        border: 1px dashed black; /*Tracejar as bordas do cupom*/
+        width: 600px; /* Define uma largura fixa para o cupom */
+        background: #f0f5d6;
+        border: 0.5px dashed black; /*Tracejar as bordas do cupom*/
         padding: 20px;
         border-radius: 5px;
         box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
       }
+      /*Totais do cupom*/
       .cupom p {
         padding: 20px;  
-        font-size: 20px;
+        font-size: 18px;
         align-self: top;
-        text-align: center;
+        text-align: left;
       }
       .cupom span {
         padding: 20px;  
-        font-size: 20px;
+        font-size: 18px;
         align-self: top;
         text-align: center;
       }
       h3 {
-        padding: 10px;  
-        font-size: 24px;
+        padding: 8px;  
+        font-size: 20px;
         align-self: top;
         text-align: center;
         color: #256a8a;
+        text-decoration: underline;
       }
       .cupom ul {   
         border-bottom: 1px solid #000; /* Linha preta semelhante a uma pauta de caderno */
@@ -126,7 +127,7 @@
         text-align: center;
       }
             
-      /* Criar um contêiner para alinhar os elementos lado a lado */
+      /* ======== CRIAÇÃO DE CONTAINER PARA ALINHAR ELEMENTOS LADO A LADO ======== */
       .page-container {
         display: flex;
         justify-content: space-between; /* Distribui os elementos igualmente */
@@ -156,28 +157,28 @@
         position: absolute;      
         justify-content: left;        
         align-items: center;     
-        min-height: 300px;  /* Define um mínimo para evitar colapso */
-        margin-left: 3%; /*Ajusta a distancia do container da extremidade esquerda*/
+        min-height: 290px;  /* Define um mínimo para evitar colapso */
+        margin-left: 2%; /*Ajusta a distancia do container da extremidade esquerda*/
         margin-top: 8%;  /*AJusta a distancia do container da header*/
         flex: 0.3;  /* Faz com que o container ocupe o espaço desejável*/
         /* background-size: 10px 10px;  */ 
-                       
+                     
 
       }
       .column {
         display: flex;
         flex-direction: column;
-        gap: 5px;
+        gap: 4px;
         padding: 5px;
         background: rgb(218, 119, 48); /*Muda a cor de fundo do cubo
-        border-radius: 2px;
+        
         /* flex-grow: 1; Faz as colunas crescerem uniformemente */
         
       }
       .cube {        
         position: relative;
-        width: 90px;
-        height: 70px;
+        width: 69px;
+        height: 69px;
         background-color: rgb(218, 119, 48);
         display: flex;
         justify-content: center;
@@ -188,7 +189,8 @@
         transition: transform 0.3s, background-color 0.3s;
         transform-style: preserve-3d;
         box-shadow: 5px 5px 5px rgba(5, 5, 5, 0.8);
-        border: 1px solid #fff;
+        border: 2px solid #fff;
+        border-radius: 6px;  
         color: rgb(92, 72, 46);
         
                
@@ -208,7 +210,7 @@
         
       }
       .small {
-        width: 80px;
+        width: 120px;
         
       }
 
@@ -263,8 +265,7 @@
         padding: 15px;  
         font-size: 24px;        
         justify-content: center;      
-        
-               
+                       
       }
 
       .modal select {
@@ -286,8 +287,7 @@
         font-size: 16px;
 
       }
-      
-      
+            
       button {
         background-color: #256a8a;
         color: white; /* Cor da fonte*/
@@ -326,10 +326,10 @@
 
       .Caminhao-imagem {
         display: flex;
-        width: 400px; /* Ajuste conforme necessário */
-        max-width: 350px; /* Define um tamanho máximo */
+        width: 290px; /* Ajuste conforme necessário */
+        max-width: 290px; /* Define um tamanho máximo da imagem na pagina */
         height: auto;
-        opacity: 0.6; /* Mantém um pouco de transparência */
+        opacity: 0.7; /* Mantém um pouco de transparência */
         flex: 0; /* Ocupa o espaço disponível */        
         justify-content: flex-start;
       }
@@ -397,8 +397,8 @@
         <div class="cupom">
           <h3>Cupom de Embarque</h3>
           <ul id="cupomList"></ul>
-          <p><strong>Total de Itens:</strong> <span id="totalQuantidade">0</span></p>
-          <p><strong>Peso Total:</strong> <span id="totalPeso">0</span> Kg</p>
+          <p><strong>Quantidade Total:</strong> <span id="totalQuantidade">0</span></p>
+          <p><strong>Peso Total:</strong> <span id="totalPeso">0</span>Kg</p>
 
         </div>
             <div class="cupom">
