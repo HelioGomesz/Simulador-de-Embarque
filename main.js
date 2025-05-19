@@ -6,8 +6,8 @@ let mainWindow;
 
 app.whenReady().then(() => {
   mainWindow = new BrowserWindow({
-    width: 1200,
-    height: 800,
+    width: 2560,
+    height: 1440,
     webPreferences: {
       preload: path.join(__dirname, 'PagIniciar', 'PaginaIniciar.js'), // Carrega o script JS do frontend
       nodeIntegration: true // Permite uso de módulos Node.js no frontend
