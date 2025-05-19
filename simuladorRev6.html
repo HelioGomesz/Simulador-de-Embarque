@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Teste Simulador5.1.1</title>
+    <title>Teste SimuladorRev6</title>
     <style>
       * {
         box-sizing: border-box;
@@ -89,12 +89,14 @@
       .cupom {
         margin-top: 5%;
         width: 600px; /* Define uma largura fixa para o cupom */
-        background: #f0f5d6;
-        border: 0.5px dashed black; /*Tracejar as bordas do cupom*/
-        padding: 20px;
-        border-radius: 5px;
+        background: rgb(245, 221, 142);
+        border: 0.5px under black; /*Tracejar as bordas do cupom*/
+        padding: 10px;
+        border-radius: 1px;
         box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
       }
+
+           
       /*Totais do cupom*/
       .cupom p {
         padding: 20px;  
@@ -117,7 +119,7 @@
         text-decoration: underline;
       }
       .cupom ul {   
-        border-bottom: 1px solid #000; /* Linha preta semelhante a uma pauta de caderno */
+        /*border-bottom: 1px solid #000;  Linha preta semelhante a uma pauta de caderno */
         padding-bottom: 10px; /* Espaçamento antes da linha */
         margin-bottom: 5px; /* Espaçamento entre os itens */
         list-style: none; /* Remove o marcador padrão da lista */     
@@ -147,7 +149,7 @@
 
       .cupom-container {
       display: flex;      
-      gap: 20px;
+      gap: 15px;
     }
      
 
@@ -433,6 +435,7 @@
         <option value="LM0009-4000840">LM0009-4000840</option>
         <option value="LM0009-8000840">LM0009-8000840</option>
         <option value="LM0009-8000850">LM0009-8000850</option>
+        
       </select>
 
       <label for="Quantidade"></label>
@@ -594,9 +597,13 @@
     window.onload = makeModalDraggable;
     
     // FUNÇÃO PARA EXPORTAR PDF DA PAGINA
-    function exportPDF() {
+     function exportPDF() {
       window.print(); // Gera um PDF a partir da página
     }
+
+    
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
   <!-- <script src="teste5.2.js"></script> -->
 </html>
