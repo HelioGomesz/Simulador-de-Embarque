@@ -8,7 +8,10 @@
       body {       
         margin: 0;
         font-family: Arial, sans-serif;
-        background-color: #f4f4f4;      
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #f4f4f4;        
       }
            
       header {        
@@ -69,34 +72,36 @@
 
       .icon-btn:hover {
         
-        transform: scale(1.1);
-        transition: transform 0.2s;
+        transform: rotateY(0deg) rotateX(20deg) rotateZ(0deg) scale(1.1); /*Ajuste da rotação dos icones na header*/
       }
       
       /* ======== CUPONS ======== */
-      .cupomEmbarque {        
-        margin-right: 350px;
+      .cupomEmbarque {
+        display: block;
+        position:static;
+        offset-distance: initial;
         margin-top: 5%;
-        min-width: 300px;
+        margin-right: 350px;
         width: 420px; /* Define uma largura fixa para o cupom */
-        background: #f5dd8e;        
+        background: rgb(245, 221, 142);
         border: 0.5px under black; /*Tracejar as bordas do cupom*/
-        padding: 1rem;
-        border-radius: 2px;
-        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);         
+        padding: 8px;
+        border-radius: 1px;
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
       }
 
-      .cupomResumo {        
-        margin-right: 50%;
+      .cupomResumo {
+        display: block;
+        position:static;
+        offset-distance: initial;
         margin-top: 5%;
-        min-width: 300px;
+        margin-right: 350px;
         width: 420px; /* Define uma largura fixa para o cupom */
-        background: #f5dd8e;        
+        background: rgb(245, 221, 142);
         border: 0.5px under black; /*Tracejar as bordas do cupom*/
-        padding: 1rem;
-        border-radius: 2px;
-        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1); 
-           
+        padding: 10px;
+        border-radius: 1px;
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);        
       }
            
       /*Totais do cupom*/
@@ -134,7 +139,7 @@
         align-self: top;
         text-align: center;
       }
-
+            
       /* ======== CRIAÇÃO DE CONTAINER PARA ALINHAR ELEMENTOS LADO A LADO ======== */
       .page-container {
         display: flex;
@@ -142,14 +147,8 @@
         align-items: flex-start; /* Alinha ao topo */
         gap: 5px; /* Espaçamento entre os elementos */
         padding: 10px;
-        width: 100%;           
-      }
-     
-      @media (max-width: 600px) {
-        #simulador {
-          flex-direction: column;
-          align-items: center;
-        }
+        width: 100%;
+           
       }
 
       .main-container {
@@ -159,49 +158,47 @@
     }     
 
       /* ======== CONTAINER COM OS 18 CUBOS ======== */
-      #simulador {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        gap: 2rem;
-        padding: 1rem;
-        flex-wrap: wrap;
-      }
-            
       .container {
-        display: grid;
-        grid-template-columns: repeat(2, 135px);
-        grid-gap: 10px;
-        padding: 1.5rem;
-        background: #703409;
-        border: 2px solid #fff;
-        border-radius: 6px;
-        box-shadow: 5px 5px 5px rgba(5, 5, 5, 0.8);                         
+        display: flex ; 
+        position: absolute;      
+        justify-content: left;        
+        align-items: center;     
+        min-height: 240px;  /* Define um mínimo para evitar colapso */
+        margin-left: 2.8%; /*Ajusta a distancia do container da extremidade esquerda*/
+        margin-top: 8%;  /*AJusta a distancia do container da header*/                           
+
       }
-      
-      .cube {
+      .column {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        padding: 5px;
+        background: #da7730; /*Muda a cor de fundo do cubo*/
+     
+      }
+      .cube {        
+        position: relative;
         display: flex; 
-        width: 120px;
-        height: 60px;
+        width: 50px;
+        height: 56px;
         background-color: #da7730;               
         justify-content: center;
         text-align: center;
         align-items: center;
-        font-size: 12px;
+        font-size: 14px;
+        font-weight: bold;
         cursor: pointer;
         transition: transform 0.3s, background-color 0.3s;
         transform-style: preserve-3d;
         box-shadow: 5px 5px 5px rgba(5, 5, 5, 0.8);
         border: 2px solid #fff;
         border-radius: 6px;  
-        color: rgb(247, 246, 246);
-        padding: 5px;
+        color: rgb(92, 72, 46);
         
                
       }
       .cube:hover {
-        transform: scale(1.1);
-        transition: transform 0.2s;
+        transform: rotateY(0deg) rotateX(20deg) rotateZ(0deg) scale(1.1); /*Ajuste da rotação dos quadrados do container*/
       }
 
       @keyframes rotate { 
@@ -211,11 +208,11 @@
       }
 
       .large {
-        width: 130px;
+        width: 120px;
         
       }
       .small {
-        width: 120px;
+        width: 100px;
       
       }
 
@@ -312,7 +309,28 @@
         background-color: #0056b3;  
       }
       /* Adicionar imagem do caminhão como fundo - Atrás do cubo do container */
-      
+      .caminhao-Container {        
+        position:relative;
+        top: 70%;
+        left: 60%;
+        transform: translate(-50%, -50%);
+        z-index: -1; /* Mantém a imagem atrás dos cubos */
+        width: 110%;
+        height: 10px;
+        display: block;
+        justify-content: center;
+        margin-left: 100px;
+        
+    }
+      .Caminhao-imagem {
+        display: flex;
+        width: 260px; /* Ajuste conforme necessário */
+        max-width: 280px; /* Define um tamanho máximo da imagem na pagina */
+        height: auto;
+        opacity: 0.7; /* Mantém um pouco de transparência */
+        flex: 0; /* Ocupa o espaço disponível */        
+        justify-content: flex-start;
+      }
      
     </style>
   </head>
@@ -343,8 +361,8 @@
       </div>
     </header>
 <!-- AREA DOS QUADRADOS DO CONTAINER -->
-<main id="simulador"></main>
- <div class="caminhao-Container">  
+ <div class="caminhao-Container">
+  <img class="Caminhao-imagem" src="Caminhão_container.svg" alt="fundoConatiner" >
 </div>
  </div>
     <div class="page-container">
@@ -455,7 +473,7 @@
         const tamanho = selectedCube.classList.contains('small') ? 'P' : 'P';
         const palletNum = selectedCube.textContent;
         selectedCube.style.backgroundColor = '#491';
-        selectedCube.textContent = `${produto} - QTD ${quantidade}`;
+        selectedCube.textContent = `${produto} - QTD ${quantidade}  - ${peso} Kg`;
     
         // Inclusão das informações no cupom de embarque
         document.getElementById(
@@ -571,7 +589,7 @@
     // Inicia o comportamento de arrastar ao carregar a página
     window.onload = makeModalDraggable;
     
-    // FUNÇÃO PARA EXPORTAR PDF DA PAGINA - Nota: usar escala: 80 para ajustar 
+    // FUNÇÃO PARA EXPORTAR PDF DA PAGINA
      function exportPDF() {
       window.print(); // Gera um PDF a partir da página
     }
