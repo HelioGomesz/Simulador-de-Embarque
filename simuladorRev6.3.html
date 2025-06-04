@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teste Simulador Rev6.3</title>
+    <link rel="stylesheet" href="simuladorRev6.3.css" />
+  </head>
+  <body>
+    <!-- Cabeçalho -->
+    <header>
+      <div class="icones-header">
+        <h1>Simulador de Embarque</h1>
+        <nav>
+          <ul>
+            <!-- AREA DA HEADER PARA AJUSTE DOS ICONES -->
+            <li>
+              <a href="../PagConfig/Configurações.html" class="icon-btn">⚙️</a>
+              <span>Configurações</span>
+            </li>
+            <!-- Ícone de sair -->
+            <li>
+              <a href="../PagIniciar/PaginaIniciar.HTML" class="icon-btn">🚪</a>
+              <span>Sair</span>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <div class="download-btn">
+      <button onclick="downloadPDF()" title="Baixar PDF">
+        📄 Download PDF
+      </button>
+    </div>
+
+    <!-- AREA DOS QUADRADOS DO CONTAINER -->
+    <main id="simulador">
+      <div class="page-container">
+        <div class="main-container">
+          <div class="container">
+            <div class="column" id="smallCubes">
+              <script>
+                for (let i = 1; i <= 9; i++) {
+                  document.write(
+                    `<div class='cube small' data-id='small-${i}'>P ${i}</div>`
+                  );
+                }
+              </script>
+            </div>
+            <div class="column" id="largeCubes">
+              <script>
+                for (let i = 1; i <= 9; i++) {
+                  document.write(
+                    `<div class='cube large' data-id='large-${i}'>G ${i}</div>`
+                  );
+                }
+              </script>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dashboard -->
+      <div class="resultados">
+        <section class="dashboard">
+          <div class="card quantidade">
+            <h3>Quantidade Total</h3>
+            <p id="Quantidade-container">0,0</p>
+          </div>
+
+          <div class="card valor">
+            <h3>Valor Total</h3>
+            <p id="Valor-container">R$ 0,00</p>
+          </div>
+
+          <div class="card peso">
+            <h3>Peso Total</h3>
+            <p id="peso-container">0,00</p>
+          </div>
+
+          <div class="card ocupacao">
+            <h3>% Ocupação</h3>
+            <p id="ocupacao-container">0,00%</p>
+          </div>
+        </section>
+      </div>
+
+      <!-- Tabela de lançamentos dos valores no cupom-->
+      <div class="listagemGeral">
+        <section class="tabela-cupomEmbarque">
+          <h2>Cupom de Embarque</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>N° pallet</th>
+                <th>Produto</th>
+                <th>Quantidade</th>
+                <th>Peso (kg)</th>
+              </tr>
+            </thead>
+            <tbody id="tabela-cupomList">
+              <!-- Dados aqui -->
+            </tbody>
+          </table>
+        </section>
+      </div>
+
+      <!-- Formulário para inserção das informações -->
+      <div class="modal" id="modal">
+        <div class="modal-header" id="modal-header">
+          <h2>Adicionar Produto</h2>
+        </div>
+        <div class="modal-content">
+          <label for="Produto"></label>
+          <select id="produto">
+            <option value="LM0001-4000840">LM0001-4000840</option>
+            <option value="LM0006-4000840">LM0006-4000840</option>
+            <option value="LM0001-8000840">LM0001-8000840</option>
+            <option value="LM0001-8000850">LM0001-8000850</option>
+            <option value="LM0006-4000830">LM0006-4000830</option>
+            <option value="LM0006-4000840">LM0006-4000840</option>
+            <option value="LM0006-4000850">LM0006-4000850</option>
+            <option value="LM0006-4000865">LM0006-4000865</option>
+            <option value="LM0008-7000850">LM0008-7000850</option>
+            <option value="LM0008-1300840">LM0008-1300840</option>
+            <option value="LM0008-1300840">LM0008-1300840</option>
+            <option value="LM0008-1300850">LM0008-1300850</option>
+            <option value="LM0008-2000840">LM0008-2000840</option>
+            <option value="LM0008-2000850">LM0008-2000850</option>
+            <option value="LM0009-4000840">LM0009-4000840</option>
+            <option value="LM0009-8000840">LM0009-8000840</option>
+            <option value="LM0009-8000850">LM0009-8000850</option>
+          </select>
+
+          <label for="Quantidade"></label>
+          <input type="number" id="quantidade" placeholder="Quantidade" />
+          <input type="number" id="peso" placeholder="Peso" />
+
+          <button onclick="addEntry()">Incluir</button>
+          <button onclick="resetForm()">Excluir</button>
+          <button onclick="closeModal()">Fechar</button>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      let selectedCube = null;
+      let totalQuantidade = 0;
+      let sequenciaPalets = [];
+      let totalPeso = 0;
+      let produtosResumo = {};
+      let ocupacaoTotal = 0;
+
+      document.querySelectorAll(".cube").forEach((cube) => {
+        cube.addEventListener("click", function () {
+          selectedCube = this;
+          document.getElementById("modal").style.display = "block";
+        });
+      });
+
+      // INCLUIR OS DADOS NA TABELA - CUPOM DE EMBARQUE E TAG DO DASHBOARD
+
+      function addEntry() {
+        const produto = document.getElementById("produto").value;
+        const quantidade = parseFloat(
+          document.getElementById("quantidade").value
+        );
+        const peso = parseFloat(document.getElementById("peso").value);
+
+        if (!selectedCube) {
+          alert("Selecione um pallet.");
+          return;
+        }
+
+        if (isNaN(quantidade) || isNaN(peso)) {
+          alert("Preencha quantidade e peso.");
+          return;
+        }
+
+        const idCube = selectedCube.getAttribute("data-id");
+
+        // Prevenir duplicados
+        const existingRow = document.querySelector(`tr[data-id='${idCube}']`);
+        if (existingRow) {
+          alert("Esse pallet já foi cadastrado.");
+          return;
+        }
+
+        // Adiciona linha na tabela
+        const table = document.getElementById("tabela-cupomList");
+        const row = table.insertRow();
+        row.setAttribute("data-id", idCube);
+
+        row.innerHTML = `
+          <td>${idCube}</td>
+          <td>${produto}</td>
+          <td>${quantidade}</td>
+          <td>${peso}</td>`;
+
+        // Atualiza os totais
+        totalQuantidade += quantidade;
+        totalPeso += peso;
+
+        document.getElementById("Quantidade-container").innerText =
+          totalQuantidade.toFixed(2);
+        document.getElementById("peso-container").innerText =
+          totalPeso.toFixed(2);
+
+        // Ocupação (exemplo simples - ajuste conforme sua lógica)
+        const ocupacao = (totalQuantidade / 18) * 100;
+        document.getElementById("ocupacao-container").innerText =
+          ocupacao.toFixed(2) + "%";
+
+        // Fecha modal
+        closeModal();
+      }
+
+      function closeModal() {
+        document.getElementById("modal").style.display = "none";
+        selectedCube = null;
+      }
+
+      // RESETA O FORMULARIO AO CLICAR NO BOTÃO EXCLUIR(Incluir código para retirar do cupom as informações excluidas)
+
+      function resetForm() {
+        if (!selectedCube) return;
+
+        // Recupera o ID do cubo selecionado
+        const cubeId = selectedCube.dataset.id;
+        const tamanho = cubeId.includes("small") ? "P" : "G";
+        const numero = cubeId.split("-")[1];
+
+        // Atualiza o resumo, removendo a quantidade correspondente
+        if (produtoRemovido && produtosResumo[produtoRemovido]) {
+          produtosResumo[produtoRemovido] -= quantidadeRemovida;
+          if (produtosResumo[produtoRemovido] <= 0) {
+            delete produtosResumo[produtoRemovido]; // Remove do resumo se a quantidade for zero
+          }
+          atualizarResumo();
+        }
+
+        // Restaurar o cubo do container para sua forma original (P1/G1)
+        selectedCube.style.backgroundColor = " #777262";
+        selectedCube.textContent = `${tamanho} ${numero}`;
+
+        // Fechar modal
+        closeModal();
+      }
+
+      // Fecha o formulário ao clicar no botão fechar
+      function closeModal() {
+        document.getElementById("modal").style.display = "none";
+      }
+
+      // FUNÇÃO PARA PERMITIR ARRASTAR O FORMULÁRIO NA PAGINA COM O MOUSE
+      function makeModalDraggable() {
+        const modal = document.getElementById("modal");
+        const header = document.getElementById("modal-header");
+        let offsetX = 0,
+          offsetY = 0,
+          mouseX = 0,
+          mouseY = 0;
+
+        header.onmousedown = function (event) {
+          event.preventDefault();
+          mouseX = event.clientX;
+          mouseY = event.clientY;
+
+          document.onmousemove = function (event) {
+            offsetX = event.clientX - mouseX;
+            offsetY = event.clientY - mouseY;
+            modal.style.left = modal.offsetLeft + offsetX + "px";
+            modal.style.top = modal.offsetTop + offsetY + "px";
+            mouseX = event.clientX;
+            mouseY = event.clientY;
+          };
+
+          document.onmouseup = function () {
+            document.onmousemove = null;
+            document.onmouseup = null;
+          };
+        };
+      }
+      // Inicia o comportamento de arrastar ao carregar a página
+      window.onload = makeModalDraggable;
+
+      // FAZER DOWLOAD DA PAGINA DE SIMULAÇÃO
+
+      function downloadPDF() {
+        const element = document.body; // Pode ser main, body ou outro elemento específico
+
+        const opt = {
+          margin: 0.5,
+          filename: "SimuladorEmbarque.pdf",
+          image: { type: "jpeg", quality: 0.98 },
+          html2canvas: { scale: 2 },
+          jsPDF: { unit: "in", format: "a4", orientation: "landscape" }, //Ou Portrait
+        };
+
+        html2pdf().set(opt).from(element).save();
+      }
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  </body>
+</html>

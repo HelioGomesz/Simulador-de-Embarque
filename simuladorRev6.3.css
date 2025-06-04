@@ -1,0 +1,348 @@
+/* Centralizar o conteúdo principal */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  box-sizing: border-box;
+}
+
+header {
+  background-color: #256a8a;
+  color: white;
+  text-align: center;
+  width: 100%;
+}
+
+header .icones-header {
+  display: flex;
+  justify-content: space-between;
+  width: 98%;
+}
+
+header h1 {
+  font-size: 50px;
+  text-align: left;
+  margin: 0.4%;
+}
+
+/* ======== CABEÇALHO ======== */
+
+.download-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+.download-btn button {
+  background-color: #256a8a;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 40px;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.download-btn button:hover {
+  background-color: #005fa3;
+}
+
+/* ======== NAVEGAÇÃO COM ÍCONES ======== */
+nav ul {
+  display: flex;
+  list-style: none; /*Retira o formato de lista*/
+  text-align: center;
+  row-gap: 5%;
+}
+
+nav ul li {
+  margin-left: 80px;
+  margin-right: 0;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  font-size: 40px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  text-decoration: none; /* Remove o sublinhado do link */
+  display: flex; /* Mantém o comportamento de botão */
+  flex-direction: column;
+  align-items: center;
+}
+.icon-btn span {
+  font-size: 0.9rem; /* Ajusta o tamanho do texto */
+  margin-top: 10px; /* Adiciona um pequeno espaçamento entre ícone e texto */
+  color: #fdf8f8; /* Define a cor do texto */
+}
+
+.icon-btn:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s;
+}
+
+/* ======== CRIAÇÃO DE CONTAINER PARA ALINHAR ELEMENTOS LADO A LADO ======== */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Responsivo */
+@media (max-width: 700px) {
+  .container {
+    grid-template-columns: 1rf;
+  }
+  .cupom-container {
+    grid-column: span 1;
+  }
+}
+.main-container {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin: 25px;
+}
+
+/* ======== CONTAINER COM OS 18 CUBOS ======== */
+#simulador {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1rem;
+  flex-wrap: wrap;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(2, 135px);
+  grid-gap: 10px;
+  padding: 1.5rem;
+  background: #946f55;
+  border: 2px solid #fff;
+  border-radius: 6px;
+  box-shadow: 5px 5px 5px rgba(5, 5, 5, 0.8);
+}
+
+.cube {
+  display: flex;
+  width: 120px;
+  height: 60px;
+  background-color: #777262;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  font-size: 12px;
+  cursor: pointer;
+  transition: transform 0.3s, background-color 0.3s;
+  transform-style: preserve-3d;
+  box-shadow: 5px 5px 5px rgba(5, 5, 5, 0.8);
+  border: 2px solid #fff;
+  border-radius: 6px;
+  color: rgb(247, 246, 246);
+  padding: 5px;
+}
+
+.cube:hover {
+  transform: scale(1.1);
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotateX(10deg) rotateY(10deg) rotateZ(180deg);
+  }
+}
+.large {
+  width: 130px;
+}
+.small {
+  width: 120px;
+}
+
+/* Container geral da seção de resultados (cards + cupom) */
+.resultados {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin: 20px;
+}
+
+/* Estilo dos cards */
+.dashboard {
+  display: flex;
+  min-width: 180px;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 15px 25px;
+  min-width: 180px;
+  text-align: center;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+}
+
+
+
+.card h3 {
+  margin-top: 5px;
+}
+
+.card.quantidade {
+  border-left: 6px solid #28a745;
+}
+
+.card.valor {
+  border-left: 6px solid #dc3545;
+}
+
+.card.peso {
+  border-left: 6px solid #0077cc;
+}
+
+.card.ocupacao {
+  border-left: 6px solid #149c74;
+}
+
+
+/* Centralizar a tabela do cupom abaixo dos cards */
+.listagemGeral {
+  width: 100%;
+  max-width: 900px;
+}
+
+/* Tabela */
+
+.tabela-cupomEmbarque table {
+  border-collapse: collapse;
+  width: 100%;
+  
+}
+
+.tabela-cupomEmbarque {
+  max-width: 900px;
+  margin: 20px auto; /* Centraliza a tabela */
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+table th,
+table td {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  text-align: center;
+}
+
+table th {
+  background-color: #256a8a;
+  color: white;
+}
+
+button.delete-btn {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button.delete-btn:hover {
+  background-color: #a71d2a;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999; /* Coloca o overlay abaixo do modal */
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  width: 300px;
+  text-align: center;
+  border-radius: 12px;
+  gap: 10px;
+}
+/* Adicionado cursor: grab; ao cabeçalho do modal para indicar que ele pode ser arrastado. */
+.modal-header {
+  margin-bottom: 10px;
+  cursor: grab;
+  background: #256a8a;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  font-size: 18px;
+  border-radius: 10px 10px 0 0;
+}
+
+h2 {
+  display: flex;
+  padding: 15px;
+  font-size: 24px;
+  justify-content: center;
+}
+
+.modal select {
+  display: block;
+  width: 270px;
+  margin: 5px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+.modal input {
+  display: flex;
+  width: 250px;
+  margin: 5px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.modal-content button {
+  padding: 15px;
+  border: none;
+  border-radius: 6px;
+  background-color: #256a8a;
+  color: white;
+  cursor: pointer;/
+}
+button:hover {
+  background-color: #0056b3;
+}
