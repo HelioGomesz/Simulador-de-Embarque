@@ -38,9 +38,9 @@ h1 {
 }
 button {
   padding: 10px 20px;
-  font-size: 30px;
+  font-size: 20px;
   border: none;
-  background-color: #2ecc71;
+  background-color: #57dd8f;
   color: white;
   cursor: pointer;
   border-radius: 5px;
@@ -56,19 +56,19 @@ button:hover {
   left: -200px;
   width: 220px; /*Deixa o caminhão mais comprido*/
   height: 80px;
-  background: #97948e;
+  background: #c0bbb2;
   border-radius: 5px;
-  animation: moveTruck 10s ease-in-out forwards;
+  animation: moveTruck 30s ease-in-out forwards;
 }
 .container-box {
   position: absolute;
   bottom: 15%;
   left: -190px;
   width: 160px; /*Ajusta cumprimento do container-box*/
-  height: 70px;
-  background: #491f1a;
+  height: 80px;
+  background: #b9584e;
   border-radius: 5px;
-  animation: moveTruck 10s ease-in-out forwards;
+  animation: moveTruck 30s ease-in-out forwards;
 }
 .pallet {
   position: absolute;
