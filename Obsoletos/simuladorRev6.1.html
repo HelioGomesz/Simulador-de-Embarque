@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Teste Simulador Rev6.1</title>
+    <style>
+      body {       
+        margin: 0;
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: #f4f4f4;        
+      }
+           
+      header {        
+        background-color: #256a8a;    
+        color: white;        
+        padding: 1rem;
+        text-align: center;
+        width: 100%;
+      }
+
+      header .icones-header {
+        display: flex;
+        justify-content: space-between;
+        
+      }
+
+      header h1 {
+        font-size: 60px;
+        text-align: left;
+        margin: 0.4%;
+      }
+
+       /* ======== CABEÇALHO ======== */
+      .icones-header {
+        width: 98%; /*Posição dos icones na header*/
+      }
+
+
+      /* ======== NAVEGAÇÃO COM ÍCONES ======== */
+      nav ul {
+        display: flex;
+        list-style: none; /*Retira o formato de lista*/
+        text-align: center;
+        row-gap: 5%;
+      }
+
+      nav ul li {
+        margin-left: 80px;
+        margin-right: 0;
+      }
+
+      .icon-btn {
+        background: none;
+        border: none;        
+        font-size: 40px;
+        cursor: pointer;
+        transition: color 0.3s ease;
+        text-decoration: none; /* Remove o sublinhado do link */
+        display: flex; /* Mantém o comportamento de botão */
+        flex-direction: column;
+        align-items: center;
+      }
+      .icon-btn span {
+        font-size: 0.9rem; /* Ajusta o tamanho do texto */
+        margin-top: 10px; /* Adiciona um pequeno espaçamento entre ícone e texto */
+        color: #fdf8f8; /* Define a cor do texto */
+      }
+
+      .icon-btn:hover {
+        
+        transform: rotateY(0deg) rotateX(20deg) rotateZ(0deg) scale(1.1); /*Ajuste da rotação dos icones na header*/
+      }
+      
+      /* ======== CUPONS ======== */
+      .cupomEmbarque {
+        display: block;
+        position:static;
+        offset-distance: initial;
+        margin-top: 5%;
+        margin-right: 350px;
+        width: 420px; /* Define uma largura fixa para o cupom */
+        background: rgb(245, 221, 142);
+        border: 0.5px under black; /*Tracejar as bordas do cupom*/
+        padding: 8px;
+        border-radius: 1px;
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .cupomResumo {
+        display: block;
+        position:static;
+        offset-distance: initial;
+        margin-top: 5%;
+        margin-right: 350px;
+        width: 420px; /* Define uma largura fixa para o cupom */
+        background: rgb(245, 221, 142);
+        border: 0.5px under black; /*Tracejar as bordas do cupom*/
+        padding: 10px;
+        border-radius: 1px;
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);        
+      }
+           
+      /*Totais do cupom*/
+      .cupom-container {      
+      display: flexbox;      
+      gap: 2px;
+    }
+      .cupom-container p {
+        padding: 5px;  
+        font-size: 16px;
+        align-self: top;
+        text-align: left;
+      }
+      .cupom-container span {
+        padding: 5px;  
+        font-size: 16px;
+        align-self: top;
+        text-align: center;
+      }
+      h3 {
+        padding: 5px;  
+        font-size: 20px;
+        align-self: top;
+        text-align: center;
+        color: #256a8a;
+        text-decoration: underline;
+      }
+      .cupom-container ul {   
+        
+        padding-bottom: 10px; /* Espaçamento antes da linha */
+        margin-bottom: 5px; /* Espaçamento entre os itens */
+        list-style: none; /* Remove o marcador padrão da lista */     
+        padding: 25px;  
+        font-size: 16px;
+        align-self: top;
+        text-align: center;
+      }
+            
+      /* ======== CRIAÇÃO DE CONTAINER PARA ALINHAR ELEMENTOS LADO A LADO ======== */
+      .page-container {
+        display: flex;
+        justify-content: space-between; /* Distribui os elementos igualmente */
+        align-items: flex-start; /* Alinha ao topo */
+        gap: 5px; /* Espaçamento entre os elementos */
+        padding: 10px;
+        width: 100%;
+           
+      }
+
+      .main-container {
+      flex: 1; /* Ocupa o espaço disponível */
+      display: flex;
+      justify-content: flex-start;      
+    }     
+
+      /* ======== CONTAINER COM OS 18 CUBOS ======== */
+      .container {
+        display: flex ; 
+        position: absolute;      
+        justify-content: left;        
+        align-items: center;     
+        min-height: 240px;  /* Define um mínimo para evitar colapso */
+        margin-left: 2.8%; /*Ajusta a distancia do container da extremidade esquerda*/
+        margin-top: 8%;  /*AJusta a distancia do container da header*/                           
+
+      }
+      .column {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        padding: 5px;
+        background: #da7730; /*Muda a cor de fundo do cubo*/
+     
+      }
+      .cube {        
+        position: relative;
+        display: flex; 
+        width: 50px;
+        height: 56px;
+        background-color: #da7730;               
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+        font-size: 14px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.3s, background-color 0.3s;
+        transform-style: preserve-3d;
+        box-shadow: 5px 5px 5px rgba(5, 5, 5, 0.8);
+        border: 2px solid #fff;
+        border-radius: 6px;  
+        color: rgb(92, 72, 46);
+        
+               
+      }
+      .cube:hover {
+        transform: rotateY(0deg) rotateX(20deg) rotateZ(0deg) scale(1.1); /*Ajuste da rotação dos quadrados do container*/
+      }
+
+      @keyframes rotate { 
+        100% {
+          transform: rotateX(10deg) rotateY(10deg) rotateZ(180deg);
+        }
+      }
+
+      .large {
+        width: 120px;
+        
+      }
+      .small {
+        width: 100px;
+      
+      }
+
+      .modal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        width: 350px; /* Ajuste para um tamanho mais responsivo */
+        height: auto;
+        max-height: 80vh; /* Limita a altura para evitar cortes */
+        transform: translate(-50%, -50%);
+        border-radius: 10px;    /*Curva os cantos do formulário*/
+        background: white;    /*Cor de fundo do formulário*/
+        padding: 20px;        
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        z-index: 1000; /* Garante que o modal fique sobre outros elementos */
+        overflow-y: auto; /* Permite rolagem se necessário */
+      }
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999; /* Coloca o overlay abaixo do modal */
+      }
+
+      .modal-content {
+        background: #fff;        
+        padding: 20px;
+        width: 300px;
+        text-align: center;
+        border-radius: 8px;        
+      }
+      /* Adicionado cursor: grab; ao cabeçalho do modal para indicar que ele pode ser arrastado. */
+      .modal-header {
+        cursor: grab;
+        background: #256a8a;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        font-size: 18px;
+        border-radius: 10px 10px 0 0;
+      }
+
+
+      h2 {
+        display: flex;
+        padding: 15px;  
+        font-size: 24px;        
+        justify-content: center;      
+                       
+      }
+
+      .modal select {
+        display: block; 
+        width: 250px;
+        margin: 5px;  
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+      }
+      .modal input{
+        display: flex;
+        width: 250px;
+        margin: 5px;  
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+
+      }
+            
+      button {
+        background-color: #256a8a;
+        color: white; /* Cor da fonte*/
+        border: none; 
+        padding: 5px;
+        cursor: pointer;
+        border-radius: 5px;
+        margin-top: 10px;
+        border-right-width: 3px; /* Largura da borda direita do botão*/
+        border-bottom-width: 3px; /* Largura debaixo do botão*/
+        font-size: 16px; /* Tamanho da fonte*/
+        font-weight: 700px; /* Peso da fonte/Negrito*/
+        text-transform: uppercase; /* fonte maiusculo*/
+      
+      }
+      button:hover {
+        background-color: #0056b3;  
+      }
+      /* Adicionar imagem do caminhão como fundo - Atrás do cubo do container */
+      .caminhao-Container {        
+        position:relative;
+        top: 70%;
+        left: 60%;
+        transform: translate(-50%, -50%);
+        z-index: -1; /* Mantém a imagem atrás dos cubos */
+        width: 110%;
+        height: 10px;
+        display: block;
+        justify-content: center;
+        margin-left: 100px;
+        
+    }
+      .Caminhao-imagem {
+        display: flex;
+        width: 260px; /* Ajuste conforme necessário */
+        max-width: 280px; /* Define um tamanho máximo da imagem na pagina */
+        height: auto;
+        opacity: 0.7; /* Mantém um pouco de transparência */
+        flex: 0; /* Ocupa o espaço disponível */        
+        justify-content: flex-start;
+      }
+     
+    </style>
+  </head>
+  <body>
+    <!-- Cabeçalho -->
+    <header>
+      <div class="icones-header">
+        <h1>Simulador de Embarque</h1>
+        <nav>
+          <ul>
+            <!-- AREA DA HEADER PARA AJUSTE DOS ICONES -->
+            <li>
+              <a href="../PagConfig/Configurações.html" class="icon-btn">⚙️</a>
+              <span>Configurações</span>
+            </li>
+            <!-- Ícone de sair -->
+            <li>
+              <a href="../PagIniciar/PaginaIniciar.HTML" class="icon-btn">🚪</a>
+              <span>Sair</span>
+            </li>
+            <!-- Ícone de exportar PDF -->
+            <li>
+              <a href="" class="icon-btn" onclick="exportPDF()">📄</a>
+              <span>Exportar</span>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+<!-- AREA DOS QUADRADOS DO CONTAINER -->
+ <div class="caminhao-Container">
+  <img class="Caminhao-imagem" src="Caminhão_container.svg" alt="fundoConatiner" >
+</div>
+ </div>
+    <div class="page-container">
+      <div class="main-container">
+        <div class="container">
+          <div class="column" id="smallCubes">
+            <script>
+              for (let i = 1; i <= 9; i++) {
+                document.write(
+                  `<div class='cube small' data-id='small-${i}'>P ${i}</div>`
+                );
+              }
+            </script>
+          </div>
+          <div class="column" id="largeCubes">
+            <script>
+              for (let i = 1; i <= 9; i++) {
+                document.write(
+                  `<div class='cube large' data-id='large-${i}'>G ${i}</div>`
+                );
+              }
+            </script>
+          </div>
+        </div>
+      </div>
+
+    <!-- Cupom da página para resumo das informações -->
+      <div class="cupom-container">
+        <div class="cupomEmbarque">
+          <h3>Cupom de Embarque</h3>
+          <ul id="cupomList"></ul>
+          <p><strong>Quantidade Total:</strong> <span id="totalQuantidade">0</span></p>
+          <p><strong>Peso Total:</strong> <span id="totalPeso">0</span>Kg</p>
+
+        </div>
+            <div class="cupomResumo">
+          <h3>Resumo Geral</h3>
+          <ul id="resumoList"></ul>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Formulário para inserção das informações -->
+    <div class="modal" id="modal">
+      <div class="modal-header" id="modal-header">
+        <h2>Adicionar Produto</h2>
+      </div>
+      <div class="modal-content">  
+      <label for="Produto"></label>
+      <select id="produto">
+        <option value="LM0001-4000840">LM0001-4000840</option>
+        <option value="LM0006-4000840">LM0006-4000840</option>
+        <option value="LM0001-8000840">LM0001-8000840</option>
+        <option value="LM0001-8000850">LM0001-8000850</option>
+        <option value="LM0006-4000830">LM0006-4000830</option>
+        <option value="LM0006-4000840">LM0006-4000840</option>
+        <option value="LM0006-4000850">LM0006-4000850</option>
+        <option value="LM0006-4000865">LM0006-4000865</option>
+        <option value="LM0008-7000850">LM0008-7000850</option>
+        <option value="LM0008-1300840">LM0008-1300840</option>
+        <option value="LM0008-1300840">LM0008-1300840</option>
+        <option value="LM0008-1300850">LM0008-1300850</option>
+        <option value="LM0008-2000840">LM0008-2000840</option>
+        <option value="LM0008-2000850">LM0008-2000850</option>
+        <option value="LM0009-4000840">LM0009-4000840</option>
+        <option value="LM0009-8000840">LM0009-8000840</option>
+        <option value="LM0009-8000850">LM0009-8000850</option>
+        
+      </select>
+
+      <label for="Quantidade"></label>
+      <input type="number" id="quantidade" placeholder="Quantidade" />
+      <input type="number" id="peso" placeholder="Peso" />      
+
+      <button onclick="addEntry()">Incluir</button>
+      <button onclick="resetForm()">Excluir</button> 
+      <button onclick="closeModal()">Fechar</button>
+    </div>
+     
+  <script>
+    let selectedCube = null;
+    let totalQuantidade = 0;
+    let sequenciaPalets = [];
+    let totalPeso = 0;
+    let produtosResumo = {};
+    
+    document.querySelectorAll('.cube').forEach((cube) => {
+      cube.addEventListener('click', function () {
+        selectedCube = this;
+        document.getElementById('modal').style.display = 'block';
+      });
+    });
+    
+    // RESUMO DO CUPOM DE EMBARQUE COM O TOTAL DE PRODUTOS
+    
+    function addEntry() {
+      if (selectedCube) {
+        const produto = document.getElementById('produto').value;
+        const quantidade =
+          parseInt(document.getElementById('quantidade').value) || 0;
+        const peso = parseInt(document.getElementById('peso').value) || 0;
+    
+        // Atualiza o total de peso
+        totalPeso += peso;
+        document.getElementById('totalPeso').textContent = totalPeso + '';
+    
+        // Inclusão das informações no pallet
+        const tamanho = selectedCube.classList.contains('small') ? 'P' : 'P';
+        const palletNum = selectedCube.textContent;
+        selectedCube.style.backgroundColor = '#491';
+        selectedCube.textContent = `${produto} - QTD ${quantidade}  - ${peso} Kg`;
+    
+        // Inclusão das informações no cupom de embarque
+        document.getElementById(
+          'cupomList'
+        ).innerHTML += `<li>${tamanho} - ${palletNum}: ${produto} ----- ${quantidade} -----${peso} Kg </li>`;
+    
+        totalQuantidade += quantidade;
+        document.getElementById('totalQuantidade').textContent = totalQuantidade;
+    
+        if (!produtosResumo[produto]) {
+          produtosResumo[produto] = 0;
+        }
+        produtosResumo[produto] += quantidade;
+        atualizarResumo();
+    
+        closeModal();
+      }
+    }
+    
+    // RESETA O FORMULARIO AO CLICAR NO BOTÃO EXCLUIR(Incluir código para retirar do cupom as informações excluidas)
+   
+    function resetForm() {
+    if (!selectedCube) return;
+    
+    // Recupera o ID do cubo selecionado
+    const cubeId = selectedCube.dataset.id;
+    const tamanho = cubeId.includes('small') ? 'P' : 'G';
+    const numero = cubeId.split('-')[1];
+    
+    // Remove o item correspondente do cupom de embarque
+    const cupomList = document.getElementById('cupomList');
+    const items = cupomList.getElementsByTagName('li');
+    let produtoRemovido = "";
+    let quantidadeRemovida = 0;
+
+    for (let i = 0; i < items.length; i++) {
+        if (items[i].textContent.includes(selectedCube.textContent.split(' ')[0])) {
+            const partes = items[i].textContent.split(" ____ ");
+            produtoRemovido = partes[0].split(": ")[1];
+            quantidadeRemovida = parseInt(partes[1]) || 0;
+            cupomList.removeChild(items[i]);
+            break;
+        }
+    }
+
+    // Atualiza os totais
+    const peso = parseInt(document.getElementById('peso').value) || 0;
+    totalQuantidade -= quantidadeRemovida;
+    totalPeso -= peso;
+    document.getElementById('totalQuantidade').textContent = totalQuantidade;
+    document.getElementById('totalPeso').textContent = totalPeso;
+
+    // Atualiza o resumo, removendo a quantidade correspondente
+    if (produtoRemovido && produtosResumo[produtoRemovido]) {
+        produtosResumo[produtoRemovido] -= quantidadeRemovida;
+        if (produtosResumo[produtoRemovido] <= 0) {
+            delete produtosResumo[produtoRemovido]; // Remove do resumo se a quantidade for zero
+        }
+        atualizarResumo();
+    }
+
+    // Restaurar o cubo do container para sua forma original (P1/G1)
+    selectedCube.style.backgroundColor = '#d70';
+    selectedCube.textContent = `${tamanho} ${numero}`;
+
+    // Fechar modal
+    closeModal();
+}
+
+    // Fecha o formulário ao clicar no botão fechar
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
+    
+    // Lógica para inserir os dados no cupom de resumo geral
+    function atualizarResumo() {
+      const resumoList = document.getElementById('resumoList');
+      resumoList.innerHTML = '';
+      for (let produto in produtosResumo) {
+        resumoList.innerHTML += `<li>${produto}: ${produtosResumo[produto]}</li>`;
+      }
+    }
+    
+    // FUNÇÃO PARA PERMITIR ARRASTAR O FORMULÁRIO NA PAGINA COM O MOUSE
+    function makeModalDraggable() {
+      const modal = document.getElementById('modal');
+      const header = document.getElementById('modal-header');
+      let offsetX = 0,
+        offsetY = 0,
+        mouseX = 0,
+        mouseY = 0;
+    
+      header.onmousedown = function (event) {
+        event.preventDefault();
+        mouseX = event.clientX;
+        mouseY = event.clientY;
+    
+        document.onmousemove = function (event) {
+          offsetX = event.clientX - mouseX;
+          offsetY = event.clientY - mouseY;
+          modal.style.left = modal.offsetLeft + offsetX + 'px';
+          modal.style.top = modal.offsetTop + offsetY + 'px';
+          mouseX = event.clientX;
+          mouseY = event.clientY;
+        };
+    
+        document.onmouseup = function () {
+          document.onmousemove = null;
+          document.onmouseup = null;
+        };
+      };
+    }
+    // Inicia o comportamento de arrastar ao carregar a página
+    window.onload = makeModalDraggable;
+    
+    // FUNÇÃO PARA EXPORTAR PDF DA PAGINA
+     function exportPDF() {
+      window.print(); // Gera um PDF a partir da página
+    }
+    
+    </script>
+      <!-- <script src="teste5.2.js"></script> -->
+  </body>
+</html>
