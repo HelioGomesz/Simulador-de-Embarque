@@ -1,40 +1,51 @@
 /* Centralizar o conteúdo principal */
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
 body {  
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  box-sizing: border-box;
-  min-height: 100vh;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 0;
   
 }
 
 header {
   background-color: #256a8a;
   color: white;
-  text-align: center;
-  width: 100%;
-}
-
-header .icones-header {
+  padding: 10px;
   display: flex;
   justify-content: space-between;
-  width: 98%;
+  align-items: center;
 }
 
 header h1 {
-  font-size: 50px;
-  text-align: left;
-  margin: 0.4%;
+  margin: 0;
 }
 
-/* ======== CABEÇALHO ======== */
+/* ======== NAVEGAÇÃO COM ÍCONES ======== */
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  margin-left: 80px;
+  margin-right: 0;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+}
+
+@media print {
+  body {
+    zoom: 90%;
+  }
+  }
 
 .download-btn {
   position: fixed;
@@ -60,18 +71,7 @@ header h1 {
   background-color: #005fa3;
 }
 
-/* ======== NAVEGAÇÃO COM ÍCONES ======== */
-nav ul {
-  display: flex;
-  list-style: none; /*Retira o formato de lista*/
-  text-align: center;
-  row-gap: 5%;
-}
 
-nav ul li {
-  margin-left: 80px;
-  margin-right: 0;
-}
 
 .icon-btn {
   background: none;
@@ -95,56 +95,30 @@ nav ul li {
   transition: transform 0.2s;
 }
 
-/* ======== CRIAÇÃO DE CONTAINER PARA ALINHAR ELEMENTOS LADO A LADO ======== */
-.page-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Responsivo */
-@media (max-width: 700px) {
-  .container {
-    grid-template-columns: 1rf;
-  }
-  .cupom-container {
-    grid-column: span 1;
-  }
-}
-.main-container {
-  display: flex;
-  justify-content: center;
-  gap: 50px;
-  margin: 25px;
-}
-
 /* ======== CONTAINER COM OS 18 CUBOS ======== */
 #simulador {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 1rem;
-  padding: 0.5rem;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center; 
+  width: 100%;
+  
 }
 
-.container {
-  display: grid;
-  grid-template-columns: repeat(2, 135px);
-  grid-gap: 15px;
-  padding: 1.5rem;
-  background: #946f55;
-  border: 2px solid #fff;
-  border-radius: 6px;
-  box-shadow: 5px 5px 5px rgba(5, 5, 5, 0.8);
+.caminhao {
+  display: flex;  
+  grid-gap: 20px;
+  padding: 10px;
+  background-color: #ddd;
+  border: 2px solid #888;
+  border-radius: 5px;
+  
 }
 
 .cube {
   display: flex;
-  width: 120px;
-  height: 60px;
-  background-color: #777262;
+  width: 110px;
+  height: 65px;
+  background-color: #4e4e4e;
   justify-content: center;
   text-align: center;
   align-items: center;
@@ -153,7 +127,7 @@ nav ul li {
   transition: transform 0.3s, background-color 0.3s;
   transform-style: preserve-3d;
   box-shadow: 5px 5px 5px rgba(5, 5, 5, 0.8);
-  border: 2px solid #fff;
+  border: 2px solid #b9b5b5;
   border-radius: 6px;
   color: rgb(247, 246, 246);
   padding: 5px;
@@ -168,31 +142,40 @@ nav ul li {
     transform: rotateX(10deg) rotateY(10deg) rotateZ(180deg);
   }
 }
-.large {
-  width: 130px;
-}
-.small {
-  width: 120px;
-}
 
 /* Container geral da seção de resultados (cards + cupom) */
 .resultados {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px;
-  margin: 20px;
-  width: 100%;
-  max-width: 1200px;
+  page-break-inside: avoid;
+  padding: 10px 20px; /* Reduz o padding vertical */
+  margin-top: 10px;   /* Evita muito espaço entre o topo */
 }
 
 /* Estilo dos cards */
 .dashboard {
+  page-break-inside: avoid;
   display: flex;
+  max-width: 1200px;
+  margin: 0 auto;
   gap: 20px;
   flex-wrap: wrap;
   justify-content: center;
 }
+
+.container-centralizado {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.listagemGeral {
+  page-break-inside: avoid;
+  margin-top: 20px; /* Menor espaço entre dashboard e listagem */
+  padding: 10px 0px;
+  width: 100%;
+  max-width: 1200px; /* Define um limite para largura em telas grandes */
+}
+
+
 
 .card {
   background-color: white;
@@ -210,28 +193,22 @@ nav ul li {
 }
 
 .card.quantidade {
-  border-left: 7px solid #28a745;
+  border-left: 10px solid #5ac6da;
 }
 
 .card.valor {
-  border-left: 7px solid #a14f94;
+  border-left: 10px solid #a14f94;
 }
 
 .card.peso {
-  border-left: 7px solid #0077cc;
+  border-left: 10px solid #0077cc;
 }
 
 .card.ocupacao {
-  border-left: 7px solid #149c74;
+  border-left: 10px solid #149c74;
 }
 
-/* Centralizar a tabela do cupom abaixo dos cards */
-.listagemGeral {
-  position: relative;
-  width: 100%;
-  max-width: 900px;
-  
-}
+
 /* Tabela */
 
 .tabela-cupomEmbarque table {
@@ -240,12 +217,12 @@ nav ul li {
   }
 
 .tabela-cupomEmbarque {
-  max-width: 900px;
+  width: 100%;
   margin: 20px auto; /* Centraliza a tabela */
   background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
 }
 
 table th,
@@ -259,6 +236,7 @@ table th {
   background-color: #256a8a;
   color: white;
 }
+
 
 button.delete-btn {
   background-color: #dc3545;
