@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Formulário de Produtos</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    max-width: 400px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+  }
+  label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+  }
+  select, input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    font-size: 16px;
+  }
+</style>
+</head>
+<body>
+
+  <h2>Escolha seu produto</h2>
+  <form id="form-produtos">
+    <label for="produto">Produto:</label>
+    <select id="produto" required>
+      <option value="" disabled selected>Selecione um produto</option>
+      <option value="A">Produto A</option>
+      <option value="B">Produto B</option>
+      <option value="C">Produto C</option>
+    </select>
+
+    <label for="quantidade">Quantidade:</label>
+    <input type="number" id="quantidade"  />
+
+    <label for="peso">Peso (kg):</label>
+    <input type="number" id="peso"  />
+  </form>
+
+  <script>
+    // Dados dos produtos (quantidade e peso)
+    const produtos = {
+      A: { quantidade: 50, peso: 40 },
+      B: { quantidade: 30, peso: 25 },
+      C: { quantidade: 70, peso: 60 }
+    };
+
+    const selectProduto = document.getElementById('produto');
+    const inputQuantidade = document.getElementById('quantidade');
+    const inputPeso = document.getElementById('peso');
+
+    selectProduto.addEventListener('change', () => {
+      const escolhido = selectProduto.value;
+
+      if (produtos[escolhido]) {
+        inputQuantidade.value = produtos[escolhido].quantidade;
+        inputPeso.value = produtos[escolhido].peso;
+      } else {
+        inputQuantidade.value = '';
+        inputPeso.value = '';
+      }
+    });
+  </script>
+
+</body>
+</html>
