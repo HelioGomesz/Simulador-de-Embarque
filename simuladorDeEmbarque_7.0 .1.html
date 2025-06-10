@@ -3,9 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Simulador de Embarque 7.0</title>
+    <title>Simulador de Embarque 7.0.1</title>
     <link rel="stylesheet" href="simuladorDeEmbarque_7.0.css" />
-    
   </head>
 
   <body>
@@ -13,7 +12,9 @@
       <h1>Simulador de Embarque</h1>
       <nav>
         <ul>
-          <li><a href="../PagConfig/Configurações.html">⚙️ Configurações</a></li>
+          <li>
+            <a href="../PagConfig/Configurações.html">⚙️ Configurações</a>
+          </li>
           <li><a href="../PagIniciar/PaginaIniciar.HTML">🚪 Sair</a></li>
         </ul>
       </nav>
@@ -68,7 +69,7 @@
 
           <div class="card valorTotal">
             <h3>Valor Total</h3>
-            <p id="peso-container">R$0,00</p>
+            <p id="valorTotal-container">R$0,00</p>
           </div>
 
           <div class="card ocupacao">
@@ -106,17 +107,23 @@
 
       <div class="modal-content">
         <select id="produto">
+          <option value="" disabled selected>Selecione um produto</option>
           <option value="LM0001-4000840">LM0001-4000840</option>
           <option value="LM0001-4000850">LM0001-4000850</option>
+          <option value="LM0001-8000840">LM0001-8000840</option>
+          <option value="LM0001-8000850">LM0001-8000850</option>
           <option value="LM0006-4000830">LM0006-4000830</option>
           <option value="LM0006-4000840">LM0006-4000840</option>
           <option value="LM0006-4000850">LM0006-4000850</option>
           <option value="LM0006-4000865">LM0006-4000865</option>
+          <option value="LM0007-3200830">LM0007-3200830</option>
           <option value="LM0008-3500840">LM0008-3500840</option>
           <option value="LM0008-3500850">LM0008-3500850</option>
           <option value="LM0008-7000850">LM0008-7000850</option>
           <option value="LM0008-13000840">LM0008-13000840</option>
           <option value="LM0008-13000850">LM0008-13000850</option>
+          <option value="LM0008-20000840">LM0008-20000840</option>
+          <option value="LM0008-20000850">LM0008-20000850</option>
           <option value="LM0009-4000840">LM0009-4000840</option>
           <option value="LM0009-4000850">LM0009-4000850</option>
           <option value="LM0009-8000840">LM0009-8000840</option>
@@ -128,12 +135,12 @@
           <option value="LM0011-12000840">LM0011-12000840</option>
           <option value="LM0011-12000850">LM0011-12000850</option>
           <option value="LM0012-24000840">LM0012-24000840</option>
-          <option value="LM0012-24000850">LM0012-24000850</option>        
-          
+          <option value="LM0012-24000850">LM0012-24000850</option>
         </select>
-        </select>
+
         <input type="number" id="quantidade" placeholder="Quantidade" min="1" />
         <input type="number" id="peso" placeholder="Peso" min="1" />
+
         <button onclick="addEntry()">Incluir</button>
         <button onclick="closeModal()">Cancelar</button>
       </div>
@@ -145,17 +152,171 @@
       let selectedCube = null;
       let totalQuantidade = 0;
       let totalPeso = 0;
-      let cubagemTotal = 73.28
-      let cubagemPP = 3.7
-      let cubagemPG = 2.86
-      
+      let cubagemTotal = 73.28;
+      let cubagemPP = 3.7;
+      let cubagemPG = 2.86;
+
+      const produtos = {
+        "LM0001-4000840": {
+          PP: { quantidade: 248, peso: 332, cubagemPP },
+          PG: { quantidade: 510, peso: 647, cubagemPG },
+        },
+        "LM0001-4000850": {
+          PP: { quantidade: 248, peso: 332, cubagemPP },
+          PG: { quantidade: 510, peso: 647, cubagemPG },
+        },
+        "LM0001-8000840": {
+          PP: { quantidade: 248, peso: 355.6, cubagemPP },
+          PG: { quantidade: 510, peso: 694, cubagemPG },
+        },
+        "LM0001-8000850": {
+          PP: { quantidade: 248, peso: 355.6, cubagemPP },
+          PG: { quantidade: 510, peso: 694, cubagemPG },
+        },
+        "LM0006-4000830": {
+          PP: { quantidade: 160, peso: 460, cubagemPP },
+          PG: { quantidade: 224, peso: 639, cubagemPG },
+        },
+        "LM0006-4000840": {
+          PP: { quantidade: 160, peso: 460, cubagemPP },
+          PG: { quantidade: 224, peso: 639, cubagemPG },
+        },
+        "LM0006-4000850": {
+          PP: { quantidade: 160, peso: 460, cubagemPP },
+          PG: { quantidade: 224, peso: 639, cubagemPG },
+        },
+        "LM0006-4000865": {
+          PP: { quantidade: 160, peso: 160, cubagemPP },
+          PG: { quantidade: 224, peso: 639, cubagemPG },
+        },
+        "LM0007-3200830": {
+          PP: { quantidade: 384, peso: 359.8, cubagemPP },
+          PG: { quantidade: 768, peso: 697, cubagemPG },
+        },
+
+        "LM0008-3500840": {
+          PP: { quantidade: 528, peso: 288, cubagemPP },
+          PG: { quantidade: 1056, peso: 559, cubagemPG },
+        },
+        "LM0008-3500850": {
+          PP: { quantidade: 528, peso: 288, cubagemPP },
+          PG: { quantidade: 1056, peso: 559, cubagemPG },
+        },
+        "LM0008-7000850": {
+          PP: { quantidade: 384, peso: 359.8, cubagemPP },
+          PG: { quantidade: 768, peso: 697, cubagemPG },
+        },
+
+        "LM0008-13000840": {
+          PP: { quantidade: 296, peso: 364.4, cubagemPP },
+          PG: { quantidade: 500, peso: 712, cubagemPG },
+        },
+
+        "LM0008-13000850": {
+          PP: { quantidade: 296, peso: 364.4, cubagemPP },
+          PG: { quantidade: 520, peso: 712, cubagemPG },
+        },
+        //PRODUTO QUE UTILIZA DOIS PALLETS
+        "LM0008-20000840": {
+          PP: { quantidade: 231, peso: 352, cubagemPP },
+          PG: { quantidade: 231, peso: 352, cubagemPG },
+        },
+
+        "LM0008-20000850": {
+          PP: { quantidade: 231, peso: 352, cubagemPP },
+          PG: { quantidade: 231, peso: 352, cubagemPG },
+        },
+
+        "LM0009-4000840": {
+          PP: { quantidade: 256, peso: 288, cubagemPP },
+          PG: { quantidade: 510, peso: 559, cubagemPG },
+        },
+        "LM0009-4000850": {
+          PP: { quantidade: 256, peso: 288, cubagemPP },
+          PG: { quantidade: 510, peso: 559, cubagemPG },
+        },
+        "LM0009-8000840": {
+          PP: { quantidade: 224, peso: 288, cubagemPP },
+          PG: { quantidade: 448, peso: 559, cubagemPG },
+        },
+        "LM0009-8000850": {
+          PP: { quantidade: 224, peso: 288, cubagemPP },
+          PG: { quantidade: 448, peso: 559, cubagemPG },
+        },
+
+        "LM0010-2000830": {
+          PP: { quantidade: 640, peso: 598.2, cubagemPP },
+          PG: { quantidade: 896, peso: 832, cubagemPG },
+        },
+        "LM0010-2000840": {
+          PP: { quantidade: 640, peso: 598.2, cubagemPP },
+          PG: { quantidade: 896, peso: 832, cubagemPG },
+        },
+        "LM0010-2000850": {
+          PP: { quantidade: 640, peso: 598.2, cubagemPP },
+          PG: { quantidade: 896, peso: 832, cubagemPG },
+        },
+        "LM0010-2000865": {
+          PP: { quantidade: 640, peso: 598.2, cubagemPP },
+          PG: { quantidade: 896, peso: 832, cubagemPG },
+        },
+
+        "LM0011-12000840": {
+          PP: { quantidade: 248, peso: 355.6, cubagemPP },
+          PG: { quantidade: 510, peso: 694, cubagemPG },
+        },
+        "LM0011-12000850": {
+          PP: { quantidade: 248, peso: 355.6, cubagemPP },
+          PG: { quantidade: 510, peso: 694, cubagemPG },
+        },
+        "LM0012-24000840": {
+          PP: { quantidade: 231, peso: 352, cubagemPP },
+          PG: { quantidade: 231, peso: 352, cubagemPG },
+        },
+        "LM0012-24000850": {
+          PP: { quantidade: 231, peso: 352, cubagemPP },
+          PG: { quantidade: 231, peso: 352, cubagemPG },
+        },
+      };
 
       document.querySelectorAll(".cube").forEach((cube) => {
         cube.addEventListener("click", function () {
           selectedCube = this;
           document.getElementById("modal").style.display = "block";
+
+          document.getElementById("produto").value = "";
+          document.getElementById("quantidade").value = "";
+          document.getElementById("peso").value = "";
         });
       });
+      //INSERIR DADOS AUTOMÁTICOS NO FORMS CONFORME PRODUTO SELECIONADO
+      document
+        .getElementById("produto")
+        .addEventListener("change", function () {
+          const produtoSelecionado = this.value;
+          if (!produtoSelecionado || !selectedCube) return;
+
+          const dadosProduto = produtos[produtoSelecionado];
+          if (!dadosProduto) {
+            alert("Produto não cadastrado na base!");
+            document.getElementById("quantidade").value = "";
+            document.getElementById("peso").value = "";
+            return;
+          }
+
+          const idCube = selectedCube.getAttribute("id");
+          const isPequeno = parseInt(idCube.replace("cubo", "")) % 2 !== 0;
+
+          if (isPequeno) {
+            document.getElementById("quantidade").value =
+              dadosProduto.PP.quantidade;
+            document.getElementById("peso").value = dadosProduto.PP.peso;
+          } else {
+            document.getElementById("quantidade").value =
+              dadosProduto.PG.quantidade;
+            document.getElementById("peso").value = dadosProduto.PG.peso;
+          }
+        });
 
       function addEntry() {
         const produto = document.getElementById("produto").value;
@@ -175,7 +336,7 @@
         }
 
         const idCube = selectedCube.getAttribute("id");
-        const categoria = produto.substring(0, 6);
+        const categoria = produto;
 
         selectedCube.setAttribute("data-categoria", categoria);
         selectedCube.textContent = produto;
@@ -198,7 +359,9 @@
           totalQuantidade.toFixed(2);
         document.getElementById("peso-container").innerText =
           totalPeso.toFixed(2);
-        const ocupacao = (totalQuantidade / 18) * 100;
+        const ocupacao =
+          (cubagemPP + cubagemPG / cubagemTotal) *
+          100; /*Ajustar calculo de cubagem*/
         document.getElementById("ocupacao-container").innerText =
           ocupacao.toFixed(2) + "%";
 
@@ -240,8 +403,8 @@
 
       // FUNÇÃO PARA PERMITIR ARRASTAR O FORMULÁRIO NA PAGINA COM O MOUSE
       function makeModalDraggable() {
-        const modal = document.getElementById('modal');
-        const header = document.getElementById('modal-header');
+        const modal = document.getElementById("modal");
+        const header = document.getElementById("modal-header");
         let offsetX = 0,
           offsetY = 0,
           mouseX = 0,
@@ -255,8 +418,8 @@
           document.onmousemove = function (event) {
             offsetX = event.clientX - mouseX;
             offsetY = event.clientY - mouseY;
-            modal.style.left = modal.offsetLeft + offsetX + 'px';
-            modal.style.top = modal.offsetTop + offsetY + 'px';
+            modal.style.left = modal.offsetLeft + offsetX + "px";
+            modal.style.top = modal.offsetTop + offsetY + "px";
             mouseX = event.clientX;
             mouseY = event.clientY;
           };
