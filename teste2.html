@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quadrados Clicáveis com Produto</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 500px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f9f9f9;
+      border-radius: 8px;
+    }
+    .quadrados {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .quadrado {
+      width: 100px;
+      height: 100px;
+      background-color: #dcdcdc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-weight: bold;
+      border-radius: 8px;
+      transition: background-color 0.3s;
+      text-align: center;
+    }
+    .quadrado:hover {
+      background-color: #c0c0c0;
+    }
+    .grande {
+      width: 150px;
+      height: 150px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    select, input {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      font-size: 16px;
+    }
+    #form-container {
+      display: none;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Escolha a caixa</h2>
+  <div class="quadrados">
+    <div class="quadrado pequena" data-tamanho="pequena">Pequena</div>
+    <div class="quadrado grande" data-tamanho="grande">Grande</div>
+  </div>
+
+  <div id="form-container">
+    <form id="form-produto">
+      <label for="produto">Produto:</label>
+      <select id="produto" required>
+        <option value="" disabled selected>Selecione um produto</option>
+        <option value="LM0001-4000840">LM0001-4000840</option>
+        <option value="LM0001-4000850">LM0001-4000850</option>
+        <option value="LM0001-8000840">LM0001-8000840</option>
+      </select>
+
+      <label for="quantidade">Quantidade:</label>
+      <input type="number" id="quantidade" readonly>
+
+      <label for="peso">Peso (kg):</label>
+      <input type="number" id="peso" readonly>
+    </form>
+  </div>
+
+  <script>
+    // Banco de dados simulado
+    const produtos = {
+      "LM0001-4000840": {
+        pequena: { quantidade: 20, peso: 15 },
+        grande: { quantidade: 40, peso: 30 }
+      },
+      "LM0001-4000850": {
+        pequena: { quantidade: 25, peso: 18 },
+        grande: { quantidade: 45, peso: 35 }
+      },
+      "LM0001-8000840": {
+        pequena: { quantidade: 30, peso: 22 },
+        grande: { quantidade: 50, peso: 40 }
+      }
+    };
+
+    const quadrados = document.querySelectorAll('.quadrado');
+    const formContainer = document.getElementById('form-container');
+    const selectProduto = document.getElementById('produto');
+    const inputQuantidade = document.getElementById('quantidade');
+    const inputPeso = document.getElementById('peso');
+
+    let tamanhoSelecionado = ''; // Para saber qual quadrado foi clicado
+
+    quadrados.forEach(quadrado => {
+      quadrado.addEventListener('click', () => {
+        tamanhoSelecionado = quadrado.dataset.tamanho; // pequena ou grande
+        formContainer.style.display = 'block'; // exibe o formulário
+        selectProduto.value = ''; // reseta a seleção do produto
+        inputQuantidade.value = '';
+        inputPeso.value = '';
+      });
+    });
+
+    selectProduto.addEventListener('change', () => {
+      const produtoEscolhido = selectProduto.value;
+
+      if (produtoEscolhido && tamanhoSelecionado) {
+        const dados = produtos[produtoEscolhido][tamanhoSelecionado];
+        inputQuantidade.value = dados.quantidade;
+        inputPeso.value = dados.peso;
+      } else {
+        inputQuantidade.value = '';
+        inputPeso.value = '';
+      }
+    });
+  </script>
+
+</body>
+</html>
