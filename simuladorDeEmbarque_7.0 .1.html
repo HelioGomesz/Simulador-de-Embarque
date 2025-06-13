@@ -153,8 +153,9 @@
       let totalQuantidade = 0;
       let totalPeso = 0;
       let cubagemTotal = 73.28;
-      let cubagemPP = 3.7;
-      let cubagemPG = 2.86;
+      let cubagemPP = 2.86;
+      let cubagemPG = 3.7;
+      let cubagemOcupada = 0; // NOVO
 
       const produtos = {
         "LM0001-4000840": {
@@ -359,9 +360,12 @@
           totalQuantidade.toFixed(2);
         document.getElementById("peso-container").innerText =
           totalPeso.toFixed(2);
-        const ocupacao =
-          (cubagemPP + cubagemPG / cubagemTotal) *
-          100; /*Ajustar calculo de cubagem*/
+
+        //  Cálculo de cubagem
+        const cuboNumero = parseInt(idCube.replace("cubo", ""));
+        const cubagem = cuboNumero % 2 !== 0 ? cubagemPP : cubagemPG;
+        cubagemOcupada += cubagem;
+        const ocupacao = (cubagemOcupada / cubagemTotal) * 100;
         document.getElementById("ocupacao-container").innerText =
           ocupacao.toFixed(2) + "%";
 
@@ -382,20 +386,24 @@
           totalQuantidade.toFixed(2);
         document.getElementById("peso-container").innerText =
           totalPeso.toFixed(2);
-        const ocupacao = (totalQuantidade / 18) * 100;
+
+        //  Descontar cubagem - Calcular conforme movimentação
+        const cuboNumero = parseInt(idCube.replace("cubo", ""));
+        const cubagem = cuboNumero % 2 !== 0 ? cubagemPP : cubagemPG;
+        cubagemOcupada -= cubagem;
+        const ocupacao = (cubagemOcupada / cubagemTotal) * 100;
         document.getElementById("ocupacao-container").innerText =
           ocupacao.toFixed(2) + "%";
 
         const cube = document.getElementById(idCube);
         cube.removeAttribute("data-categoria");
         cube.textContent =
-          idCube.match(/cubo(\d+)/)[1] % 2 === 0
-            ? "G" + idCube.match(/\d+/)[0] / 2
-            : "P" + Math.ceil(idCube.match(/\d+/)[0] / 2);
+          cuboNumero % 2 === 0
+            ? "G" + cuboNumero / 2
+            : "P" + Math.ceil(cuboNumero / 2);
         cube.classList.add("restaurado");
         setTimeout(() => cube.classList.remove("restaurado"), 500);
       }
-
       function closeModal() {
         document.getElementById("modal").style.display = "none";
         selectedCube = null;
@@ -438,11 +446,11 @@
       function downloadPDF() {
         const element = document.body;
         const opt = {
-          margin: 0.5,
+          margin: 0,
           filename: "SimuladorEmbarque.pdf",
           image: { type: "jpeg", quality: 0.98 },
-          html2canvas: { scale: 2 },
-          jsPDF: { unit: "in", format: "a4", orientation: "landscape" },
+          html2canvas: { scale: 2, useCORS: true, logging: true, scrollY: 0 },
+          jsPDF: { unit: "mm", format: "a4", orientation: "landscape" },
         };
         html2pdf().set(opt).from(element).save();
       }
