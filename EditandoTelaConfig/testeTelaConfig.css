@@ -18,7 +18,6 @@ header h1 {
   margin: 0;
 }
 
-
 nav ul {
   list-style: none;
   display: flex;
@@ -33,24 +32,6 @@ nav a {
   font-size: 18px;
 }
 
-
-
-.download-btn {
-  text-align: right;
-  padding: 10px;
-}
-
-.download-btn button {
-  background-color: #84d6f0;
-  padding: 10px 15px;
-  font-size: 16px;
-  cursor: pointer;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  color: white;
-  border-radius: 5px;
-  border: none;
-}
-
 /* Layout geral */
 .layout-principal {
   display: flex;
@@ -61,10 +42,6 @@ nav a {
   gap: 30px;
 }
 
-.coluna-esquerda {
-  flex: 0 0 300px;
-}
-
 .coluna-direita {
   flex: 1;
   display: flex;
@@ -72,171 +49,6 @@ nav a {
   gap: 20px;
 }
 
-.caminhao {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  background-color: #ddd;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.column {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.cube {
-  width: 130px;
-  height: 70px;
-  background-color: #10898d79;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bold;
-  font-size: 14px;
-  cursor: pointer;
-  border-radius: 4px;
-  transition: background-color 0.3s background-color 0.3s;
-  transform-style: preserve-3d;
-  box-shadow: 5px 5px 5px rgba(5, 5, 5, 0.726);
-}
-
-.cube:hover {
-  transform: scale(1.1);
-}
-
-.cube[data-categoria="LM0001-4000840"] {
-  background-color: #4caf50;
-}
-.cube[data-categoria="LM0001-4000850"] {
-  background-color: #a0e2a2;
-  color: black;
-}
-.cube[data-categoria="LM0001-8000840"] {
-  background-color: #9ec96e;
-}
-.cube[data-categoria="LM0001-8000850"] {
-  background-color: #6ae76f;
-  color: black;
-}
-.cube[data-categoria="LM0006-4000830"] {
-  background-color: #1089ec;
-}
-.cube[data-categoria="LM0006-4000840"] {
-  background-color: #48a1eb;
-}
-.cube[data-categoria="LM0006-4000850"] {
-  background-color: #7abef5;
-}
-.cube[data-categoria="LM0006-4000865"] {
-  background-color: #97c9f1;
-  color: black;
-}
-.cube[data-categoria="LM0007-3200830"] {
-  background-color: #ec7834;
-}
-.cube[data-categoria="LM0008-3500840"] {
-  background-color: #ffc107;
-  color: black;
-}
-.cube[data-categoria="LM0008-3500850"] {
-  background-color: #f7d05e;
-  color: black;
-}
-.cube[data-categoria="LM0008-7000850"] {
-  background-color: #86511f;
-}
-.cube[data-categoria="LM0008-13000840"] {
-  background-color: #b86e29;
-}
-.cube[data-categoria="LM0008-13000850"] {
-  background-color: #ec8e36;
-  color: black;
-}
-.cube[data-categoria="LM0008-20000840"] {
-  background-color: #eca270;
-  color: black;
-}
-.cube[data-categoria="LM0008-20000850"] {
-  background-color: #e2b699;
-  color: black;
-}
-.cube[data-categoria="LM0009-4000840"] {
-  background-color: #690d07;
-}
-.cube[data-categoria="LM0009-4000850"] {
-  background-color: #9b2820;
-}
-.cube[data-categoria="LM0009-8000840"] {
-  background-color: #b15a53;
-}
-.cube[data-categoria="LM0009-8000850"] {
-  background-color: #e0847f;
-}
-.cube[data-categoria="LM0010-2000830"] {
-  background-color: #8b58a3;
-}
-.cube[data-categoria="LM0010-2000840"] {
-  background-color: #b836f4;
-}
-.cube[data-categoria="LM0010-2000850"] {
-  background-color: #985ab4;
-}
-.cube[data-categoria="LM0010-2000865"] {
-  background-color: #774a8b;
-}
-.cube[data-categoria="LM0011-12000840"] {
-  background-color: #348ea5;
-  color: black;
-}
-.cube[data-categoria="LM0011-12000850"] {
-  background-color: #82aeb9;
-}
-.cube[data-categoria="LM0012-24000840"] {
-  background-color: #f4369e;
-}
-.cube[data-categoria="LM0012-24000850"] {
-  background-color: #ad407c;
-}
-
-.cube.restaurado {
-  background-color: #777262 !important;
-  color: white !important;
-}
-
-/* Dashboard */
-.dashboard.container-centralizado {
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  gap: 20px;
-}
-.card {
-  background-color: white;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  min-width: 150px;
-  flex: 1;
-}
-.card h3 {
-  margin-top: 5px;
-}
-.card.quantidade {
-  border-left: 15px solid #5ac6da;
-}
-.card.valorTotal {
-  border-left: 15px solid #a14f94;
-}
-.card.peso {
-  border-left: 15px solid #0077cc;
-}
-.card.ocupacao {
-  border-left: 15px solid #149c74;
-}
 .listagemGeral.container-centralizado {
   align-items: flex-start;
   width: 100%;
@@ -270,7 +82,7 @@ th {
 }
 .tabela-cupomEmbarque button {
   padding: 4px 8px;
-  font-size: 1em;
+  font-size: 20px;
   cursor: pointer;
   border: none;
   border-radius: 4px;
@@ -280,6 +92,11 @@ th {
 
 .tabela-cupomEmbarque button:hover {
   background-color: #6f8be7;
+}
+
+button.btn-Incluir {
+  background-color: rgb(33, 145, 145);
+  font-size: 20px;
 }
 
 /* Modal - Formulário de inputar dados*/
