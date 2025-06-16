@@ -444,9 +444,9 @@
       // FAZER DOWLOAD DA PAGINA DE SIMULAÇÃO
 
       function downloadPDF() {
-        const element = document.body;
+        const element = document.querySelector("main");
         const opt = {
-          margin: 0,
+          margin: 0.3,
           filename: "SimuladorEmbarque.pdf",
           image: { type: "jpeg", quality: 0.98 },
           html2canvas: { scale: 2, useCORS: true, logging: true, scrollY: 0 },
