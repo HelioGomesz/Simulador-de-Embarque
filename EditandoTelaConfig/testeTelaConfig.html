@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simulador de Embarque</title>
+    <link rel="stylesheet" href="testeTelaConfig.css" />
+  </head>
+
+  <body>
+    <header>
+      <h1>Configurações</h1>
+      <nav>
+        <ul>
+          <li><a href="../simuladorDeEmbarque_7.0.1.html">🚪 Sair</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="layout-principal">
+      <!-- Coluna Esquerda - Caminhão -->
+
+      <!-- Coluna Direita -->
+      <div class="coluna-direita">
+
+        <!-- Tabela Cupom de Embarque -->
+        <div class="listagemGeral container-centralizado">
+          <div class="tabela-cupomEmbarque">
+            <h2>Cadastro de Produtos</h2>
+            <button onclick="abrirCadastro()">Incluir</button>
+            <br><br>
+            <table>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Tamanho</th>
+                  <th>Produto</th>
+                  <th>Quantidade</th>
+                  <th>Peso (kg)</th>
+                  <th>Cubagem</th>
+                  <th>Ação</th>
+                </tr>
+              </thead>
+              <tbody id="tabela-cupomList"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+      <div class="modal-header" id="modal-header">
+        <h2>Adicionar Produto</h2>
+      </div>
+
+      <div class="modal-content">
+        <select id="produto">
+          <option value="" disabled selected>Selecione um produto</option>
+          <option value="LM0001-4000840">LM0001-4000840</option>
+          <option value="LM0001-4000850">LM0001-4000850</option>
+          <option value="LM0001-8000840">LM0001-8000840</option>
+          <option value="LM0001-8000850">LM0001-8000850</option>
+          <option value="LM0006-4000830">LM0006-4000830</option>
+          <option value="LM0006-4000840">LM0006-4000840</option>
+          <option value="LM0006-4000850">LM0006-4000850</option>
+          <option value="LM0006-4000865">LM0006-4000865</option>
+          <option value="LM0007-3200830">LM0007-3200830</option>
+          <option value="LM0008-3500840">LM0008-3500840</option>
+          <option value="LM0008-3500850">LM0008-3500850</option>
+          <option value="LM0008-7000850">LM0008-7000850</option>
+          <option value="LM0008-13000840">LM0008-13000840</option>
+          <option value="LM0008-13000850">LM0008-13000850</option>
+          <option value="LM0008-20000840">LM0008-20000840</option>
+          <option value="LM0008-20000850">LM0008-20000850</option>
+          <option value="LM0009-4000840">LM0009-4000840</option>
+          <option value="LM0009-4000850">LM0009-4000850</option>
+          <option value="LM0009-8000840">LM0009-8000840</option>
+          <option value="LM0009-8000850">LM0009-8000850</option>
+          <option value="LM0010-2000830">LM0010-2000830</option>
+          <option value="LM0010-2000840">LM0010-2000840</option>
+          <option value="LM0010-2000850">LM0010-2000850</option>
+          <option value="LM0010-2000865">LM0010-2000865</option>
+          <option value="LM0011-12000840">LM0011-12000840</option>
+          <option value="LM0011-12000850">LM0011-12000850</option>
+          <option value="LM0012-24000840">LM0012-24000840</option>
+          <option value="LM0012-24000850">LM0012-24000850</option>
+        </select>
+
+        <input type="number" id="quantidade" placeholder="Quantidade" min="1" />
+        <input type="number" id="peso" placeholder="Peso" min="1" />
+
+        <button onclick="addEntry()">Incluir</button>
+        <button onclick="closeModal()">Cancelar</button>
+      </div>
+    </div>
+
+    <!-- SCRIPT -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script>
+      let selectedCube = null;
+      let totalQuantidade = 0;
+      let totalPeso = 0;
+      let cubagemTotal = 73.28;
+      let cubagemPP = 2.86;
+      let cubagemPG = 3.7;
+      let cubagemOcupada = 0; // NOVO
+
+      const produtos = {
+        "LM0001-4000840": {
+          PP: { quantidade: 248, peso: 332, cubagemPP },
+          PG: { quantidade: 510, peso: 647, cubagemPG },
+        },
+        "LM0001-4000850": {
+          PP: { quantidade: 248, peso: 332, cubagemPP },
+          PG: { quantidade: 510, peso: 647, cubagemPG },
+        },
+        "LM0001-8000840": {
+          PP: { quantidade: 248, peso: 355.6, cubagemPP },
+          PG: { quantidade: 510, peso: 694, cubagemPG },
+        },
+        "LM0001-8000850": {
+          PP: { quantidade: 248, peso: 355.6, cubagemPP },
+          PG: { quantidade: 510, peso: 694, cubagemPG },
+        },
+        "LM0006-4000830": {
+          PP: { quantidade: 160, peso: 460, cubagemPP },
+          PG: { quantidade: 224, peso: 639, cubagemPG },
+        },
+        "LM0006-4000840": {
+          PP: { quantidade: 160, peso: 460, cubagemPP },
+          PG: { quantidade: 224, peso: 639, cubagemPG },
+        },
+        "LM0006-4000850": {
+          PP: { quantidade: 160, peso: 460, cubagemPP },
+          PG: { quantidade: 224, peso: 639, cubagemPG },
+        },
+        "LM0006-4000865": {
+          PP: { quantidade: 160, peso: 160, cubagemPP },
+          PG: { quantidade: 224, peso: 639, cubagemPG },
+        },
+        "LM0007-3200830": {
+          PP: { quantidade: 384, peso: 359.8, cubagemPP },
+          PG: { quantidade: 768, peso: 697, cubagemPG },
+        },
+
+        "LM0008-3500840": {
+          PP: { quantidade: 528, peso: 288, cubagemPP },
+          PG: { quantidade: 1056, peso: 559, cubagemPG },
+        },
+        "LM0008-3500850": {
+          PP: { quantidade: 528, peso: 288, cubagemPP },
+          PG: { quantidade: 1056, peso: 559, cubagemPG },
+        },
+        "LM0008-7000850": {
+          PP: { quantidade: 384, peso: 359.8, cubagemPP },
+          PG: { quantidade: 768, peso: 697, cubagemPG },
+        },
+
+        "LM0008-13000840": {
+          PP: { quantidade: 296, peso: 364.4, cubagemPP },
+          PG: { quantidade: 500, peso: 712, cubagemPG },
+        },
+
+        "LM0008-13000850": {
+          PP: { quantidade: 296, peso: 364.4, cubagemPP },
+          PG: { quantidade: 520, peso: 712, cubagemPG },
+        },
+        //PRODUTO QUE UTILIZA DOIS PALLETS
+        "LM0008-20000840": {
+          PP: { quantidade: 231, peso: 352, cubagemPP },
+          PG: { quantidade: 231, peso: 352, cubagemPG },
+        },
+
+        "LM0008-20000850": {
+          PP: { quantidade: 231, peso: 352, cubagemPP },
+          PG: { quantidade: 231, peso: 352, cubagemPG },
+        },
+
+        "LM0009-4000840": {
+          PP: { quantidade: 256, peso: 288, cubagemPP },
+          PG: { quantidade: 510, peso: 559, cubagemPG },
+        },
+        "LM0009-4000850": {
+          PP: { quantidade: 256, peso: 288, cubagemPP },
+          PG: { quantidade: 510, peso: 559, cubagemPG },
+        },
+        "LM0009-8000840": {
+          PP: { quantidade: 224, peso: 288, cubagemPP },
+          PG: { quantidade: 448, peso: 559, cubagemPG },
+        },
+        "LM0009-8000850": {
+          PP: { quantidade: 224, peso: 288, cubagemPP },
+          PG: { quantidade: 448, peso: 559, cubagemPG },
+        },
+
+        "LM0010-2000830": {
+          PP: { quantidade: 640, peso: 598.2, cubagemPP },
+          PG: { quantidade: 896, peso: 832, cubagemPG },
+        },
+        "LM0010-2000840": {
+          PP: { quantidade: 640, peso: 598.2, cubagemPP },
+          PG: { quantidade: 896, peso: 832, cubagemPG },
+        },
+        "LM0010-2000850": {
+          PP: { quantidade: 640, peso: 598.2, cubagemPP },
+          PG: { quantidade: 896, peso: 832, cubagemPG },
+        },
+        "LM0010-2000865": {
+          PP: { quantidade: 640, peso: 598.2, cubagemPP },
+          PG: { quantidade: 896, peso: 832, cubagemPG },
+        },
+
+        "LM0011-12000840": {
+          PP: { quantidade: 248, peso: 355.6, cubagemPP },
+          PG: { quantidade: 510, peso: 694, cubagemPG },
+        },
+        "LM0011-12000850": {
+          PP: { quantidade: 248, peso: 355.6, cubagemPP },
+          PG: { quantidade: 510, peso: 694, cubagemPG },
+        },
+        "LM0012-24000840": {
+          PP: { quantidade: 231, peso: 352, cubagemPP },
+          PG: { quantidade: 231, peso: 352, cubagemPG },
+        },
+        "LM0012-24000850": {
+          PP: { quantidade: 231, peso: 352, cubagemPP },
+          PG: { quantidade: 231, peso: 352, cubagemPG },
+        },
+      };
+
+      document.querySelectorAll(".cube").forEach((cube) => {
+        cube.addEventListener("click", function () {
+          selectedCube = this;
+          document.getElementById("modal").style.display = "block";
+
+          document.getElementById("produto").value = "";
+          document.getElementById("quantidade").value = "";
+          document.getElementById("peso").value = "";
+        });
+      });
+      //INSERIR DADOS AUTOMÁTICOS NO FORMS CONFORME PRODUTO SELECIONADO
+      document
+        .getElementById("produto")
+        .addEventListener("change", function () {
+          const produtoSelecionado = this.value;
+          if (!produtoSelecionado || !selectedCube) return;
+
+          const dadosProduto = produtos[produtoSelecionado];
+          if (!dadosProduto) {
+            alert("Produto não cadastrado na base!");
+            document.getElementById("quantidade").value = "";
+            document.getElementById("peso").value = "";
+            return;
+          }
+
+          const idCube = selectedCube.getAttribute("id");
+          const isPequeno = parseInt(idCube.replace("cubo", "")) % 2 !== 0;
+
+          if (isPequeno) {
+            document.getElementById("quantidade").value =
+              dadosProduto.PP.quantidade;
+            document.getElementById("peso").value = dadosProduto.PP.peso;
+          } else {
+            document.getElementById("quantidade").value =
+              dadosProduto.PG.quantidade;
+            document.getElementById("peso").value = dadosProduto.PG.peso;
+          }
+        });
+
+      function addEntry() {
+        const produto = document.getElementById("produto").value;
+        const quantidade = parseFloat(
+          document.getElementById("quantidade").value
+        );
+        const peso = parseFloat(document.getElementById("peso").value);
+
+        if (!selectedCube) {
+          alert("Selecione um pallet.");
+          return;
+        }
+
+        if (isNaN(quantidade) || isNaN(peso)) {
+          alert("Preencha quantidade e peso.");
+          return;
+        }
+
+        const idCube = selectedCube.getAttribute("id");
+        const categoria = produto;
+
+        selectedCube.setAttribute("data-categoria", categoria);
+        selectedCube.textContent = produto;
+
+        const table = document.getElementById("tabela-cupomList");
+        const row = table.insertRow();
+        row.setAttribute("data-id", idCube);
+        row.classList.add("ativo");
+        row.innerHTML = `
+          <td>${idCube}</td>
+          <td>${produto}</td>
+          <td>${quantidade}</td>
+          <td>${peso}</td>
+          <td><button onclick="removeEntry(this)">Excluir</button></td>
+        `;
+
+        totalQuantidade += quantidade;
+        totalPeso += peso;
+        document.getElementById("Quantidade-container").innerText =
+          totalQuantidade.toFixed(2);
+        document.getElementById("peso-container").innerText =
+          totalPeso.toFixed(2);
+
+        //  Cálculo de cubagem
+        const cuboNumero = parseInt(idCube.replace("cubo", ""));
+        const cubagem = cuboNumero % 2 !== 0 ? cubagemPP : cubagemPG;
+        cubagemOcupada += cubagem;
+        const ocupacao = (cubagemOcupada / cubagemTotal) * 100;
+        document.getElementById("ocupacao-container").innerText =
+          ocupacao.toFixed(2) + "%";
+
+        closeModal();
+      }
+
+      function removeEntry(button) {
+        const row = button.parentElement.parentElement;
+        const table = document.getElementById("tabela-cupomList");
+        const idCube = row.getAttribute("data-id");
+        const quantidade = parseFloat(row.cells[2].innerText);
+        const peso = parseFloat(row.cells[3].innerText);
+
+        table.deleteRow(row.rowIndex - 1);
+        totalQuantidade -= quantidade;
+        totalPeso -= peso;
+        document.getElementById("Quantidade-container").innerText =
+          totalQuantidade.toFixed(2);
+        document.getElementById("peso-container").innerText =
+          totalPeso.toFixed(2);
+
+        //  Descontar cubagem - Calcular conforme movimentação
+        const cuboNumero = parseInt(idCube.replace("cubo", ""));
+        const cubagem = cuboNumero % 2 !== 0 ? cubagemPP : cubagemPG;
+        cubagemOcupada -= cubagem;
+        const ocupacao = (cubagemOcupada / cubagemTotal) * 100;
+        document.getElementById("ocupacao-container").innerText =
+          ocupacao.toFixed(2) + "%";
+
+        const cube = document.getElementById(idCube);
+        cube.removeAttribute("data-categoria");
+        cube.textContent =
+          cuboNumero % 2 === 0
+            ? "G" + cuboNumero / 2
+            : "P" + Math.ceil(cuboNumero / 2);
+        cube.classList.add("restaurado");
+        setTimeout(() => cube.classList.remove("restaurado"), 500);
+      }
+      function closeModal() {
+        document.getElementById("modal").style.display = "none";
+        selectedCube = null;
+      }
+
+      // FUNÇÃO PARA PERMITIR ARRASTAR O FORMULÁRIO NA PAGINA COM O MOUSE
+      function makeModalDraggable() {
+        const modal = document.getElementById("modal");
+        const header = document.getElementById("modal-header");
+        let offsetX = 0,
+          offsetY = 0,
+          mouseX = 0,
+          mouseY = 0;
+
+        header.onmousedown = function (event) {
+          event.preventDefault();
+          mouseX = event.clientX;
+          mouseY = event.clientY;
+
+          document.onmousemove = function (event) {
+            offsetX = event.clientX - mouseX;
+            offsetY = event.clientY - mouseY;
+            modal.style.left = modal.offsetLeft + offsetX + "px";
+            modal.style.top = modal.offsetTop + offsetY + "px";
+            mouseX = event.clientX;
+            mouseY = event.clientY;
+          };
+
+          document.onmouseup = function () {
+            document.onmousemove = null;
+            document.onmouseup = null;
+          };
+        };
+      }
+      // Inicia o comportamento de arrastar ao carregar a página
+      window.onload = makeModalDraggable;
+
+      // FAZER DOWLOAD DA PAGINA DE SIMULAÇÃO
+
+      function downloadPDF() {
+        const element = document.body;
+        const opt = {
+          margin: 0,
+          filename: "SimuladorEmbarque.pdf",
+          image: { type: "jpeg", quality: 0.98 },
+          html2canvas: { scale: 2, useCORS: true, logging: true, scrollY: 0 },
+          jsPDF: { unit: "mm", format: "a4", orientation: "landscape" },
+        };
+        html2pdf().set(opt).from(element).save();
+      }
+    </script>
+  </body>
+</html>
