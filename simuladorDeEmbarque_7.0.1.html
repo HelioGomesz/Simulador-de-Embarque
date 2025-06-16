@@ -13,7 +13,9 @@
       <nav>
         <ul>
           <li>
-            <a href="/EditandoTelaConfig/testeTelaConfig.html">⚙️ Configurações</a>
+            <a href="/EditandoTelaConfig/testeTelaConfig.html"
+              >⚙️ Configurações</a
+            >
           </li>
           <li><a href="/PagIniciar/PaginaIniciar.HTML">🚪 Sair</a></li>
         </ul>
@@ -29,26 +31,26 @@
       <div class="coluna-esquerda">
         <div class="caminhao">
           <section class="column" id="smallCubes">
-            <div class="cube" id="cubo1">P1</div>
-            <div class="cube" id="cubo3">P2</div>
-            <div class="cube" id="cubo5">P3</div>
-            <div class="cube" id="cubo7">P4</div>
-            <div class="cube" id="cubo9">P5</div>
-            <div class="cube" id="cubo11">P6</div>
-            <div class="cube" id="cubo13">P7</div>
-            <div class="cube" id="cubo15">P8</div>
-            <div class="cube" id="cubo17">P9</div>
+            <div class="cube" id="P1">P1</div>
+            <div class="cube" id="P2">P2</div>
+            <div class="cube" id="P3">P3</div>
+            <div class="cube" id="P4">P4</div>
+            <div class="cube" id="P5">P5</div>
+            <div class="cube" id="P6">P6</div>
+            <div class="cube" id="P7">P7</div>
+            <div class="cube" id="P8">P8</div>
+            <div class="cube" id="P9">P9</div>
           </section>
           <section class="column" id="largeCubes">
-            <div class="cube" id="cubo2">G1</div>
-            <div class="cube" id="cubo4">G2</div>
-            <div class="cube" id="cubo6">G3</div>
-            <div class="cube" id="cubo8">G4</div>
-            <div class="cube" id="cubo10">G5</div>
-            <div class="cube" id="cubo12">G6</div>
-            <div class="cube" id="cubo14">G7</div>
-            <div class="cube" id="cubo16">G8</div>
-            <div class="cube" id="cubo18">G9</div>
+            <div class="cube" id="G1">G1</div>
+            <div class="cube" id="G2">G2</div>
+            <div class="cube" id="G3">G3</div>
+            <div class="cube" id="G4">G4</div>
+            <div class="cube" id="G5">G5</div>
+            <div class="cube" id="G6">G6</div>
+            <div class="cube" id="G7">G7</div>
+            <div class="cube" id="G8">G8</div>
+            <div class="cube" id="G9">G9</div>
           </section>
         </div>
       </div>
@@ -59,12 +61,12 @@
         <div class="dashboard container-centralizado">
           <div class="card quantidade">
             <h3>Quantidade Total</h3>
-            <p id="Quantidade-container">0,00</p>
+            <p id="Quantidade-container">0.00</p>
           </div>
 
           <div class="card peso">
             <h3>Peso Total</h3>
-            <p id="peso-container">0,00</p>
+            <p id="peso-container">0.00</p>
           </div>
 
           <div class="card valorTotal">
@@ -450,7 +452,7 @@
           filename: "SimuladorEmbarque.pdf",
           image: { type: "jpeg", quality: 0.98 },
           html2canvas: { scale: 2, useCORS: true, logging: true, scrollY: 0 },
-          jsPDF: { unit: "mm", format: "a4", orientation: "landscape" },
+          jsPDF: { unit: "mm", format: "a3", orientation: "landscape" },
         };
         html2pdf().set(opt).from(element).save();
       }

@@ -54,8 +54,8 @@ nav a {
   flex-direction: row;
   align-items: flex-start;
   justify-content: flex-start;
-  padding: 20px;
-  gap: 30px;
+  padding: 25px;
+  gap: 20px;
 }
 
 .coluna-esquerda {
@@ -86,7 +86,7 @@ nav a {
 
 .cube {
   width: 130px;
-  height: 70px;
+  height: 80px;
   background-color: #10898d79;
   color: white;
   display: flex;
@@ -186,11 +186,11 @@ nav a {
   background-color: #774a8b;
 }
 .cube[data-categoria="LM0011-12000840"] {
-  background-color: #348ea5;
+  background-color: #223d44;
   color: black;
 }
 .cube[data-categoria="LM0011-12000850"] {
-  background-color: #82aeb9;
+  background-color: #6896a1;
 }
 .cube[data-categoria="LM0012-24000840"] {
   background-color: #f4369e;
@@ -215,13 +215,21 @@ nav a {
   background-color: white;
   padding: 20px;
   border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  min-width: 150px;
+  box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.2);
+  min-width: 100px;
   flex: 1;
 }
 .card h3 {
-  margin-top: 5px;
+  margin-top: 2px;
+  text-align: left;
 }
+
+.card p {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
 .card.quantidade {
   border-left: 15px solid #5ac6da;
 }
@@ -237,7 +245,7 @@ nav a {
 .listagemGeral.container-centralizado {
   align-items: flex-start;
   width: 100%;
-  margin-top: 0;
+  margin-top: 0.5;
 }
 .tabela-cupomEmbarque {
   background-color: white;
