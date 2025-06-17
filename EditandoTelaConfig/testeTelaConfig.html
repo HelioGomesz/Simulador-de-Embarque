@@ -241,6 +241,25 @@
         atualizarTabela();
       }
 
+      function exportarParaExcel() {
+        const tabela = document.getElementById("tabela-cupomList");
+        const rows = Array.from(tabela.rows).map((row) => {
+          return Array.from(row.cells).map((cell) => cell.textContent);
+        });
+        const ws = XLSX.utils.aoa_to_sheet([
+          ["ID", "Tamanho", "Produto", "Quantidade", "Peso (kg)", "Cubagem"],
+          ...rows,
+        ]);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Produtos");
+        const dataAtual = new Date()
+          .toLocaleDateString("pt-BR")
+          .replace(/\//g, "-");
+        XLSX.writeFile(wb, `Produtos_Cadastrados ${dataAtual}.xlsx`);
+      }
+
+      //Função de arrastar o modal na tela
+
       function makeModalDraggable() {
         const modal = document.getElementById("modal");
         const header = document.getElementById("modal-header");
