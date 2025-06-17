@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Simulador - Configurações</title>
-    <link rel="stylesheet" href="testeTelaConfig.css" />
+    <title>teste.Configurações2</title>
+    <link rel="stylesheet" href="ajusteconfig.2.css" />
+    <style></style>
   </head>
-
   <body>
     <header>
       <h1>Configurações</h1>
@@ -18,21 +18,36 @@
     </header>
 
     <main class="layout-principal">
-      <div class="tabelaPrincipal">
-        <div class="listagemGeral tabela-centralizado">
-          <div class="tabela-cadastro">
+      <div class="coluna-direita">
+        <div class="listagemGeral container-centralizado">
+          <div class="tabela-cupomEmbarque">
             <h2>Cadastro de Produtos</h2>
-            <button class="btn-Incluir">Incluir</button>
-            <br /><br />
             <div class="filtros">
               <input
                 type="text"
                 id="filtroProduto"
                 placeholder="Buscar produto/código..."
               />
+              <select id="filtroTamanho">
+                <option value="">Todos os Tamanhos</option>
+                <option value="PP">PP</option>
+                <option value="PG">PG</option>
+              </select>
               <button onclick="filtrarTabela()">Filtrar</button>
-              <button onclick="exportarParaExcel()">Exportar</button>
+              <button onclick="exportarParaExcel()">Exportar para Excel</button>
               <button onclick="restaurarDadosOriginais()">Resetar Dados</button>
+              <button onclick="baixarBackup()">Backup JSON</button>
+              <input
+                type="file"
+                id="importarBackup"
+                onchange="importarBackup(event)"
+              />
+              <button class="btn-Incluir">Incluir</button>
+            </div>
+            <div id="totais">
+              Quantidade Total: <span id="totalQuantidade">0</span> | Peso
+              Total: <span id="totalPeso">0</span> kg | Cubagem Total:
+              <span id="totalCubagem">0</span>
             </div>
             <br />
             <table>
@@ -59,40 +74,12 @@
       <div class="modal-header" id="modal-header">
         <h2>Adicionar Produto</h2>
       </div>
-
       <div class="modal-content">
         <select id="produto">
           <option value="" disabled selected>Selecione um produto</option>
           <option value="LM0001-4000840">LM0001-4000840</option>
           <option value="LM0001-4000850">LM0001-4000850</option>
-          <option value="LM0001-8000840">LM0001-8000840</option>
-          <option value="LM0001-8000850">LM0001-8000850</option>
-          <option value="LM0006-4000830">LM0006-4000830</option>
-          <option value="LM0006-4000840">LM0006-4000840</option>
-          <option value="LM0006-4000850">LM0006-4000850</option>
-          <option value="LM0006-4000865">LM0006-4000865</option>
-          <option value="LM0007-3200830">LM0007-3200830</option>
-          <option value="LM0008-3500840">LM0008-3500840</option>
-          <option value="LM0008-3500850">LM0008-3500850</option>
-          <option value="LM0008-7000850">LM0008-7000850</option>
-          <option value="LM0008-13000840">LM0008-13000840</option>
-          <option value="LM0008-13000850">LM0008-13000850</option>
-          <option value="LM0008-20000840">LM0008-20000840</option>
-          <option value="LM0008-20000850">LM0008-20000850</option>
-          <option value="LM0009-4000840">LM0009-4000840</option>
-          <option value="LM0009-4000850">LM0009-4000850</option>
-          <option value="LM0009-8000840">LM0009-8000840</option>
-          <option value="LM0009-8000850">LM0009-8000850</option>
-          <option value="LM0010-2000830">LM0010-2000830</option>
-          <option value="LM0010-2000840">LM0010-2000840</option>
-          <option value="LM0010-2000850">LM0010-2000850</option>
-          <option value="LM0010-2000865">LM0010-2000865</option>
-          <option value="LM0011-12000840">LM0011-12000840</option>
-          <option value="LM0011-12000850">LM0011-12000850</option>
-          <option value="LM0012-24000840">LM0012-24000840</option>
-          <option value="LM0012-24000850">LM0012-24000850</option>
         </select>
-
         <select id="tamanhoPallet">
           <option value="" disabled selected>
             Selecione o Tamanho do Pallet
@@ -100,17 +87,14 @@
           <option value="PP">PP</option>
           <option value="PG">PG</option>
         </select>
-
         <input type="number" id="quantidade" placeholder="Quantidade" min="1" />
         <input type="number" id="peso" placeholder="Peso (kg)" min="1" />
         <input type="number" id="cubagem" placeholder="Cubagem" min="1" />
-
         <button onclick="addEntry()">Incluir</button>
         <button onclick="closeModal()">Cancelar</button>
       </div>
     </div>
 
-    <!-- SCRIPT -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script>
       let listaProdutos = [];
@@ -136,9 +120,11 @@
       function addEntry() {
         const produto = document.getElementById("produto").value;
         const tamanho = document.getElementById("tamanhoPallet").value;
-        const quantidade = document.getElementById("quantidade").value;
-        const peso = document.getElementById("peso").value;
-        const cubagem = document.getElementById("cubagem").value;
+        const quantidade = parseInt(
+          document.getElementById("quantidade").value
+        );
+        const peso = parseFloat(document.getElementById("peso").value);
+        const cubagem = parseFloat(document.getElementById("cubagem").value);
 
         if (!produto || !quantidade || !peso || !cubagem) {
           alert("Preencha todos os campos.");
@@ -156,6 +142,7 @@
         const filtroTexto = document
           .getElementById("filtroProduto")
           .value.toLowerCase();
+        const filtroTamanho = document.getElementById("filtroTamanho").value;
 
         const tabela = document.getElementById("tabela-cupomList");
         tabela.innerHTML = "";
@@ -166,10 +153,11 @@
         listaProdutos
           .filter((item) => {
             return (
-              !filtroTexto || item.produto.toLowerCase().includes(filtroTexto)
+              (!filtroTexto ||
+                item.produto.toLowerCase().includes(filtroTexto)) &&
+              (!filtroTamanho || item.tamanho === filtroTamanho)
             );
           })
-
           .forEach((item) => {
             totalQuantidade += item.quantidade;
             totalPeso += item.peso;
@@ -178,19 +166,29 @@
             const tr = document.createElement("tr");
             tr.className = item.tamanho === "PP" ? "linha-pp" : "linha-pg";
             tr.innerHTML = `
-        <td>${item.id}</td>
-        <td>${item.tamanho}</td>
-        <td>${item.produto}</td>
-        <td>${item.quantidade}</td>
-        <td>${item.peso}</td>
-        <td>${item.cubagem}</td>
-        <td>
-          <button onclick="editarProduto(${item.id})">Editar</button>
-          <button onclick="excluirProduto(${item.id})">Excluir</button>
-        </td>
-      `;
+            <td>${item.id}</td>
+            <td>${item.tamanho}</td>
+            <td>${item.produto}</td>
+            <td>${item.quantidade}</td>
+            <td>${item.peso}</td>
+            <td>${item.cubagem}</td>
+            <td>
+              <button onclick="editarProduto(${item.id})">Editar</button>
+              <button onclick="excluirProduto(${item.id})">Excluir</button>
+            </td>
+          `;
             tabela.appendChild(tr);
           });
+
+        document.getElementById("totalQuantidade").textContent =
+          totalQuantidade;
+        document.getElementById("totalPeso").textContent = totalPeso.toFixed(2);
+        document.getElementById("totalCubagem").textContent =
+          totalCubagem.toFixed(2);
+      }
+
+      function filtrarTabela() {
+        atualizarTabela();
       }
 
       function excluirProduto(id) {
@@ -223,16 +221,11 @@
         const dadosSalvos = localStorage.getItem("produtosCadastro");
         const contadorSalvo = localStorage.getItem("contadorId");
 
-        if (dadosSalvos) {
-          listaProdutos = JSON.parse(dadosSalvos);
-        }
-
-        if (contadorSalvo) {
-          idCounter = parseInt(contadorSalvo);
-        }
-
+        if (dadosSalvos) listaProdutos = JSON.parse(dadosSalvos);
+        if (contadorSalvo) idCounter = parseInt(contadorSalvo);
         atualizarTabela();
       }
+
       function restaurarDadosOriginais() {
         localStorage.removeItem("produtosCadastro");
         localStorage.removeItem("contadorId");
@@ -241,44 +234,58 @@
         atualizarTabela();
       }
 
-      function makeModalDraggable() {
-        const modal = document.getElementById("modal");
-        const header = document.getElementById("modal-header");
-        let offsetX = 0,
-          offsetY = 0,
-          mouseX = 0,
-          mouseY = 0;
+      function exportarParaExcel() {
+        const tabela = document.getElementById("tabela-cupomList");
+        const rows = Array.from(tabela.rows).map((row) => {
+          return Array.from(row.cells).map((cell) => cell.textContent);
+        });
+        const ws = XLSX.utils.aoa_to_sheet([
+          ["ID", "Tamanho", "Produto", "Quantidade", "Peso (kg)", "Cubagem"],
+          ...rows,
+        ]);
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Produtos");
+        const dataAtual = new Date()
+          .toLocaleDateString("pt-BR")
+          .replace(/\//g, "-");
+        XLSX.writeFile(wb, `produtos_${dataAtual}.xlsx`);
+      }
 
-        header.onmousedown = function (event) {
-          event.preventDefault();
-          mouseX = event.clientX;
-          mouseY = event.clientY;
+      function baixarBackup() {
+        const blob = new Blob([JSON.stringify(listaProdutos)], {
+          type: "application/json",
+        });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "backup_produtos.json";
+        a.click();
+      }
 
-          document.onmousemove = function (event) {
-            offsetX = event.clientX - mouseX;
-            offsetY = event.clientY - mouseY;
-            modal.style.left = modal.offsetLeft + offsetX + "px";
-            modal.style.top = modal.offsetTop + offsetY + "px";
-            mouseX = event.clientX;
-            mouseY = event.clientY;
-          };
+      function importarBackup(event) {
+        const file = event.target.files[0];
+        if (!file) return;
 
-          document.onmouseup = function () {
-            document.onmousemove = null;
-            document.onmouseup = null;
-          };
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          try {
+            listaProdutos = JSON.parse(e.target.result);
+            idCounter =
+              listaProdutos.length > 0
+                ? Math.max(...listaProdutos.map((p) => p.id)) + 1
+                : 1;
+            salvarLocalStorage();
+            atualizarTabela();
+          } catch {
+            alert("Erro ao importar backup.");
+          }
         };
+        reader.readAsText(file);
       }
 
       window.onload = function () {
-        makeModalDraggable();
+        document.querySelector(".btn-Incluir").onclick = abrirCadastro;
         carregarLocalStorage();
-
-        // Corrigir o botão principal da página
-        const botaoPrincipal = document.querySelector(
-          ".tabela-cadastro button"
-        );
-        botaoPrincipal.onclick = abrirCadastro;
       };
     </script>
   </body>
