@@ -199,6 +199,14 @@ nav a {
   background-color: #ad407c;
 }
 
+.quantidade-cubo {
+  display: block;
+  font-size: 1em;
+  font-weight: bold;
+  word-break: normal;
+  color: #333;
+}
+
 .cube.restaurado {
   background-color: #777262 !important;
   color: white !important;

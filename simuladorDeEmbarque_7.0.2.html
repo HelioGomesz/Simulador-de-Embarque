@@ -345,7 +345,8 @@
         const categoria = produto;
 
         selectedCube.setAttribute("data-categoria", categoria);
-        selectedCube.textContent = produto;
+        selectedCube.innerHTML = `${produto}<br><span class="quantidade-cubo">${quantidade}</span>`; //registrar no cubo o produto e a quantidade
+        // selectedCube.textContent = produto;
 
         const table = document.getElementById("tabela-cupomList");
         const row = table.insertRow();
