@@ -194,11 +194,6 @@
           PP: { quantidade: 384, peso: 359.8, cubagem: 2.5 },
           PG: { quantidade: 768, peso: 697, cubagem: 3.5 },
         },
-        "LM0007-3200830": {
-          PP: { quantidade: 384, peso: 359.8, cubagem: 2.5 },
-          PG: { quantidade: 768, peso: 697, cubagem: 3.5 },
-        },
-
         "LM0008-3500840": {
           PP: { quantidade: 528, peso: 288, cubagem: 2.86 },
           PG: { quantidade: 1056, peso: 559, cubagem: 3.8 },
@@ -211,27 +206,22 @@
           PP: { quantidade: 384, peso: 359.8, cubagem: 2.86 },
           PG: { quantidade: 768, peso: 697, cubagem: 3.8 },
         },
-
         "LM0008-13000840": {
           PP: { quantidade: 296, peso: 364.4, cubagem: 2.86 },
           PG: { quantidade: 500, peso: 712, cubagem: 3.8 },
         },
-
         "LM0008-13000850": {
           PP: { quantidade: 296, peso: 364.4, cubagem: 2.86 },
           PG: { quantidade: 520, peso: 712, cubagem: 3.8 },
         },
-        //PRODUTO QUE UTILIZA DOIS PALLETS
         "LM0008-20000840": {
           PP: { quantidade: 231, peso: 352, cubagem: 2.86 },
           PG: { quantidade: 231, peso: 352, cubagem: 3.8 },
         },
-
         "LM0008-20000850": {
           PP: { quantidade: 231, peso: 352, cubagem: 2.86 },
           PG: { quantidade: 231, peso: 352, cubagem: 3.8 },
         },
-
         "LM0009-4000840": {
           PP: { quantidade: 256, peso: 288, cubagem: 2.86 },
           PG: { quantidade: 510, peso: 559, cubagem: 3.8 },
@@ -248,7 +238,6 @@
           PP: { quantidade: 224, peso: 288, cubagem: 2.86 },
           PG: { quantidade: 448, peso: 559, cubagem: 3.8 },
         },
-
         "LM0010-2000830": {
           PP: { quantidade: 640, peso: 598.2, cubagem: 2.86 },
           PG: { quantidade: 896, peso: 832, cubagem: 3.8 },
@@ -265,7 +254,6 @@
           PP: { quantidade: 640, peso: 598.2, cubagem: 2.86 },
           PG: { quantidade: 896, peso: 832, cubagem: 3.8 },
         },
-
         "LM0011-12000840": {
           PP: { quantidade: 248, peso: 355.6, cubagem: 2.86 },
           PG: { quantidade: 510, peso: 694, cubagem: 3.8 },
@@ -294,7 +282,7 @@
           document.getElementById("peso").value = "";
         });
       });
-      //INSERIR DADOS AUTOMÁTICOS NO FORMS CONFORME PRODUTO SELECIONADO
+      //Inserir dados automáticos no form (Modal) conforme produto selecionado
       document
         .getElementById("produto")
         .addEventListener("change", function () {
@@ -310,7 +298,7 @@
           }
 
           const idCube = selectedCube.getAttribute("id");
-          const isPequeno = parseInt(idCube.replace("cubo", "")) % 2 !== 0;
+          const isPequeno = idCube.startsWith("P"); // <-- reconhecer o pallet pelo tamanho do cubo
 
           if (isPequeno) {
             document.getElementById("quantidade").value =
@@ -341,21 +329,62 @@
           return;
         }
 
+        // Verificar se o cubo já tem muitos produtos (máximo 3 produtos por cubo)
+        const produtosExistentes =
+          selectedCube.querySelectorAll(".produto-bloco").length;
+        if (produtosExistentes >= 3) {
+          alert("Este pallet já possui o número máximo de produtos (3).");
+          return;
+        }
+
         const idCube = selectedCube.getAttribute("id");
         const categoria = produto;
+        const isPequeno = idCube.startsWith("P");
+        const tipoPallet = isPequeno ? "PP" : "PG";
 
-        selectedCube.setAttribute("data-categoria", categoria);
-        selectedCube.innerHTML = `${produto}<br><span class="quantidade-cubo">${quantidade}</span>`; //registrar no cubo o produto e a quantidade
-        // selectedCube.textContent = produto;
+        // Definir tipo de pallet no cubo
+        selectedCube.setAttribute("data-tipo", tipoPallet);
+
+        let quantidadeExibir = "";
+        if (produtos[produto]) {
+          if (isPequeno) {
+            quantidadeExibir = produtos[produto].PP.quantidade;
+          } else {
+            quantidadeExibir = produtos[produto].PG.quantidade;
+          }
+        }
+
+        // Criar bloco de produto
+        const bloco = document.createElement("div");
+        bloco.className = "produto-bloco";
+        bloco.setAttribute("data-categoria", categoria);
+        bloco.innerHTML = `
+          <div>${produto}</div>
+          <div class="quantidade-cubo">${quantidadeExibir}</div>
+        `;
+
+        // Adicionar indicador de tipo de pallet se não existir
+        if (!selectedCube.querySelector(".tipo-pallet")) {
+          const tipoIndicator = document.createElement("div");
+          tipoIndicator.className = "tipo-pallet";
+          tipoIndicator.textContent = tipoPallet;
+          selectedCube.appendChild(tipoIndicator);
+        }
+
+        selectedCube.appendChild(bloco);
+
+        // Atualizar contador de produtos
+        atualizarContadorProdutos(selectedCube);
 
         const table = document.getElementById("tabela-cupomList");
         const row = table.insertRow();
         row.setAttribute("data-id", idCube);
+        row.setAttribute("data-produto", produto);
         row.classList.add("ativo");
         row.innerHTML = `
           <td>${idCube}</td>
           <td>${produto}</td>
-          <td>${quantidade}</td>
+          <td>${quantidadeExibir}</td>
           <td>${peso}</td>
           <td><button onclick="removeEntry(this)">Excluir</button></td>
   `;
@@ -370,7 +399,6 @@
         // Cubagem correta por produto e tipo de pallet
         let cubagemProduto = 0;
         if (produtos[produto]) {
-          const isPequeno = idCube.startsWith("P");
           cubagemProduto = isPequeno
             ? produtos[produto].PP.cubagem
             : produtos[produto].PG.cubagem;
@@ -384,17 +412,44 @@
         closeModal();
       }
 
+      function atualizarContadorProdutos(cube) {
+        const produtosExistentes =
+          cube.querySelectorAll(".produto-bloco").length;
+
+        // Remover contador existente
+        const contadorExistente = cube.querySelector(".contador-produtos");
+        if (contadorExistente) {
+          contadorExistente.remove();
+        }
+
+        // Adicionar novo contador
+        if (produtosExistentes > 0) {
+          const contador = document.createElement("div");
+          contador.className = "contador-produtos";
+          contador.textContent = `${produtosExistentes}/3`;
+          cube.appendChild(contador);
+        }
+
+        // Adicionar/remover classe de cubo cheio
+        if (produtosExistentes >= 3) {
+          cube.classList.add("cheio");
+        } else {
+          cube.classList.remove("cheio");
+        }
+      }
+
       function removeEntry(button) {
         const row = button.parentElement.parentElement;
         const table = document.getElementById("tabela-cupomList");
         const idCube = row.getAttribute("data-id");
+        const produto = row.getAttribute("data-produto");
         const quantidade = parseFloat(row.cells[2].innerText);
         const peso = parseFloat(row.cells[3].innerText);
-        const produto = row.cells[1].innerText;
 
         table.deleteRow(row.rowIndex - 1);
         totalQuantidade -= quantidade;
         totalPeso -= peso;
+
         document.getElementById("Quantidade-container").innerText =
           totalQuantidade.toFixed(2);
         document.getElementById("peso-container").innerText =
@@ -414,11 +469,28 @@
         document.getElementById("ocupacao-container").innerText =
           ocupacao.toFixed(2) + "%";
 
+        // Remover o bloco de produto específico do cubo
         const cube = document.getElementById(idCube);
-        cube.removeAttribute("data-categoria");
-        cube.textContent = idCube.startsWith("G") ? idCube : idCube;
-        cube.classList.add("restaurado");
-        setTimeout(() => cube.classList.remove("restaurado"), 500);
+        const produtoBlocos = cube.querySelectorAll(".produto-bloco");
+
+        // Encontrar e remover o bloco correspondente ao produto
+        produtoBlocos.forEach((bloco) => {
+          if (bloco.getAttribute("data-categoria") === produto) {
+            bloco.remove();
+          }
+        });
+
+        // Se não há mais produtos no cubo, restaurar estado inicial
+        if (cube.querySelectorAll(".produto-bloco").length === 0) {
+          cube.removeAttribute("data-tipo");
+          cube.removeAttribute("data-categoria");
+          cube.textContent = idCube;
+          cube.classList.add("restaurado");
+          setTimeout(() => cube.classList.remove("restaurado"), 500);
+        } else {
+          // Atualizar contador se ainda há produtos
+          atualizarContadorProdutos(cube);
+        }
       }
 
       function closeModal() {

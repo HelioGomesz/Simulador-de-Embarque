@@ -59,7 +59,7 @@ nav a {
 }
 
 .coluna-esquerda {
-  flex: 0 0 300px;
+  flex: 0 0 320px;
 }
 
 .coluna-direita {
@@ -85,131 +85,276 @@ nav a {
 }
 
 .cube {
-  width: 130px;
+  width: 140px;
   height: 80px;
   background-color: #10898d79;
-  color: white;
+  color: rgb(133, 131, 131);
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: flex-start;
   align-items: center;
   font-weight: bold;
   font-size: 14px;
   cursor: pointer;
   border-radius: 4px;
-  transition: background-color 0.3s background-color 0.3s;
+  transition: all 0.3s ease;
   transform-style: preserve-3d;
   box-shadow: 5px 5px 5px rgba(5, 5, 5, 0.726);
+  position: relative;
+  overflow: hidden;
+  transform: translateY(0);
 }
 
+/* Efeito quando o cubo tem produtos */
+.cube[data-tipo] {
+  transform: translateY(-3px);
+  box-shadow: 3px 3px 8px rgba(5, 5, 5, 0.8);
+}
+
+/* Efeito quando o cubo está cheio */
+.cube.cheio {
+  transform: translateY(-5px);
+  box-shadow: 2px 2px 8px rgba(220, 53, 69, 0.8);
+  border: 1px solid #dc3545 !important;
+}
+
+/* Animação de entrada para novos produtos */
+.cube .produto-bloco {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Efeito hover melhorado */
 .cube:hover {
-  transform: scale(1.1);
+  transform: translateY(-2px);
+  box-shadow: 4px 4px 12px rgba(5, 5, 5, 0.9);
 }
 
-.cube[data-categoria="LM0001-4000840"] {
+.cube[data-tipo]:hover {
+  transform: translateY(-5px);
+  box-shadow: 2px 2px 15px rgba(5, 5, 5, 0.9);
+}
+
+.cube.cheio:hover {
+  transform: translateY(-7px);
+  box-shadow: 1px 1px 18px rgba(220, 53, 69, 0.9);
+}
+
+/* Cores de fundo por tipo de pallet */
+.cube[data-tipo="PP"] {
+  background: linear-gradient(135deg, #e8f5e8 0%, #d4edda 100%);
+  border: 2px solid #28a745;
+}
+
+.cube[data-tipo="PG"] {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border: 2px solid #2196f3;
+}
+
+.produto-bloco {
+  width: 100%;
+  min-height: 22px;
+  max-height: 40px;
+  color: white;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  font-weight: bold;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  text-align: center;
+  padding: 2px;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.produto-bloco:last-child {
+  border-bottom: none;
+}
+
+.produto-bloco:nth-child(odd) {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.produto-bloco:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.produto-bloco > div:first-child {
+  font-size: 10px;
+  line-height: 1;
+  margin-bottom: 1px;
+}
+
+.produto-bloco .quantidade-cubo {
+  font-size: 10px;
+  line-height: 1;
+  margin-top: 0;
+}
+
+/* Cores específicas por categoria de produto */
+.produto-bloco[data-categoria="LM0001-4000840"] {
   background-color: #4caf50;
 }
-.cube[data-categoria="LM0001-4000850"] {
+.produto-bloco[data-categoria="LM0001-4000850"] {
   background-color: #a0e2a2;
   color: black;
 }
-.cube[data-categoria="LM0001-8000840"] {
+.produto-bloco[data-categoria="LM0001-8000840"] {
   background-color: #9ec96e;
 }
-.cube[data-categoria="LM0001-8000850"] {
+.produto-bloco[data-categoria="LM0001-8000850"] {
   background-color: #6ae76f;
   color: black;
 }
-.cube[data-categoria="LM0006-4000830"] {
+.produto-bloco[data-categoria="LM0006-4000830"] {
   background-color: #1089ec;
 }
-.cube[data-categoria="LM0006-4000840"] {
+.produto-bloco[data-categoria="LM0006-4000840"] {
   background-color: #48a1eb;
 }
-.cube[data-categoria="LM0006-4000850"] {
+.produto-bloco[data-categoria="LM0006-4000850"] {
   background-color: #7abef5;
 }
-.cube[data-categoria="LM0006-4000865"] {
+.produto-bloco[data-categoria="LM0006-4000865"] {
   background-color: #97c9f1;
   color: black;
 }
-.cube[data-categoria="LM0007-3200830"] {
+.produto-bloco[data-categoria="LM0007-3200830"] {
   background-color: #ec7834;
 }
-.cube[data-categoria="LM0008-3500840"] {
+.produto-bloco[data-categoria="LM0008-3500840"] {
   background-color: #ffc107;
   color: black;
 }
-.cube[data-categoria="LM0008-3500850"] {
+.produto-bloco[data-categoria="LM0008-3500850"] {
   background-color: #f7d05e;
   color: black;
 }
-.cube[data-categoria="LM0008-7000850"] {
+.produto-bloco[data-categoria="LM0008-7000850"] {
   background-color: #86511f;
 }
-.cube[data-categoria="LM0008-13000840"] {
+.produto-bloco[data-categoria="LM0008-13000840"] {
   background-color: #b86e29;
 }
-.cube[data-categoria="LM0008-13000850"] {
+.produto-bloco[data-categoria="LM0008-13000850"] {
   background-color: #ec8e36;
   color: black;
 }
-.cube[data-categoria="LM0008-20000840"] {
+.produto-bloco[data-categoria="LM0008-20000840"] {
   background-color: #eca270;
   color: black;
 }
-.cube[data-categoria="LM0008-20000850"] {
+.produto-bloco[data-categoria="LM0008-20000850"] {
   background-color: #e2b699;
   color: black;
 }
-.cube[data-categoria="LM0009-4000840"] {
+.produto-bloco[data-categoria="LM0009-4000840"] {
   background-color: #690d07;
 }
-.cube[data-categoria="LM0009-4000850"] {
+.produto-bloco[data-categoria="LM0009-4000850"] {
   background-color: #9b2820;
 }
-.cube[data-categoria="LM0009-8000840"] {
+.produto-bloco[data-categoria="LM0009-8000840"] {
   background-color: #b15a53;
 }
-.cube[data-categoria="LM0009-8000850"] {
+.produto-bloco[data-categoria="LM0009-8000850"] {
   background-color: #e0847f;
 }
-.cube[data-categoria="LM0010-2000830"] {
+.produto-bloco[data-categoria="LM0010-2000830"] {
   background-color: #8b58a3;
 }
-.cube[data-categoria="LM0010-2000840"] {
+.produto-bloco[data-categoria="LM0010-2000840"] {
   background-color: #b836f4;
 }
-.cube[data-categoria="LM0010-2000850"] {
+.produto-bloco[data-categoria="LM0010-2000850"] {
   background-color: #985ab4;
 }
-.cube[data-categoria="LM0010-2000865"] {
+.produto-bloco[data-categoria="LM0010-2000865"] {
   background-color: #774a8b;
 }
-.cube[data-categoria="LM0011-12000840"] {
+.produto-bloco[data-categoria="LM0011-12000840"] {
   background-color: #223d44;
   color: black;
 }
-.cube[data-categoria="LM0011-12000850"] {
+.produto-bloco[data-categoria="LM0011-12000850"] {
   background-color: #6896a1;
 }
-.cube[data-categoria="LM0012-24000840"] {
+.produto-bloco[data-categoria="LM0012-24000840"] {
   background-color: #f4369e;
 }
-.cube[data-categoria="LM0012-24000850"] {
+.produto-bloco[data-categoria="LM0012-24000850"] {
   background-color: #ad407c;
 }
 
 .quantidade-cubo {
   display: block;
-  font-size: 1em;
+  font-size: 0.8em;
   font-weight: bold;
-  word-break: normal;
   color: #333;
+  margin-top: 2px;
 }
 
 .cube.restaurado {
   background-color: #777262 !important;
   color: white !important;
+  border: 2px solid #555 !important;
+  animation: restoreCube 0.5s ease-out;
+}
+
+@keyframes restoreCube {
+  0% {
+    transform: translateY(-3px);
+    box-shadow: 3px 3px 8px rgba(5, 5, 5, 0.8);
+  }
+  50% {
+    transform: translateY(2px);
+    box-shadow: 6px 6px 3px rgba(5, 5, 5, 0.6);
+  }
+  100% {
+    transform: translateY(0);
+    box-shadow: 5px 5px 5px rgba(5, 5, 5, 0.726);
+  }
+}
+
+/* Indicador de tipo de pallet */
+.tipo-pallet {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #333;
+  font-size: 8px;
+  font-weight: bold;
+  padding: 1px 3px;
+  border-radius: 2px;
+  z-index: 10;
+}
+
+/* Indicador de quantidade de produtos */
+.contador-produtos {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #333;
+  font-size: 8px;
+  font-weight: bold;
+  padding: 1px 3px;
+  border-radius: 2px;
+  z-index: 10;
 }
 
 /* Dashboard */
