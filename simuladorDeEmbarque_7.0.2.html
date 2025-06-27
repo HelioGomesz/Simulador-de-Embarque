@@ -140,8 +140,37 @@
           <option value="LM0012-24000850">LM0012-24000850</option>
         </select>
 
+        <div
+          style="
+            margin: 10px 0;
+            padding: 8px;
+            background-color: #e3f2fd;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #1976d2;
+          "
+        >
+          💡 <strong>Dica:</strong> Altere a quantidade ou peso - o outro campo
+          será calculado automaticamente!<br />
+          📊 <strong>Limite:</strong> O padrão do primeiro produto define o
+          limite máximo do pallet.
+        </div>
+
         <input type="number" id="quantidade" placeholder="Quantidade" min="1" />
         <input type="number" id="peso" placeholder="Peso" min="1" />
+
+        <!-- Indicador de limite -->
+        <div
+          id="limite-indicador"
+          style="
+            display: none;
+            margin: 10px 0;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+          "
+        ></div>
 
         <button onclick="addEntry()">Incluir</button>
         <button onclick="closeModal()">Cancelar</button>
@@ -272,6 +301,41 @@
         },
       };
 
+      // Função para obter o prefixo do produto (ex: LM0001, LM0006, etc.)
+      function getProdutoPrefix(produto) {
+        return produto.split("-")[0];
+      }
+
+      // Função para verificar se produtos são da mesma família
+      function isSameProductFamily(produto1, produto2) {
+        return getProdutoPrefix(produto1) === getProdutoPrefix(produto2);
+      }
+
+      // Função para calcular a quantidade total de produtos da mesma família no cubo
+      function getTotalQuantitySameFamily(cube, produto) {
+        const produtoPrefix = getProdutoPrefix(produto);
+        const existingProducts = cube.querySelectorAll(".produto-bloco");
+        let totalQuantity = 0;
+
+        existingProducts.forEach((bloco) => {
+          const existingProduto = bloco.getAttribute("data-categoria");
+          if (isSameProductFamily(existingProduto, produto)) {
+            const quantidade = parseInt(
+              bloco.querySelector(".quantidade-cubo").textContent
+            );
+            totalQuantity += quantidade;
+          }
+        });
+
+        return totalQuantity;
+      }
+
+      // Função para obter a quantidade máxima permitida para o tipo de pallet
+      function getMaxQuantityForPallet(cubeId) {
+        const isPequeno = cubeId.startsWith("P");
+        return isPequeno ? 1000 : 2000; // Limite baseado no tipo de pallet
+      }
+
       document.querySelectorAll(".cube").forEach((cube) => {
         cube.addEventListener("click", function () {
           selectedCube = this;
@@ -280,6 +344,7 @@
           document.getElementById("produto").value = "";
           document.getElementById("quantidade").value = "";
           document.getElementById("peso").value = "";
+          document.getElementById("limite-indicador").style.display = "none";
         });
       });
       //Inserir dados automáticos no form (Modal) conforme produto selecionado
@@ -309,7 +374,89 @@
               dadosProduto.PG.quantidade;
             document.getElementById("peso").value = dadosProduto.PG.peso;
           }
+
+          // Verificar limite após selecionar produto
+          verificarLimiteModal();
         });
+
+      // Recalcular peso automaticamente quando quantidade for alterada
+      document
+        .getElementById("quantidade")
+        .addEventListener("input", function () {
+          const produtoSelecionado = document.getElementById("produto").value;
+          const novaQuantidade = parseFloat(this.value);
+
+          if (!produtoSelecionado || isNaN(novaQuantidade) || !selectedCube)
+            return;
+
+          const dadosProduto = produtos[produtoSelecionado];
+          if (!dadosProduto) return;
+
+          const idCube = selectedCube.getAttribute("id");
+          const isPequeno = idCube.startsWith("P");
+
+          // Obter dados de referência do produto
+          const dadosReferencia = isPequeno ? dadosProduto.PP : dadosProduto.PG;
+          const quantidadeReferencia = dadosReferencia.quantidade;
+          const pesoReferencia = dadosReferencia.peso;
+
+          // Adicionar efeito visual
+          const pesoField = document.getElementById("peso");
+          pesoField.classList.add("calculando");
+
+          // Calcular novo peso usando regra de três
+          const novoPeso =
+            (novaQuantidade * pesoReferencia) / quantidadeReferencia;
+
+          // Atualizar campo de peso
+          pesoField.value = novoPeso.toFixed(2);
+
+          // Remover efeito visual após um breve delay
+          setTimeout(() => {
+            pesoField.classList.remove("calculando");
+          }, 300);
+
+          // Verificar limite após alterar quantidade
+          verificarLimiteModal();
+        });
+
+      // Recalcular quantidade automaticamente quando peso for alterado
+      document.getElementById("peso").addEventListener("input", function () {
+        const produtoSelecionado = document.getElementById("produto").value;
+        const novoPeso = parseFloat(this.value);
+
+        if (!produtoSelecionado || isNaN(novoPeso) || !selectedCube) return;
+
+        const dadosProduto = produtos[produtoSelecionado];
+        if (!dadosProduto) return;
+
+        const idCube = selectedCube.getAttribute("id");
+        const isPequeno = idCube.startsWith("P");
+
+        // Obter dados de referência do produto
+        const dadosReferencia = isPequeno ? dadosProduto.PP : dadosProduto.PG;
+        const quantidadeReferencia = dadosReferencia.quantidade;
+        const pesoReferencia = dadosReferencia.peso;
+
+        // Adicionar efeito visual
+        const quantidadeField = document.getElementById("quantidade");
+        quantidadeField.classList.add("calculando");
+
+        // Calcular nova quantidade usando regra de três
+        const novaQuantidade =
+          (novoPeso * quantidadeReferencia) / pesoReferencia;
+
+        // Atualizar campo de quantidade
+        quantidadeField.value = Math.round(novaQuantidade);
+
+        // Remover efeito visual após um breve delay
+        setTimeout(() => {
+          quantidadeField.classList.remove("calculando");
+        }, 300);
+
+        // Verificar limite após alterar peso
+        verificarLimiteModal();
+      });
 
       //Inserir valores e realizar calculos conforme produtos adicionados
       function addEntry() {
@@ -329,12 +476,55 @@
           return;
         }
 
-        // Verificar se o cubo já tem muitos produtos (máximo 3 produtos por cubo)
-        const produtosExistentes =
-          selectedCube.querySelectorAll(".produto-bloco").length;
-        if (produtosExistentes >= 3) {
-          alert("Este pallet já possui o número máximo de produtos (3).");
-          return;
+        // Verificar limite de quantidade baseado no primeiro produto inserido
+        const existingProducts =
+          selectedCube.querySelectorAll(".produto-bloco");
+        if (existingProducts.length > 0) {
+          // Obter o primeiro produto inserido
+          const firstProduct =
+            existingProducts[0].getAttribute("data-categoria");
+          const firstProductPrefix = firstProduct.split("-")[0];
+          const newProductPrefix = produto.split("-")[0];
+
+          // Verificar se é da mesma família
+          if (firstProductPrefix === newProductPrefix) {
+            // Calcular quantidade total da mesma família
+            let totalQuantitySameFamily = 0;
+            existingProducts.forEach((bloco) => {
+              const existingProduto = bloco.getAttribute("data-categoria");
+              if (existingProduto.split("-")[0] === firstProductPrefix) {
+                const quantidade = parseInt(
+                  bloco.querySelector(".quantidade-cubo").textContent
+                );
+                totalQuantitySameFamily += quantidade;
+              }
+            });
+
+            // Obter o padrão de quantidade do primeiro produto
+            const idCube = selectedCube.getAttribute("id");
+            const isPequeno = idCube.startsWith("P");
+            const firstProductData = produtos[firstProduct];
+            const padraoQuantidade = isPequeno
+              ? firstProductData.PP.quantidade
+              : firstProductData.PG.quantidade;
+
+            // Adicionar a quantidade do novo produto
+            const novaQuantidadeTotal = totalQuantitySameFamily + quantidade;
+
+            if (novaQuantidadeTotal > padraoQuantidade) {
+              const excedente = novaQuantidadeTotal - padraoQuantidade;
+              const faltante = padraoQuantidade - totalQuantitySameFamily;
+              alert(
+                `LIMITE EXCEDIDO!\n\nPadrão do primeiro produto: ${padraoQuantidade} unidades\nQuantidade atual: ${totalQuantitySameFamily} unidades\nQuantidade tentando adicionar: ${quantidade} unidades\n\nEXCEDENTE: ${excedente} unidades\nFALTANTE PARA COMPLETAR: ${faltante} unidades`
+              );
+              return;
+            }
+          } else {
+            alert(
+              `Este pallet já contém produtos da família ${firstProductPrefix}.\nApenas produtos da mesma família são permitidos no mesmo pallet.`
+            );
+            return;
+          }
         }
 
         const idCube = selectedCube.getAttribute("id");
@@ -345,14 +535,8 @@
         // Definir tipo de pallet no cubo
         selectedCube.setAttribute("data-tipo", tipoPallet);
 
-        let quantidadeExibir = "";
-        if (produtos[produto]) {
-          if (isPequeno) {
-            quantidadeExibir = produtos[produto].PP.quantidade;
-          } else {
-            quantidadeExibir = produtos[produto].PG.quantidade;
-          }
-        }
+        // Usar a quantidade inserida no modal em vez da quantidade padrão
+        const quantidadeExibir = quantidade;
 
         // Criar bloco de produto
         const bloco = document.createElement("div");
@@ -430,11 +614,80 @@
           cube.appendChild(contador);
         }
 
+        // Atualizar indicador de quantidade vs limite
+        atualizarIndicadorQuantidade(cube);
+
         // Adicionar/remover classe de cubo cheio
         if (produtosExistentes >= 3) {
           cube.classList.add("cheio");
         } else {
           cube.classList.remove("cheio");
+        }
+      }
+
+      function atualizarIndicadorQuantidade(cube) {
+        const existingProducts = cube.querySelectorAll(".produto-bloco");
+
+        // Remover indicador existente
+        const indicadorExistente = cube.querySelector(".quantidade-limite");
+        if (indicadorExistente) {
+          indicadorExistente.remove();
+        }
+
+        if (existingProducts.length > 0) {
+          // Calcular quantidade total da mesma família
+          const firstProduct =
+            existingProducts[0].getAttribute("data-categoria");
+          const firstProductPrefix = firstProduct.split("-")[0];
+
+          let totalQuantity = 0;
+          existingProducts.forEach((bloco) => {
+            const existingProduto = bloco.getAttribute("data-categoria");
+            if (existingProduto.split("-")[0] === firstProductPrefix) {
+              const quantidade = parseInt(
+                bloco.querySelector(".quantidade-cubo").textContent
+              );
+              totalQuantity += quantidade;
+            }
+          });
+
+          // Obter o padrão de quantidade do primeiro produto
+          const idCube = cube.getAttribute("id");
+          const isPequeno = idCube.startsWith("P");
+          const firstProductData = produtos[firstProduct];
+          const padraoQuantidade = isPequeno
+            ? firstProductData.PP.quantidade
+            : firstProductData.PG.quantidade;
+
+          // Criar indicador
+          const indicador = document.createElement("div");
+          indicador.className = "quantidade-limite";
+
+          // Calcular o excedente ou restante
+          const diferenca = totalQuantity - padraoQuantidade;
+
+          if (diferenca > 0) {
+            // Excedido
+            indicador.textContent = `${totalQuantity}/${padraoQuantidade}`;
+            indicador.classList.add("no-limite");
+            indicador.title = `Padrão: ${padraoQuantidade} | Excedido: ${diferenca}`;
+          } else if (diferenca === 0) {
+            // No limite exato
+            indicador.textContent = `${totalQuantity}/${padraoQuantidade}`;
+            indicador.classList.add("no-limite");
+            indicador.title = `Padrão: ${padraoQuantidade} | Limite atingido`;
+          } else {
+            // Dentro do limite
+            const restante = Math.abs(diferenca);
+            indicador.textContent = `${totalQuantity}/${padraoQuantidade}`;
+            if (restante < padraoQuantidade * 0.1) {
+              // Se restante for menos de 10% do padrão
+              indicador.classList.add("proximo-limite");
+            }
+            indicador.title = `Padrão: ${padraoQuantidade} | Restante: ${restante}`;
+          }
+
+          cube.appendChild(indicador);
         }
       }
 
@@ -495,6 +748,7 @@
 
       function closeModal() {
         document.getElementById("modal").style.display = "none";
+        document.getElementById("limite-indicador").style.display = "none";
         selectedCube = null;
       }
 
@@ -542,6 +796,119 @@
           jsPDF: { unit: "mm", format: "a3", orientation: "landscape" },
         };
         html2pdf().set(opt).from(element).save();
+      }
+
+      // Função para verificar limite em tempo real
+      function verificarLimiteModal() {
+        const produtoSelecionado = document.getElementById("produto").value;
+        const quantidadeInput = document.getElementById("quantidade").value;
+        const quantidade = parseFloat(quantidadeInput);
+        const limiteIndicador = document.getElementById("limite-indicador");
+
+        if (!produtoSelecionado || !selectedCube) {
+          limiteIndicador.style.display = "none";
+          return;
+        }
+
+        // Se quantidade está vazia ou inválida, não mostrar indicador
+        if (quantidadeInput === "" || isNaN(quantidade) || quantidade <= 0) {
+          limiteIndicador.style.display = "none";
+          return;
+        }
+
+        const existingProducts =
+          selectedCube.querySelectorAll(".produto-bloco");
+
+        if (existingProducts.length > 0) {
+          // Verificar se é da mesma família
+          const firstProduct =
+            existingProducts[0].getAttribute("data-categoria");
+          const firstProductPrefix = firstProduct.split("-")[0];
+          const newProductPrefix = produtoSelecionado.split("-")[0];
+
+          if (firstProductPrefix === newProductPrefix) {
+            // Calcular quantidade total existente
+            let totalQuantitySameFamily = 0;
+            existingProducts.forEach((bloco) => {
+              const existingProduto = bloco.getAttribute("data-categoria");
+              if (existingProduto.split("-")[0] === firstProductPrefix) {
+                const quantidadeExistente = parseInt(
+                  bloco.querySelector(".quantidade-cubo").textContent
+                );
+                totalQuantitySameFamily += quantidadeExistente;
+              }
+            });
+
+            // Obter padrão do primeiro produto
+            const idCube = selectedCube.getAttribute("id");
+            const isPequeno = idCube.startsWith("P");
+            const firstProductData = produtos[firstProduct];
+            const padraoQuantidade = isPequeno
+              ? firstProductData.PP.quantidade
+              : firstProductData.PG.quantidade;
+
+            // Calcular nova quantidade total
+            const novaQuantidadeTotal = totalQuantitySameFamily + quantidade;
+
+            if (novaQuantidadeTotal > padraoQuantidade) {
+              const excedente = novaQuantidadeTotal - padraoQuantidade;
+              const faltante = padraoQuantidade - totalQuantitySameFamily;
+              limiteIndicador.style.display = "block";
+              limiteIndicador.style.backgroundColor = "#ffebee";
+              limiteIndicador.style.color = "#c62828";
+              limiteIndicador.style.border = "1px solid #ef5350";
+              limiteIndicador.innerHTML = `
+                ⚠️ <strong>LIMITE EXCEDIDO!</strong><br>
+                Padrão do primeiro produto: ${padraoQuantidade} unidades<br>
+                Quantidade atual no pallet: ${totalQuantitySameFamily} unidades<br>
+                Quantidade tentando adicionar: ${quantidade} unidades<br>
+                <span style="color: #d32f2f; font-size: 14px;">EXCEDENTE: ${excedente} unidades</span><br>
+                <span style="color: #1976d2; font-size: 14px;">FALTANTE PARA COMPLETAR: ${faltante} unidades</span>
+              `;
+            } else {
+              const restante = padraoQuantidade - novaQuantidadeTotal;
+              limiteIndicador.style.display = "block";
+              limiteIndicador.style.backgroundColor = "#e8f5e8";
+              limiteIndicador.style.color = "#2e7d32";
+              limiteIndicador.style.border = "1px solid #4caf50";
+              limiteIndicador.innerHTML = `
+                ✅ <strong>DENTRO DO LIMITE</strong><br>
+                Padrão do primeiro produto: ${padraoQuantidade} unidades<br>
+                Quantidade atual no pallet: ${totalQuantitySameFamily} unidades<br>
+                Quantidade tentando adicionar: ${quantidade} unidades<br>
+                <span style="color: #388e3c; font-size: 14px;">RESTANTE: ${restante} unidades</span>
+              `;
+            }
+          } else {
+            limiteIndicador.style.display = "block";
+            limiteIndicador.style.backgroundColor = "#fff3e0";
+            limiteIndicador.style.color = "#ef6c00";
+            limiteIndicador.style.border = "1px solid #ff9800";
+            limiteIndicador.innerHTML = `
+                ❌ <strong>FAMÍLIA DIFERENTE</strong><br>
+                Este pallet já contém produtos da família ${firstProductPrefix}<br>
+                Apenas produtos da mesma família são permitidos
+            `;
+          }
+        } else {
+          // Primeiro produto - mostrar padrão
+          const idCube = selectedCube.getAttribute("id");
+          const isPequeno = idCube.startsWith("P");
+          const produtoData = produtos[produtoSelecionado];
+          const padraoQuantidade = isPequeno
+            ? produtoData.PP.quantidade
+            : produtoData.PG.quantidade;
+
+          limiteIndicador.style.display = "block";
+          limiteIndicador.style.backgroundColor = "#e3f2fd";
+          limiteIndicador.style.color = "#1976d2";
+          limiteIndicador.style.border = "1px solid #2196f3";
+          limiteIndicador.innerHTML = `
+            📊 <strong>PRIMEIRO PRODUTO</strong><br>
+            Padrão estabelecido: ${padraoQuantidade} unidades<br>
+            Este será o limite máximo para este pallet
+          `;
+        }
       }
     </script>
   </body>

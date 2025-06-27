@@ -357,6 +357,45 @@ nav a {
   z-index: 10;
 }
 
+/* Indicador de quantidade vs limite */
+.quantidade-limite {
+  position: absolute;
+  bottom: 2px;
+  left: 2px;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #333;
+  font-size: 7px;
+  font-weight: bold;
+  padding: 1px 3px;
+  border-radius: 2px;
+  z-index: 10;
+  cursor: help;
+}
+
+.quantidade-limite.proximo-limite {
+  background-color: rgba(255, 193, 7, 0.9);
+  color: #333;
+  animation: pulse 2s infinite;
+}
+
+.quantidade-limite.no-limite {
+  background-color: rgba(220, 53, 69, 0.9);
+  color: white;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 /* Dashboard */
 .dashboard.container-centralizado {
   display: flex;
@@ -468,6 +507,19 @@ th {
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
+  transition: border-color 0.3s ease;
+}
+
+.modal-content input:focus,
+.modal-content select:focus {
+  outline: none;
+  border-color: #256a8a;
+  box-shadow: 0 0 5px rgba(37, 106, 138, 0.3);
+}
+
+.modal-content input.calculando {
+  background-color: #fff3cd;
+  border-color: #ffc107;
 }
 
 .modal-content button {
