@@ -627,3 +627,75 @@ button:hover {
 .linha-conexao {
   animation: linhaConexaoAnim 2s ease-in-out;
 }
+
+/* Visual unificado permanente */
+.cube.unificado-permanente {
+  border: 3px solid #ff9800 !important;
+  box-shadow: 0 0 15px rgba(255, 152, 0, 0.4) !important;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 152, 0, 0.1) 0%,
+    rgba(255, 87, 34, 0.1) 100%
+  ) !important;
+}
+
+.cube.unificado-permanente .produto-bloco {
+  background-color: rgba(255, 152, 0, 0.2) !important;
+  border: 1px solid rgba(255, 152, 0, 0.4) !important;
+}
+
+.tipo-pallet.unificado {
+  background-color: #ff9800 !important;
+  color: white !important;
+  font-weight: bold !important;
+}
+
+.produto-especial-unificado {
+  position: relative;
+}
+
+.info-unificacao {
+  font-size: 8px;
+  color: #ff9800;
+  font-weight: bold;
+  margin-top: 2px;
+  text-align: center;
+  background-color: rgba(255, 152, 0, 0.1);
+  padding: 1px 3px;
+  border-radius: 2px;
+}
+
+.indicador-unificacao-permanente {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+/* Linha da tabela unificada */
+#tabela-cupomList tr.unificado {
+  background-color: rgba(255, 152, 0, 0.1) !important;
+  font-weight: bold;
+}
+
+#tabela-cupomList tr.unificado td:first-child {
+  color: #ff9800;
+  font-weight: bold;
+}
+
+/* Pallet absorvido permanentemente */
+.cube.absorvido-permanente {
+  opacity: 0.3 !important;
+  pointer-events: none !important;
+  transform: scale(0.8) !important;
+  transition: all 0.5s ease;
+}
+
+.indicador-absorcao-permanente {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+}
