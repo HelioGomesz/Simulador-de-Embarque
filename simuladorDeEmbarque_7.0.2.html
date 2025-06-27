@@ -153,7 +153,9 @@
           💡 <strong>Dica:</strong> Altere a quantidade ou peso - o outro campo
           será calculado automaticamente!<br />
           📊 <strong>Limite:</strong> O padrão do primeiro produto define o
-          limite máximo do pallet.
+          limite máximo do pallet.<br />
+          🔗 <strong>Unificação:</strong> Produtos LM0008-2000 e LM0012-2400 são
+          automaticamente unificados em pallets existentes.
         </div>
 
         <input type="number" id="quantidade" placeholder="Quantidade" min="1" />
@@ -458,6 +460,185 @@
         verificarLimiteModal();
       });
 
+      // Função para unificar pallets PP e PG para produtos específicos
+      function unificarPalletsEspeciais(produto, quantidade, peso) {
+        const produtosEspeciais = [
+          "LM0008-20000840",
+          "LM0008-20000850",
+          "LM0012-24000840",
+          "LM0012-24000850",
+        ];
+
+        if (!produtosEspeciais.includes(produto)) {
+          return false; // Não é um produto especial
+        }
+
+        // Verificar se já existe um pallet com este produto
+        const palletsExistentes = document.querySelectorAll(".cube[data-tipo]");
+        let palletExistente = null;
+        let totalQuantidadeExistente = 0;
+
+        palletsExistentes.forEach((cube) => {
+          const produtosNoPallet = cube.querySelectorAll(".produto-bloco");
+          produtosNoPallet.forEach((bloco) => {
+            const produtoNoPallet = bloco.getAttribute("data-categoria");
+            if (produtoNoPallet === produto) {
+              palletExistente = cube;
+              const quantidadeExistente = parseInt(
+                bloco.querySelector(".quantidade-cubo").textContent
+              );
+              totalQuantidadeExistente += quantidadeExistente;
+            }
+          });
+        });
+
+        if (palletExistente) {
+          // Adicionar ao pallet existente
+          const novaQuantidadeTotal = totalQuantidadeExistente + quantidade;
+
+          // Calcular peso total baseado no peso unitário
+          const pesoUnitario = peso / quantidade;
+          const novoPesoTotal = totalQuantidadeExistente * pesoUnitario + peso;
+
+          // Atualizar o bloco existente
+          const blocoExistente = palletExistente.querySelector(
+            `[data-categoria="${produto}"]`
+          );
+          if (blocoExistente) {
+            blocoExistente.querySelector(".quantidade-cubo").textContent =
+              novaQuantidadeTotal;
+          }
+
+          // Atualizar a tabela
+          const table = document.getElementById("tabela-cupomList");
+          const rows = table.querySelectorAll("tr");
+          rows.forEach((row) => {
+            if (row.getAttribute("data-produto") === produto) {
+              const quantidadeCell = row.cells[2];
+              const pesoCell = row.cells[3];
+              quantidadeCell.textContent = novaQuantidadeTotal;
+              pesoCell.textContent = novoPesoTotal.toFixed(2);
+            }
+          });
+
+          // Atualizar totais
+          totalQuantidade += quantidade;
+          totalPeso += peso;
+          document.getElementById("Quantidade-container").innerText =
+            totalQuantidade.toFixed(2);
+          document.getElementById("peso-container").innerText =
+            totalPeso.toFixed(2);
+
+          // Unificação visual dos cubos
+          unificarCubosVisualmente(palletExistente, selectedCube);
+
+          // Atualizar indicadores
+          atualizarContadorProdutos(palletExistente);
+
+          return true; // Produto unificado
+        }
+
+        return false; // Não foi possível unificar
+      }
+
+      // Função para unificar visualmente os cubos
+      function unificarCubosVisualmente(cuboDestino, cuboOrigem) {
+        // Adicionar classe de unificação ao cubo destino
+        cuboDestino.classList.add("unificado");
+
+        // Adicionar indicador visual de unificação
+        const indicadorUnificacao = document.createElement("div");
+        indicadorUnificacao.className = "indicador-unificacao";
+        indicadorUnificacao.innerHTML = `
+          <div style="position: absolute; top: -5px; right: -5px; background: #ff9800; color: white; 
+               border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; 
+               justify-content: center; font-size: 12px; font-weight: bold; z-index: 1000;">
+            🔗
+          </div>
+        `;
+        cuboDestino.appendChild(indicadorUnificacao);
+
+        // Adicionar efeito visual ao cubo origem (que foi "absorvido")
+        cuboOrigem.classList.add("absorvido");
+        cuboOrigem.style.opacity = "0.3";
+        cuboOrigem.style.transform = "scale(0.8)";
+
+        // Adicionar indicador de absorção
+        const indicadorAbsorcao = document.createElement("div");
+        indicadorAbsorcao.className = "indicador-absorcao";
+        indicadorAbsorcao.innerHTML = `
+          <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+               background: rgba(255, 152, 0, 0.9); color: white; padding: 5px; border-radius: 4px; 
+               font-size: 10px; font-weight: bold; z-index: 1000;">
+            UNIFICADO
+          </div>
+        `;
+        cuboOrigem.appendChild(indicadorAbsorcao);
+
+        // Criar linha de conexão visual entre os cubos
+        criarLinhaConexao(cuboOrigem, cuboDestino);
+
+        // Remover indicadores após alguns segundos
+        setTimeout(() => {
+          if (indicadorUnificacao.parentNode) {
+            indicadorUnificacao.remove();
+          }
+          if (indicadorAbsorcao.parentNode) {
+            indicadorAbsorcao.remove();
+          }
+          cuboOrigem.classList.remove("absorvido");
+          cuboOrigem.style.opacity = "";
+          cuboOrigem.style.transform = "";
+
+          // Remover linha de conexão
+          const linhaConexao = document.querySelector(".linha-conexao");
+          if (linhaConexao) {
+            linhaConexao.remove();
+          }
+        }, 3000);
+      }
+
+      // Função para criar linha de conexão visual
+      function criarLinhaConexao(cuboOrigem, cuboDestino) {
+        const linhaConexao = document.createElement("div");
+        linhaConexao.className = "linha-conexao";
+        linhaConexao.style.cssText = `
+          position: absolute;
+          height: 3px;
+          background: linear-gradient(90deg, #ff9800, #ff5722);
+          z-index: 999;
+          animation: linhaConexaoAnim 2s ease-in-out;
+          border-radius: 2px;
+          box-shadow: 0 0 10px rgba(255, 152, 0, 0.6);
+        `;
+
+        document.body.appendChild(linhaConexao);
+
+        // Posicionar a linha entre os cubos
+        setTimeout(() => {
+          const origemRect = cuboOrigem.getBoundingClientRect();
+          const destinoRect = cuboDestino.getBoundingClientRect();
+
+          const origemX = origemRect.left + origemRect.width / 2;
+          const origemY = origemRect.top + origemRect.height / 2;
+          const destinoX = destinoRect.left + destinoRect.width / 2;
+          const destinoY = destinoRect.top + destinoRect.height / 2;
+
+          const distancia = Math.sqrt(
+            Math.pow(destinoX - origemX, 2) + Math.pow(destinoY - origemY, 2)
+          );
+          const angulo =
+            (Math.atan2(destinoY - origemY, destinoX - origemX) * 180) /
+            Math.PI;
+
+          linhaConexao.style.width = distancia + "px";
+          linhaConexao.style.left = origemX + "px";
+          linhaConexao.style.top = origemY + "px";
+          linhaConexao.style.transform = `rotate(${angulo}deg)`;
+          linhaConexao.style.transformOrigin = "0 50%";
+        }, 100);
+      }
+
       //Inserir valores e realizar calculos conforme produtos adicionados
       function addEntry() {
         const produto = document.getElementById("produto").value;
@@ -474,6 +655,15 @@
         if (isNaN(quantidade) || isNaN(peso)) {
           alert("Preencha quantidade e peso.");
           return;
+        }
+
+        // Verificar se é um produto especial que deve ser unificado
+        if (unificarPalletsEspeciais(produto, quantidade, peso)) {
+          alert(
+            `Produto ${produto} unificado com pallet existente!\nQuantidade total atualizada.`
+          );
+          closeModal();
+          return; // Produto foi unificado, não precisa continuar
         }
 
         // Verificar limite de quantidade baseado no primeiro produto inserido
