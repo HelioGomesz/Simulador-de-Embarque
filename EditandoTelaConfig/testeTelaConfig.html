@@ -25,14 +25,37 @@
             <button class="btn-Incluir">Incluir</button>
             <br /><br />
             <div class="filtros">
-              <input
-                type="text"
-                id="filtroProduto"
-                placeholder="Buscar produto/código..."
-              />
-              <button onclick="filtrarTabela()">Filtrar</button>
-              <button onclick="exportarParaExcel()">Exportar</button>
-              <button onclick="restaurarDadosOriginais()">Resetar Dados</button>
+              <div class="filtros-esquerda">
+                <input
+                  type="text"
+                  id="filtroProduto"
+                  placeholder="Buscar produto/código..."
+                />
+                <span class="filtros-acoes">
+                  <button class="btn-filtro" onclick="filtrarTabela()">
+                    🔍
+                  </button>
+                  <button class="btn-filtro" onclick="limparFiltro()">
+                    ❌
+                  </button>
+                </span>
+              </div>
+              <div class="filtros-direita">
+                <button
+                  class="btn-filtro"
+                  title="Exportar"
+                  onclick="exportarParaExcel()"
+                >
+                  📤
+                </button>
+                <button
+                  class="btn-filtro"
+                  title="Resetar Dados"
+                  onclick="restaurarDadosOriginais()"
+                >
+                  ♻️
+                </button>
+              </div>
             </div>
             <br />
             <table>
@@ -185,8 +208,10 @@
         <td>${item.peso}</td>
         <td>${item.cubagem}</td>
         <td>
-          <button onclick="editarProduto(${item.id})">Editar</button>
-          <button onclick="excluirProduto(${item.id})">Excluir</button>
+          <span class="acoes-container">
+            <button class="btn-acao" title="Editar" onclick="editarProduto(${item.id})">✏️</button>
+            <button class="btn-acao btn-excluir" title="Excluir" onclick="excluirProduto(${item.id})">🗑️</button>
+          </span>
         </td>
       `;
             tabela.appendChild(tr);
@@ -233,6 +258,16 @@
 
         atualizarTabela();
       }
+
+      function filtrarTabela() {
+        atualizarTabela();
+      }
+
+      function limparFiltro() {
+        document.getElementById("filtroProduto").value = "";
+        atualizarTabela();
+      }
+
       function restaurarDadosOriginais() {
         localStorage.removeItem("produtosCadastro");
         localStorage.removeItem("contadorId");
@@ -244,7 +279,8 @@
       function exportarParaExcel() {
         const tabela = document.getElementById("tabela-cupomList");
         const rows = Array.from(tabela.rows).map((row) => {
-          return Array.from(row.cells).map((cell) => cell.textContent);
+          const cells = Array.from(row.cells);
+          return cells.slice(0, -1).map((cell) => cell.textContent);
         });
         const ws = XLSX.utils.aoa_to_sheet([
           ["ID", "Tamanho", "Produto", "Quantidade", "Peso (kg)", "Cubagem"],

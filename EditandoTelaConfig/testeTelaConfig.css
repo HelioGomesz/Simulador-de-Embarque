@@ -68,7 +68,7 @@ table {
 th,
 td {
   border: 1px solid #ebe9e9;
-  padding: 3px;
+  padding: 2px 4px;
   text-align: center;
 }
 th {
@@ -105,9 +105,26 @@ button.btn-Incluir {
 .linha-pg {
   background-color: #edeeeb;
 }
+.filtros {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.filtros-esquerda {
+  display: flex;
+  align-items: center;
+}
+.filtros-direita {
+  display: flex;
+  align-items: center;
+}
 .filtros input,
 .filtros select {
   margin-right: 10px;
+}
+
+.filtros button {
+  margin-right: 8px;
 }
 
 /* Modal - Formulário de inputar dados*/
@@ -156,4 +173,58 @@ button.btn-Incluir {
 }
 button:hover {
   background-color: #8fb0d3;
+}
+
+th:last-child,
+td:last-child {
+  width: 70px;
+  min-width: 60px;
+  max-width: 80px;
+}
+.btn-acao {
+  padding: 1px 4px;
+  font-size: 16px;
+  margin: 0 1px;
+  border: none;
+  border-radius: 4px;
+  background: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-acao:hover {
+  background-color: #e0e7ef;
+}
+
+.acoes-container {
+  display: flex;
+  flex-direction: row;
+  gap: 0;
+  align-items: center;
+}
+.btn-excluir {
+  background-color: #e74c3c;
+  color: #fff;
+}
+.btn-excluir:hover {
+  background-color: #c0392b;
+}
+
+.filtros-acoes {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 2px;
+}
+.btn-filtro {
+  background: none;
+  border: none;
+  font-size: 16px;
+  padding: 2px 4px;
+  margin: 0 1px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+.btn-filtro:hover {
+  background-color: #e0e7ef;
 }
