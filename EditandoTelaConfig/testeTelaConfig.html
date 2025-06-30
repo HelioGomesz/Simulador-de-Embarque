@@ -51,7 +51,7 @@
                 <button
                   class="btn-filtro"
                   title="Resetar Dados"
-                  onclick="restaurarDadosOriginais()"
+                  onclick="confirmarResetarDados()"
                 >
                   ♻️
                 </button>
@@ -186,36 +186,39 @@
           totalPeso = 0,
           totalCubagem = 0;
 
-        listaProdutos
-          .filter((item) => {
-            return (
-              !filtroTexto || item.produto.toLowerCase().includes(filtroTexto)
-            );
-          })
+        const filtrados = listaProdutos.filter((item) => {
+          return (
+            !filtroTexto || item.produto.toLowerCase().includes(filtroTexto)
+          );
+        });
 
-          .forEach((item) => {
-            totalQuantidade += item.quantidade;
-            totalPeso += item.peso;
-            totalCubagem += item.cubagem;
+        if (filtrados.length === 0 && filtroTexto) {
+          alert("Produto não cadastrado");
+        }
 
-            const tr = document.createElement("tr");
-            tr.className = item.tamanho === "PP" ? "linha-pp" : "linha-pg";
-            tr.innerHTML = `
-        <td>${item.id}</td>
-        <td>${item.tamanho}</td>
-        <td>${item.produto}</td>
-        <td>${item.quantidade}</td>
-        <td>${item.peso}</td>
-        <td>${item.cubagem}</td>
-        <td>
-          <span class="acoes-container">
-            <button class="btn-acao" title="Editar" onclick="editarProduto(${item.id})">✏️</button>
-            <button class="btn-acao btn-excluir" title="Excluir" onclick="excluirProduto(${item.id})">🗑️</button>
-          </span>
-        </td>
-      `;
-            tabela.appendChild(tr);
-          });
+        filtrados.forEach((item) => {
+          totalQuantidade += item.quantidade;
+          totalPeso += item.peso;
+          totalCubagem += item.cubagem;
+
+          const tr = document.createElement("tr");
+          tr.className = item.tamanho === "PP" ? "linha-pp" : "linha-pg";
+          tr.innerHTML = `
+            <td>${item.id}</td>
+            <td>${item.tamanho}</td>
+            <td>${item.produto}</td>
+            <td>${item.quantidade}</td>
+            <td>${item.peso}</td>
+            <td>${item.cubagem}</td>
+            <td>
+              <span class="acoes-container">
+                <button class="btn-acao" title="Editar" onclick="editarProduto(${item.id})">✏️</button>
+                <button class="btn-acao btn-excluir" title="Excluir" onclick="excluirProduto(${item.id})">🗑️</button>
+              </span>
+            </td>
+          `;
+          tabela.appendChild(tr);
+        });
       }
 
       function excluirProduto(id) {
@@ -274,6 +277,15 @@
         listaProdutos = [];
         idCounter = 1;
         atualizarTabela();
+      }
+
+      function confirmarResetarDados() {
+        const resposta = confirm(
+          "Tem certeza que deseja resetar? Você irá perder todos os dados já cadastrados!"
+        );
+        if (resposta) {
+          restaurarDadosOriginais();
+        }
       }
 
       function exportarParaExcel() {
