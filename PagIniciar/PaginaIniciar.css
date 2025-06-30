@@ -1,6 +1,7 @@
 body {
   margin: 0;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100vh;
@@ -11,7 +12,8 @@ body {
 }
 .container {
   text-align: center;
-  margin-top: -10%;
+  margin-top: 0;
+  margin-bottom: 48px;
   opacity: 0;
   transform: scale(0.8);
   animation: fadeIn 1s forwards;
@@ -37,67 +39,368 @@ h1 {
   }
 }
 button {
-  padding: 10px 20px;
-  font-size: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  font-size: 1.5em;
+  font-weight: bold;
   border: none;
-  background-color: #57dd8f;
-  color: white;
+  background: linear-gradient(90deg, #57dd8f 0%, #27ae60 100%);
+  color: #fff;
   cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(39, 174, 96, 0.2), 0 1.5px 0 #1e824c;
+  transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+  position: relative;
+  overflow: hidden;
+  animation: pulse 1.5s infinite;
+}
+button svg {
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 4px #fff8);
 }
 button:hover {
-  background-color: #27ae60;
-  transform: rotateY(0deg) rotateX(20deg) rotateZ(0deg) scale(1.1); /*Ajuste da rotação do botão de iniciar*/
+  background: linear-gradient(90deg, #27ae60 0%, #57dd8f 100%);
+  transform: scale(1.08) rotateY(0deg) rotateX(10deg);
+  box-shadow: 0 8px 32px rgba(39, 174, 96, 0.35), 0 2px 0 #145a32;
+  filter: brightness(1.1);
 }
-.truck {
-  position: absolute;
-  bottom: 13%;
-  left: -200px;
-  width: 220px; /*Deixa o caminhão mais comprido*/
-  height: 80px;
-  background: #c0bbb2;
-  border-radius: 5px;
-  animation: moveTruck 30s ease-in-out forwards;
-}
-.container-box {
-  position: absolute;
-  bottom: 15%;
-  left: -190px;
-  width: 160px; /*Ajusta cumprimento do container-box*/
-  height: 80px;
-  background: #b9584e;
-  border-radius: 5px;
-  animation: moveTruck 30s ease-in-out forwards;
-}
-.pallet {
-  position: absolute;
-  bottom: 15%;
-  left: 50%;
-  width: 40px;
-  height: 40px;
-  background: #da7;
-  border-radius: 2px;
-  opacity: 0;
-}
-@keyframes moveTruck {
+@keyframes pulse {
   0% {
-    left: -200px;
+    box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.5);
   }
-  50% {
-    left: 50%; /*Ajusta a parada do meio da página*/
+  70% {
+    box-shadow: 0 0 0 12px rgba(39, 174, 96, 0);
   }
   100% {
-    left: 110%;
+    box-shadow: 0 0 0 0 rgba(39, 174, 96, 0);
   }
 }
-@keyframes loadPallet {
-  from {
-    opacity: 0;
-    transform: translateY(0);
+
+.loop-wrapper {
+  margin: 0 auto;
+  position: relative;
+  display: block;
+  width: 900px;
+  height: 320px;
+  overflow: hidden;
+  border-bottom: 3px solid #fff;
+  color: #fff;
+}
+.mountain {
+  position: absolute;
+  right: -900px;
+  bottom: -20px;
+  width: 2px;
+  height: 2px;
+  box-shadow: 0 0 0 50px #4db6ac, 60px 50px 0 70px #4db6ac,
+    90px 90px 0 50px #4db6ac, 250px 250px 0 50px #4db6ac,
+    290px 320px 0 50px #4db6ac, 320px 400px 0 50px #4db6ac;
+  transform: rotate(130deg);
+  animation: mtn 20s linear infinite;
+}
+.hill {
+  position: absolute;
+  right: -900px;
+  bottom: -50px;
+  width: 400px;
+  border-radius: 50%;
+  height: 20px;
+  box-shadow: 0 0 0 50px #4db6ac, -20px 0 0 20px #4db6ac, -90px 0 0 50px #4db6ac,
+    250px 0 0 50px #4db6ac, 290px 0 0 50px #4db6ac, 620px 0 0 50px #4db6ac;
+  animation: hill 4s 2s linear infinite;
+}
+.tree,
+.tree:nth-child(2),
+.tree:nth-child(3) {
+  position: absolute;
+  height: 100px;
+  width: 35px;
+  bottom: 0;
+  background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/130015/tree.svg)
+    no-repeat;
+}
+.rock {
+  margin-top: -17%;
+  height: 2%;
+  width: 2%;
+  bottom: -2px;
+  border-radius: 20px;
+  position: absolute;
+  background: #ddd;
+}
+.truck,
+.wheels {
+  transition: all ease;
+  width: 85px;
+  margin-right: -60px;
+  bottom: 0px;
+  right: 50%;
+  position: absolute;
+  background: #eee;
+}
+.truck {
+  background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/130015/truck.svg)
+    no-repeat;
+  background-size: contain;
+  height: 60px;
+}
+.wheels {
+  background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/130015/wheels.svg)
+    no-repeat;
+  height: 15px;
+  margin-bottom: 0;
+}
+.carreta {
+  position: absolute;
+  right: calc(50% - 120px);
+  bottom: 0px;
+  width: 180px;
+  height: 60px;
+  background: #e0e0e0;
+  border-radius: 10px 30px 30px 10px;
+  box-shadow: 0 4px 16px #0002;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+.carreta-texto {
+  font-size: 2em;
+  font-weight: bold;
+  color: #256a8a;
+  letter-spacing: 2px;
+  text-shadow: 1px 1px 6px #fff, 0 2px 8px #0002;
+  user-select: none;
+}
+.cabine-caminhao {
+  position: absolute;
+  right: calc(50% + 60px);
+  bottom: 0px;
+  width: 60px;
+  height: 60px;
+  background: #57dd8f;
+  border-radius: 10px 20px 20px 10px;
+  box-shadow: 0 2px 8px #0002;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+}
+.janela-cabine {
+  width: 28px;
+  height: 24px;
+  background: #fff;
+  border-radius: 6px 10px 10px 6px;
+  margin: 8px 0 8px 8px;
+}
+.rodas-caminhao {
+  position: absolute;
+  bottom: -12px;
+  right: calc(50% - 100px);
+  width: 160px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 3;
+}
+.roda {
+  width: 28px;
+  height: 28px;
+  background: #222;
+  border-radius: 50%;
+  border: 4px solid #888;
+  box-shadow: 0 2px 6px #0005;
+}
+
+.tree {
+  animation: tree 3s 0s linear infinite;
+}
+.tree:nth-child(2) {
+  animation: tree2 2s 0.15s linear infinite;
+}
+.tree:nth-child(3) {
+  animation: tree3 8s 0.05s linear infinite;
+}
+.rock {
+  animation: rock 4s -0.53s linear infinite;
+}
+.truck {
+  animation: truck 4s 0.08s ease infinite;
+}
+.wheels {
+  animation: truck 4s 0.001s ease infinite;
+}
+.truck:before {
+  animation: wind 1.5s 0s ease infinite;
+}
+
+@keyframes tree {
+  0% {
+    transform: translate(1350px);
   }
-  to {
-    opacity: 1;
-    transform: translateY(-50px);
+  50% {
+  }
+  100% {
+    transform: translate(-50px);
+  }
+}
+@keyframes tree2 {
+  0% {
+    transform: translate(650px);
+  }
+  50% {
+  }
+  100% {
+    transform: translate(-50px);
+  }
+}
+@keyframes tree3 {
+  0% {
+    transform: translate(2750px);
+  }
+  50% {
+  }
+  100% {
+    transform: translate(-50px);
+  }
+}
+
+@keyframes rock {
+  0% {
+    right: -200px;
+  }
+  100% {
+    right: 2000px;
+  }
+}
+@keyframes truck {
+  0% {
+  }
+  6% {
+    transform: translateY(0px);
+  }
+  7% {
+    transform: translateY(-6px);
+  }
+  9% {
+    transform: translateY(0px);
+  }
+  10% {
+    transform: translateY(-1px);
+  }
+  11% {
+    transform: translateY(0px);
+  }
+  100% {
+  }
+}
+@keyframes wind {
+  0% {
+  }
+  50% {
+    transform: translateY(3px);
+  }
+  100% {
+  }
+}
+@keyframes mtn {
+  100% {
+    transform: translateX(-2000px) rotate(130deg);
+  }
+}
+@keyframes hill {
+  100% {
+    transform: translateX(-2000px);
+  }
+}
+
+.caminhao-animado {
+  position: absolute;
+  right: 50%;
+  bottom: 0;
+  width: 220px;
+  height: 60px;
+  z-index: 10;
+  display: flex;
+  align-items: flex-end;
+  animation: truck 4s 0.08s ease infinite;
+}
+.caminhao-bau {
+  width: 120px;
+  height: 36px;
+  background: #e0e0e0;
+  border-radius: 8px 18px 18px 8px;
+  box-shadow: 0 4px 16px #0002;
+  position: relative;
+}
+.caminhao-cabine {
+  width: 40px;
+  height: 36px;
+  background: #57dd8f;
+  border-radius: 10px 20px 20px 10px;
+  margin-left: -8px;
+  box-shadow: 0 2px 8px #0002;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+}
+.caminhao-janela {
+  width: 16px;
+  height: 14px;
+  background: #fff;
+  border-radius: 6px 10px 10px 6px;
+  margin: 6px 0 6px 6px;
+}
+.caminhao-rodas {
+  position: absolute;
+  bottom: -12px;
+  left: 18px;
+  width: 110px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 3;
+}
+.caminhao-roda {
+  width: 20px;
+  height: 20px;
+  background: #222;
+  border-radius: 50%;
+  border: 3px solid #888;
+  box-shadow: 0 2px 6px #0005;
+  animation: rodas-giram 4s linear infinite;
+}
+@keyframes rodas-giram {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.caminhao-svg-wrapper {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  z-index: 10;
+  width: 260px;
+  height: 80px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: truck 4s 0.08s ease infinite;
+}
+.caminhao-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.roda-svg {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: rodas-giram 2s linear infinite;
+}
+@keyframes rodas-giram {
+  100% {
+    transform: rotate(360deg);
   }
 }
