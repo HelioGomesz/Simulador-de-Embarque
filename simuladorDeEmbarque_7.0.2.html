@@ -5,6 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Simulador de Embarque 7.0.2</title>
     <link rel="stylesheet" href="simuladorDeEmbarque_7.0.css" />
+    <style>
+      main.layout-principal {
+        margin-top: 0;
+        padding-top: 8px;
+      }
+      header {
+        margin-bottom: 0;
+      }
+      .download-btn button {
+        width: 40px;
+        height: 40px;
+        font-size: 1.5rem;
+      }
+      .tabela-cupomEmbarque h2 {
+        text-align: center;
+        margin: 8px 0 8px 0;
+        font-size: 1.2rem;
+      }
+      .tabela-cupomEmbarque thead th {
+        padding-top: 4px;
+        padding-bottom: 4px;
+        font-size: 1rem;
+      }
+    </style>
   </head>
 
   <body>
@@ -13,7 +37,9 @@
       <nav>
         <ul>
           <li>
-            <a href="EditandoTelaConfig/testeTelaConfig.html">⚙️ Configurações</a>
+            <a href="EditandoTelaConfig/testeTelaConfig.html"
+              >⚙️ Configurações</a
+            >
           </li>
           <li><a href="PagIniciar/PaginaIniciar.HTML">🚪 Sair</a></li>
         </ul>
@@ -21,7 +47,9 @@
     </header>
 
     <div class="download-btn">
-      <button onclick="downloadPDF()">📄 Download PDF</button>
+      <button onclick="downloadPDF()" title="Baixar PDF">
+        <span style="font-size: 1.5rem; line-height: 1">&#128462;</span>
+      </button>
     </div>
 
     <main class="layout-principal">
