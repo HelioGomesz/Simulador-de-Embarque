@@ -44,11 +44,39 @@
       </nav>
     </header>
 
-    <div class="download-btn">
-      <button onclick="downloadPDF()" title="Baixar PDF">
-        <span style="font-size: 1.5rem; line-height: 1">&#128462;</span>
-      </button>
-    </div>
+    <!-- Botões flutuantes -->
+    <button
+      class="floating-clear-btn"
+      onclick="clearAll()"
+      title="Limpar Todos"
+    >
+      <span
+        style="
+          font-size: 1.7rem;
+          line-height: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        "
+        >&#128465;</span
+      >
+    </button>
+    <button
+      class="floating-download-btn"
+      onclick="downloadPDF()"
+      title="Baixar PDF"
+    >
+      <span
+        style="
+          font-size: 1.7rem;
+          line-height: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        "
+        >&#128462;</span
+      >
+    </button>
 
     <main class="layout-principal">
       <!-- Coluna Esquerda - Caminhão -->
@@ -56,25 +84,25 @@
         <div class="caminhao">
           <section class="column" id="smallCubes">
             <div class="cube" id="P1">P1</div>
-            <div class="cube" id="P2">P2</div>
             <div class="cube" id="P3">P3</div>
-            <div class="cube" id="P4">P4</div>
             <div class="cube" id="P5">P5</div>
-            <div class="cube" id="P6">P6</div>
             <div class="cube" id="P7">P7</div>
-            <div class="cube" id="P8">P8</div>
             <div class="cube" id="P9">P9</div>
+            <div class="cube" id="P11">P11</div>
+            <div class="cube" id="P13">P13</div>
+            <div class="cube" id="P15">P15</div>
+            <div class="cube" id="P17">P17</div>
           </section>
           <section class="column" id="largeCubes">
-            <div class="cube" id="G1">G1</div>
             <div class="cube" id="G2">G2</div>
-            <div class="cube" id="G3">G3</div>
             <div class="cube" id="G4">G4</div>
-            <div class="cube" id="G5">G5</div>
             <div class="cube" id="G6">G6</div>
-            <div class="cube" id="G7">G7</div>
             <div class="cube" id="G8">G8</div>
-            <div class="cube" id="G9">G9</div>
+            <div class="cube" id="G10">G10</div>
+            <div class="cube" id="G12">G12</div>
+            <div class="cube" id="G14">G14</div>
+            <div class="cube" id="G16">G16</div>
+            <div class="cube" id="G18">G18</div>
           </section>
         </div>
       </div>

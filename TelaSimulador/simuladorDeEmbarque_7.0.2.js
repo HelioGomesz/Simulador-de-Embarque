@@ -1012,6 +1012,12 @@ function makeModalDraggable() {
 // Inicia o comportamento de arrastar ao carregar a página
 window.onload = makeModalDraggable;
 
+// LIMPAR TODOS OS CUBOS
+function clearAll() {
+  location.reload();
+}
+// ... existing code ...
+
 // FAZER DOWLOAD DA PAGINA DE SIMULAÇÃO
 
 function downloadPDF() {
