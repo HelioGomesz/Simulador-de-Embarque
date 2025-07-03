@@ -20,6 +20,17 @@
   "homepage": "https://github.com/HelioGomesz/Simulador-de-Embarque#readme",
   "devDependencies": {
     "electron": "^35.0.3"
+  },
+  "build": {
+    "appId": "com.seuprojeto.simulador",
+    "win": {
+      "icon": "Imagens/icon.ico"
+    },
+    "mac": {
+      "icon": "Imagens/icon.icns"
+    },
+    "linux": {
+      "icon": "Imagens/icon.png"
+    }
   }
-
 }
