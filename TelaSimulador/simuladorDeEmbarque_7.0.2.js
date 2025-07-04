@@ -279,14 +279,15 @@ function unificarPalletsFisicamente(produto, quantidade, peso) {
   const quantidadeUnificada = quantidadePP + quantidadePG;
   const pesoUnificado = pesoPP + pesoPG;
 
-  // Encontrar pares de pallets vazios (P1+G1, P2+G2, P3+G3, etc.)
+  // Encontrar pares de pallets vazios
   let palletPequeno = null;
   let palletGrande = null;
 
   // Procurar por pares de pallets vazios
-  for (let i = 1; i <= 9; i++) {
+  for (let i = 1; i <= 17; i += 2) {
+    // P1, P3, P5, ..., P17
     const palletP = document.getElementById(`P${i}`);
-    const palletG = document.getElementById(`G${i}`);
+    const palletG = document.getElementById(`G${i + 1}`); // G2, G4, G6, ...
 
     // Verificar se ambos os pallets do par estão vazios
     if (
@@ -321,11 +322,7 @@ function unificarPalletsFisicamente(produto, quantidade, peso) {
   const bloco = document.createElement("div");
   bloco.className = "produto-bloco produto-especial-unificado";
   bloco.setAttribute("data-categoria", produto);
-  bloco.innerHTML = `
-          <div>${produto}</div>
-          <div class="quantidade-cubo">${quantidadeUnificada}</div>
-          <div class="info-unificacao">PP: ${quantidadePP} | PG: ${quantidadePG}</div>
-        `;
+  bloco.innerHTML = `<div>${produto}</div><div class="quantidade-cubo">${quantidadeUnificada}</div>`;
 
   // Adicionar indicador de tipo de pallet unificado
   const tipoIndicator = document.createElement("div");
@@ -606,11 +603,7 @@ function adicionarProdutoEspecialUnificado(produto, quantidade, peso) {
   const bloco = document.createElement("div");
   bloco.className = "produto-bloco produto-especial-unificado";
   bloco.setAttribute("data-categoria", produto);
-  bloco.innerHTML = `
-          <div>${produto}</div>
-          <div class="quantidade-cubo">${quantidadeUnificada}</div>
-          <div class="info-unificacao">PP: ${quantidadePP} | PG: ${quantidadePG}</div>
-        `;
+  bloco.innerHTML = `<div>${produto}</div><div class="quantidade-cubo">${quantidadeUnificada}</div>`;
 
   // Adicionar indicador de tipo de pallet unificado
   const tipoIndicator = document.createElement("div");
