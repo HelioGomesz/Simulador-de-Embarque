@@ -117,7 +117,7 @@ nav a {
 
 .cube {
   width: 140px;
-  height: 80px;
+  height: 85px;
   background-color: #10898d79;
   color: rgb(133, 131, 131);
   display: flex;
@@ -125,7 +125,7 @@ nav a {
   justify-content: flex-start;
   align-items: center;
   font-weight: bold;
-  font-size: 12px;
+  font-size: 10px;
   cursor: pointer;
   border-radius: 4px;
   transition: all 0.3s ease;

@@ -919,7 +919,9 @@ function removeEntry(button) {
   if (cube.hasAttribute("data-produto-especial")) {
     // Restaurar pallet grande absorvido
     const numeroPallet = idCube.substring(1); // Remove o "P" do início
-    const palletGrande = document.getElementById(`G${numeroPallet}`);
+    const palletGrande = document.getElementById(
+      `G${parseInt(numeroPallet) + 1}`
+    ); // G2, G4, G6, etc.
 
     if (palletGrande) {
       // Remover classes e estilos de absorção
@@ -939,6 +941,7 @@ function removeEntry(button) {
     // Remover atributos de unificação do pallet pequeno
     cube.removeAttribute("data-produto-especial");
     cube.classList.remove("unificado-permanente");
+    cube.classList.remove("unificado");
 
     // Remover indicadores de unificação
     const indicadorUnificacao = cube.querySelector(
