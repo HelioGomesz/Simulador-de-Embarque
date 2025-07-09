@@ -30,3 +30,7 @@ Thumbs.db
 # Cache Electron
 .cache/
 electron-debug.log
+
+
+
+/generated/prisma
