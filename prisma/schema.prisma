@@ -1,0 +1,26 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Produtos {
+  id      String   @id @default(auto()) @map("_id") @db.ObjectId //cria automaticamente um ID toda vez que eu criar um produto
+  produto String   @unique
+  qtdPP   String
+  qtdPG   String
+  pesoPP  String
+  pesoPG  String
+  cubagemPP String
+  cubagemPG String
+}
