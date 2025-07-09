@@ -1,123 +1,135 @@
 let selectedCube = null;
 let totalQuantidade = 0;
 let totalPeso = 0;
+let totalValor = 0; // NOVO: variável para valor total
 let cubagemTotal = 73.28;
 let cubagemOcupada = 0; // NOVO
 
+// ===== MULTI-SELEÇÃO DE CUBOS =====
+let selectedCubes = [];
+
 const produtos = {
   "LM0001-4000840": {
-    PP: { quantidade: 248, peso: 332, cubagem: 2.86 },
-    PG: { quantidade: 510, peso: 647, cubagem: 3.5 },
+    PP: { quantidade: 248, peso: 332, cubagem: 2.86, precoUnitario: 12.5 },
+    PG: { quantidade: 510, peso: 647, cubagem: 3.5, precoUnitario: 12.5 },
   },
   "LM0001-4000850": {
-    PP: { quantidade: 248, peso: 332, cubagem: 2.86 },
-    PG: { quantidade: 510, peso: 647, cubagem: 3.5 },
+    PP: { quantidade: 248, peso: 332, cubagem: 2.86, precoUnitario: 13.2 },
+    PG: { quantidade: 510, peso: 647, cubagem: 3.5, precoUnitario: 13.2 },
   },
   "LM0001-8000840": {
-    PP: { quantidade: 248, peso: 355.6, cubagem: 2.86 },
-    PG: { quantidade: 510, peso: 694, cubagem: 3.5 },
+    PP: { quantidade: 248, peso: 355.6, cubagem: 2.86, precoUnitario: 15.8 },
+    PG: { quantidade: 510, peso: 694, cubagem: 3.5, precoUnitario: 15.8 },
   },
   "LM0001-8000850": {
-    PP: { quantidade: 248, peso: 355.6, cubagem: 2.86 },
-    PG: { quantidade: 510, peso: 694, cubagem: 3.5 },
+    PP: { quantidade: 248, peso: 355.6, cubagem: 2.86, precoUnitario: 16.5 },
+    PG: { quantidade: 510, peso: 694, cubagem: 3.5, precoUnitario: 16.5 },
   },
   "LM0006-4000830": {
-    PP: { quantidade: 160, peso: 460, cubagem: 2.86 },
-    PG: { quantidade: 224, peso: 639, cubagem: 3.0 },
+    PP: { quantidade: 160, peso: 460, cubagem: 2.86, precoUnitario: 18.9 },
+    PG: { quantidade: 224, peso: 639, cubagem: 3.0, precoUnitario: 18.9 },
   },
   "LM0006-4000840": {
-    PP: { quantidade: 160, peso: 460, cubagem: 2.86 },
-    PG: { quantidade: 224, peso: 639, cubagem: 3.0 },
+    PP: { quantidade: 160, peso: 460, cubagem: 2.86, precoUnitario: 19.6 },
+    PG: { quantidade: 224, peso: 639, cubagem: 3.0, precoUnitario: 19.6 },
   },
   "LM0006-4000850": {
-    PP: { quantidade: 160, peso: 460, cubagem: 2.86 },
-    PG: { quantidade: 224, peso: 639, cubagem: 3.0 },
+    PP: { quantidade: 160, peso: 460, cubagem: 2.86, precoUnitario: 20.3 },
+    PG: { quantidade: 224, peso: 639, cubagem: 3.0, precoUnitario: 20.3 },
   },
   "LM0006-4000865": {
-    PP: { quantidade: 160, peso: 160, cubagem: 2.86 },
-    PG: { quantidade: 224, peso: 639, cubagem: 3.0 },
+    PP: { quantidade: 160, peso: 160, cubagem: 2.86, precoUnitario: 21.0 },
+    PG: { quantidade: 224, peso: 639, cubagem: 3.0, precoUnitario: 21.0 },
   },
   "LM0007-3200830": {
-    PP: { quantidade: 384, peso: 359.8, cubagem: 2.5 },
-    PG: { quantidade: 768, peso: 697, cubagem: 3.5 },
+    PP: { quantidade: 384, peso: 359.8, cubagem: 2.5, precoUnitario: 22.5 },
+    PG: { quantidade: 768, peso: 697, cubagem: 3.5, precoUnitario: 22.5 },
   },
   "LM0008-3500840": {
-    PP: { quantidade: 528, peso: 288, cubagem: 2.86 },
-    PG: { quantidade: 1056, peso: 559, cubagem: 3.8 },
+    PP: { quantidade: 528, peso: 288, cubagem: 2.86, precoUnitario: 25.4 },
+    PG: { quantidade: 1056, peso: 559, cubagem: 3.8, precoUnitario: 25.4 },
   },
   "LM0008-3500850": {
-    PP: { quantidade: 528, peso: 288, cubagem: 2.86 },
-    PG: { quantidade: 1056, peso: 559, cubagem: 3.8 },
+    PP: { quantidade: 528, peso: 288, cubagem: 2.86, precoUnitario: 26.1 },
+    PG: { quantidade: 1056, peso: 559, cubagem: 3.8, precoUnitario: 26.1 },
   },
   "LM0008-7000850": {
-    PP: { quantidade: 384, peso: 359.8, cubagem: 2.86 },
-    PG: { quantidade: 768, peso: 697, cubagem: 3.8 },
+    PP: { quantidade: 384, peso: 359.8, cubagem: 2.86, precoUnitario: 28.7 },
+    PG: { quantidade: 768, peso: 697, cubagem: 3.8, precoUnitario: 28.7 },
   },
   "LM0008-13000840": {
-    PP: { quantidade: 296, peso: 364.4, cubagem: 2.86 },
-    PG: { quantidade: 500, peso: 712, cubagem: 3.8 },
+    PP: { quantidade: 296, peso: 364.4, cubagem: 2.86, precoUnitario: 31.2 },
+    PG: { quantidade: 500, peso: 712, cubagem: 3.8, precoUnitario: 31.2 },
   },
   "LM0008-13000850": {
-    PP: { quantidade: 296, peso: 364.4, cubagem: 2.86 },
-    PG: { quantidade: 520, peso: 712, cubagem: 3.8 },
+    PP: { quantidade: 296, peso: 364.4, cubagem: 2.86, precoUnitario: 31.9 },
+    PG: { quantidade: 520, peso: 712, cubagem: 3.8, precoUnitario: 31.9 },
   },
   "LM0008-20000840": {
-    PP: { quantidade: 231, peso: 352, cubagem: 2.86 },
-    PG: { quantidade: 231, peso: 352, cubagem: 3.8 },
+    PP: { quantidade: 231, peso: 352, cubagem: 2.86, precoUnitario: 35.6 },
+    PG: { quantidade: 231, peso: 352, cubagem: 3.8, precoUnitario: 35.6 },
   },
   "LM0008-20000850": {
-    PP: { quantidade: 231, peso: 352, cubagem: 2.86 },
-    PG: { quantidade: 231, peso: 352, cubagem: 3.8 },
+    PP: { quantidade: 231, peso: 352, cubagem: 2.86, precoUnitario: 36.3 },
+    PG: { quantidade: 231, peso: 352, cubagem: 3.8, precoUnitario: 36.3 },
   },
   "LM0009-4000840": {
-    PP: { quantidade: 256, peso: 288, cubagem: 2.86 },
-    PG: { quantidade: 510, peso: 559, cubagem: 3.8 },
+    PP: { quantidade: 256, peso: 288, cubagem: 2.86, precoUnitario: 38.9 },
+    PG: { quantidade: 510, peso: 559, cubagem: 3.8, precoUnitario: 38.9 },
   },
   "LM0009-4000850": {
-    PP: { quantidade: 256, peso: 288, cubagem: 2.86 },
-    PG: { quantidade: 510, peso: 559, cubagem: 3.8 },
+    PP: { quantidade: 256, peso: 288, cubagem: 2.86, precoUnitario: 39.6 },
+    PG: { quantidade: 510, peso: 559, cubagem: 3.8, precoUnitario: 39.6 },
   },
   "LM0009-8000840": {
-    PP: { quantidade: 224, peso: 288, cubagem: 2.86 },
-    PG: { quantidade: 448, peso: 559, cubagem: 3.8 },
+    PP: { quantidade: 224, peso: 288, cubagem: 2.86, precoUnitario: 42.2 },
+    PG: { quantidade: 448, peso: 559, cubagem: 3.8, precoUnitario: 42.2 },
   },
   "LM0009-8000850": {
-    PP: { quantidade: 224, peso: 288, cubagem: 2.86 },
-    PG: { quantidade: 448, peso: 559, cubagem: 3.8 },
+    PP: { quantidade: 224, peso: 288, cubagem: 2.86, precoUnitario: 42.9 },
+    PG: { quantidade: 448, peso: 559, cubagem: 3.8, precoUnitario: 42.9 },
   },
   "LM0010-2000830": {
-    PP: { quantidade: 640, peso: 598.2, cubagem: 2.86 },
-    PG: { quantidade: 896, peso: 832, cubagem: 3.8 },
+    PP: { quantidade: 640, peso: 598.2, cubagem: 2.86, precoUnitario: 45.5 },
+    PG: { quantidade: 896, peso: 832, cubagem: 3.8, precoUnitario: 45.5 },
   },
   "LM0010-2000840": {
-    PP: { quantidade: 640, peso: 598.2, cubagem: 2.86 },
-    PG: { quantidade: 896, peso: 832, cubagem: 3.8 },
+    PP: { quantidade: 640, peso: 598.2, cubagem: 2.86, precoUnitario: 46.2 },
+    PG: { quantidade: 896, peso: 832, cubagem: 3.8, precoUnitario: 46.2 },
   },
   "LM0010-2000850": {
-    PP: { quantidade: 640, peso: 598.2, cubagem: 2.86 },
-    PG: { quantidade: 896, peso: 832, cubagem: 3.8 },
+    PP: { quantidade: 640, peso: 598.2, cubagem: 2.86, precoUnitario: 46.9 },
+    PG: { quantidade: 896, peso: 832, cubagem: 3.8, precoUnitario: 46.9 },
   },
   "LM0010-2000865": {
-    PP: { quantidade: 640, peso: 598.2, cubagem: 2.86 },
-    PG: { quantidade: 896, peso: 832, cubagem: 3.8 },
+    PP: { quantidade: 640, peso: 598.2, cubagem: 2.86, precoUnitario: 47.6 },
+    PG: { quantidade: 896, peso: 832, cubagem: 3.8, precoUnitario: 47.6 },
   },
   "LM0011-12000840": {
-    PP: { quantidade: 248, peso: 355.6, cubagem: 2.86 },
-    PG: { quantidade: 510, peso: 694, cubagem: 3.8 },
+    PP: { quantidade: 248, peso: 355.6, cubagem: 2.86, precoUnitario: 50.3 },
+    PG: { quantidade: 510, peso: 694, cubagem: 3.8, precoUnitario: 50.3 },
   },
   "LM0011-12000850": {
-    PP: { quantidade: 248, peso: 355.6, cubagem: 2.86 },
-    PG: { quantidade: 510, peso: 694, cubagem: 3.8 },
+    PP: { quantidade: 248, peso: 355.6, cubagem: 2.86, precoUnitario: 51.0 },
+    PG: { quantidade: 510, peso: 694, cubagem: 3.8, precoUnitario: 51.0 },
   },
   "LM0012-24000840": {
-    PP: { quantidade: 231, peso: 352, cubagem: 2.86 },
-    PG: { quantidade: 231, peso: 352, cubagem: 3.8 },
+    PP: { quantidade: 231, peso: 352, cubagem: 2.86, precoUnitario: 55.8 },
+    PG: { quantidade: 231, peso: 352, cubagem: 3.8, precoUnitario: 55.8 },
   },
   "LM0012-24000850": {
-    PP: { quantidade: 231, peso: 352, cubagem: 2.86 },
-    PG: { quantidade: 231, peso: 352, cubagem: 3.8 },
+    PP: { quantidade: 231, peso: 352, cubagem: 2.86, precoUnitario: 56.5 },
+    PG: { quantidade: 231, peso: 352, cubagem: 3.8, precoUnitario: 56.5 },
   },
 };
+
+// Função para formatar valores em reais
+function formatarMoeda(valor) {
+  return new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(valor);
+}
 
 // Função para obter o prefixo do produto (ex: LM0001, LM0006, etc.)
 function getProdutoPrefix(produto) {
@@ -154,21 +166,244 @@ function getMaxQuantityForPallet(cubeId) {
   return isPequeno ? 1000 : 2000; // Limite baseado no tipo de pallet
 }
 
-document.querySelectorAll(".cube").forEach((cube) => {
-  cube.addEventListener("click", function () {
-    selectedCube = this;
-    document.getElementById("modal").style.display = "block";
+// Adiciona/remover seleção visual e gerencia array de seleção
+function toggleCubeSelection(cube) {
+  const idx = selectedCubes.indexOf(cube);
+  if (idx === -1) {
+    selectedCubes.push(cube);
+    cube.classList.add("selecionado");
+  } else {
+    selectedCubes.splice(idx, 1);
+    cube.classList.remove("selecionado");
+  }
+  updateAddProductButton();
+  atualizarMensagemModal();
+}
 
-    document.getElementById("produto").value = "";
+// Atualiza visibilidade do botão flutuante de adicionar produto
+function updateAddProductButton() {
+  let btn = document.getElementById("multiAddBtn");
+  if (!btn) {
+    btn = document.createElement("button");
+    btn.id = "multiAddBtn";
+    btn.className = "floating-multiadd-btn";
+    btn.title = "Adicionar Produto nos Pallets Selecionados";
+    btn.innerHTML =
+      '<span style="font-size:1.7rem;line-height:1;display:flex;align-items:center;justify-content:center;">&#10133;</span>';
+    btn.onclick = showMultiAddModal;
+    document.body.appendChild(btn);
+  }
+  btn.style.display = selectedCubes.length > 0 ? "block" : "none";
+
+  // Atualizar botão de unificação
+  updateUnifyButton();
+}
+
+// Verifica se pode unificar e atualiza o botão de unificação
+function updateUnifyButton() {
+  let unifyBtn = document.getElementById("unifyBtn");
+  if (!unifyBtn) {
+    unifyBtn = document.createElement("button");
+    unifyBtn.id = "unifyBtn";
+    unifyBtn.className = "floating-unify-btn";
+    unifyBtn.title = "Unificar Pallet (Produtos Especiais)";
+    unifyBtn.innerHTML =
+      '<span style="font-size:1.7rem;line-height:1;display:flex;align-items:center;justify-content:center;">🔗</span>';
+    unifyBtn.onclick = showUnifyModal;
+    document.body.appendChild(unifyBtn);
+  }
+
+  // Mostrar apenas se há exatamente 1 cubo pequeno selecionado e o par grande está vazio
+  const canUnify =
+    selectedCubes.length === 1 &&
+    selectedCubes[0].getAttribute("id").startsWith("P") &&
+    !selectedCubes[0].hasAttribute("data-tipo") &&
+    isPalletGrandeVazio(selectedCubes[0]);
+
+  unifyBtn.style.display = canUnify ? "block" : "none";
+}
+
+// Verifica se o pallet grande correspondente está vazio
+function isPalletGrandeVazio(palletPequeno) {
+  const idPalletPequeno = palletPequeno.getAttribute("id");
+  const numeroPallet = parseInt(idPalletPequeno.substring(1));
+  const palletGrande = document.getElementById(`G${numeroPallet + 1}`);
+
+  return (
+    palletGrande &&
+    !palletGrande.hasAttribute("data-tipo") &&
+    !palletGrande.classList.contains("absorvido-permanente")
+  );
+}
+
+// Mostra o modal de unificação com produtos especiais
+function showUnifyModal() {
+  document.getElementById("modal").style.display = "block";
+
+  // Selecionar automaticamente o primeiro produto especial
+  const produtoSelect = document.getElementById("produto");
+  produtoSelect.value = "LM0008-20000840";
+
+  // Preencher valores padrões
+  preencherValoresPadraoModal("LM0008-20000840");
+
+  // Adicionar mensagem especial no modal
+  const dicaDiv = document.querySelector(
+    '.modal-content div[style*="background-color: #e3f2fd"]'
+  );
+  if (dicaDiv) {
+    dicaDiv.innerHTML +=
+      "<br />🎯 <strong>Modo Unificação:</strong> Produto especial selecionado automaticamente!";
+  }
+
+  document.getElementById("limite-indicador").style.display = "none";
+  atualizarMensagemModal();
+}
+
+// Mostra o modal de adicionar produto para múltiplos cubos
+function showMultiAddModal() {
+  document.getElementById("modal").style.display = "block";
+  document.getElementById("produto").value = "";
+  document.getElementById("quantidade").value = "";
+  document.getElementById("peso").value = "";
+  document.getElementById("limite-indicador").style.display = "none";
+  atualizarMensagemModal();
+}
+
+// Atualiza os campos do modal com valores padrões do produto conforme o tipo do primeiro cubo selecionado
+function preencherValoresPadraoModal(produtoSelecionado) {
+  if (!produtoSelecionado || !selectedCubes.length) return;
+  const dadosProduto = produtos[produtoSelecionado];
+  if (!dadosProduto) {
     document.getElementById("quantidade").value = "";
     document.getElementById("peso").value = "";
-    document.getElementById("limite-indicador").style.display = "none";
+    return;
+  }
+  // Usa o tipo do primeiro cubo selecionado
+  const idCube = selectedCubes[0].getAttribute("id");
+  const isPequeno = idCube.startsWith("P");
+  if (isPequeno) {
+    document.getElementById("quantidade").value = dadosProduto.PP.quantidade;
+    document.getElementById("peso").value = dadosProduto.PP.peso;
+  } else {
+    document.getElementById("quantidade").value = dadosProduto.PG.quantidade;
+    document.getElementById("peso").value = dadosProduto.PG.peso;
+  }
+}
+
+// Ao abrir o modal, se já houver produto selecionado, preencher valores padrões
+const originalShowMultiAddModal = showMultiAddModal;
+showMultiAddModal = function () {
+  originalShowMultiAddModal();
+  const produtoSelecionado = document.getElementById("produto").value;
+  if (produtoSelecionado) {
+    preencherValoresPadraoModal(produtoSelecionado);
+  }
+  atualizarMensagemModal();
+};
+
+// Atualizar evento de troca de produto para múltiplos cubos
+const produtoSelect = document.getElementById("produto");
+produtoSelect.addEventListener("change", function () {
+  const produtoSelecionado = this.value;
+  if (!produtoSelecionado || !selectedCubes.length) return;
+  preencherValoresPadraoModal(produtoSelecionado);
+  // Verificar limite após selecionar produto
+  verificarLimiteModal();
+  atualizarMensagemModal();
+});
+
+// Clique nos cubos: seleção múltipla
+// Remove o listener antigo e adiciona o novo
+const allCubes = document.querySelectorAll(".cube");
+allCubes.forEach((cube) => {
+  const newCube = cube.cloneNode(true);
+  cube.parentNode.replaceChild(newCube, cube);
+});
+document.querySelectorAll(".cube").forEach((cube) => {
+  cube.addEventListener("click", function (e) {
+    e.stopPropagation();
+    toggleCubeSelection(this);
   });
 });
-//Inserir dados automáticos no form (Modal) conforme produto selecionado
+
+// CSS para seleção visual
+(function addSelecionadoCSS() {
+  const style = document.createElement("style");
+  style.innerHTML = `
+    .cube.selecionado { 
+      border: 3px solid #1976d2 !important; 
+      box-shadow: 0 0 12px #1976d2 !important; 
+    }
+    .floating-multiadd-btn { 
+      position: fixed; 
+      right: 32px; 
+      bottom: 170px; 
+      z-index: 2000; 
+      width: 56px; 
+      height: 56px; 
+      border-radius: 50%; 
+      background-color: #1976d2; 
+      color: #fff; 
+      border: none; 
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18); 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      font-size: 2rem; 
+      cursor: pointer; 
+      transition: background 0.2s, box-shadow 0.2s, transform 0.2s; 
+    } 
+    .floating-multiadd-btn:hover { 
+      background-color: #0d47a1; 
+      box-shadow: 0 8px 24px rgba(0,0,0,0.22); 
+      transform: scale(1.08); 
+    }
+    .floating-unify-btn { 
+      position: fixed; 
+      right: 32px; 
+      bottom: 240px; 
+      z-index: 2000; 
+      width: 56px; 
+      height: 56px; 
+      border-radius: 50%; 
+      background-color: #ff9800; 
+      color: #fff; 
+      border: none; 
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18); 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      font-size: 2rem; 
+      cursor: pointer; 
+      transition: background 0.2s, box-shadow 0.2s, transform 0.2s; 
+    } 
+    .floating-unify-btn:hover { 
+      background-color: #f57c00; 
+      box-shadow: 0 8px 24px rgba(0,0,0,0.22); 
+      transform: scale(1.08); 
+    }
+  `;
+  document.head.appendChild(style);
+})();
+
+// Fecha modal e limpa seleção múltipla
+function closeModal() {
+  document.getElementById("modal").style.display = "none";
+  document.getElementById("limite-indicador").style.display = "none";
+  clearCubeSelection();
+}
+
+function clearCubeSelection() {
+  selectedCubes.forEach((cube) => cube.classList.remove("selecionado"));
+  selectedCubes = [];
+  updateAddProductButton();
+}
+
+// Inserir dados automáticos no form (Modal) conforme produto selecionado
 document.getElementById("produto").addEventListener("change", function () {
   const produtoSelecionado = this.value;
-  if (!produtoSelecionado || !selectedCube) return;
+  if (!produtoSelecionado || !selectedCubes.length) return;
 
   const dadosProduto = produtos[produtoSelecionado];
   if (!dadosProduto) {
@@ -178,8 +413,9 @@ document.getElementById("produto").addEventListener("change", function () {
     return;
   }
 
-  const idCube = selectedCube.getAttribute("id");
-  const isPequeno = idCube.startsWith("P"); // <-- reconhecer o pallet pelo tamanho do cubo
+  // Usar o primeiro cubo selecionado como referência
+  const idCube = selectedCubes[0].getAttribute("id");
+  const isPequeno = idCube.startsWith("P");
 
   if (isPequeno) {
     document.getElementById("quantidade").value = dadosProduto.PP.quantidade;
@@ -191,6 +427,7 @@ document.getElementById("produto").addEventListener("change", function () {
 
   // Verificar limite após selecionar produto
   verificarLimiteModal();
+  atualizarMensagemModal();
 });
 
 // Recalcular peso automaticamente quando quantidade for alterada
@@ -198,12 +435,18 @@ document.getElementById("quantidade").addEventListener("input", function () {
   const produtoSelecionado = document.getElementById("produto").value;
   const novaQuantidade = parseFloat(this.value);
 
-  if (!produtoSelecionado || isNaN(novaQuantidade) || !selectedCube) return;
+  if (!produtoSelecionado || isNaN(novaQuantidade) || !selectedCubes.length)
+    return;
+
+  // Só permitir cálculo automático se houver apenas 1 cubo selecionado
+  if (selectedCubes.length > 1) {
+    return; // Para múltiplos cubos, não fazer cálculo automático
+  }
 
   const dadosProduto = produtos[produtoSelecionado];
   if (!dadosProduto) return;
 
-  const idCube = selectedCube.getAttribute("id");
+  const idCube = selectedCubes[0].getAttribute("id");
   const isPequeno = idCube.startsWith("P");
 
   // Obter dados de referência do produto
@@ -228,6 +471,7 @@ document.getElementById("quantidade").addEventListener("input", function () {
 
   // Verificar limite após alterar quantidade
   verificarLimiteModal();
+  atualizarMensagemModal();
 });
 
 // Recalcular quantidade automaticamente quando peso for alterado
@@ -235,12 +479,17 @@ document.getElementById("peso").addEventListener("input", function () {
   const produtoSelecionado = document.getElementById("produto").value;
   const novoPeso = parseFloat(this.value);
 
-  if (!produtoSelecionado || isNaN(novoPeso) || !selectedCube) return;
+  if (!produtoSelecionado || isNaN(novoPeso) || !selectedCubes.length) return;
+
+  // Só permitir cálculo automático se houver apenas 1 cubo selecionado
+  if (selectedCubes.length > 1) {
+    return; // Para múltiplos cubos, não fazer cálculo automático
+  }
 
   const dadosProduto = produtos[produtoSelecionado];
   if (!dadosProduto) return;
 
-  const idCube = selectedCube.getAttribute("id");
+  const idCube = selectedCubes[0].getAttribute("id");
   const isPequeno = idCube.startsWith("P");
 
   // Obter dados de referência do produto
@@ -265,6 +514,7 @@ document.getElementById("peso").addEventListener("input", function () {
 
   // Verificar limite após alterar peso
   verificarLimiteModal();
+  atualizarMensagemModal();
 });
 
 // Função para unificar pallets fisicamente (PP + PG = um só pallet)
@@ -279,34 +529,26 @@ function unificarPalletsFisicamente(produto, quantidade, peso) {
   const quantidadeUnificada = quantidadePP + quantidadePG;
   const pesoUnificado = pesoPP + pesoPG;
 
-  // Encontrar pares de pallets vazios
-  let palletPequeno = null;
-  let palletGrande = null;
+  // Usar o cubo selecionado como pallet pequeno
+  const palletPequeno = window.selectedCube;
 
-  // Procurar por pares de pallets vazios
-  for (let i = 1; i <= 17; i += 2) {
-    // P1, P3, P5, ..., P17
-    const palletP = document.getElementById(`P${i}`);
-    const palletG = document.getElementById(`G${i + 1}`); // G2, G4, G6, ...
+  // Encontrar o pallet grande correspondente
+  const idPalletPequeno = palletPequeno.getAttribute("id");
+  const numeroPallet = parseInt(idPalletPequeno.substring(1)); // Remove o "P" e pega o número
+  const palletGrande = document.getElementById(`G${numeroPallet + 1}`);
 
-    // Verificar se ambos os pallets do par estão vazios
-    if (
-      palletP &&
-      palletG &&
-      !palletP.hasAttribute("data-tipo") &&
-      !palletG.hasAttribute("data-tipo") &&
-      !palletP.classList.contains("absorvido-permanente") &&
-      !palletG.classList.contains("absorvido-permanente")
-    ) {
-      palletPequeno = palletP;
-      palletGrande = palletG;
-      break; // Usar o primeiro par disponível
-    }
-  }
-
-  if (!palletPequeno || !palletGrande) {
+  // Verificar se o pallet grande existe e está vazio
+  if (
+    !palletGrande ||
+    palletGrande.hasAttribute("data-tipo") ||
+    palletGrande.classList.contains("absorvido-permanente")
+  ) {
     alert(
-      "É necessário ter pelo menos um par de pallets vazios (P1+G1, P2+G2, etc.) para unificação!"
+      `É necessário que o pallet ${
+        palletGrande
+          ? palletGrande.getAttribute("id")
+          : "G" + (numeroPallet + 1)
+      } esteja vazio para unificação!`
     );
     return;
   }
@@ -373,6 +615,11 @@ function unificarPalletsFisicamente(produto, quantidade, peso) {
   row.setAttribute("data-id", palletPequeno.getAttribute("id"));
   row.setAttribute("data-produto", produto);
   row.classList.add("ativo", "unificado");
+
+  // Calcular valor do produto unificado
+  const precoUnitario = dadosProduto.PP.precoUnitario; // Mesmo preço para PP e PG
+  const valorUnificado = quantidadeUnificada * precoUnitario;
+
   row.innerHTML = `
           <td>${palletPequeno.getAttribute("id")} + ${palletGrande.getAttribute(
     "id"
@@ -380,15 +627,19 @@ function unificarPalletsFisicamente(produto, quantidade, peso) {
           <td>${produto}</td>
           <td>${quantidadeUnificada}</td>
           <td>${pesoUnificado.toFixed(2)}</td>
+          <td>${formatarMoeda(valorUnificado)}</td>
           <td><button onclick="removeEntry(this)">Excluir</button></td>
         `;
 
   // Atualizar totais
   totalQuantidade += quantidadeUnificada;
   totalPeso += pesoUnificado;
+  totalValor += valorUnificado; // NOVO: adicionar ao valor total
   document.getElementById("Quantidade-container").innerText =
     totalQuantidade.toFixed(2);
   document.getElementById("peso-container").innerText = totalPeso.toFixed(2);
+  document.getElementById("valorTotal-container").innerText =
+    formatarMoeda(totalValor); // NOVO: atualizar valor total
 
   // Cubagem
   const cubagemPP = dadosProduto.PP.cubagem;
@@ -528,8 +779,8 @@ function unificarPalletsEspeciais(produto, quantidade, peso) {
 
   // Verificar se o pallet selecionado já tem o mesmo produto unificado
   if (
-    selectedCube.hasAttribute("data-produto-especial") &&
-    selectedCube.getAttribute("data-produto-especial") === produto
+    window.selectedCube.hasAttribute("data-produto-especial") &&
+    window.selectedCube.getAttribute("data-produto-especial") === produto
   ) {
     // Atualizar quantidade e peso na tabela
     const table = document.getElementById("tabela-cupomList");
@@ -537,31 +788,44 @@ function unificarPalletsEspeciais(produto, quantidade, peso) {
 
     for (let row of rows) {
       if (
-        row.getAttribute("data-id") === selectedCube.getAttribute("id") &&
+        row.getAttribute("data-id") ===
+          window.selectedCube.getAttribute("id") &&
         row.getAttribute("data-produto") === produto
       ) {
         const quantidadeCell = row.cells[2];
         const pesoCell = row.cells[3];
+        const valorCell = row.cells[4]; // NOVO: célula do valor
 
         const quantidadeAtual = parseFloat(quantidadeCell.textContent);
         const pesoAtual = parseFloat(pesoCell.textContent);
+        const valorAtual = parseFloat(
+          valorCell.textContent.replace(/[^\d,.-]/g, "").replace(",", ".")
+        ); // NOVO: extrair valor atual
 
         const novaQuantidade = quantidadeAtual + quantidade;
         const novoPeso = pesoAtual + peso;
 
+        // Calcular novo valor
+        const dadosProduto = produtos[produto];
+        const precoUnitario = dadosProduto.PP.precoUnitario;
+        const novoValor = novaQuantidade * precoUnitario;
+
         quantidadeCell.textContent = novaQuantidade;
         pesoCell.textContent = novoPeso.toFixed(2);
+        valorCell.textContent = formatarMoeda(novoValor); // NOVO: atualizar valor
 
         // Atualizar totais
         totalQuantidade += quantidade;
         totalPeso += peso;
+        totalValor += novoValor - valorAtual; // NOVO: adicionar diferença do valor
         document.getElementById("Quantidade-container").innerText =
           totalQuantidade.toFixed(2);
         document.getElementById("peso-container").innerText =
           totalPeso.toFixed(2);
+        document.getElementById("valorTotal-container").innerText =
+          formatarMoeda(totalValor); // NOVO: atualizar valor total
 
         // Atualizar cubagem
-        const dadosProduto = produtos[produto];
         const cubagemPP = dadosProduto.PP.cubagem;
         const cubagemPG = dadosProduto.PG.cubagem;
         const cubagemUnificada = cubagemPP + cubagemPG;
@@ -581,7 +845,7 @@ function unificarPalletsEspeciais(produto, quantidade, peso) {
 
 // Função para adicionar produto especial com visual unificado
 function adicionarProdutoEspecialUnificado(produto, quantidade, peso) {
-  const idCube = selectedCube.getAttribute("id");
+  const idCube = window.selectedCube.getAttribute("id");
   const isPequeno = idCube.startsWith("P");
 
   // Calcular valores unificados (PP + PG)
@@ -596,8 +860,8 @@ function adicionarProdutoEspecialUnificado(produto, quantidade, peso) {
   const pesoUnificado = pesoPP + pesoPG;
 
   // Definir tipo de pallet como unificado
-  selectedCube.setAttribute("data-tipo", "UNIFICADO");
-  selectedCube.setAttribute("data-produto-especial", produto);
+  window.selectedCube.setAttribute("data-tipo", "UNIFICADO");
+  window.selectedCube.setAttribute("data-produto-especial", produto);
 
   // Criar bloco de produto com visual unificado
   const bloco = document.createElement("div");
@@ -609,7 +873,7 @@ function adicionarProdutoEspecialUnificado(produto, quantidade, peso) {
   const tipoIndicator = document.createElement("div");
   tipoIndicator.className = "tipo-pallet unificado";
   tipoIndicator.textContent = "UNIFICADO";
-  selectedCube.appendChild(tipoIndicator);
+  window.selectedCube.appendChild(tipoIndicator);
 
   // Adicionar indicador visual de unificação permanente
   const indicadorUnificacao = document.createElement("div");
@@ -621,15 +885,15 @@ function adicionarProdutoEspecialUnificado(produto, quantidade, peso) {
             🔗
           </div>
         `;
-  selectedCube.appendChild(indicadorUnificacao);
+  window.selectedCube.appendChild(indicadorUnificacao);
 
-  selectedCube.appendChild(bloco);
+  window.selectedCube.appendChild(bloco);
 
   // Aplicar visual de unificação permanente
-  selectedCube.classList.add("unificado-permanente");
+  window.selectedCube.classList.add("unificado-permanente");
 
   // Atualizar contador de produtos
-  atualizarContadorProdutos(selectedCube);
+  atualizarContadorProdutos(window.selectedCube);
 
   // Adicionar à tabela
   const table = document.getElementById("tabela-cupomList");
@@ -637,20 +901,29 @@ function adicionarProdutoEspecialUnificado(produto, quantidade, peso) {
   row.setAttribute("data-id", idCube);
   row.setAttribute("data-produto", produto);
   row.classList.add("ativo", "unificado");
+
+  // Calcular valor do produto unificado
+  const precoUnitario = dadosProduto.PP.precoUnitario; // Mesmo preço para PP e PG
+  const valorUnificado = quantidadeUnificada * precoUnitario;
+
   row.innerHTML = `
           <td>${idCube} (UNIFICADO)</td>
           <td>${produto}</td>
           <td>${quantidadeUnificada}</td>
           <td>${pesoUnificado.toFixed(2)}</td>
+          <td>${formatarMoeda(valorUnificado)}</td>
           <td><button onclick="removeEntry(this)">Excluir</button></td>
         `;
 
   // Atualizar totais
   totalQuantidade += quantidadeUnificada;
   totalPeso += pesoUnificado;
+  totalValor += valorUnificado; // NOVO: adicionar ao valor total
   document.getElementById("Quantidade-container").innerText =
     totalQuantidade.toFixed(2);
   document.getElementById("peso-container").innerText = totalPeso.toFixed(2);
+  document.getElementById("valorTotal-container").innerText =
+    formatarMoeda(totalValor); // NOVO: atualizar valor total
 
   // Cubagem
   const cubagemPP = dadosProduto.PP.cubagem;
@@ -669,102 +942,206 @@ function adicionarProdutoEspecialUnificado(produto, quantidade, peso) {
   );
 }
 
-//Inserir valores e realizar calculos conforme produtos adicionados
+// Adapta addEntry para múltiplos cubos
 function addEntry() {
   const produto = document.getElementById("produto").value;
-  const quantidade = parseFloat(document.getElementById("quantidade").value);
-  const peso = parseFloat(document.getElementById("peso").value);
+  const quantidadeInput = document.getElementById("quantidade").value;
+  const pesoInput = document.getElementById("peso").value;
+  const quantidade = parseFloat(quantidadeInput);
+  const peso = parseFloat(pesoInput);
 
-  if (!selectedCube) {
-    alert("Selecione um pallet.");
+  if (!selectedCubes.length) {
+    alert("Selecione pelo menos um pallet.");
     return;
   }
-
   if (isNaN(quantidade) || isNaN(peso)) {
     alert("Preencha quantidade e peso.");
     return;
   }
 
-  // Verificar se é um produto especial que deve ser unificado
-  if (unificarPalletsEspeciais(produto, quantidade, peso)) {
-    alert(
-      `Produto ${produto} unificado com pallet existente!\nQuantidade total atualizada.`
-    );
-    closeModal();
-    return; // Produto foi unificado, não precisa continuar
-  }
+  // Se apenas 1 cubo está selecionado, verificar lógica de unificação especial
+  if (selectedCubes.length === 1) {
+    const cube = selectedCubes[0];
+    window.selectedCube = cube; // para compatibilidade com funções existentes
 
-  // Verificar se é primeira inserção de produto especial
-  if (isProdutoEspecial(produto)) {
-    unificarPalletsFisicamente(produto, quantidade, peso);
+    // Verificar se é um produto especial que deve ser unificado
+    if (unificarPalletsEspeciais(produto, quantidade, peso)) {
+      alert(
+        `Produto ${produto} unificado com pallet existente!\nQuantidade total atualizada.`
+      );
+      closeModal();
+      return;
+    }
+
+    // Verificar se é primeira inserção de produto especial
+    if (isProdutoEspecial(produto)) {
+      unificarPalletsFisicamente(produto, quantidade, peso);
+      closeModal();
+      return;
+    }
+
+    // LÓGICA PARA 1 CUBO: Usar valores inseridos pelo usuário e calcular automaticamente
+    const idCube = cube.getAttribute("id");
+    const categoria = produto;
+    const isPequeno = idCube.startsWith("P");
+    const tipoPallet = isPequeno ? "PP" : "PG";
+    cube.setAttribute("data-tipo", tipoPallet);
+
+    // Usar os valores inseridos pelo usuário (quantidade e peso do modal)
+    const quantidadeExibir = quantidade;
+    const pesoExibir = peso;
+
+    // Calcular cubagem proporcional usando regra de três
+    let cubagemProduto = 0;
+    if (produtos[produto]) {
+      const dadosReferencia = isPequeno
+        ? produtos[produto].PP
+        : produtos[produto].PG;
+      const quantidadeReferencia = dadosReferencia.quantidade;
+      const cubagemReferencia = dadosReferencia.cubagem;
+
+      // Regra de três: se quantidadeReferencia = cubagemReferencia, então quantidade = ?
+      cubagemProduto = (quantidade * cubagemReferencia) / quantidadeReferencia;
+    }
+
+    // Criar bloco de produto
+    const bloco = document.createElement("div");
+    bloco.className = "produto-bloco";
+    bloco.setAttribute("data-categoria", categoria);
+    bloco.innerHTML = `<div>${produto}</div><div class="quantidade-cubo">${quantidadeExibir}</div>`;
+
+    // Adicionar indicador de tipo de pallet se não existir
+    if (!cube.querySelector(".tipo-pallet")) {
+      const tipoIndicator = document.createElement("div");
+      tipoIndicator.className = "tipo-pallet";
+      tipoIndicator.textContent = tipoPallet;
+      cube.appendChild(tipoIndicator);
+    }
+
+    cube.appendChild(bloco);
+    atualizarContadorProdutos(cube);
+
+    // Adicionar à tabela
+    const table = document.getElementById("tabela-cupomList");
+    const row = table.insertRow();
+    row.setAttribute("data-id", idCube);
+    row.setAttribute("data-produto", produto);
+    row.classList.add("ativo");
+
+    // Calcular valor do produto
+    let valorProduto = 0;
+    if (produtos[produto]) {
+      const precoUnitario = isPequeno
+        ? produtos[produto].PP.precoUnitario
+        : produtos[produto].PG.precoUnitario;
+      valorProduto = quantidadeExibir * precoUnitario;
+    }
+
+    row.innerHTML = `<td>${idCube}</td><td>${produto}</td><td>${quantidadeExibir}</td><td>${pesoExibir.toFixed(
+      2
+    )}</td><td>${formatarMoeda(
+      valorProduto
+    )}</td><td><button onclick="removeEntry(this)">Excluir</button></td>`;
+
+    totalQuantidade += quantidadeExibir;
+    totalPeso += pesoExibir;
+    totalValor += valorProduto; // NOVO: adicionar ao valor total
+    document.getElementById("Quantidade-container").innerText =
+      totalQuantidade.toFixed(2);
+    document.getElementById("peso-container").innerText = totalPeso.toFixed(2);
+    document.getElementById("valorTotal-container").innerText =
+      formatarMoeda(totalValor); // NOVO: atualizar valor total
+
+    // Adicionar cubagem calculada
+    cubagemOcupada += cubagemProduto;
+    const ocupacao = (cubagemOcupada / cubagemTotal) * 100;
+    document.getElementById("ocupacao-container").innerText =
+      ocupacao.toFixed(2) + "%";
+
     closeModal();
     return;
   }
 
-  const idCube = selectedCube.getAttribute("id");
-  const categoria = produto;
-  const isPequeno = idCube.startsWith("P");
-  const tipoPallet = isPequeno ? "PP" : "PG";
+  // LÓGICA PARA MÚLTIPLOS CUBOS: Usar valores padrões para cada cubo
+  selectedCubes.forEach((cube) => {
+    const idCube = cube.getAttribute("id");
+    const categoria = produto;
+    const isPequeno = idCube.startsWith("P");
+    const tipoPallet = isPequeno ? "PP" : "PG";
+    cube.setAttribute("data-tipo", tipoPallet);
 
-  // Definir tipo de pallet no cubo
-  selectedCube.setAttribute("data-tipo", tipoPallet);
+    // Usar valor padrão do produto para cada cubo
+    let quantidadeExibir = quantidade;
+    let pesoExibir = peso;
+    if (produtos[produto]) {
+      quantidadeExibir = isPequeno
+        ? produtos[produto].PP.quantidade
+        : produtos[produto].PG.quantidade;
+      pesoExibir = isPequeno
+        ? produtos[produto].PP.peso
+        : produtos[produto].PG.peso;
+    }
 
-  // Usar a quantidade inserida no modal em vez da quantidade padrão
-  const quantidadeExibir = quantidade;
+    // Criar bloco de produto
+    const bloco = document.createElement("div");
+    bloco.className = "produto-bloco";
+    bloco.setAttribute("data-categoria", categoria);
+    bloco.innerHTML = `<div>${produto}</div><div class="quantidade-cubo">${quantidadeExibir}</div>`;
 
-  // Criar bloco de produto
-  const bloco = document.createElement("div");
-  bloco.className = "produto-bloco";
-  bloco.setAttribute("data-categoria", categoria);
-  bloco.innerHTML = `
-          <div>${produto}</div>
-          <div class="quantidade-cubo">${quantidadeExibir}</div>
-        `;
+    // Adicionar indicador de tipo de pallet se não existir
+    if (!cube.querySelector(".tipo-pallet")) {
+      const tipoIndicator = document.createElement("div");
+      tipoIndicator.className = "tipo-pallet";
+      tipoIndicator.textContent = tipoPallet;
+      cube.appendChild(tipoIndicator);
+    }
 
-  // Adicionar indicador de tipo de pallet se não existir
-  if (!selectedCube.querySelector(".tipo-pallet")) {
-    const tipoIndicator = document.createElement("div");
-    tipoIndicator.className = "tipo-pallet";
-    tipoIndicator.textContent = tipoPallet;
-    selectedCube.appendChild(tipoIndicator);
-  }
+    cube.appendChild(bloco);
+    atualizarContadorProdutos(cube);
 
-  selectedCube.appendChild(bloco);
+    // Adicionar à tabela
+    const table = document.getElementById("tabela-cupomList");
+    const row = table.insertRow();
+    row.setAttribute("data-id", idCube);
+    row.setAttribute("data-produto", produto);
+    row.classList.add("ativo");
 
-  // Atualizar contador de produtos
-  atualizarContadorProdutos(selectedCube);
+    // Calcular valor do produto
+    let valorProduto = 0;
+    if (produtos[produto]) {
+      const precoUnitario = isPequeno
+        ? produtos[produto].PP.precoUnitario
+        : produtos[produto].PG.precoUnitario;
+      valorProduto = quantidadeExibir * precoUnitario;
+    }
 
-  const table = document.getElementById("tabela-cupomList");
-  const row = table.insertRow();
-  row.setAttribute("data-id", idCube);
-  row.setAttribute("data-produto", produto);
-  row.classList.add("ativo");
-  row.innerHTML = `
-          <td>${idCube}</td>
-          <td>${produto}</td>
-          <td>${quantidadeExibir}</td>
-          <td>${peso}</td>
-          <td><button onclick="removeEntry(this)">Excluir</button></td>
-  `;
+    row.innerHTML = `<td>${idCube}</td><td>${produto}</td><td>${quantidadeExibir}</td><td>${pesoExibir.toFixed(
+      2
+    )}</td><td>${formatarMoeda(
+      valorProduto
+    )}</td><td><button onclick="removeEntry(this)">Excluir</button></td>`;
 
-  totalQuantidade += quantidade;
-  totalPeso += peso;
-  document.getElementById("Quantidade-container").innerText =
-    totalQuantidade.toFixed(2);
-  document.getElementById("peso-container").innerText = totalPeso.toFixed(2);
+    totalQuantidade += quantidadeExibir;
+    totalPeso += pesoExibir;
+    totalValor += valorProduto; // NOVO: adicionar ao valor total
+    document.getElementById("Quantidade-container").innerText =
+      totalQuantidade.toFixed(2);
+    document.getElementById("peso-container").innerText = totalPeso.toFixed(2);
+    document.getElementById("valorTotal-container").innerText =
+      formatarMoeda(totalValor); // NOVO: atualizar valor total
 
-  // Cubagem correta por produto e tipo de pallet
-  let cubagemProduto = 0;
-  if (produtos[produto]) {
-    cubagemProduto = isPequeno
-      ? produtos[produto].PP.cubagem
-      : produtos[produto].PG.cubagem;
-    cubagemOcupada += cubagemProduto;
-  }
-
-  const ocupacao = (cubagemOcupada / cubagemTotal) * 100;
-  document.getElementById("ocupacao-container").innerText =
-    ocupacao.toFixed(2) + "%";
+    // Cubagem correta por produto e tipo de pallet
+    let cubagemProduto = 0;
+    if (produtos[produto]) {
+      cubagemProduto = isPequeno
+        ? produtos[produto].PP.cubagem
+        : produtos[produto].PG.cubagem;
+      cubagemOcupada += cubagemProduto;
+    }
+    const ocupacao = (cubagemOcupada / cubagemTotal) * 100;
+    document.getElementById("ocupacao-container").innerText =
+      ocupacao.toFixed(2) + "%";
+  });
 
   closeModal();
 }
@@ -881,14 +1258,20 @@ function removeEntry(button) {
   const produto = row.getAttribute("data-produto");
   const quantidade = parseFloat(row.cells[2].innerText);
   const peso = parseFloat(row.cells[3].innerText);
+  const valor = parseFloat(
+    row.cells[4].innerText.replace(/[^\d,.-]/g, "").replace(",", ".")
+  ); // NOVO: extrair valor
 
   table.deleteRow(row.rowIndex - 1);
   totalQuantidade -= quantidade;
   totalPeso -= peso;
+  totalValor -= valor; // NOVO: subtrair valor
 
   document.getElementById("Quantidade-container").innerText =
     totalQuantidade.toFixed(2);
   document.getElementById("peso-container").innerText = totalPeso.toFixed(2);
+  document.getElementById("valorTotal-container").innerText =
+    formatarMoeda(totalValor); // NOVO: atualizar valor total
 
   // Subtrair cubagem do produto removido
   let cubagemProduto = 0;
@@ -970,12 +1353,6 @@ function removeEntry(button) {
   }
 }
 
-function closeModal() {
-  document.getElementById("modal").style.display = "none";
-  document.getElementById("limite-indicador").style.display = "none";
-  selectedCube = null;
-}
-
 // FUNÇÃO PARA PERMITIR ARRASTAR O FORMULÁRIO NA PAGINA COM O MOUSE
 function makeModalDraggable() {
   const modal = document.getElementById("modal");
@@ -1012,7 +1389,6 @@ window.onload = makeModalDraggable;
 function clearAll() {
   location.reload();
 }
-// ... existing code ...
 
 // FAZER DOWLOAD DA PAGINA DE SIMULAÇÃO
 
@@ -1035,7 +1411,7 @@ function verificarLimiteModal() {
   const quantidade = parseFloat(quantidadeInput);
   const limiteIndicador = document.getElementById("limite-indicador");
 
-  if (!produtoSelecionado || !selectedCube) {
+  if (!produtoSelecionado || !selectedCubes.length) {
     limiteIndicador.style.display = "none";
     return;
   }
@@ -1046,7 +1422,7 @@ function verificarLimiteModal() {
     return;
   }
 
-  const existingProducts = selectedCube.querySelectorAll(".produto-bloco");
+  const existingProducts = selectedCubes[0].querySelectorAll(".produto-bloco");
 
   if (existingProducts.length > 0) {
     // Verificar se é da mesma família
@@ -1068,7 +1444,7 @@ function verificarLimiteModal() {
       });
 
       // Obter padrão do primeiro produto
-      const idCube = selectedCube.getAttribute("id");
+      const idCube = selectedCubes[0].getAttribute("id");
       const isPequeno = idCube.startsWith("P");
       const firstProductData = produtos[firstProduct];
       const padraoQuantidade = isPequeno
@@ -1120,7 +1496,7 @@ function verificarLimiteModal() {
     }
   } else {
     // Primeiro produto - mostrar padrão
-    const idCube = selectedCube.getAttribute("id");
+    const idCube = selectedCubes[0].getAttribute("id");
     const isPequeno = idCube.startsWith("P");
     const produtoData = produtos[produtoSelecionado];
     const padraoQuantidade = isPequeno
@@ -1136,5 +1512,35 @@ function verificarLimiteModal() {
             Padrão estabelecido: ${padraoQuantidade} unidades<br>
             Este será o limite máximo para este pallet
           `;
+  }
+}
+
+// Atualiza a mensagem informativa do modal baseada na seleção
+function atualizarMensagemModal() {
+  const dicaDiv = document.querySelector(
+    '.modal-content div[style*="background-color: #e3f2fd"]'
+  );
+  if (!dicaDiv) return;
+
+  if (selectedCubes.length === 0) {
+    dicaDiv.innerHTML = `
+      💡 <strong>Dica:</strong> Selecione pelo menos um pallet para continuar.<br />
+      📊 <strong>Limite:</strong> O padrão do primeiro produto define o limite máximo do pallet.<br />
+      🔗 <strong>Unificação:</strong> Produtos LM0008-2000 e LM0012-2400 são automaticamente unificados com visual especial.
+    `;
+  } else if (selectedCubes.length === 1) {
+    dicaDiv.innerHTML = `
+      💡 <strong>Dica:</strong> Altere a quantidade ou peso - o outro campo será calculado automaticamente!<br />
+      📊 <strong>Limite:</strong> O padrão do primeiro produto define o limite máximo do pallet.<br />
+      🔗 <strong>Unificação:</strong> Produtos LM0008-2000 e LM0012-2400 são automaticamente unificados com visual especial.<br />
+      ⚡ <strong>Cálculo Automático:</strong> ATIVO - valores personalizados permitidos.
+    `;
+  } else {
+    dicaDiv.innerHTML = `
+      💡 <strong>Dica:</strong> Para múltiplos pallets, os valores padrões serão usados automaticamente.<br />
+      📊 <strong>Limite:</strong> O padrão do primeiro produto define o limite máximo do pallet.<br />
+      🔗 <strong>Unificação:</strong> Produtos LM0008-2000 e LM0012-2400 são automaticamente unificados com visual especial.<br />
+      ⚠️ <strong>Cálculo Automático:</strong> DESATIVADO - use valores padrões para consistência.
+    `;
   }
 }
