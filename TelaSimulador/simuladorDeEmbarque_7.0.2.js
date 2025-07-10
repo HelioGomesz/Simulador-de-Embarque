@@ -4,19 +4,19 @@ let totalPeso = 0; // variável para peso total
 let totalValor = 0; // variável para valor total
 let cubagemTotal = 73.28; // variável para cubagem total
 let cubagemOcupada = 0; //  variável para cubagem ocupada
-let markUp = 1.9; // variável para markUp
+let markUp = []; // variável para markUp
 
 // ===== MULTI-SELEÇÃO DE CUBOS =====
 let selectedCubes = []; // variável para cubos selecionados
 
 const produtos = {
   "LM0001-4000840": {
-    PP: { quantidade: 248, peso: 332, cubagem: 2.018, precoUnitario: 165.48 },
-    PG: { quantidade: 510, peso: 647, cubagem: 4.095, precoUnitario: 165.48 },
+    PP: { quantidade: 248, peso: 332, cubagem: 2.018, precoUnitario: 186.26 },
+    PG: { quantidade: 510, peso: 647, cubagem: 4.095, precoUnitario: 186.26 },
   },
   "LM0001-4000850": {
-    PP: { quantidade: 248, peso: 332, cubagem: 2.018, precoUnitario: 169.41 },
-    PG: { quantidade: 510, peso: 647, cubagem: 4.095, precoUnitario: 169.41 },
+    PP: { quantidade: 248, peso: 332, cubagem: 2.018, precoUnitario: 189.91 },
+    PG: { quantidade: 510, peso: 647, cubagem: 4.095, precoUnitario: 189.91 },
   },
   "LM0001-8000840": {
     PP: { quantidade: 248, peso: 355.6, cubagem: 2.018, precoUnitario: 196.27 },
@@ -27,16 +27,16 @@ const produtos = {
     PG: { quantidade: 510, peso: 694, cubagem: 4.095, precoUnitario: 208.3 },
   },
   "LM0006-4000830": {
-    PP: { quantidade: 160, peso: 460, cubagem: 2.549, precoUnitario: 328.56 },
-    PG: { quantidade: 224, peso: 639, cubagem: 4.368, precoUnitario: 328.56 },
+    PP: { quantidade: 160, peso: 460, cubagem: 2.549, precoUnitario: 336.88 },
+    PG: { quantidade: 224, peso: 639, cubagem: 4.368, precoUnitario: 336.88 },
   },
   "LM0006-4000840": {
-    PP: { quantidade: 160, peso: 460, cubagem: 2.549, precoUnitario: 328.94 },
-    PG: { quantidade: 224, peso: 639, cubagem: 4.368, precoUnitario: 328.94 },
+    PP: { quantidade: 160, peso: 460, cubagem: 2.549, precoUnitario: 337.56 },
+    PG: { quantidade: 224, peso: 639, cubagem: 4.368, precoUnitario: 337.56 },
   },
   "LM0006-4000850": {
-    PP: { quantidade: 160, peso: 460, cubagem: 2.549, precoUnitario: 324.65 },
-    PG: { quantidade: 224, peso: 639, cubagem: 4.368, precoUnitario: 324.65 },
+    PP: { quantidade: 160, peso: 460, cubagem: 2.549, precoUnitario: 324.69 },
+    PG: { quantidade: 224, peso: 639, cubagem: 4.368, precoUnitario: 324.69 },
   },
   "LM0006-4000865": {
     PP: { quantidade: 160, peso: 160, cubagem: 2.549, precoUnitario: 320.01 },
@@ -47,12 +47,12 @@ const produtos = {
     PG: { quantidade: 768, peso: 697, cubagem: 3.5, precoUnitario: 188.61 },
   },
   "LM0008-3500840": {
-    PP: { quantidade: 528, peso: 288, cubagem: 2.018, precoUnitario: 190.91 },
-    PG: { quantidade: 1056, peso: 559, cubagem: 4.095, precoUnitario: 190.91 },
+    PP: { quantidade: 528, peso: 288, cubagem: 2.018, precoUnitario: 119.92 },
+    PG: { quantidade: 1056, peso: 559, cubagem: 4.095, precoUnitario: 119.92 },
   },
   "LM0008-3500850": {
-    PP: { quantidade: 528, peso: 288, cubagem: 2.018, precoUnitario: 190.91 },
-    PG: { quantidade: 1056, peso: 559, cubagem: 4.095, precoUnitario: 190.91 },
+    PP: { quantidade: 528, peso: 288, cubagem: 2.018, precoUnitario: 119.79 },
+    PG: { quantidade: 1056, peso: 559, cubagem: 4.095, precoUnitario: 119.79 },
   },
   "LM0008-7000850": {
     PP: { quantidade: 384, peso: 359.8, cubagem: 2.018, precoUnitario: 137.32 },
@@ -115,12 +115,12 @@ const produtos = {
     PG: { quantidade: 510, peso: 694, cubagem: 4.095, precoUnitario: 171.61 },
   },
   "LM0012-24000840": {
-    PP: { quantidade: 231, peso: 352, cubagem: 3.333, precoUnitario: 421.75 },
-    PG: { quantidade: 231, peso: 352, cubagem: 3.333, precoUnitario: 421.75 },
+    PP: { quantidade: 231, peso: 352, cubagem: 3.333, precoUnitario: 338.23 },
+    PG: { quantidade: 231, peso: 352, cubagem: 3.333, precoUnitario: 338.23 },
   },
   "LM0012-24000850": {
-    PP: { quantidade: 231, peso: 352, cubagem: 3.333, precoUnitario: 421.75 },
-    PG: { quantidade: 231, peso: 352, cubagem: 3.333, precoUnitario: 421.75 },
+    PP: { quantidade: 231, peso: 352, cubagem: 3.333, precoUnitario: 337.36 },
+    PG: { quantidade: 231, peso: 352, cubagem: 3.333, precoUnitario: 337.36 },
   },
 };
 
@@ -639,8 +639,7 @@ function unificarPalletsFisicamente(produto, quantidade, peso) {
   document.getElementById("Quantidade-container").innerText =
     totalQuantidade.toFixed(2);
   document.getElementById("peso-container").innerText = totalPeso.toFixed(2);
-  document.getElementById("valorTotal-container").innerText =
-    formatarMoeda(totalValor); // NOVO: atualizar valor total
+  atualizarValorTotalComOuSemMarkup();
 
   // Cubagem
   const cubagemPP = dadosProduto.PP.cubagem;
@@ -819,12 +818,7 @@ function unificarPalletsEspeciais(produto, quantidade, peso) {
         totalQuantidade += quantidade;
         totalPeso += peso;
         totalValor += novoValor - valorAtual; // NOVO: adicionar diferença do valor
-        document.getElementById("Quantidade-container").innerText =
-          totalQuantidade.toFixed(2);
-        document.getElementById("peso-container").innerText =
-          totalPeso.toFixed(2);
-        document.getElementById("valorTotal-container").innerText =
-          formatarMoeda(totalValor); // NOVO: atualizar valor total
+        atualizarValorTotalComOuSemMarkup();
 
         // Atualizar cubagem
         const cubagemPP = dadosProduto.PP.cubagem;
@@ -923,8 +917,7 @@ function adicionarProdutoEspecialUnificado(produto, quantidade, peso) {
   document.getElementById("Quantidade-container").innerText =
     totalQuantidade.toFixed(2);
   document.getElementById("peso-container").innerText = totalPeso.toFixed(2);
-  document.getElementById("valorTotal-container").innerText =
-    formatarMoeda(totalValor); // NOVO: atualizar valor total
+  atualizarValorTotalComOuSemMarkup();
 
   // Cubagem
   const cubagemPP = dadosProduto.PP.cubagem;
@@ -1050,8 +1043,7 @@ function addEntry() {
     document.getElementById("Quantidade-container").innerText =
       totalQuantidade.toFixed(2);
     document.getElementById("peso-container").innerText = totalPeso.toFixed(2);
-    document.getElementById("valorTotal-container").innerText =
-      formatarMoeda(totalValor); // NOVO: atualizar valor total
+    atualizarValorTotalComOuSemMarkup();
 
     // Adicionar cubagem calculada
     cubagemOcupada += cubagemProduto;
@@ -1128,8 +1120,7 @@ function addEntry() {
     document.getElementById("Quantidade-container").innerText =
       totalQuantidade.toFixed(2);
     document.getElementById("peso-container").innerText = totalPeso.toFixed(2);
-    document.getElementById("valorTotal-container").innerText =
-      formatarMoeda(totalValor); // NOVO: atualizar valor total
+    atualizarValorTotalComOuSemMarkup();
 
     // Cubagem correta por produto e tipo de pallet
     let cubagemProduto = 0;
@@ -1271,8 +1262,7 @@ function removeEntry(button) {
   document.getElementById("Quantidade-container").innerText =
     totalQuantidade.toFixed(2);
   document.getElementById("peso-container").innerText = totalPeso.toFixed(2);
-  document.getElementById("valorTotal-container").innerText =
-    formatarMoeda(totalValor); // NOVO: atualizar valor total
+  atualizarValorTotalComOuSemMarkup();
 
   // Subtrair cubagem do produto removido
   let cubagemProduto = 0;
@@ -1544,4 +1534,48 @@ function atualizarMensagemModal() {
       ⚠️ <strong>Cálculo Automático:</strong> DESATIVADO - use valores padrões para consistência.
     `;
   }
+}
+
+let markupValue = null;
+
+function toggleMarkupInput() {
+  const ativar = document.getElementById("ativarMarkup").checked;
+  if (ativar) {
+    // Abrir modal para input do markup
+    document.getElementById("modalMarkup").style.display = "block";
+    document.getElementById("markupInputModal").value =
+      markupValue !== null ? markupValue : "";
+  } else {
+    markupValue = null;
+    atualizarValorTotalComOuSemMarkup();
+  }
+}
+
+function confirmarMarkup() {
+  const input = document.getElementById("markupInputModal");
+  const valor = parseFloat(input.value);
+  if (isNaN(valor) || valor <= 0) {
+    alert("Digite um valor de markup válido (ex: 1.9)");
+    input.focus();
+    return;
+  }
+  markupValue = valor;
+  document.getElementById("modalMarkup").style.display = "none";
+  atualizarValorTotalComOuSemMarkup();
+}
+
+function cancelarMarkup() {
+  document.getElementById("modalMarkup").style.display = "none";
+  document.getElementById("ativarMarkup").checked = false;
+  markupValue = null;
+  atualizarValorTotalComOuSemMarkup();
+}
+
+function atualizarValorTotalComOuSemMarkup() {
+  let valorExibir = totalValor || 0;
+  if (document.getElementById("ativarMarkup").checked && markupValue !== null) {
+    valorExibir = valorExibir * markupValue;
+  }
+  document.getElementById("valorTotal-container").innerText =
+    formatarMoeda(valorExibir);
 }
