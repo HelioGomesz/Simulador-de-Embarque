@@ -1243,6 +1243,11 @@ function atualizarIndicadorQuantidade(cube) {
   }
 }
 
+function parseValorBRL(str) {
+  // Remove R$, espaços, pontos de milhar e troca vírgula decimal por ponto
+  return parseFloat(str.replace(/R\$|\s|\./g, "").replace(",", "."));
+}
+
 function removeEntry(button) {
   const row = button.parentElement.parentElement;
   const table = document.getElementById("tabela-cupomList");
@@ -1250,14 +1255,15 @@ function removeEntry(button) {
   const produto = row.getAttribute("data-produto");
   const quantidade = parseFloat(row.cells[2].innerText);
   const peso = parseFloat(row.cells[3].innerText);
-  const valor = parseFloat(
-    row.cells[4].innerText.replace(/[^\d,.-]/g, "").replace(",", ".")
-  ); // NOVO: extrair valor
+  const valor = parseValorBRL(row.cells[4].innerText); // NOVO: extrair valor
 
   table.deleteRow(row.rowIndex - 1);
   totalQuantidade -= quantidade;
   totalPeso -= peso;
   totalValor -= valor; // NOVO: subtrair valor
+  totalQuantidade = Math.max(0, totalQuantidade);
+  totalPeso = Math.max(0, totalPeso);
+  totalValor = Math.max(0, totalValor);
 
   document.getElementById("Quantidade-container").innerText =
     totalQuantidade.toFixed(2);
