@@ -1,125 +1,126 @@
-let selectedCube = null;
-let totalQuantidade = 0;
-let totalPeso = 0;
-let totalValor = 0; // NOVO: variável para valor total
-let cubagemTotal = 73.28;
-let cubagemOcupada = 0; // NOVO
+let selectedCube = null; // variável para cubo selecionado
+let totalQuantidade = 0; // variável para quantidade total
+let totalPeso = 0; // variável para peso total
+let totalValor = 0; // variável para valor total
+let cubagemTotal = 73.28; // variável para cubagem total
+let cubagemOcupada = 0; //  variável para cubagem ocupada
+let markUp = 1.9; // variável para markUp
 
 // ===== MULTI-SELEÇÃO DE CUBOS =====
-let selectedCubes = [];
+let selectedCubes = []; // variável para cubos selecionados
 
 const produtos = {
   "LM0001-4000840": {
     PP: { quantidade: 248, peso: 332, cubagem: 2.018, precoUnitario: 165.48 },
-    PG: { quantidade: 510, peso: 647, cubagem: 4.095, precoUnitario: 169.41 },
+    PG: { quantidade: 510, peso: 647, cubagem: 4.095, precoUnitario: 165.48 },
   },
   "LM0001-4000850": {
-    PP: { quantidade: 248, peso: 332, cubagem: 2.018, precoUnitario: 13.2 },
-    PG: { quantidade: 510, peso: 647, cubagem: 4.095, precoUnitario: 13.2 },
+    PP: { quantidade: 248, peso: 332, cubagem: 2.018, precoUnitario: 169.41 },
+    PG: { quantidade: 510, peso: 647, cubagem: 4.095, precoUnitario: 169.41 },
   },
   "LM0001-8000840": {
-    PP: { quantidade: 248, peso: 355.6, cubagem: 2.018, precoUnitario: 15.8 },
-    PG: { quantidade: 510, peso: 694, cubagem: 4.095, precoUnitario: 15.8 },
+    PP: { quantidade: 248, peso: 355.6, cubagem: 2.018, precoUnitario: 196.27 },
+    PG: { quantidade: 510, peso: 694, cubagem: 4.095, precoUnitario: 196.27 },
   },
   "LM0001-8000850": {
-    PP: { quantidade: 248, peso: 355.6, cubagem: 2.018, precoUnitario: 16.5 },
-    PG: { quantidade: 510, peso: 694, cubagem: 4.095, precoUnitario: 16.5 },
+    PP: { quantidade: 248, peso: 355.6, cubagem: 2.018, precoUnitario: 208.3 },
+    PG: { quantidade: 510, peso: 694, cubagem: 4.095, precoUnitario: 208.3 },
   },
   "LM0006-4000830": {
-    PP: { quantidade: 160, peso: 460, cubagem: 2.86, precoUnitario: 18.9 },
-    PG: { quantidade: 224, peso: 639, cubagem: 3.0, precoUnitario: 18.9 },
+    PP: { quantidade: 160, peso: 460, cubagem: 2.549, precoUnitario: 328.56 },
+    PG: { quantidade: 224, peso: 639, cubagem: 4.368, precoUnitario: 328.56 },
   },
   "LM0006-4000840": {
-    PP: { quantidade: 160, peso: 460, cubagem: 2.86, precoUnitario: 19.6 },
-    PG: { quantidade: 224, peso: 639, cubagem: 3.0, precoUnitario: 19.6 },
+    PP: { quantidade: 160, peso: 460, cubagem: 2.549, precoUnitario: 328.94 },
+    PG: { quantidade: 224, peso: 639, cubagem: 4.368, precoUnitario: 328.94 },
   },
   "LM0006-4000850": {
-    PP: { quantidade: 160, peso: 460, cubagem: 2.86, precoUnitario: 20.3 },
-    PG: { quantidade: 224, peso: 639, cubagem: 3.0, precoUnitario: 20.3 },
+    PP: { quantidade: 160, peso: 460, cubagem: 2.549, precoUnitario: 324.65 },
+    PG: { quantidade: 224, peso: 639, cubagem: 4.368, precoUnitario: 324.65 },
   },
   "LM0006-4000865": {
-    PP: { quantidade: 160, peso: 160, cubagem: 2.86, precoUnitario: 21.0 },
-    PG: { quantidade: 224, peso: 639, cubagem: 3.0, precoUnitario: 21.0 },
+    PP: { quantidade: 160, peso: 160, cubagem: 2.549, precoUnitario: 320.01 },
+    PG: { quantidade: 224, peso: 639, cubagem: 4.368, precoUnitario: 320.01 },
   },
   "LM0007-3200830": {
-    PP: { quantidade: 384, peso: 359.8, cubagem: 2.5, precoUnitario: 22.5 },
-    PG: { quantidade: 768, peso: 697, cubagem: 3.5, precoUnitario: 22.5 },
+    PP: { quantidade: 384, peso: 359.8, cubagem: 2.5, precoUnitario: 188.61 },
+    PG: { quantidade: 768, peso: 697, cubagem: 3.5, precoUnitario: 188.61 },
   },
   "LM0008-3500840": {
-    PP: { quantidade: 528, peso: 288, cubagem: 2.86, precoUnitario: 25.4 },
-    PG: { quantidade: 1056, peso: 559, cubagem: 3.8, precoUnitario: 25.4 },
+    PP: { quantidade: 528, peso: 288, cubagem: 2.018, precoUnitario: 190.91 },
+    PG: { quantidade: 1056, peso: 559, cubagem: 4.095, precoUnitario: 190.91 },
   },
   "LM0008-3500850": {
-    PP: { quantidade: 528, peso: 288, cubagem: 2.86, precoUnitario: 26.1 },
-    PG: { quantidade: 1056, peso: 559, cubagem: 3.8, precoUnitario: 26.1 },
+    PP: { quantidade: 528, peso: 288, cubagem: 2.018, precoUnitario: 190.91 },
+    PG: { quantidade: 1056, peso: 559, cubagem: 4.095, precoUnitario: 190.91 },
   },
   "LM0008-7000850": {
-    PP: { quantidade: 384, peso: 359.8, cubagem: 2.86, precoUnitario: 28.7 },
-    PG: { quantidade: 768, peso: 697, cubagem: 3.8, precoUnitario: 28.7 },
+    PP: { quantidade: 384, peso: 359.8, cubagem: 2.018, precoUnitario: 137.32 },
+    PG: { quantidade: 768, peso: 697, cubagem: 4.095, precoUnitario: 137.32 },
   },
   "LM0008-13000840": {
-    PP: { quantidade: 296, peso: 364.4, cubagem: 2.86, precoUnitario: 31.2 },
-    PG: { quantidade: 500, peso: 712, cubagem: 3.8, precoUnitario: 31.2 },
+    PP: { quantidade: 296, peso: 364.4, cubagem: 2.018, precoUnitario: 209.17 },
+    PG: { quantidade: 500, peso: 712, cubagem: 4.095, precoUnitario: 209.17 },
   },
   "LM0008-13000850": {
-    PP: { quantidade: 296, peso: 364.4, cubagem: 2.86, precoUnitario: 31.9 },
-    PG: { quantidade: 520, peso: 712, cubagem: 3.8, precoUnitario: 31.9 },
+    PP: { quantidade: 296, peso: 364.4, cubagem: 2.018, precoUnitario: 186.79 },
+    PG: { quantidade: 520, peso: 712, cubagem: 4.095, precoUnitario: 186.79 },
   },
   "LM0008-20000840": {
-    PP: { quantidade: 231, peso: 352, cubagem: 2.551, precoUnitario: 35.6 },
-    PG: { quantidade: 231, peso: 352, cubagem: 2.551, precoUnitario: 35.6 },
+    PP: { quantidade: 231, peso: 352, cubagem: 2.551, precoUnitario: 351.14 },
+    PG: { quantidade: 231, peso: 352, cubagem: 2.551, precoUnitario: 351.14 },
   },
   "LM0008-20000850": {
-    PP: { quantidade: 231, peso: 352, cubagem: 2.551, precoUnitario: 36.3 },
-    PG: { quantidade: 231, peso: 352, cubagem: 2.551, precoUnitario: 36.3 },
+    PP: { quantidade: 231, peso: 352, cubagem: 2.551, precoUnitario: 334.12 },
+    PG: { quantidade: 231, peso: 352, cubagem: 2.551, precoUnitario: 334.12 },
   },
   "LM0009-4000840": {
-    PP: { quantidade: 256, peso: 288, cubagem: 2.86, precoUnitario: 38.9 },
-    PG: { quantidade: 510, peso: 559, cubagem: 3.8, precoUnitario: 38.9 },
+    PP: { quantidade: 256, peso: 288, cubagem: 2.018, precoUnitario: 183.91 },
+    PG: { quantidade: 510, peso: 559, cubagem: 4.095, precoUnitario: 183.91 },
   },
   "LM0009-4000850": {
-    PP: { quantidade: 256, peso: 288, cubagem: 2.86, precoUnitario: 39.6 },
-    PG: { quantidade: 510, peso: 559, cubagem: 3.8, precoUnitario: 39.6 },
+    PP: { quantidade: 256, peso: 288, cubagem: 2.018, precoUnitario: 167.14 },
+    PG: { quantidade: 510, peso: 559, cubagem: 4.095, precoUnitario: 167.14 },
   },
   "LM0009-8000840": {
-    PP: { quantidade: 224, peso: 288, cubagem: 2.86, precoUnitario: 42.2 },
-    PG: { quantidade: 448, peso: 559, cubagem: 3.8, precoUnitario: 42.2 },
+    PP: { quantidade: 224, peso: 288, cubagem: 2.018, precoUnitario: 232.79 },
+    PG: { quantidade: 448, peso: 559, cubagem: 4.095, precoUnitario: 232.79 },
   },
   "LM0009-8000850": {
-    PP: { quantidade: 224, peso: 288, cubagem: 2.86, precoUnitario: 42.9 },
-    PG: { quantidade: 448, peso: 559, cubagem: 3.8, precoUnitario: 42.9 },
+    PP: { quantidade: 224, peso: 288, cubagem: 2.018, precoUnitario: 236.62 },
+    PG: { quantidade: 448, peso: 559, cubagem: 4.095, precoUnitario: 236.62 },
   },
   "LM0010-2000830": {
-    PP: { quantidade: 640, peso: 598.2, cubagem: 2.86, precoUnitario: 45.5 },
-    PG: { quantidade: 896, peso: 832, cubagem: 3.8, precoUnitario: 45.5 },
+    PP: { quantidade: 640, peso: 598.2, cubagem: 2.549, precoUnitario: 166.22 },
+    PG: { quantidade: 896, peso: 832, cubagem: 4.368, precoUnitario: 166.22 },
   },
   "LM0010-2000840": {
-    PP: { quantidade: 640, peso: 598.2, cubagem: 2.86, precoUnitario: 46.2 },
-    PG: { quantidade: 896, peso: 832, cubagem: 3.8, precoUnitario: 46.2 },
+    PP: { quantidade: 640, peso: 598.2, cubagem: 2.549, precoUnitario: 167.14 },
+    PG: { quantidade: 896, peso: 832, cubagem: 4.368, precoUnitario: 167.14 },
   },
   "LM0010-2000850": {
-    PP: { quantidade: 640, peso: 598.2, cubagem: 2.86, precoUnitario: 46.9 },
-    PG: { quantidade: 896, peso: 832, cubagem: 3.8, precoUnitario: 46.9 },
+    PP: { quantidade: 640, peso: 598.2, cubagem: 2.549, precoUnitario: 166.34 },
+    PG: { quantidade: 896, peso: 832, cubagem: 4.368, precoUnitario: 166.34 },
   },
   "LM0010-2000865": {
-    PP: { quantidade: 640, peso: 598.2, cubagem: 2.86, precoUnitario: 47.6 },
-    PG: { quantidade: 896, peso: 832, cubagem: 3.8, precoUnitario: 47.6 },
+    PP: { quantidade: 640, peso: 598.2, cubagem: 2.549, precoUnitario: 166.41 },
+    PG: { quantidade: 896, peso: 832, cubagem: 4.368, precoUnitario: 166.41 },
   },
   "LM0011-12000840": {
-    PP: { quantidade: 248, peso: 355.6, cubagem: 2.86, precoUnitario: 50.3 },
-    PG: { quantidade: 510, peso: 694, cubagem: 3.8, precoUnitario: 50.3 },
+    PP: { quantidade: 248, peso: 355.6, cubagem: 2.018, precoUnitario: 172.0 },
+    PG: { quantidade: 510, peso: 694, cubagem: 4.095, precoUnitario: 172.0 },
   },
   "LM0011-12000850": {
-    PP: { quantidade: 248, peso: 355.6, cubagem: 2.86, precoUnitario: 51.0 },
-    PG: { quantidade: 510, peso: 694, cubagem: 3.8, precoUnitario: 51.0 },
+    PP: { quantidade: 248, peso: 355.6, cubagem: 2.018, precoUnitario: 171.61 },
+    PG: { quantidade: 510, peso: 694, cubagem: 4.095, precoUnitario: 171.61 },
   },
   "LM0012-24000840": {
-    PP: { quantidade: 231, peso: 352, cubagem: 2.86, precoUnitario: 55.8 },
-    PG: { quantidade: 231, peso: 352, cubagem: 3.8, precoUnitario: 55.8 },
+    PP: { quantidade: 231, peso: 352, cubagem: 3.333, precoUnitario: 421.75 },
+    PG: { quantidade: 231, peso: 352, cubagem: 3.333, precoUnitario: 421.75 },
   },
   "LM0012-24000850": {
-    PP: { quantidade: 231, peso: 352, cubagem: 2.86, precoUnitario: 56.5 },
-    PG: { quantidade: 231, peso: 352, cubagem: 3.8, precoUnitario: 56.5 },
+    PP: { quantidade: 231, peso: 352, cubagem: 3.333, precoUnitario: 421.75 },
+    PG: { quantidade: 231, peso: 352, cubagem: 3.333, precoUnitario: 421.75 },
   },
 };
 
