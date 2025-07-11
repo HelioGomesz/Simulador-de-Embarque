@@ -1,7 +1,6 @@
 {
   "name": "simulador-de-embarque",
   "version": "1.0.0",
-  "type": "module",
   "description": "Simulador de Embarque para o projeto LumIdeas",
   "main": "main.js",
   "scripts": {
