@@ -542,26 +542,71 @@ th {
   top: 50%;
   transform: translate(-50%, -50%);
   background-color: white;
-  padding: 25px;
+  padding: 16px;
   border-radius: 5px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  max-width: 350px;
+  width: 95vw;
+  font-size: 14px;
 }
 .modal h2 {
   text-align: center;
   background-color: #256a8a;
   color: white;
+  font-size: 1.1rem;
+  margin: 0 0 8px 0;
+  padding: 6px 0;
+}
+
+.modal-content label {
+  font-size: 13px;
+  margin-bottom: 2px;
+  display: block;
 }
 
 .modal-content input,
 .modal-content select {
   display: block;
-  width: 250px;
-  margin-bottom: 10px;
-  padding: 8px;
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 5px 7px;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
+  border-radius: 4px;
+  font-size: 13px;
   transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.modal-content button {
+  width: 80px;
+  padding: 7px;
+  margin-right: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #256a8a;
+  color: white;
+  cursor: pointer;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.modal-content button:last-child {
+  margin-right: 0;
+}
+
+#resultadoSimuladorBot {
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+/* Ajuste para o modal do robô especificamente */
+#modalSimuladorBot .modal-content {
+  padding: 0;
+  margin: 0;
+}
+#modalSimuladorBot .modal-header {
+  padding: 0;
+  margin-bottom: 6px;
 }
 
 .modal-content input:focus,
@@ -576,17 +621,6 @@ th {
   border-color: #ffc107;
 }
 
-.modal-content button {
-  width: 90px;
-  padding: 10px;
-  margin-right: 20px;
-  border: none;
-  border-radius: 6px;
-  background-color: #256a8a;
-  color: white;
-  cursor: pointer;
-  font-size: 16px;
-}
 button:hover {
   background-color: #8fb0d3;
 }
@@ -799,6 +833,32 @@ button:hover {
 }
 .floating-clear-btn:hover {
   background-color: #b71c1c;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+  transform: scale(1.08);
+}
+
+/* Botão flutuante do robô de simulação de demanda */
+.floating-simulador-bot-btn {
+  position: fixed;
+  right: 32px;
+  bottom: 170px;
+  z-index: 2000;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #8e24aa;
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+.floating-simulador-bot-btn:hover {
+  background-color: #6d1b7b;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
   transform: scale(1.08);
 }

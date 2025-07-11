@@ -77,6 +77,23 @@
         >&#128462;</span
       >
     </button>
+    <!-- Botão flutuante do robô de simulação de demanda -->
+    <button
+      class="floating-simulador-bot-btn"
+      onclick="abrirModalSimuladorBot()"
+      title="Simular Demanda (Robô)"
+    >
+      <span
+        style="
+          font-size: 1.7rem;
+          line-height: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        "
+        >🤖</span
+      >
+    </button>
 
     <main class="layout-principal">
       <!-- Coluna Esquerda - Caminhão -->
@@ -261,6 +278,58 @@
           <button onclick="confirmarMarkup()">Confirmar</button>
           <button onclick="cancelarMarkup()">Cancelar</button>
         </div>
+      </div>
+    </div>
+
+    <!-- Modal do Robô de Simulação de Demanda -->
+    <div
+      class="modal"
+      id="modalSimuladorBot"
+      style="display: none; z-index: 2002"
+    >
+      <div class="modal-header">
+        <h2>Simulação de Demanda (Robô)</h2>
+      </div>
+      <div class="modal-content">
+        <label for="produtoSimuladorBot">Código do Produto:</label>
+        <select id="produtoSimuladorBot">
+          <option value="" disabled selected>Selecione um produto</option>
+          <option value="LM0001">LM0001</option>
+          <option value="LM0006">LM0006</option>
+          <option value="LM0007">LM0007</option>
+          <option value="LM0008">LM0008</option>
+          <option value="LM0009">LM0009</option>
+          <option value="LM0010">LM0010</option>
+          <option value="LM0011">LM0011</option>
+          <option value="LM0012">LM0012</option>
+        </select>
+        <label for="quantidadeSimuladorBot">Quantidade Desejada:</label>
+        <input
+          type="number"
+          id="quantidadeSimuladorBot"
+          min="1"
+          placeholder="Ex: 1000"
+        />
+        <div
+          style="
+            margin: 10px 0;
+            padding: 8px;
+            background-color: #e3f2fd;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #1976d2;
+          "
+        >
+          O robô irá calcular a melhor combinação de pallets PP e PG para
+          atender a demanda informada, considerando as quantidades padrões de
+          cada tipo.<br />
+          Se houver sobra, ela será exibida.
+        </div>
+        <button onclick="simularDemandaBot()">Simular</button>
+        <button type="button" onclick="fecharModalSimuladorBot()">
+          Fechar
+        </button>
+        <div id="resultadoSimuladorBot" style="margin-top: 16px"></div>
       </div>
     </div>
 
