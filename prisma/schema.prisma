@@ -23,4 +23,7 @@ model Produtos {
   pesoPG  String
   cubagemPP String
   cubagemPG String
+  volumePP Float?
+  volumePG Float?
+  custoUnit Float?
 }

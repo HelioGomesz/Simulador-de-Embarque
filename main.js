@@ -1,5 +1,10 @@
-const { app, BrowserWindow } = require("electron");
-const path = require("path");
+import { app, BrowserWindow } from 'electron';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Em ES Modules, precisamos recriar __dirname manualmente:
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 let mainWindow;
 
@@ -9,12 +14,11 @@ app.whenReady().then(() => {
     height: 1440,
     icon: path.join(__dirname, "icon.ico"),
     webPreferences: {
-      preload: path.join(__dirname, "TelaIniciar", "PaginaIniciar.js"), // Carrega o script JS do frontend
-      nodeIntegration: true, // Permite uso de módulos Node.js no frontend
+      preload: path.join(__dirname, "TelaIniciar", "PaginaIniciar.js"),
+      nodeIntegration: true, // Só use se você realmente precisa disso (cuidado com segurança)
     },
   });
 
-  // Carregar o arquivo HTML da pasta 'src'
   mainWindow.loadFile(
     path.join(__dirname, "TelaIniciar", "PaginaIniciar.html")
   );
