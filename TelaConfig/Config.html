@@ -76,35 +76,10 @@
                   <th>Volume PP</th>
                   <th>Volume PG</th>
                   <th>Custo Unit</th>
+                  <th>Ação</th>
                 </tr>
               </thead>
               <tbody id="tabela-cupomList">
-                <tr>
-                  <td>664a1b2c3d4e5f6a7b8c9d0e</td>
-                  <td>LM0001-4000840</td>
-                  <td>10</td>
-                  <td>5</td>
-                  <td>2.5</td>
-                  <td>3.0</td>
-                  <td>0.8</td>
-                  <td>1.2</td>
-                  <td>1.5</td>
-                  <td>2.0</td>
-                  <td>120.50</td>
-                </tr>
-                <tr>
-                  <td>664a1b2c3d4e5f6a7b8c9d0f</td>
-                  <td>LM0006-4000850</td>
-                  <td>8</td>
-                  <td>4</td>
-                  <td>2.0</td>
-                  <td>2.8</td>
-                  <td>0.7</td>
-                  <td>1.0</td>
-                  <td>1.2</td>
-                  <td>1.8</td>
-                  <td>98.00</td>
-                </tr>
                 <!-- Outras linhas de produtos -->
               </tbody>
             </table>
@@ -120,23 +95,80 @@
       </div>
 
       <div class="modal-content">
-        <input type="text" id="produto" placeholder="Produto" />
-        <input type="text" id="qtdPP" placeholder="Qtd PP" />
-        <input type="text" id="qtdPG" placeholder="Qtd PG" />
-        <input type="text" id="pesoPP" placeholder="Peso PP" />
-        <input type="text" id="pesoPG" placeholder="Peso PG" />
-        <input type="text" id="cubagemPP" placeholder="Cubagem PP" />
-        <input type="text" id="cubagemPG" placeholder="Cubagem PG" />
-        <input type="number" id="volumePP" placeholder="Volume PP" step="any" />
-        <input type="number" id="volumePG" placeholder="Volume PG" step="any" />
-        <input
-          type="number"
-          id="custoUnit"
-          placeholder="Custo Unitário"
-          step="any"
-        />
-        <button onclick="addEntry()">Incluir</button>
-        <button onclick="closeModal()">Cancelar</button>
+        <div class="modal-field">
+          <label for="produto">Produto</label>
+          <input
+            type="text"
+            id="produto"
+            class="input-produto"
+            placeholder="Produto"
+          />
+        </div>
+        <div class="modal-row">
+          <div class="modal-field">
+            <label for="qtdPP">Qtd PP</label>
+            <input type="number" id="qtdPP" placeholder="Qtd PP" min="1" />
+          </div>
+          <div class="modal-field">
+            <label for="qtdPG">Qtd PG</label>
+            <input type="number" id="qtdPG" placeholder="Qtd PG" min="1" />
+          </div>
+        </div>
+        <div class="modal-row">
+          <div class="modal-field">
+            <label for="pesoPP">Peso PP</label>
+            <input type="number" id="pesoPP" placeholder="Peso PP" min="1" />
+          </div>
+          <div class="modal-field">
+            <label for="pesoPG">Peso PG</label>
+            <input type="number" id="pesoPG" placeholder="Peso PG" min="1" />
+          </div>
+        </div>
+        <div class="modal-row">
+          <div class="modal-field">
+            <label for="cubagemPP">Cubagem PP</label>
+            <input type="number" id="cubagemPP" placeholder="Cubagem PP" />
+          </div>
+          <div class="modal-field">
+            <label for="cubagemPG">Cubagem PG</label>
+            <input type="number" id="cubagemPG" placeholder="Cubagem PG" />
+          </div>
+        </div>
+        <div class="modal-row">
+          <div class="modal-field">
+            <label for="volumePP">Volume PP</label>
+            <input
+              type="number"
+              id="volumePP"
+              placeholder="Volume PP"
+              step="any"
+            />
+          </div>
+          <div class="modal-field">
+            <label for="volumePG">Volume PG</label>
+            <input
+              type="number"
+              id="volumePG"
+              placeholder="Volume PG"
+              step="any"
+            />
+          </div>
+        </div>
+        <div class="modal-row">
+          <div class="modal-field">
+            <label for="custoUnit">Custo Unitário</label>
+            <input
+              type="number"
+              id="custoUnit"
+              placeholder="Custo Unitário"
+              step="any"
+            />
+          </div>
+        </div>
+        <div class="modal-btns">
+          <button onclick="addEntry()">Incluir</button>
+          <button onclick="closeModal()">Cancelar</button>
+        </div>
       </div>
     </div>
 

@@ -57,6 +57,7 @@ function addEntry() {
   } else {
     produtos.push(data);
   }
+  salvarLocalStorage();
   closeModal();
   atualizarTabela();
 }
@@ -66,12 +67,13 @@ function atualizarTabela() {
   tabela.innerHTML = "";
   const filtroInput = document.getElementById("filtroProduto");
   let filtro = filtroInput ? filtroInput.value.trim().toLowerCase() : "";
-  if (filtro.length > 6) filtro = filtro.slice(0, 6);
 
   let produtosFiltrados = produtos;
   if (filtro) {
     produtosFiltrados = produtos.filter(
-      (item) => item.produto && item.produto.toLowerCase().startsWith(filtro)
+      (item) =>
+        (item.produto && item.produto.toLowerCase().includes(filtro)) ||
+        (item.id && item.id.toLowerCase().includes(filtro))
     );
   }
 
@@ -106,6 +108,7 @@ function atualizarTabela() {
 
 function excluirProduto(id) {
   produtos = produtos.filter((item) => item.id !== id);
+  salvarLocalStorage();
   atualizarTabela();
 }
 
@@ -167,6 +170,7 @@ function limparFiltro() {
 function restaurarDadosOriginais() {
   localStorage.removeItem("produtosCadastro");
   produtos = [];
+  salvarLocalStorage();
   atualizarTabela();
 }
 
@@ -238,10 +242,22 @@ function makeModalDraggable() {
   };
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+  const produtoInput = document.getElementById("produto");
+  if (produtoInput) {
+    produtoInput.addEventListener("input", function (e) {
+      // Permite letras, números, espaços, hífen e parênteses, e converte para maiúsculo
+      let value = e.target.value
+        .normalize("NFD")
+        .replace(/[^\p{L}\p{N}\s\-\(\)]/gu, "");
+      e.target.value = value.toUpperCase();
+    });
+  }
+  carregarLocalStorage();
+});
+
 window.onload = function () {
   makeModalDraggable();
-  carregarLocalStorage();
-
   // Corrigir o botão principal da página
   const botaoPrincipal = document.querySelector(".tabela-cadastro button");
   botaoPrincipal.onclick = abrirCadastro;

@@ -156,6 +156,7 @@ button.btn-Incluir {
   border-radius: 5px;
   font-size: 16px;
 }
+
 .modal select {
   width: 268px;
 }
@@ -227,4 +228,47 @@ td:last-child {
 }
 .btn-filtro:hover {
   background-color: #e0e7ef;
+}
+
+.modal-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 10px;
+  justify-content: center;
+}
+.input-produto {
+  width: 60%;
+  margin: 0 auto 10px auto;
+  display: block;
+  text-align: center;
+}
+.modal-content input:not(.input-produto) {
+  flex: unset;
+  width: 120px;
+  min-width: 80px;
+  max-width: 160px;
+  text-align: center;
+}
+
+.modal-field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 80px;
+  max-width: 160px;
+  flex: 1;
+}
+.modal-field label {
+  font-size: 14px;
+  margin-bottom: 2px;
+  margin-left: 2px;
+  color: #256a8a;
+  font-weight: 600;
+}
+.modal-btns {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 10px;
+  width: 100%;
 }
