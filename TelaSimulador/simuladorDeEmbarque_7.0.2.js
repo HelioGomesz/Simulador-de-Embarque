@@ -5,7 +5,7 @@ let totalValor = 0; // variável para valor total
 let cubagemTotal = 73.28; // variável para cubagem total
 let cubagemOcupada = 0; //  variável para cubagem ocupada
 let markUp = []; // variável para markUp
-let totalVolume = [];
+let totalVolume = 0;
 
 // ===== MULTI-SELEÇÃO DE CUBOS =====
 let selectedCubes = []; // variável para cubos selecionados
