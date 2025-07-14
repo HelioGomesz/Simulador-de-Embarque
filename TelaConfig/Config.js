@@ -1,5 +1,5 @@
-let listaProdutos = [];
-let idCounter = 1;
+let produtos = [];
+let produtosEditandoId = null;
 
 function abrirCadastro() {
   document.getElementById("modal").style.display = "block";
@@ -10,113 +10,145 @@ function closeModal() {
   limparCampos();
 }
 
-function limparCampos() {
-  document.getElementById("produto").value = "";
-  document.getElementById("tamanhoPallet").value = "";
-  document.getElementById("quantidade").value = "";
-  document.getElementById("peso").value = "";
-  document.getElementById("cubagem").value = "";
-}
-
 function addEntry() {
   const produto = document.getElementById("produto").value;
-  const tamanho = document.getElementById("tamanhoPallet").value;
-  const quantidade = document.getElementById("quantidade").value;
-  const peso = document.getElementById("peso").value;
-  const cubagem = document.getElementById("cubagem").value;
+  const qtdPP = document.getElementById("qtdPP").value;
+  const qtdPG = document.getElementById("qtdPG").value;
+  const pesoPP = document.getElementById("pesoPP").value;
+  const pesoPG = document.getElementById("pesoPG").value;
+  const cubagemPP = document.getElementById("cubagemPP").value;
+  const cubagemPG = document.getElementById("cubagemPG").value;
+  const volumePP = document.getElementById("volumePP").value;
+  const volumePG = document.getElementById("volumePG").value;
+  const custoUnit = document.getElementById("custoUnit").value;
 
-  if (!produto || !quantidade || !peso || !cubagem) {
-    alert("Preencha todos os campos.");
+  if (!produto) {
+    alert("Preencha o campo Produto.");
     return;
   }
 
-  const id = idCounter++;
-  listaProdutos.push({ id, produto, tamanho, quantidade, peso, cubagem });
-  salvarLocalStorage();
-  atualizarTabela();
+  // Verifica duplicidade (exceto se for edição do mesmo produto)
+  const produtoExistente = produtos.find(
+    (p) => p.produto === produto && p.id !== produtosEditandoId
+  );
+  if (produtoExistente) {
+    alert("Produto já foi cadastrado!");
+    return;
+  }
+
+  const data = {
+    id: produtosEditandoId || Date.now().toString(),
+    produto,
+    qtdPP,
+    qtdPG,
+    pesoPP,
+    pesoPG,
+    cubagemPP,
+    cubagemPG,
+    volumePP,
+    volumePG,
+    custoUnit,
+  };
+
+  if (produtosEditandoId) {
+    const idx = produtos.findIndex((p) => p.id === produtosEditandoId);
+    if (idx !== -1) produtos[idx] = data;
+    produtosEditandoId = null;
+  } else {
+    produtos.push(data);
+  }
   closeModal();
+  atualizarTabela();
 }
 
 function atualizarTabela() {
-  const filtroTexto = document
-    .getElementById("filtroProduto")
-    .value.toLowerCase();
-
   const tabela = document.getElementById("tabela-cupomList");
   tabela.innerHTML = "";
-  let totalQuantidade = 0,
-    totalPeso = 0,
-    totalCubagem = 0;
+  const filtroInput = document.getElementById("filtroProduto");
+  let filtro = filtroInput ? filtroInput.value.trim().toLowerCase() : "";
+  if (filtro.length > 6) filtro = filtro.slice(0, 6);
 
-  const filtrados = listaProdutos.filter((item) => {
-    return !filtroTexto || item.produto.toLowerCase().includes(filtroTexto);
-  });
-
-  if (filtrados.length === 0 && filtroTexto) {
-    alert("Produto não cadastrado");
+  let produtosFiltrados = produtos;
+  if (filtro) {
+    produtosFiltrados = produtos.filter(
+      (item) => item.produto && item.produto.toLowerCase().startsWith(filtro)
+    );
   }
 
-  filtrados.forEach((item) => {
-    totalQuantidade += item.quantidade;
-    totalPeso += item.peso;
-    totalCubagem += item.cubagem;
-
+  produtosFiltrados.forEach((item) => {
     const tr = document.createElement("tr");
-    tr.className = item.tamanho === "PP" ? "linha-pp" : "linha-pg";
     tr.innerHTML = `
-            <td>${item.id}</td>
-            <td>${item.tamanho}</td>
-            <td>${item.produto}</td>
-            <td>${item.quantidade}</td>
-            <td>${item.peso}</td>
-            <td>${item.cubagem}</td>
-            <td>
-              <span class="acoes-container">
-                <button class="btn-acao" title="Editar" onclick="editarProduto(${item.id})">✏️</button>
-                <button class="btn-acao btn-excluir" title="Excluir" onclick="excluirProduto(${item.id})">🗑️</button>
-              </span>
-            </td>
-          `;
+      <td>${item.id}</td>
+      <td>${item.produto}</td>
+      <td>${item.qtdPP || ""}</td>
+      <td>${item.qtdPG || ""}</td>
+      <td>${item.pesoPP || ""}</td>
+      <td>${item.pesoPG || ""}</td>
+      <td>${item.cubagemPP || ""}</td>
+      <td>${item.cubagemPG || ""}</td>
+      <td>${item.volumePP || ""}</td>
+      <td>${item.volumePG || ""}</td>
+      <td>${item.custoUnit || ""}</td>
+      <td>
+        <span class="acoes-container">
+          <button class="btn-acao" title="Editar" onclick="editarProduto('${
+            item.id
+          }')">✏️</button>
+          <button class="btn-acao btn-excluir" title="Excluir" onclick="excluirProduto('${
+            item.id
+          }')">🗑️</button>
+        </span>
+      </td>
+    `;
     tabela.appendChild(tr);
   });
 }
 
 function excluirProduto(id) {
-  listaProdutos = listaProdutos.filter((item) => item.id !== id);
-  salvarLocalStorage();
+  produtos = produtos.filter((item) => item.id !== id);
   atualizarTabela();
 }
 
 function editarProduto(id) {
-  const item = listaProdutos.find((p) => p.id === id);
+  const item = produtos.find((p) => p.id === id);
   if (!item) return;
-
   document.getElementById("produto").value = item.produto;
-  document.getElementById("tamanhoPallet").value = item.tamanho;
-  document.getElementById("quantidade").value = item.quantidade;
-  document.getElementById("peso").value = item.peso;
-  document.getElementById("cubagem").value = item.cubagem;
-
-  listaProdutos = listaProdutos.filter((p) => p.id !== id);
-  salvarLocalStorage();
+  document.getElementById("qtdPP").value = item.qtdPP || "";
+  document.getElementById("qtdPG").value = item.qtdPG || "";
+  document.getElementById("pesoPP").value = item.pesoPP || "";
+  document.getElementById("pesoPG").value = item.pesoPG || "";
+  document.getElementById("cubagemPP").value = item.cubagemPP || "";
+  document.getElementById("cubagemPG").value = item.cubagemPG || "";
+  document.getElementById("volumePP").value = item.volumePP || "";
+  document.getElementById("volumePG").value = item.volumePG || "";
+  document.getElementById("custoUnit").value = item.custoUnit || "";
+  produtosEditandoId = id;
   abrirCadastro();
 }
 
+function limparCampos() {
+  document.getElementById("produto").value = "";
+  document.getElementById("qtdPP").value = "";
+  document.getElementById("qtdPG").value = "";
+  document.getElementById("pesoPP").value = "";
+  document.getElementById("pesoPG").value = "";
+  document.getElementById("cubagemPP").value = "";
+  document.getElementById("cubagemPG").value = "";
+  document.getElementById("volumePP").value = "";
+  document.getElementById("volumePG").value = "";
+  document.getElementById("custoUnit").value = "";
+  produtosEditandoId = null;
+}
+
 function salvarLocalStorage() {
-  localStorage.setItem("produtosCadastro", JSON.stringify(listaProdutos));
-  localStorage.setItem("contadorId", idCounter);
+  localStorage.setItem("produtosCadastro", JSON.stringify(produtos));
 }
 
 function carregarLocalStorage() {
   const dadosSalvos = localStorage.getItem("produtosCadastro");
-  const contadorSalvo = localStorage.getItem("contadorId");
 
   if (dadosSalvos) {
-    listaProdutos = JSON.parse(dadosSalvos);
-  }
-
-  if (contadorSalvo) {
-    idCounter = parseInt(contadorSalvo);
+    produtos = JSON.parse(dadosSalvos);
   }
 
   atualizarTabela();
@@ -127,15 +159,14 @@ function filtrarTabela() {
 }
 
 function limparFiltro() {
-  document.getElementById("filtroProduto").value = "";
+  const filtroInput = document.getElementById("filtroProduto");
+  if (filtroInput) filtroInput.value = "";
   atualizarTabela();
 }
 
 function restaurarDadosOriginais() {
   localStorage.removeItem("produtosCadastro");
-  localStorage.removeItem("contadorId");
-  listaProdutos = [];
-  idCounter = 1;
+  produtos = [];
   atualizarTabela();
 }
 
@@ -152,16 +183,28 @@ function exportarParaExcel() {
   const tabela = document.getElementById("tabela-cupomList");
   const rows = Array.from(tabela.rows).map((row) => {
     const cells = Array.from(row.cells);
-    return cells.slice(0, -1).map((cell) => cell.textContent);
+    return cells.slice(0, 11).map((cell) => cell.textContent);
   });
   const ws = XLSX.utils.aoa_to_sheet([
-    ["ID", "Tamanho", "Produto", "Quantidade", "Peso (kg)", "Cubagem"],
+    [
+      "ID",
+      "Produto",
+      "Qtd PP",
+      "Qtd PG",
+      "Peso PP",
+      "Peso PG",
+      "Cubagem PP",
+      "Cubagem PG",
+      "Volume PP",
+      "Volume PG",
+      "Custo Unit",
+    ],
     ...rows,
   ]);
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, "Produtos");
   const dataAtual = new Date().toLocaleDateString("pt-BR").replace(/\//g, "-");
-  XLSX.writeFile(wb, `Produtos_Cadastrados ${dataAtual}.xlsx`);
+  XLSX.writeFile(wb, `Produtos_Cadastrados_${dataAtual}.xlsx`);
 }
 
 //Função de arrastar o modal na tela

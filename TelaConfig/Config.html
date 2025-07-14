@@ -66,15 +66,47 @@
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>Tamanho</th>
                   <th>Produto</th>
-                  <th>Quantidade</th>
-                  <th>Peso (kg)</th>
-                  <th>Cubagem</th>
-                  <th>Ação</th>
+                  <th>Qtd PP</th>
+                  <th>Qtd PG</th>
+                  <th>Peso PP</th>
+                  <th>Peso PG</th>
+                  <th>Cubagem PP</th>
+                  <th>Cubagem PG</th>
+                  <th>Volume PP</th>
+                  <th>Volume PG</th>
+                  <th>Custo Unit</th>
                 </tr>
               </thead>
-              <tbody id="tabela-cupomList"></tbody>
+              <tbody id="tabela-cupomList">
+                <tr>
+                  <td>664a1b2c3d4e5f6a7b8c9d0e</td>
+                  <td>LM0001-4000840</td>
+                  <td>10</td>
+                  <td>5</td>
+                  <td>2.5</td>
+                  <td>3.0</td>
+                  <td>0.8</td>
+                  <td>1.2</td>
+                  <td>1.5</td>
+                  <td>2.0</td>
+                  <td>120.50</td>
+                </tr>
+                <tr>
+                  <td>664a1b2c3d4e5f6a7b8c9d0f</td>
+                  <td>LM0006-4000850</td>
+                  <td>8</td>
+                  <td>4</td>
+                  <td>2.0</td>
+                  <td>2.8</td>
+                  <td>0.7</td>
+                  <td>1.0</td>
+                  <td>1.2</td>
+                  <td>1.8</td>
+                  <td>98.00</td>
+                </tr>
+                <!-- Outras linhas de produtos -->
+              </tbody>
             </table>
           </div>
         </div>
@@ -88,50 +120,21 @@
       </div>
 
       <div class="modal-content">
-        <select id="produto">
-          <option value="" disabled selected>Selecione um produto</option>
-          <option value="LM0001-4000840">LM0001-4000840</option>
-          <option value="LM0001-4000850">LM0001-4000850</option>
-          <option value="LM0001-8000840">LM0001-8000840</option>
-          <option value="LM0001-8000850">LM0001-8000850</option>
-          <option value="LM0006-4000830">LM0006-4000830</option>
-          <option value="LM0006-4000840">LM0006-4000840</option>
-          <option value="LM0006-4000850">LM0006-4000850</option>
-          <option value="LM0006-4000865">LM0006-4000865</option>
-          <option value="LM0007-3200830">LM0007-3200830</option>
-          <option value="LM0008-3500840">LM0008-3500840</option>
-          <option value="LM0008-3500850">LM0008-3500850</option>
-          <option value="LM0008-7000850">LM0008-7000850</option>
-          <option value="LM0008-13000840">LM0008-13000840</option>
-          <option value="LM0008-13000850">LM0008-13000850</option>
-          <option value="LM0008-20000840">LM0008-20000840</option>
-          <option value="LM0008-20000850">LM0008-20000850</option>
-          <option value="LM0009-4000840">LM0009-4000840</option>
-          <option value="LM0009-4000850">LM0009-4000850</option>
-          <option value="LM0009-8000840">LM0009-8000840</option>
-          <option value="LM0009-8000850">LM0009-8000850</option>
-          <option value="LM0010-2000830">LM0010-2000830</option>
-          <option value="LM0010-2000840">LM0010-2000840</option>
-          <option value="LM0010-2000850">LM0010-2000850</option>
-          <option value="LM0010-2000865">LM0010-2000865</option>
-          <option value="LM0011-12000840">LM0011-12000840</option>
-          <option value="LM0011-12000850">LM0011-12000850</option>
-          <option value="LM0012-24000840">LM0012-24000840</option>
-          <option value="LM0012-24000850">LM0012-24000850</option>
-        </select>
-
-        <select id="tamanhoPallet">
-          <option value="" disabled selected>
-            Selecione o Tamanho do Pallet
-          </option>
-          <option value="PP">PP</option>
-          <option value="PG">PG</option>
-        </select>
-
-        <input type="number" id="quantidade" placeholder="Quantidade" min="1" />
-        <input type="number" id="peso" placeholder="Peso (kg)" min="1" />
-        <input type="number" id="cubagem" placeholder="Cubagem" min="1" />
-
+        <input type="text" id="produto" placeholder="Produto" />
+        <input type="text" id="qtdPP" placeholder="Qtd PP" />
+        <input type="text" id="qtdPG" placeholder="Qtd PG" />
+        <input type="text" id="pesoPP" placeholder="Peso PP" />
+        <input type="text" id="pesoPG" placeholder="Peso PG" />
+        <input type="text" id="cubagemPP" placeholder="Cubagem PP" />
+        <input type="text" id="cubagemPG" placeholder="Cubagem PG" />
+        <input type="number" id="volumePP" placeholder="Volume PP" step="any" />
+        <input type="number" id="volumePG" placeholder="Volume PG" step="any" />
+        <input
+          type="number"
+          id="custoUnit"
+          placeholder="Custo Unitário"
+          step="any"
+        />
         <button onclick="addEntry()">Incluir</button>
         <button onclick="closeModal()">Cancelar</button>
       </div>
