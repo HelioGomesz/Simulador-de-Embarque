@@ -26,7 +26,33 @@ import cors from "cors";
 
 const prisma = new PrismaClient();
 const app = express();
-app.use(cors({ origin: "http://127.0.0.1:5500" }));
+// Lista de origens permitidas (opcional - usado para restringir acesso em produção)
+const allowedOrigins = [
+  "http://127.0.0.1:5500",
+  "http://127.0.0.1:5501"
+];
+
+// Middleware CORS configurado
+app.use(cors({
+  // A função 'origin' é chamada para cada requisição para verificar se ela pode acessar o servidor
+  origin: (origin, callback) => {
+    // Se a requisição não tiver origem (ex: Postman ou mesma origem), ela é permitida
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    // Se a origem estiver na lista de permitidas, também é permitida
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    // Se a origem não for permitida, retorna erro
+    return callback(new Error("Not allowed by CORS"));
+  },
+
+  // Permite envio de cookies e headers personalizados (caso necessário)
+  credentials: true
+}));
 app.use(express.json());
 
 //ROTA DE CRIAÇÃO DE PRODUTOS

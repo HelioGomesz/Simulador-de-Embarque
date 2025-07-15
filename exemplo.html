@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de Produtos</title>
+  <style>
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background: #f0f0f0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Produtos</h1>
+  <table id="produtos-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Produto</th>
+        <th>Qtd PP</th>
+        <th>Qtd PG</th>
+        <th>Peso PP</th>
+        <th>Peso PG</th>
+        <th>Cubagem PP</th>
+        <th>Cubagem PG</th>
+        <th>Volume PP</th>
+        <th>Volume PG</th>
+        <th>Custo Unit</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Dados serão inseridos aqui -->
+    </tbody>
+  </table>
+
+ <!-- Axios via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <script>
+    // Requisição GET usando axios
+    axios.get('http://localhost:3000/produtos')
+      .then(response => {
+        const produtos = response.data;
+        const tbody = document.querySelector('#produtos-table tbody');
+
+        produtos.forEach(produto => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${produto.id}</td>
+            <td>${produto.produto}</td>
+            <td>${produto.qtdPP}</td>
+            <td>${produto.qtdPG}</td>
+            <td>${produto.pesoPP}</td>
+            <td>${produto.pesoPG}</td>
+            <td>${produto.cubagemPP}</td>
+            <td>${produto.cubagemPG}</td>
+            <td>${produto.volumePP}</td>
+            <td>${produto.volumePG}</td>
+            <td>${produto.custoUnit}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      })
+      .catch(error => {
+        alert('Erro ao buscar produtos: ' + error.message);
+      });
+  </script>
+</body>
+</html>
