@@ -18,8 +18,7 @@ function addEntry() {
   const pesoPG = document.getElementById("pesoPG").value;
   const cubagemPP = document.getElementById("cubagemPP").value;
   const cubagemPG = document.getElementById("cubagemPG").value;
-  const volumePP = document.getElementById("volumePP").value;
-  const volumePG = document.getElementById("volumePG").value;
+  const padraoCX = document.getElementById("padraoCX").value;
   const custoUnit = document.getElementById("custoUnit").value;
 
   if (!produto) {
@@ -45,8 +44,7 @@ function addEntry() {
     pesoPG,
     cubagemPP,
     cubagemPG,
-    volumePP,
-    volumePG,
+    padraoCX,
     custoUnit,
   };
 
@@ -88,8 +86,7 @@ function atualizarTabela() {
       <td>${item.pesoPG || ""}</td>
       <td>${item.cubagemPP || ""}</td>
       <td>${item.cubagemPG || ""}</td>
-      <td>${item.volumePP || ""}</td>
-      <td>${item.volumePG || ""}</td>
+      <td>${item.padraoCX || ""}</td>      
       <td>${item.custoUnit || ""}</td>
       <td>
         <span class="acoes-container">
@@ -122,8 +119,7 @@ function editarProduto(id) {
   document.getElementById("pesoPG").value = item.pesoPG || "";
   document.getElementById("cubagemPP").value = item.cubagemPP || "";
   document.getElementById("cubagemPG").value = item.cubagemPG || "";
-  document.getElementById("volumePP").value = item.volumePP || "";
-  document.getElementById("volumePG").value = item.volumePG || "";
+  document.getElementById("padraoCX").value = item.padraoCX || "";
   document.getElementById("custoUnit").value = item.custoUnit || "";
   produtosEditandoId = id;
   abrirCadastro();
@@ -137,8 +133,7 @@ function limparCampos() {
   document.getElementById("pesoPG").value = "";
   document.getElementById("cubagemPP").value = "";
   document.getElementById("cubagemPG").value = "";
-  document.getElementById("volumePP").value = "";
-  document.getElementById("volumePG").value = "";
+  document.getElementById("padraoCX").value = "";
   document.getElementById("custoUnit").value = "";
   produtosEditandoId = null;
 }
@@ -199,8 +194,7 @@ function exportarParaExcel() {
       "Peso PG",
       "Cubagem PP",
       "Cubagem PG",
-      "Volume PP",
-      "Volume PG",
+      "Padrao CX",
       "Custo Unit",
     ],
     ...rows,
@@ -245,11 +239,11 @@ function makeModalDraggable() {
 // Adiciona função para buscar produtos do backend usando axios
 async function carregarProdutosBackend() {
   try {
-    const response = await axios.get('http://localhost:3000/produtos');
+    const response = await axios.get("http://localhost:3000/produtos");
     produtos = response.data;
     atualizarTabela();
   } catch (error) {
-    console.error('Erro ao buscar produtos do backend:', error);
+    console.error("Erro ao buscar produtos do backend:", error);
     // fallback para localStorage se quiser
     // carregarLocalStorage();
   }
@@ -273,8 +267,7 @@ document.addEventListener("DOMContentLoaded", function () {
 window.onload = function () {
   makeModalDraggable();
   // Corrigir o botão principal da página
-  const botaoPrincipal = document.querySelector('.tabela-cadastro button');
+  const botaoPrincipal = document.querySelector(".tabela-cadastro button");
   botaoPrincipal.onclick = abrirCadastro;
   carregarProdutosBackend(); // <-- carrega do backend
 };
-
