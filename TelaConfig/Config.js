@@ -242,6 +242,19 @@ function makeModalDraggable() {
   };
 }
 
+// Adiciona função para buscar produtos do backend usando axios
+async function carregarProdutosBackend() {
+  try {
+    const response = await axios.get('http://localhost:3000/produtos');
+    produtos = response.data;
+    atualizarTabela();
+  } catch (error) {
+    console.error('Erro ao buscar produtos do backend:', error);
+    // fallback para localStorage se quiser
+    // carregarLocalStorage();
+  }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   const produtoInput = document.getElementById("produto");
   if (produtoInput) {
@@ -256,9 +269,12 @@ document.addEventListener("DOMContentLoaded", function () {
   carregarLocalStorage();
 });
 
+// Modifica o carregamento inicial para usar o backend
 window.onload = function () {
   makeModalDraggable();
   // Corrigir o botão principal da página
-  const botaoPrincipal = document.querySelector(".tabela-cadastro button");
+  const botaoPrincipal = document.querySelector('.tabela-cadastro button');
   botaoPrincipal.onclick = abrirCadastro;
+  carregarProdutosBackend(); // <-- carrega do backend
 };
+

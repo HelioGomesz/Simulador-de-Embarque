@@ -21,7 +21,7 @@
   "homepage": "https://github.com/HelioGomesz/Simulador-de-Embarque#readme",
   "devDependencies": {
     "electron": "^35.0.3",
-    "prisma": "^6.11.1"
+    "prisma": "^6.12.0"
   },
   "build": {
     "appId": "com.seuprojeto.simulador",
@@ -36,7 +36,7 @@
     }
   },
   "dependencies": {
-    "@prisma/client": "^6.11.1",
+    "@prisma/client": "^6.12.0",
     "axios": "^1.10.0",
     "cors": "^2.8.5",
     "express": "^5.1.0"
