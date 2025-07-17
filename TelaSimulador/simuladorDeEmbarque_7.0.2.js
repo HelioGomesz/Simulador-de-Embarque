@@ -1728,9 +1728,15 @@ function clearAll() {
 
 function downloadPDF() {
   const element = document.querySelector("main");
+  // Adiciona a data de impressão ao nome do arquivo
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  const dataStr = `${year}-${month}-${day}`;
   const opt = {
     margin: 0.3,
-    filename: "SimuladorEmbarque.pdf",
+    filename: `SimuladorEmbarque_${dataStr}.pdf`,
     image: { type: "jpeg", quality: 0.98 },
     html2canvas: { scale: 2, useCORS: true, logging: true, scrollY: 0 },
     jsPDF: { unit: "mm", format: "a3", orientation: "landscape" },
