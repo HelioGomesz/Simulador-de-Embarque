@@ -17,14 +17,14 @@ const produtos = {
       peso: 332,
       cubagem: 2.018,
       precoUnitario: 186.26,
-      volume: 8,
+      padraoCx: 32,
     },
     PG: {
       quantidade: 510,
       peso: 647,
       cubagem: 4.095,
       precoUnitario: 186.26,
-      volume: 16,
+      padraoCx: 32,
     },
   },
   "LM0001-4000850": {
@@ -33,14 +33,14 @@ const produtos = {
       peso: 332,
       cubagem: 2.018,
       precoUnitario: 189.91,
-      volume: 8,
+      padraoCx: 32,
     },
     PG: {
       quantidade: 510,
       peso: 647,
       cubagem: 4.095,
       precoUnitario: 189.91,
-      volume: 16,
+      padraoCx: 32,
     },
   },
   "LM0001-8000840": {
@@ -49,14 +49,14 @@ const produtos = {
       peso: 355.6,
       cubagem: 2.018,
       precoUnitario: 196.27,
-      volume: 8,
+      padraoCx: 32,
     },
     PG: {
       quantidade: 510,
       peso: 694,
       cubagem: 4.095,
       precoUnitario: 196.27,
-      volume: 16,
+      padraoCx: 32,
     },
   },
   "LM0001-8000850": {
@@ -65,14 +65,14 @@ const produtos = {
       peso: 355.6,
       cubagem: 2.018,
       precoUnitario: 208.3,
-      volume: 8,
+      padraoCx: 32,
     },
     PG: {
       quantidade: 510,
       peso: 694,
       cubagem: 4.095,
       precoUnitario: 208.3,
-      volume: 16,
+      padraoCx: 32,
     },
   },
   "LM0006-4000830": {
@@ -81,14 +81,14 @@ const produtos = {
       peso: 460,
       cubagem: 2.549,
       precoUnitario: 336.88,
-      volume: 20,
+      padraoCx: 31,
     },
     PG: {
       quantidade: 224,
       peso: 639,
       cubagem: 4.368,
       precoUnitario: 336.88,
-      volume: 28,
+      padraoCx: 31,
     },
   },
   "LM0006-4000840": {
@@ -97,14 +97,14 @@ const produtos = {
       peso: 460,
       cubagem: 2.549,
       precoUnitario: 337.56,
-      volume: 20,
+      padraoCx: 31,
     },
     PG: {
       quantidade: 224,
       peso: 639,
       cubagem: 4.368,
       precoUnitario: 337.56,
-      volume: 28,
+      padraoCx: 31,
     },
   },
   "LM0006-4000850": {
@@ -113,14 +113,14 @@ const produtos = {
       peso: 460,
       cubagem: 2.549,
       precoUnitario: 324.69,
-      volume: 20,
+      padraoCx: 31,
     },
     PG: {
       quantidade: 224,
       peso: 639,
       cubagem: 4.368,
       precoUnitario: 324.69,
-      volume: 28,
+      padraoCx: 31,
     },
   },
   "LM0006-4000865": {
@@ -129,14 +129,14 @@ const produtos = {
       peso: 160,
       cubagem: 2.549,
       precoUnitario: 320.01,
-      volume: 20,
+      padraoCx: 31,
     },
     PG: {
       quantidade: 224,
       peso: 639,
       cubagem: 4.368,
       precoUnitario: 320.01,
-      volume: 28,
+      padraoCx: 31,
     },
   },
   "LM0007-3200830": {
@@ -145,14 +145,14 @@ const produtos = {
       peso: 359.8,
       cubagem: 2.5,
       precoUnitario: 188.61,
-      volume: 8,
+      padraoCx: 31,
     },
     PG: {
       quantidade: 768,
       peso: 697,
       cubagem: 3.5,
       precoUnitario: 188.61,
-      volume: 16,
+      padraoCx: 31,
     },
   },
   "LM0008-3500840": {
@@ -161,14 +161,14 @@ const produtos = {
       peso: 288,
       cubagem: 2.018,
       precoUnitario: 119.92,
-      volume: 8,
+      padraoCx: 31,
     },
     PG: {
       quantidade: 1056,
       peso: 559,
       cubagem: 4.095,
       precoUnitario: 119.92,
-      volume: 16,
+      padraoCx: 31,
     },
   },
   "LM0008-3500850": {
@@ -177,14 +177,14 @@ const produtos = {
       peso: 288,
       cubagem: 2.018,
       precoUnitario: 119.79,
-      volume: 8,
+      padraoCx: 31,
     },
     PG: {
       quantidade: 1056,
       peso: 559,
       cubagem: 4.095,
       precoUnitario: 119.79,
-      volume: 16,
+      padraoCx: 31,
     },
   },
   "LM0008-7000850": {
@@ -193,14 +193,14 @@ const produtos = {
       peso: 359.8,
       cubagem: 2.018,
       precoUnitario: 137.32,
-      volume: 8,
+      padraoCx: 31,
     },
     PG: {
       quantidade: 768,
       peso: 697,
       cubagem: 4.095,
       precoUnitario: 137.32,
-      volume: 16,
+      padraoCx: 31,
     },
   },
   "LM0008-13000840": {
@@ -209,14 +209,14 @@ const produtos = {
       peso: 364.4,
       cubagem: 2.018,
       precoUnitario: 209.17,
-      volume: 8,
+      padraoCx: 31,
     },
     PG: {
       quantidade: 500,
       peso: 712,
       cubagem: 4.095,
       precoUnitario: 209.17,
-      volume: 16,
+      padraoCx: 31,
     },
   },
   "LM0008-13000850": {
@@ -225,14 +225,14 @@ const produtos = {
       peso: 364.4,
       cubagem: 2.018,
       precoUnitario: 186.79,
-      volume: 8,
+      padraoCx: 31,
     },
     PG: {
       quantidade: 520,
       peso: 712,
       cubagem: 4.095,
       precoUnitario: 186.79,
-      volume: 16,
+      padraoCx: 31,
     },
   },
   "LM0008-20000840": {
@@ -241,14 +241,14 @@ const produtos = {
       peso: 352,
       cubagem: 2.551,
       precoUnitario: 351.14,
-      volume: 7,
+      padraoCx: 31,
     },
     PG: {
       quantidade: 231,
       peso: 352,
       cubagem: 2.551,
       precoUnitario: 351.14,
-      volume: 7,
+      padraoCx: 31,
     },
   },
   "LM0008-20000850": {
@@ -257,14 +257,14 @@ const produtos = {
       peso: 352,
       cubagem: 2.551,
       precoUnitario: 334.12,
-      volume: 7,
+      padraoCx: 31,
     },
     PG: {
       quantidade: 231,
       peso: 352,
       cubagem: 2.551,
       precoUnitario: 334.12,
-      volume: 7,
+      padraoCx: 31,
     },
   },
   "LM0009-4000840": {
@@ -273,14 +273,14 @@ const produtos = {
       peso: 288,
       cubagem: 2.018,
       precoUnitario: 183.91,
-      volume: 8,
+      padraoCx: 31,
     },
     PG: {
       quantidade: 510,
       peso: 559,
       cubagem: 4.095,
       precoUnitario: 183.91,
-      volume: 16,
+      padraoCx: 31,
     },
   },
   "LM0009-4000850": {
@@ -289,14 +289,14 @@ const produtos = {
       peso: 288,
       cubagem: 2.018,
       precoUnitario: 167.14,
-      volume: 8,
+      padraoCx: 31,
     },
     PG: {
       quantidade: 510,
       peso: 559,
       cubagem: 4.095,
       precoUnitario: 167.14,
-      volume: 16,
+      padraoCx: 31,
     },
   },
   "LM0009-8000840": {
@@ -305,14 +305,14 @@ const produtos = {
       peso: 288,
       cubagem: 2.018,
       precoUnitario: 232.79,
-      volume: 8,
+      padraoCx: 31,
     },
     PG: {
       quantidade: 448,
       peso: 559,
       cubagem: 4.095,
       precoUnitario: 232.79,
-      volume: 16,
+      padraoCx: 31,
     },
   },
   "LM0009-8000850": {
@@ -321,14 +321,14 @@ const produtos = {
       peso: 288,
       cubagem: 2.018,
       precoUnitario: 236.62,
-      volume: 8,
+      padraoCx: 31,
     },
     PG: {
       quantidade: 448,
       peso: 559,
       cubagem: 4.095,
       precoUnitario: 236.62,
-      volume: 16,
+      padraoCx: 31,
     },
   },
   "LM0010-2000830": {
@@ -337,14 +337,14 @@ const produtos = {
       peso: 598.2,
       cubagem: 2.549,
       precoUnitario: 166.22,
-      volume: 8,
+      padraoCx: 31,
     },
     PG: {
       quantidade: 896,
       peso: 832,
       cubagem: 4.368,
       precoUnitario: 166.22,
-      volume: 16,
+      padraoCx: 31,
     },
   },
   "LM0010-2000840": {
@@ -353,14 +353,14 @@ const produtos = {
       peso: 598.2,
       cubagem: 2.549,
       precoUnitario: 167.14,
-      volume: 20,
+      padraoCx: 31,
     },
     PG: {
       quantidade: 896,
       peso: 832,
       cubagem: 4.368,
       precoUnitario: 167.14,
-      volume: 28,
+      padraoCx: 31,
     },
   },
   "LM0010-2000850": {
@@ -369,14 +369,14 @@ const produtos = {
       peso: 598.2,
       cubagem: 2.549,
       precoUnitario: 166.34,
-      volume: 20,
+      padraoCx: 31,
     },
     PG: {
       quantidade: 896,
       peso: 832,
       cubagem: 4.368,
       precoUnitario: 166.34,
-      volume: 28,
+      padraoCx: 31,
     },
   },
   "LM0010-2000865": {
@@ -385,14 +385,14 @@ const produtos = {
       peso: 598.2,
       cubagem: 2.549,
       precoUnitario: 166.41,
-      volume: 20,
+      padraoCx: 31,
     },
     PG: {
       quantidade: 896,
       peso: 832,
       cubagem: 4.368,
       precoUnitario: 166.41,
-      volume: 28,
+      padraoCx: 31,
     },
   },
   "LM0011-12000840": {
@@ -401,14 +401,14 @@ const produtos = {
       peso: 355.6,
       cubagem: 2.018,
       precoUnitario: 172.0,
-      volume: 8,
+      padraoCx: 31,
     },
     PG: {
       quantidade: 510,
       peso: 694,
       cubagem: 4.095,
       precoUnitario: 172.0,
-      volume: 16,
+      padraoCx: 31,
     },
   },
   "LM0011-12000850": {
@@ -417,14 +417,14 @@ const produtos = {
       peso: 355.6,
       cubagem: 2.018,
       precoUnitario: 171.61,
-      volume: 8,
+      padraoCx: 31,
     },
     PG: {
       quantidade: 510,
       peso: 694,
       cubagem: 4.095,
       precoUnitario: 171.61,
-      volume: 16,
+      padraoCx: 31,
     },
   },
   "LM0012-24000840": {
@@ -433,14 +433,14 @@ const produtos = {
       peso: 352,
       cubagem: 3.333,
       precoUnitario: 338.23,
-      volume: 12,
+      padraoCx: 31,
     },
     PG: {
       quantidade: 231,
       peso: 352,
       cubagem: 3.333,
       precoUnitario: 338.23,
-      volume: 12,
+      padraoCx: 31,
     },
   },
   "LM0012-24000850": {
@@ -449,14 +449,14 @@ const produtos = {
       peso: 352,
       cubagem: 3.333,
       precoUnitario: 337.36,
-      volume: 12,
+      padraoCx: 31,
     },
     PG: {
       quantidade: 231,
       peso: 352,
       cubagem: 3.333,
       precoUnitario: 337.36,
-      volume: 12,
+      padraoCx: 31,
     },
   },
 };
@@ -1388,6 +1388,18 @@ function addEntry() {
     document.getElementById("ocupacao-container").innerText =
       ocupacao.toFixed(2) + "%";
 
+    // Calcular e atualizar volume total
+    let padraoCx = 1;
+    if (produtos[produto]) {
+      padraoCx = isPequeno
+        ? produtos[produto].PP.padraoCx
+        : produtos[produto].PG.padraoCx;
+    }
+    const volumeProduto = Math.ceil(quantidadeExibir / padraoCx);
+    totalVolume += volumeProduto;
+    document.getElementById("volumeTotal-container").innerText =
+      totalVolume.toFixed(2);
+
     closeModal();
     return;
   }
@@ -1470,6 +1482,18 @@ function addEntry() {
     const ocupacao = (cubagemOcupada / cubagemTotal) * 100;
     document.getElementById("ocupacao-container").innerText =
       ocupacao.toFixed(2) + "%";
+
+    // Calcular e atualizar volume total
+    let padraoCx = 1;
+    if (produtos[produto]) {
+      padraoCx = isPequeno
+        ? produtos[produto].PP.padraoCx
+        : produtos[produto].PG.padraoCx;
+    }
+    const volumeProduto = Math.ceil(quantidadeExibir / padraoCx);
+    totalVolume += volumeProduto;
+    document.getElementById("volumeTotal-container").innerText =
+      totalVolume.toFixed(2);
   });
 
   closeModal();
@@ -1620,6 +1644,20 @@ function removeEntry(button) {
   const ocupacao = (cubagemOcupada / cubagemTotal) * 100;
   document.getElementById("ocupacao-container").innerText =
     ocupacao.toFixed(2) + "%";
+
+  // Subtrair volume do produto removido
+  let padraoCx = 1;
+  if (produtos[produto]) {
+    const isPequeno = idCube.startsWith("P");
+    padraoCx = isPequeno
+      ? produtos[produto].PP.padraoCx
+      : produtos[produto].PG.padraoCx;
+  }
+  const volumeRemover = Math.ceil(quantidade / padraoCx);
+  totalVolume -= volumeRemover;
+  totalVolume = Math.max(0, totalVolume);
+  document.getElementById("volumeTotal-container").innerText =
+    totalVolume.toFixed(2);
 
   // Remover o bloco de produto específico do cubo
   const cube = document.getElementById(idCube);
