@@ -262,3 +262,4 @@ window.onload = function () {
   const botaoPrincipal = document.querySelector(".tabela-cadastro button");
   botaoPrincipal.onclick = abrirCadastro;
 };
+
