@@ -10,456 +10,57 @@ let totalVolume = 0;
 // ===== MULTI-SELEÇÃO DE CUBOS =====
 let selectedCubes = []; // variável para cubos selecionados
 
-const produtos = {
-  "LM0001-4000840": {
-    PP: {
-      quantidade: 248,
-      peso: 332,
-      cubagem: 2.018,
-      precoUnitario: 186.26,
-      padraoCx: 32,
-    },
-    PG: {
-      quantidade: 510,
-      peso: 647,
-      cubagem: 4.095,
-      precoUnitario: 186.26,
-      padraoCx: 32,
-    },
-  },
-  "LM0001-4000850": {
-    PP: {
-      quantidade: 248,
-      peso: 332,
-      cubagem: 2.018,
-      precoUnitario: 189.91,
-      padraoCx: 32,
-    },
-    PG: {
-      quantidade: 510,
-      peso: 647,
-      cubagem: 4.095,
-      precoUnitario: 189.91,
-      padraoCx: 32,
-    },
-  },
-  "LM0001-8000840": {
-    PP: {
-      quantidade: 248,
-      peso: 355.6,
-      cubagem: 2.018,
-      precoUnitario: 196.27,
-      padraoCx: 32,
-    },
-    PG: {
-      quantidade: 510,
-      peso: 694,
-      cubagem: 4.095,
-      precoUnitario: 196.27,
-      padraoCx: 32,
-    },
-  },
-  "LM0001-8000850": {
-    PP: {
-      quantidade: 248,
-      peso: 355.6,
-      cubagem: 2.018,
-      precoUnitario: 208.3,
-      padraoCx: 32,
-    },
-    PG: {
-      quantidade: 510,
-      peso: 694,
-      cubagem: 4.095,
-      precoUnitario: 208.3,
-      padraoCx: 32,
-    },
-  },
-  "LM0006-4000830": {
-    PP: {
-      quantidade: 160,
-      peso: 460,
-      cubagem: 2.549,
-      precoUnitario: 336.88,
-      padraoCx: 31,
-    },
-    PG: {
-      quantidade: 224,
-      peso: 639,
-      cubagem: 4.368,
-      precoUnitario: 336.88,
-      padraoCx: 31,
-    },
-  },
-  "LM0006-4000840": {
-    PP: {
-      quantidade: 160,
-      peso: 460,
-      cubagem: 2.549,
-      precoUnitario: 337.56,
-      padraoCx: 31,
-    },
-    PG: {
-      quantidade: 224,
-      peso: 639,
-      cubagem: 4.368,
-      precoUnitario: 337.56,
-      padraoCx: 31,
-    },
-  },
-  "LM0006-4000850": {
-    PP: {
-      quantidade: 160,
-      peso: 460,
-      cubagem: 2.549,
-      precoUnitario: 324.69,
-      padraoCx: 31,
-    },
-    PG: {
-      quantidade: 224,
-      peso: 639,
-      cubagem: 4.368,
-      precoUnitario: 324.69,
-      padraoCx: 31,
-    },
-  },
-  "LM0006-4000865": {
-    PP: {
-      quantidade: 160,
-      peso: 160,
-      cubagem: 2.549,
-      precoUnitario: 320.01,
-      padraoCx: 31,
-    },
-    PG: {
-      quantidade: 224,
-      peso: 639,
-      cubagem: 4.368,
-      precoUnitario: 320.01,
-      padraoCx: 31,
-    },
-  },
-  "LM0007-3200830": {
-    PP: {
-      quantidade: 384,
-      peso: 359.8,
-      cubagem: 2.5,
-      precoUnitario: 188.61,
-      padraoCx: 31,
-    },
-    PG: {
-      quantidade: 768,
-      peso: 697,
-      cubagem: 3.5,
-      precoUnitario: 188.61,
-      padraoCx: 31,
-    },
-  },
-  "LM0008-3500840": {
-    PP: {
-      quantidade: 528,
-      peso: 288,
-      cubagem: 2.018,
-      precoUnitario: 119.92,
-      padraoCx: 31,
-    },
-    PG: {
-      quantidade: 1056,
-      peso: 559,
-      cubagem: 4.095,
-      precoUnitario: 119.92,
-      padraoCx: 31,
-    },
-  },
-  "LM0008-3500850": {
-    PP: {
-      quantidade: 528,
-      peso: 288,
-      cubagem: 2.018,
-      precoUnitario: 119.79,
-      padraoCx: 31,
-    },
-    PG: {
-      quantidade: 1056,
-      peso: 559,
-      cubagem: 4.095,
-      precoUnitario: 119.79,
-      padraoCx: 31,
-    },
-  },
-  "LM0008-7000850": {
-    PP: {
-      quantidade: 384,
-      peso: 359.8,
-      cubagem: 2.018,
-      precoUnitario: 137.32,
-      padraoCx: 31,
-    },
-    PG: {
-      quantidade: 768,
-      peso: 697,
-      cubagem: 4.095,
-      precoUnitario: 137.32,
-      padraoCx: 31,
-    },
-  },
-  "LM0008-13000840": {
-    PP: {
-      quantidade: 296,
-      peso: 364.4,
-      cubagem: 2.018,
-      precoUnitario: 209.17,
-      padraoCx: 31,
-    },
-    PG: {
-      quantidade: 500,
-      peso: 712,
-      cubagem: 4.095,
-      precoUnitario: 209.17,
-      padraoCx: 31,
-    },
-  },
-  "LM0008-13000850": {
-    PP: {
-      quantidade: 296,
-      peso: 364.4,
-      cubagem: 2.018,
-      precoUnitario: 186.79,
-      padraoCx: 31,
-    },
-    PG: {
-      quantidade: 520,
-      peso: 712,
-      cubagem: 4.095,
-      precoUnitario: 186.79,
-      padraoCx: 31,
-    },
-  },
-  "LM0008-20000840": {
-    PP: {
-      quantidade: 231,
-      peso: 352,
-      cubagem: 2.551,
-      precoUnitario: 351.14,
-      padraoCx: 31,
-    },
-    PG: {
-      quantidade: 231,
-      peso: 352,
-      cubagem: 2.551,
-      precoUnitario: 351.14,
-      padraoCx: 31,
-    },
-  },
-  "LM0008-20000850": {
-    PP: {
-      quantidade: 231,
-      peso: 352,
-      cubagem: 2.551,
-      precoUnitario: 334.12,
-      padraoCx: 31,
-    },
-    PG: {
-      quantidade: 231,
-      peso: 352,
-      cubagem: 2.551,
-      precoUnitario: 334.12,
-      padraoCx: 31,
-    },
-  },
-  "LM0009-4000840": {
-    PP: {
-      quantidade: 256,
-      peso: 288,
-      cubagem: 2.018,
-      precoUnitario: 183.91,
-      padraoCx: 31,
-    },
-    PG: {
-      quantidade: 510,
-      peso: 559,
-      cubagem: 4.095,
-      precoUnitario: 183.91,
-      padraoCx: 31,
-    },
-  },
-  "LM0009-4000850": {
-    PP: {
-      quantidade: 256,
-      peso: 288,
-      cubagem: 2.018,
-      precoUnitario: 167.14,
-      padraoCx: 31,
-    },
-    PG: {
-      quantidade: 510,
-      peso: 559,
-      cubagem: 4.095,
-      precoUnitario: 167.14,
-      padraoCx: 31,
-    },
-  },
-  "LM0009-8000840": {
-    PP: {
-      quantidade: 224,
-      peso: 288,
-      cubagem: 2.018,
-      precoUnitario: 232.79,
-      padraoCx: 31,
-    },
-    PG: {
-      quantidade: 448,
-      peso: 559,
-      cubagem: 4.095,
-      precoUnitario: 232.79,
-      padraoCx: 31,
-    },
-  },
-  "LM0009-8000850": {
-    PP: {
-      quantidade: 224,
-      peso: 288,
-      cubagem: 2.018,
-      precoUnitario: 236.62,
-      padraoCx: 31,
-    },
-    PG: {
-      quantidade: 448,
-      peso: 559,
-      cubagem: 4.095,
-      precoUnitario: 236.62,
-      padraoCx: 31,
-    },
-  },
-  "LM0010-2000830": {
-    PP: {
-      quantidade: 640,
-      peso: 598.2,
-      cubagem: 2.549,
-      precoUnitario: 166.22,
-      padraoCx: 31,
-    },
-    PG: {
-      quantidade: 896,
-      peso: 832,
-      cubagem: 4.368,
-      precoUnitario: 166.22,
-      padraoCx: 31,
-    },
-  },
-  "LM0010-2000840": {
-    PP: {
-      quantidade: 640,
-      peso: 598.2,
-      cubagem: 2.549,
-      precoUnitario: 167.14,
-      padraoCx: 31,
-    },
-    PG: {
-      quantidade: 896,
-      peso: 832,
-      cubagem: 4.368,
-      precoUnitario: 167.14,
-      padraoCx: 31,
-    },
-  },
-  "LM0010-2000850": {
-    PP: {
-      quantidade: 640,
-      peso: 598.2,
-      cubagem: 2.549,
-      precoUnitario: 166.34,
-      padraoCx: 31,
-    },
-    PG: {
-      quantidade: 896,
-      peso: 832,
-      cubagem: 4.368,
-      precoUnitario: 166.34,
-      padraoCx: 31,
-    },
-  },
-  "LM0010-2000865": {
-    PP: {
-      quantidade: 640,
-      peso: 598.2,
-      cubagem: 2.549,
-      precoUnitario: 166.41,
-      padraoCx: 31,
-    },
-    PG: {
-      quantidade: 896,
-      peso: 832,
-      cubagem: 4.368,
-      precoUnitario: 166.41,
-      padraoCx: 31,
-    },
-  },
-  "LM0011-12000840": {
-    PP: {
-      quantidade: 248,
-      peso: 355.6,
-      cubagem: 2.018,
-      precoUnitario: 172.0,
-      padraoCx: 31,
-    },
-    PG: {
-      quantidade: 510,
-      peso: 694,
-      cubagem: 4.095,
-      precoUnitario: 172.0,
-      padraoCx: 31,
-    },
-  },
-  "LM0011-12000850": {
-    PP: {
-      quantidade: 248,
-      peso: 355.6,
-      cubagem: 2.018,
-      precoUnitario: 171.61,
-      padraoCx: 31,
-    },
-    PG: {
-      quantidade: 510,
-      peso: 694,
-      cubagem: 4.095,
-      precoUnitario: 171.61,
-      padraoCx: 31,
-    },
-  },
-  "LM0012-24000840": {
-    PP: {
-      quantidade: 231,
-      peso: 352,
-      cubagem: 3.333,
-      precoUnitario: 338.23,
-      padraoCx: 31,
-    },
-    PG: {
-      quantidade: 231,
-      peso: 352,
-      cubagem: 3.333,
-      precoUnitario: 338.23,
-      padraoCx: 31,
-    },
-  },
-  "LM0012-24000850": {
-    PP: {
-      quantidade: 231,
-      peso: 352,
-      cubagem: 3.333,
-      precoUnitario: 337.36,
-      padraoCx: 31,
-    },
-    PG: {
-      quantidade: 231,
-      peso: 352,
-      cubagem: 3.333,
-      precoUnitario: 337.36,
-      padraoCx: 31,
-    },
-  },
-};
+let produtos = {};
+
+// Função para carregar produtos do backend e montar o objeto produtos
+async function carregarProdutosBackend() {
+  try {
+    const response = await axios.get("http://localhost:3000/produtos");
+    // Monta o objeto produtos no formato esperado pelo simulador
+    produtos = {};
+    response.data.forEach((item) => {
+      // Garante que cada produto tem estrutura PP e PG
+      if (!produtos[item.produto]) produtos[item.produto] = { PP: {}, PG: {} };
+      produtos[item.produto].PP = {
+        quantidade: parseFloat(item.qtdPP) || 0,
+        peso: parseFloat(item.pesoPP) || 0,
+        cubagem: parseFloat(item.cubagemPP) || 0,
+        precoUnitario: parseFloat(item.custoUnit) || 0,
+        padraoCx: parseFloat(item.padraoCX) || 1,
+      };
+      produtos[item.produto].PG = {
+        quantidade: parseFloat(item.qtdPG) || 0,
+        peso: parseFloat(item.pesoPG) || 0,
+        cubagem: parseFloat(item.cubagemPG) || 0,
+        precoUnitario: parseFloat(item.custoUnit) || 0,
+        padraoCx: parseFloat(item.padraoCX) || 1,
+      };
+    });
+    atualizarSelectProdutos();
+  } catch (error) {
+    alert("Erro ao carregar produtos do backend: " + error.message);
+  }
+}
+
+// Função para atualizar o select de produtos do modal
+function atualizarSelectProdutos() {
+  const select = document.getElementById("produto");
+  if (!select) return;
+  // Salva o valor selecionado para manter após atualização
+  const valorSelecionado = select.value;
+  select.innerHTML = '<option value="" disabled selected>Selecione um produto</option>';
+  Object.keys(produtos).forEach((codigo) => {
+    const option = document.createElement("option");
+    option.value = codigo;
+    option.textContent = codigo;
+    select.appendChild(option);
+  });
+  // Restaura seleção se possível
+  if (produtos[valorSelecionado]) select.value = valorSelecionado;
+}
+
+// Chamar o carregamento dos produtos ao iniciar
+window.addEventListener("DOMContentLoaded", carregarProdutosBackend);
 
 // Função para formatar valores em reais
 function formatarMoeda(valor) {
