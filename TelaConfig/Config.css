@@ -272,3 +272,123 @@ td:last-child {
   margin-top: 10px;
   width: 100%;
 }
+
+/* Botão flutuante de exportação */
+#btnExportarFlutuante {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1000;
+  background-color: #256a8a;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 28px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+#btnExportarFlutuante:hover {
+  background-color: #6f8be7;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.linha-superior {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 10px;
+}
+.linha-superior .btn-Incluir {
+  margin-bottom: 0;
+}
+.linha-superior .filtros {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 0;
+}
+.linha-superior .filtros input {
+  margin-right: 8px;
+}
+
+.input-filtro-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.input-filtro-container input {
+  padding-right: 32px;
+  height: 32px;
+  font-size: 16px;
+}
+.input-filtro-container .icone-filtro {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: #256a8a;
+  background: none;
+  border: none;
+  padding: 0 4px;
+  cursor: pointer;
+  outline: none;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.input-filtro-container .icone-filtro:active,
+.input-filtro-container .icone-filtro:focus {
+  background: #e0e7ef;
+  border-radius: 50%;
+}
+.btn-limpar {
+  background: none;
+  border: none;
+  color: #256a8a;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 0 8px;
+  margin-left: 8px;
+  cursor: pointer;
+  text-decoration: underline;
+  box-shadow: none;
+  transition: color 0.2s;
+}
+.btn-limpar:hover,
+.btn-limpar:focus {
+  background: none;
+  color: #29447a;
+  text-decoration: underline;
+  box-shadow: none;
+}
+
+.btn-Incluir {
+  background: linear-gradient(90deg, #256a8a 60%, #3b8bbf 100%);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 8px 28px;
+  box-shadow: 0 2px 8px rgba(37, 106, 138, 0.08);
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+  letter-spacing: 0.5px;
+}
+.btn-Incluir:hover,
+.btn-Incluir:focus {
+  background: linear-gradient(90deg, #3b8bbf 60%, #256a8a 100%);
+  box-shadow: 0 4px 16px rgba(37, 106, 138, 0.15);
+  transform: translateY(-2px) scale(1.03);
+}

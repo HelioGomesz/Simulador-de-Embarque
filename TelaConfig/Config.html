@@ -26,38 +26,26 @@
         <div class="listagemGeral tabela-centralizado">
           <div class="tabela-cadastro">
             <h2>Cadastro de Produtos</h2>
-            <button class="btn-Incluir">Incluir</button>
-            <br /><br />
-            <div class="filtros">
-              <div class="filtros-esquerda">
-                <input
-                  type="text"
-                  id="filtroProduto"
-                  placeholder="Buscar produto/código..."
-                />
-                <span class="filtros-acoes">
-                  <button class="btn-filtro" onclick="filtrarTabela()">
+            <div class="linha-superior">
+              <button class="btn-Incluir">Incluir</button>
+              <div class="filtros filtros-direita">
+                <div class="input-filtro-container">
+                  <input
+                    type="text"
+                    id="filtroProduto"
+                    placeholder="Buscar produto/código..."
+                  />
+                  <button
+                    class="icone-filtro"
+                    onclick="filtrarTabela()"
+                    tabindex="0"
+                    title="Filtrar"
+                  >
                     🔍
                   </button>
-                  <button class="btn-filtro" onclick="limparFiltro()">
-                    ❌
-                  </button>
-                </span>
-              </div>
-              <div class="filtros-direita">
-                <button
-                  class="btn-filtro"
-                  title="Exportar"
-                  onclick="exportarParaExcel()"
-                >
-                  📤
-                </button>
-                <button
-                  class="btn-filtro"
-                  title="Resetar Dados"
-                  onclick="confirmarResetarDados()"
-                >
-                  ♻️
+                </div>
+                <button class="btn-limpar" onclick="limparFiltro()">
+                  Limpar
                 </button>
               </div>
             </div>
@@ -166,5 +154,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="Config.js"></script>
+    <!-- Botão flutuante de exportação -->
+    <button
+      id="btnExportarFlutuante"
+      title="Exportar para Excel"
+      onclick="exportarParaExcel()"
+    >
+      📤
+    </button>
   </body>
 </html>
