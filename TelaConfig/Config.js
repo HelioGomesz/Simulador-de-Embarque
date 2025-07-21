@@ -36,7 +36,6 @@ function addEntry() {
   }
 
   const data = {
-    id: produtosEditandoId || Date.now().toString(),
     produto,
     qtdPP,
     qtdPG,
@@ -44,20 +43,37 @@ function addEntry() {
     pesoPG,
     cubagemPP,
     cubagemPG,
-    padraoCX,
-    custoUnit,
+    padraoCX: padraoCX ? parseFloat(padraoCX) : null,
+    custoUnit: custoUnit ? parseFloat(custoUnit) : null,
   };
 
+  // Se estiver editando, faz PUT no backend
   if (produtosEditandoId) {
-    const idx = produtos.findIndex((p) => p.id === produtosEditandoId);
-    if (idx !== -1) produtos[idx] = data;
-    produtosEditandoId = null;
-  } else {
-    produtos.push(data);
+    axios.put(`http://localhost:3000/produtos/${produtosEditandoId}`, data)
+      .then(() => {
+        produtosEditandoId = null;
+        closeModal();
+        carregarProdutosBackend(); // Atualiza a tabela
+      })
+      .catch((error) => {
+        alert("Erro ao editar produto: " + error.message);
+      });
+    return;
   }
-  salvarLocalStorage();
-  closeModal();
-  atualizarTabela();
+
+  // Inclusão via POST
+  axios.post("http://localhost:3000/produtos", data)
+    .then(() => {
+      closeModal();
+      carregarProdutosBackend(); // Atualiza a tabela com os dados do backend
+    })
+    .catch((error) => {
+      if (error.response && error.response.status === 500) {
+        alert("Erro: Produto já cadastrado no banco de dados!");
+      } else {
+        alert("Erro ao cadastrar produto: " + error.message);
+      }
+    });
 }
 
 function atualizarTabela() {
@@ -103,13 +119,22 @@ function atualizarTabela() {
   });
 }
 
+// Função para excluir produto usando o backend (DELETE)
 function excluirProduto(id) {
-  produtos = produtos.filter((item) => item.id !== id);
-  salvarLocalStorage();
-  atualizarTabela();
+  if (!confirm("Tem certeza que deseja excluir este produto?")) return;
+  // Chama a API backend para deletar o produto
+  axios.delete(`http://localhost:3000/produtos/${id}`)
+    .then(() => {
+      carregarProdutosBackend(); // Atualiza a tabela após exclusão
+    })
+    .catch((error) => {
+      alert("Erro ao excluir produto: " + error.message);
+    });
 }
 
+// Função para preparar a edição de um produto
 function editarProduto(id) {
+  // Busca o produto na lista local para preencher o formulário
   const item = produtos.find((p) => p.id === id);
   if (!item) return;
   document.getElementById("produto").value = item.produto;
@@ -121,7 +146,7 @@ function editarProduto(id) {
   document.getElementById("cubagemPG").value = item.cubagemPG || "";
   document.getElementById("padraoCX").value = item.padraoCX || "";
   document.getElementById("custoUnit").value = item.custoUnit || "";
-  produtosEditandoId = id;
+  produtosEditandoId = id; // Marca o produto que está sendo editado
   abrirCadastro();
 }
 

@@ -67,8 +67,7 @@ app.post("/produtos", async (req, res) => {
       pesoPG: req.body.pesoPG,
       cubagemPP: req.body.cubagemPP,
       cubagemPG: req.body.cubagemPG,
-      volumePP: req.body.volumePP,
-      volumePG: req.body.volumePG,
+      padraoCX: req.body.padraoCX,
       custoUnit: req.body.custoUnit,
     },
   });
@@ -102,8 +101,7 @@ app.put("/produtos/:id", async (req, res) => {
       pesoPG: req.body.pesoPG,
       cubagemPP: req.body.cubagemPP,
       cubagemPG: req.body.cubagemPG,
-      volumePP: req.body.volumePP,
-      volumePG: req.body.volumePG,
+      padraoCX: req.body.padraoCX,
       custoUnit: req.body.custoUnit,
     },
   });
