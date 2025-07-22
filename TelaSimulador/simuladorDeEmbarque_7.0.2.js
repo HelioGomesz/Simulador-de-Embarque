@@ -12,7 +12,7 @@ let selectedCubes = []; // variável para cubos selecionados
 
 let produtos = {};
 
-// Função para carregar produtos do backend e montar o objeto produtos
+// ===Função para carregar produtos do backend e montar o objeto produtos===
 async function carregarProdutosBackend() {
   try {
     const response = await axios.get("http://localhost:3000/produtos");
@@ -42,13 +42,14 @@ async function carregarProdutosBackend() {
   }
 }
 
-// Função para atualizar o select de produtos do modal
+// ===Função para atualizar o select de produtos do modal===
 function atualizarSelectProdutos() {
   const select = document.getElementById("produto");
   if (!select) return;
   // Salva o valor selecionado para manter após atualização
   const valorSelecionado = select.value;
-  select.innerHTML = '<option value="" disabled selected>Selecione um produto</option>';
+  select.innerHTML =
+    '<option value="" disabled selected>Selecione um produto</option>';
   Object.keys(produtos).forEach((codigo) => {
     const option = document.createElement("option");
     option.value = codigo;
@@ -62,7 +63,7 @@ function atualizarSelectProdutos() {
 // Chamar o carregamento dos produtos ao iniciar
 window.addEventListener("DOMContentLoaded", carregarProdutosBackend);
 
-// Função para formatar valores em reais
+// ===Função para formatar valores em reais===
 function formatarMoeda(valor) {
   return new Intl.NumberFormat("pt-BR", {
     style: "currency",
@@ -70,17 +71,17 @@ function formatarMoeda(valor) {
   }).format(valor);
 }
 
-// Função para obter o prefixo do produto (ex: LM0001, LM0006, etc.)
+// ===Função para obter o prefixo do produto (ex: LM0001, LM0006, etc.)===
 function getProdutoPrefix(produto) {
   return produto.split("-")[0];
 }
 
-// Função para verificar se produtos são da mesma família
+// ===Função para verificar se produtos são da mesma família===
 function isSameProductFamily(produto1, produto2) {
   return getProdutoPrefix(produto1) === getProdutoPrefix(produto2);
 }
 
-// Função para calcular a quantidade total de produtos da mesma família no cubo
+// ===Função para calcular a quantidade total de produtos da mesma família no cubo===
 function getTotalQuantitySameFamily(cube, produto) {
   const produtoPrefix = getProdutoPrefix(produto);
   const existingProducts = cube.querySelectorAll(".produto-bloco");
@@ -99,13 +100,13 @@ function getTotalQuantitySameFamily(cube, produto) {
   return totalQuantity;
 }
 
-// Função para obter a quantidade máxima permitida para o tipo de pallet
+// ===Função para obter a quantidade máxima permitida para o tipo de pallet===
 function getMaxQuantityForPallet(cubeId) {
   const isPequeno = cubeId.startsWith("P");
   return isPequeno ? 1000 : 2000; // Limite baseado no tipo de pallet
 }
 
-// Adiciona/remover seleção visual e gerencia array de seleção
+// ===Adiciona/remover seleção visual e gerencia array de seleção===
 function toggleCubeSelection(cube) {
   const idx = selectedCubes.indexOf(cube);
   if (idx === -1) {
@@ -119,7 +120,7 @@ function toggleCubeSelection(cube) {
   atualizarMensagemModal();
 }
 
-// Atualiza visibilidade do botão flutuante de adicionar produto
+// ===Atualiza visibilidade do botão flutuante de adicionar produto===
 function updateAddProductButton() {
   let btn = document.getElementById("multiAddBtn");
   if (!btn) {
@@ -138,7 +139,7 @@ function updateAddProductButton() {
   updateUnifyButton();
 }
 
-// Verifica se pode unificar e atualiza o botão de unificação
+// ===Verifica se pode unificar e atualiza o botão de unificação===
 function updateUnifyButton() {
   let unifyBtn = document.getElementById("unifyBtn");
   if (!unifyBtn) {
@@ -162,7 +163,7 @@ function updateUnifyButton() {
   unifyBtn.style.display = canUnify ? "block" : "none";
 }
 
-// Verifica se o pallet grande correspondente está vazio
+// ===Verifica se o pallet grande correspondente está vazio===
 function isPalletGrandeVazio(palletPequeno) {
   const idPalletPequeno = palletPequeno.getAttribute("id");
   const numeroPallet = parseInt(idPalletPequeno.substring(1));
@@ -175,7 +176,7 @@ function isPalletGrandeVazio(palletPequeno) {
   );
 }
 
-// Mostra o modal de unificação com produtos especiais
+// ===Mostra o modal de unificação com produtos especiais===
 function showUnifyModal() {
   document.getElementById("modal").style.display = "block";
 
@@ -199,7 +200,7 @@ function showUnifyModal() {
   atualizarMensagemModal();
 }
 
-// Mostra o modal de adicionar produto para múltiplos cubos
+// ===Mostra o modal de adicionar produto para múltiplos cubos===
 function showMultiAddModal() {
   document.getElementById("modal").style.display = "block";
   document.getElementById("produto").value = "";
@@ -209,7 +210,7 @@ function showMultiAddModal() {
   atualizarMensagemModal();
 }
 
-// Atualiza os campos do modal com valores padrões do produto conforme o tipo do primeiro cubo selecionado
+// ===Atualiza os campos do modal com valores padrões do produto conforme o tipo do primeiro cubo selecionado
 function preencherValoresPadraoModal(produtoSelecionado) {
   if (!produtoSelecionado || !selectedCubes.length) return;
   const dadosProduto = produtos[produtoSelecionado];
@@ -326,7 +327,7 @@ document.querySelectorAll(".cube").forEach((cube) => {
   document.head.appendChild(style);
 })();
 
-// Fecha modal e limpa seleção múltipla
+// ===Fecha modal e limpa seleção múltipla===
 function closeModal() {
   document.getElementById("modal").style.display = "none";
   document.getElementById("limite-indicador").style.display = "none";
@@ -456,425 +457,7 @@ document.getElementById("peso").addEventListener("input", function () {
   atualizarMensagemModal();
 });
 
-// Função para unificar pallets fisicamente (PP + PG = um só pallet)
-function unificarPalletsFisicamente(produto, quantidade, peso) {
-  const dadosProduto = produtos[produto];
-  const quantidadePP = dadosProduto.PP.quantidade;
-  const pesoPP = dadosProduto.PP.peso;
-  const quantidadePG = dadosProduto.PG.quantidade;
-  const pesoPG = dadosProduto.PG.peso;
-
-  // Soma dos valores PP + PG
-  const quantidadeUnificada = quantidadePP + quantidadePG;
-  const pesoUnificado = pesoPP + pesoPG;
-
-  // Usar o cubo selecionado como pallet pequeno
-  const palletPequeno = window.selectedCube;
-
-  // Encontrar o pallet grande correspondente
-  const idPalletPequeno = palletPequeno.getAttribute("id");
-  const numeroPallet = parseInt(idPalletPequeno.substring(1)); // Remove o "P" e pega o número
-  const palletGrande = document.getElementById(`G${numeroPallet + 1}`);
-
-  // Verificar se o pallet grande existe e está vazio
-  if (
-    !palletGrande ||
-    palletGrande.hasAttribute("data-tipo") ||
-    palletGrande.classList.contains("absorvido-permanente")
-  ) {
-    alert(
-      `É necessário que o pallet ${
-        palletGrande
-          ? palletGrande.getAttribute("id")
-          : "G" + (numeroPallet + 1)
-      } esteja vazio para unificação!`
-    );
-    return;
-  }
-
-  // Unificar visualmente os dois pallets
-  unificarCubosVisualmente(palletPequeno, palletGrande);
-
-  // Adicionar produto ao pallet pequeno (pallet principal)
-  palletPequeno.setAttribute("data-tipo", "UNIFICADO");
-  palletPequeno.setAttribute("data-produto-especial", produto);
-
-  // Criar bloco de produto unificado
-  const bloco = document.createElement("div");
-  bloco.className = "produto-bloco produto-especial-unificado";
-  bloco.setAttribute("data-categoria", produto);
-  bloco.innerHTML = `<div>${produto}</div><div class="quantidade-cubo">${quantidadeUnificada}</div>`;
-
-  // Adicionar indicador de tipo de pallet unificado
-  const tipoIndicator = document.createElement("div");
-  tipoIndicator.className = "tipo-pallet unificado";
-  tipoIndicator.textContent = "UNIFICADO";
-  palletPequeno.appendChild(tipoIndicator);
-
-  // Adicionar indicador visual de unificação permanente
-  const indicadorUnificacao = document.createElement("div");
-  indicadorUnificacao.className = "indicador-unificacao-permanente";
-  indicadorUnificacao.innerHTML = `
-          <div style="position: absolute; top: -5px; right: -5px; background: #ff9800; color: white; 
-               border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; 
-               justify-content: center; font-size: 12px; font-weight: bold; z-index: 1000;">
-            🔗
-          </div>
-        `;
-  palletPequeno.appendChild(indicadorUnificacao);
-
-  palletPequeno.appendChild(bloco);
-
-  // Aplicar visual de unificação permanente
-  palletPequeno.classList.add("unificado-permanente");
-
-  // Marcar pallet grande como absorvido permanentemente
-  palletGrande.classList.add("absorvido-permanente");
-  palletGrande.style.opacity = "0.3";
-  palletGrande.style.pointerEvents = "none";
-
-  // Adicionar indicador de absorção permanente
-  const indicadorAbsorcao = document.createElement("div");
-  indicadorAbsorcao.className = "indicador-absorcao-permanente";
-  indicadorAbsorcao.innerHTML = `
-          <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-               background: rgba(255, 152, 0, 0.9); color: white; padding: 5px; border-radius: 4px; 
-               font-size: 10px; font-weight: bold; z-index: 1000;">
-            UNIFICADO
-          </div>
-        `;
-  palletGrande.appendChild(indicadorAbsorcao);
-
-  // Atualizar contador de produtos
-  atualizarContadorProdutos(palletPequeno);
-
-  // Adicionar à tabela
-  const table = document.getElementById("tabela-cupomList");
-  const row = table.insertRow();
-  row.setAttribute("data-id", palletPequeno.getAttribute("id"));
-  row.setAttribute("data-produto", produto);
-  row.classList.add("ativo", "unificado");
-
-  // Calcular valor do produto unificado
-  const precoUnitario = dadosProduto.PP.precoUnitario; // Mesmo preço para PP e PG
-  const valorUnificado = quantidadeUnificada * precoUnitario;
-
-  row.innerHTML = `
-          <td>${palletPequeno.getAttribute("id")} + ${palletGrande.getAttribute(
-    "id"
-  )} (UNIFICADO)</td>
-          <td>${produto}</td>
-          <td>${quantidadeUnificada}</td>
-          <td>${pesoUnificado.toFixed(2)}</td>
-          <td>${formatarMoeda(valorUnificado)}</td>
-          <td><button onclick="removeEntry(this)">Excluir</button></td>
-        `;
-
-  // Atualizar totais
-  totalQuantidade += quantidadeUnificada;
-  totalPeso += pesoUnificado;
-  totalValor += valorUnificado; // NOVO: adicionar ao valor total
-  document.getElementById("Quantidade-container").innerText =
-    totalQuantidade.toFixed(2);
-  document.getElementById("peso-container").innerText = totalPeso.toFixed(2);
-  atualizarValorTotalComOuSemMarkup();
-
-  // Cubagem
-  const cubagemPP = dadosProduto.PP.cubagem;
-  const cubagemPG = dadosProduto.PG.cubagem;
-  const cubagemUnificada = cubagemPP + cubagemPG;
-  cubagemOcupada += cubagemUnificada;
-
-  const ocupacao = (cubagemOcupada / cubagemTotal) * 100;
-  document.getElementById("ocupacao-container").innerText =
-    ocupacao.toFixed(2) + "%";
-
-  alert(
-    `Pallets unificados fisicamente!\n\nPallet ${palletPequeno.getAttribute(
-      "id"
-    )} + ${palletGrande.getAttribute(
-      "id"
-    )}\nQuantidade PP: ${quantidadePP} | Quantidade PG: ${quantidadePG}\nQuantidade Total: ${quantidadeUnificada}\nPeso Total: ${pesoUnificado.toFixed(
-      2
-    )}kg`
-  );
-}
-
-// Função para unificar visualmente os cubos
-function unificarCubosVisualmente(cuboDestino, cuboOrigem) {
-  // Adicionar classe de unificação ao cubo destino
-  cuboDestino.classList.add("unificado");
-
-  // Adicionar indicador visual de unificação
-  const indicadorUnificacao = document.createElement("div");
-  indicadorUnificacao.className = "indicador-unificacao";
-  indicadorUnificacao.innerHTML = `
-          <div style="position: absolute; top: -5px; right: -5px; background: #ff9800; color: white; 
-               border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; 
-               justify-content: center; font-size: 12px; font-weight: bold; z-index: 1000;">
-            🔗
-          </div>
-        `;
-  cuboDestino.appendChild(indicadorUnificacao);
-
-  // Adicionar efeito visual ao cubo origem (que foi "absorvido")
-  cuboOrigem.classList.add("absorvido");
-  cuboOrigem.style.opacity = "0.3";
-  cuboOrigem.style.transform = "scale(0.8)";
-
-  // Adicionar indicador de absorção
-  const indicadorAbsorcao = document.createElement("div");
-  indicadorAbsorcao.className = "indicador-absorcao";
-  indicadorAbsorcao.innerHTML = `
-          <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-               background: rgba(255, 152, 0, 0.9); color: white; padding: 5px; border-radius: 4px; 
-               font-size: 10px; font-weight: bold; z-index: 1000;">
-            UNIFICADO
-          </div>
-        `;
-  cuboOrigem.appendChild(indicadorAbsorcao);
-
-  // Criar linha de conexão visual entre os cubos
-  criarLinhaConexao(cuboOrigem, cuboDestino);
-
-  // Remover indicadores após alguns segundos
-  setTimeout(() => {
-    if (indicadorUnificacao.parentNode) {
-      indicadorUnificacao.remove();
-    }
-    if (indicadorAbsorcao.parentNode) {
-      indicadorAbsorcao.remove();
-    }
-    cuboOrigem.classList.remove("absorvido");
-    cuboOrigem.style.opacity = "";
-    cuboOrigem.style.transform = "";
-
-    // Remover linha de conexão
-    const linhaConexao = document.querySelector(".linha-conexao");
-    if (linhaConexao) {
-      linhaConexao.remove();
-    }
-  }, 3000);
-}
-
-// Função para criar linha de conexão visual
-function criarLinhaConexao(cuboOrigem, cuboDestino) {
-  const linhaConexao = document.createElement("div");
-  linhaConexao.className = "linha-conexao";
-  linhaConexao.style.cssText = `
-          position: absolute;
-          height: 3px;
-          background: linear-gradient(90deg, #ff9800, #ff5722);
-          z-index: 999;
-          animation: linhaConexaoAnim 2s ease-in-out;
-          border-radius: 2px;
-          box-shadow: 0 0 10px rgba(255, 152, 0, 0.6);
-        `;
-
-  document.body.appendChild(linhaConexao);
-
-  // Posicionar a linha entre os cubos
-  setTimeout(() => {
-    const origemRect = cuboOrigem.getBoundingClientRect();
-    const destinoRect = cuboDestino.getBoundingClientRect();
-
-    const origemX = origemRect.left + origemRect.width / 2;
-    const origemY = origemRect.top + origemRect.height / 2;
-    const destinoX = destinoRect.left + destinoRect.width / 2;
-    const destinoY = destinoRect.top + destinoRect.height / 2;
-
-    const distancia = Math.sqrt(
-      Math.pow(destinoX - origemX, 2) + Math.pow(destinoY - origemY, 2)
-    );
-    const angulo =
-      (Math.atan2(destinoY - origemY, destinoX - origemX) * 180) / Math.PI;
-
-    linhaConexao.style.width = distancia + "px";
-    linhaConexao.style.left = origemX + "px";
-    linhaConexao.style.top = origemY + "px";
-    linhaConexao.style.transform = `rotate(${angulo}deg)`;
-    linhaConexao.style.transformOrigin = "0 50%";
-  }, 100);
-}
-
-// Função para verificar se é produto especial
-function isProdutoEspecial(produto) {
-  const produtosEspeciais = [
-    "LM0008-20000840",
-    "LM0008-20000850",
-    "LM0012-24000840",
-    "LM0012-24000850",
-  ];
-  return produtosEspeciais.includes(produto);
-}
-
-// Função para unificar pallets especiais existentes
-function unificarPalletsEspeciais(produto, quantidade, peso) {
-  // Verificar se é um produto especial
-  if (!isProdutoEspecial(produto)) {
-    return false;
-  }
-
-  // Verificar se o pallet selecionado já tem o mesmo produto unificado
-  if (
-    window.selectedCube.hasAttribute("data-produto-especial") &&
-    window.selectedCube.getAttribute("data-produto-especial") === produto
-  ) {
-    // Atualizar quantidade e peso na tabela
-    const table = document.getElementById("tabela-cupomList");
-    const rows = table.querySelectorAll("tr");
-
-    for (let row of rows) {
-      if (
-        row.getAttribute("data-id") ===
-          window.selectedCube.getAttribute("id") &&
-        row.getAttribute("data-produto") === produto
-      ) {
-        const quantidadeCell = row.cells[2];
-        const pesoCell = row.cells[3];
-        const valorCell = row.cells[4]; // NOVO: célula do valor
-
-        const quantidadeAtual = parseFloat(quantidadeCell.textContent);
-        const pesoAtual = parseFloat(pesoCell.textContent);
-        const valorAtual = parseFloat(
-          valorCell.textContent.replace(/[^\d,.-]/g, "").replace(",", ".")
-        ); // NOVO: extrair valor atual
-
-        const novaQuantidade = quantidadeAtual + quantidade;
-        const novoPeso = pesoAtual + peso;
-
-        // Calcular novo valor
-        const dadosProduto = produtos[produto];
-        const precoUnitario = dadosProduto.PP.precoUnitario;
-        const novoValor = novaQuantidade * precoUnitario;
-
-        quantidadeCell.textContent = novaQuantidade;
-        pesoCell.textContent = novoPeso.toFixed(2);
-        valorCell.textContent = formatarMoeda(novoValor); // NOVO: atualizar valor
-
-        // Atualizar totais
-        totalQuantidade += quantidade;
-        totalPeso += peso;
-        totalValor += novoValor - valorAtual; // NOVO: adicionar diferença do valor
-        atualizarValorTotalComOuSemMarkup();
-
-        // Atualizar cubagem
-        const cubagemPP = dadosProduto.PP.cubagem;
-        const cubagemPG = dadosProduto.PG.cubagem;
-        const cubagemUnificada = cubagemPP + cubagemPG;
-        cubagemOcupada += cubagemUnificada;
-
-        const ocupacao = (cubagemOcupada / cubagemTotal) * 100;
-        document.getElementById("ocupacao-container").innerText =
-          ocupacao.toFixed(2) + "%";
-
-        return true;
-      }
-    }
-  }
-
-  return false;
-}
-
-// Função para adicionar produto especial com visual unificado
-function adicionarProdutoEspecialUnificado(produto, quantidade, peso) {
-  const idCube = window.selectedCube.getAttribute("id");
-  const isPequeno = idCube.startsWith("P");
-
-  // Calcular valores unificados (PP + PG)
-  const dadosProduto = produtos[produto];
-  const quantidadePP = dadosProduto.PP.quantidade;
-  const pesoPP = dadosProduto.PP.peso;
-  const quantidadePG = dadosProduto.PG.quantidade;
-  const pesoPG = dadosProduto.PG.peso;
-
-  // Soma dos valores PP + PG
-  const quantidadeUnificada = quantidadePP + quantidadePG;
-  const pesoUnificado = pesoPP + pesoPG;
-
-  // Definir tipo de pallet como unificado
-  window.selectedCube.setAttribute("data-tipo", "UNIFICADO");
-  window.selectedCube.setAttribute("data-produto-especial", produto);
-
-  // Criar bloco de produto com visual unificado
-  const bloco = document.createElement("div");
-  bloco.className = "produto-bloco produto-especial-unificado";
-  bloco.setAttribute("data-categoria", produto);
-  bloco.innerHTML = `<div>${produto}</div><div class="quantidade-cubo">${quantidadeUnificada}</div>`;
-
-  // Adicionar indicador de tipo de pallet unificado
-  const tipoIndicator = document.createElement("div");
-  tipoIndicator.className = "tipo-pallet unificado";
-  tipoIndicator.textContent = "UNIFICADO";
-  window.selectedCube.appendChild(tipoIndicator);
-
-  // Adicionar indicador visual de unificação permanente
-  const indicadorUnificacao = document.createElement("div");
-  indicadorUnificacao.className = "indicador-unificacao-permanente";
-  indicadorUnificacao.innerHTML = `
-          <div style="position: absolute; top: -5px; right: -5px; background: #ff9800; color: white; 
-               border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; 
-               justify-content: center; font-size: 12px; font-weight: bold; z-index: 1000;">
-            🔗
-          </div>
-        `;
-  window.selectedCube.appendChild(indicadorUnificacao);
-
-  window.selectedCube.appendChild(bloco);
-
-  // Aplicar visual de unificação permanente
-  window.selectedCube.classList.add("unificado-permanente");
-
-  // Atualizar contador de produtos
-  atualizarContadorProdutos(window.selectedCube);
-
-  // Adicionar à tabela
-  const table = document.getElementById("tabela-cupomList");
-  const row = table.insertRow();
-  row.setAttribute("data-id", idCube);
-  row.setAttribute("data-produto", produto);
-  row.classList.add("ativo", "unificado");
-
-  // Calcular valor do produto unificado
-  const precoUnitario = dadosProduto.PP.precoUnitario; // Mesmo preço para PP e PG
-  const valorUnificado = quantidadeUnificada * precoUnitario;
-
-  row.innerHTML = `
-          <td>${idCube} (UNIFICADO)</td>
-          <td>${produto}</td>
-          <td>${quantidadeUnificada}</td>
-          <td>${pesoUnificado.toFixed(2)}</td>
-          <td>${formatarMoeda(valorUnificado)}</td>
-          <td><button onclick="removeEntry(this)">Excluir</button></td>
-        `;
-
-  // Atualizar totais
-  totalQuantidade += quantidadeUnificada;
-  totalPeso += pesoUnificado;
-  totalValor += valorUnificado; // NOVO: adicionar ao valor total
-  document.getElementById("Quantidade-container").innerText =
-    totalQuantidade.toFixed(2);
-  document.getElementById("peso-container").innerText = totalPeso.toFixed(2);
-  atualizarValorTotalComOuSemMarkup();
-
-  // Cubagem
-  const cubagemPP = dadosProduto.PP.cubagem;
-  const cubagemPG = dadosProduto.PG.cubagem;
-  const cubagemUnificada = cubagemPP + cubagemPG;
-  cubagemOcupada += cubagemUnificada;
-
-  const ocupacao = (cubagemOcupada / cubagemTotal) * 100;
-  document.getElementById("ocupacao-container").innerText =
-    ocupacao.toFixed(2) + "%";
-
-  alert(
-    `Produto especial ${produto} adicionado com visual unificado!\n\nQuantidade PP: ${quantidadePP} | Quantidade PG: ${quantidadePG}\nQuantidade Total: ${quantidadeUnificada}\nPeso Total: ${pesoUnificado.toFixed(
-      2
-    )}kg`
-  );
-}
-
-// Adapta addEntry para múltiplos cubos
+// ===Adapta addEntry para múltiplos cubos===
 function addEntry() {
   const produto = document.getElementById("produto").value;
   const quantidadeInput = document.getElementById("quantidade").value;
@@ -1066,7 +649,7 @@ function addEntry() {
 
     totalQuantidade += quantidadeExibir;
     totalPeso += pesoExibir;
-    totalValor += valorProduto; // NOVO: adicionar ao valor total
+    totalValor += valorProduto; // adicionar ao valor total
     document.getElementById("Quantidade-container").innerText =
       totalQuantidade.toFixed(2);
     document.getElementById("peso-container").innerText = totalPeso.toFixed(2);
@@ -1217,12 +800,12 @@ function removeEntry(button) {
   const produto = row.getAttribute("data-produto");
   const quantidade = parseFloat(row.cells[2].innerText);
   const peso = parseFloat(row.cells[3].innerText);
-  const valor = parseValorBRL(row.cells[4].innerText); // NOVO: extrair valor
+  const valor = parseValorBRL(row.cells[4].innerText); // extrair valor
 
   table.deleteRow(row.rowIndex - 1);
   totalQuantidade -= quantidade;
   totalPeso -= peso;
-  totalValor -= valor; // NOVO: subtrair valor
+  totalValor -= valor; // subtrair valor
   totalQuantidade = Math.max(0, totalQuantidade);
   totalPeso = Math.max(0, totalPeso);
   totalValor = Math.max(0, totalValor);
@@ -1326,7 +909,7 @@ function removeEntry(button) {
   }
 }
 
-// FUNÇÃO PARA PERMITIR ARRASTAR O FORMULÁRIO NA PAGINA COM O MOUSE
+// ===FUNÇÃO PARA PERMITIR ARRASTAR O FORMULÁRIO NA PAGINA COM O MOUSE===
 function makeModalDraggable() {
   const modal = document.getElementById("modal");
   const header = document.getElementById("modal-header");
@@ -1358,12 +941,12 @@ function makeModalDraggable() {
 // Inicia o comportamento de arrastar ao carregar a página
 window.onload = makeModalDraggable;
 
-// LIMPAR TODOS OS CUBOS
+// ===LIMPAR TODOS OS CUBOS===
 function clearAll() {
   location.reload();
 }
 
-// FAZER DOWLOAD DA PAGINA DE SIMULAÇÃO
+// ===FAZER DOWLOAD DA PAGINA DE SIMULAÇÃO===
 
 function downloadPDF() {
   const element = document.querySelector("main");
@@ -1383,7 +966,7 @@ function downloadPDF() {
   html2pdf().set(opt).from(element).save();
 }
 
-// Função para verificar limite em tempo real
+// ===Função para verificar limite em tempo real===
 function verificarLimiteModal() {
   const produtoSelecionado = document.getElementById("produto").value;
   const quantidadeInput = document.getElementById("quantidade").value;
@@ -1494,7 +1077,7 @@ function verificarLimiteModal() {
   }
 }
 
-// Atualiza a mensagem informativa do modal baseada na seleção
+// ===Atualiza a mensagem informativa do modal baseada na seleção===
 function atualizarMensagemModal() {
   const dicaDiv = document.querySelector(
     '.modal-content div[style*="background-color: #e3f2fd"]'
@@ -1566,141 +1149,4 @@ function atualizarValorTotalComOuSemMarkup() {
   }
   document.getElementById("valorTotal-container").innerText =
     formatarMoeda(valorExibir);
-}
-
-// === ROBÔ DE SIMULAÇÃO DE DEMANDA ===
-function abrirModalSimuladorBot() {
-  document.getElementById("modalSimuladorBot").style.display = "block";
-  document.getElementById("resultadoSimuladorBot").innerHTML = "";
-  document.getElementById("produtoSimuladorBot").value = "";
-  document.getElementById("quantidadeSimuladorBot").value = "";
-}
-
-function simularDemandaBot() {
-  const produtoBase = document.getElementById("produtoSimuladorBot").value;
-  const quantidadeDesejada = parseInt(
-    document.getElementById("quantidadeSimuladorBot").value
-  );
-  const resultadoDiv = document.getElementById("resultadoSimuladorBot");
-  resultadoDiv.innerHTML = "";
-
-  if (!produtoBase || isNaN(quantidadeDesejada) || quantidadeDesejada <= 0) {
-    resultadoDiv.innerHTML =
-      '<span style="color: #c62828;">Preencha o produto e a quantidade corretamente.</span>';
-    return;
-  }
-
-  // Encontrar todos os produtos que começam com o prefixo selecionado
-  const produtosFiltrados = Object.keys(produtos).filter((p) =>
-    p.startsWith(produtoBase)
-  );
-  if (produtosFiltrados.length === 0) {
-    resultadoDiv.innerHTML =
-      '<span style="color: #c62828;">Produto não encontrado na base de dados.</span>';
-    return;
-  }
-
-  // Usar o primeiro produto da família para pegar os padrões PP e PG
-  const produtoExemplo = produtosFiltrados[0];
-  const padraoPP = produtos[produtoExemplo].PP.quantidade;
-  const padraoPG = produtos[produtoExemplo].PG.quantidade;
-
-  let melhor = {
-    usadosPP: 0,
-    usadosPG: 0,
-    sobra: quantidadeDesejada,
-    sobraAbs: Math.abs(quantidadeDesejada),
-  };
-  const maxPP = Math.ceil(quantidadeDesejada / padraoPP) + 2;
-  const maxPG = Math.ceil(quantidadeDesejada / padraoPG) + 2;
-  let combinacoes = [];
-
-  for (let pp = 0; pp <= maxPP; pp++) {
-    for (let pg = 0; pg <= maxPG; pg++) {
-      const total = pp * padraoPP + pg * padraoPG;
-      const sobra = quantidadeDesejada - total;
-      const sobraAbs = Math.abs(sobra);
-      combinacoes.push({ pp, pg, total, sobra, sobraAbs });
-      if (
-        sobraAbs < melhor.sobraAbs ||
-        (sobraAbs === melhor.sobraAbs &&
-          total > melhor.usadosPP * padraoPP + melhor.usadosPG * padraoPG)
-      ) {
-        melhor = { usadosPP: pp, usadosPG: pg, sobra, sobraAbs };
-      }
-    }
-  }
-
-  // Ordenar as melhores combinações por sobra absoluta e depois por total mais próximo da demanda
-  combinacoes.sort((a, b) => a.sobraAbs - b.sobraAbs || b.total - a.total);
-  const melhoresComb = combinacoes.slice(0, 10);
-
-  // Montar resultado principal
-  let html = `<strong>Produto:</strong> ${produtoBase}<br/>`;
-  html += `<strong>Quantidade desejada:</strong> ${quantidadeDesejada}<br/>`;
-  html += `<strong>Pallet PG (grande):</strong> ${
-    melhor.usadosPG
-  } x ${padraoPG} = <strong>${
-    melhor.usadosPG * padraoPG
-  }</strong> produtos<br/>`;
-  html += `<strong>Pallet PP (pequeno):</strong> ${
-    melhor.usadosPP
-  } x ${padraoPP} = <strong>${
-    melhor.usadosPP * padraoPP
-  }</strong> produtos<br/>`;
-  html += `<strong>Total em pallets:</strong> ${
-    melhor.usadosPG * padraoPG + melhor.usadosPP * padraoPP
-  }<br/>`;
-  if (melhor.sobra !== 0) {
-    html += `<span style="color: #c62828;"><strong>Sobra:</strong> ${
-      melhor.sobra
-    } (${
-      melhor.sobra > 0 ? "não cabe em pallets padrões" : "excedente"
-    })</span><br/>`;
-  } else {
-    html += `<span style=\"color: #388e3c;\"><strong>Sem sobra!</strong></span><br/>`;
-  }
-  html += `<hr/><strong>Resumo:</strong> ${melhor.usadosPG} PG + ${melhor.usadosPP} PP`;
-  if (melhor.sobra !== 0)
-    html += ` + <span style='color:#c62828;'>${Math.abs(
-      melhor.sobra
-    )} avulso(s) (${melhor.sobra > 0 ? "faltando" : "excedente"})</span>`;
-
-  // Botão para mostrar/ocultar combinações
-  html += `<div style='margin:10px 0;'><button id='btnMostrarCombinacoes' style='font-size:12px;padding:4px 10px;'>Mostrar combinações</button></div>`;
-  html += `<div id='tabelaCombinacoes' style='display:none;'></div>`;
-
-  resultadoDiv.innerHTML = html;
-
-  // Função para montar a tabela de combinações
-  function montarTabelaComb() {
-    let tabela = `<table style='width:100%;font-size:12px;border-collapse:collapse;margin-top:4px;'>`;
-    tabela += `<tr style='background:#e3f2fd;'><th>PP</th><th>PG</th><th>Total</th><th>Sobra</th></tr>`;
-    melhoresComb.forEach((c) => {
-      tabela += `<tr><td>${c.pp}</td><td>${c.pg}</td><td>${
-        c.total
-      }</td><td style='color:${
-        c.sobra === 0 ? "#388e3c" : c.sobra > 0 ? "#c62828" : "#1976d2"
-      };font-weight:bold;'>${c.sobra}</td></tr>`;
-    });
-    tabela += `</table>`;
-    return tabela;
-  }
-
-  // Adicionar evento ao botão
-  document.getElementById("btnMostrarCombinacoes").onclick = function () {
-    const tabelaDiv = document.getElementById("tabelaCombinacoes");
-    if (tabelaDiv.style.display === "none") {
-      tabelaDiv.innerHTML = montarTabelaComb();
-      tabelaDiv.style.display = "block";
-      this.textContent = "Ocultar combinações";
-    } else {
-      tabelaDiv.style.display = "none";
-      this.textContent = "Mostrar combinações";
-    }
-  };
-}
-
-function fecharModalSimuladorBot() {
-  document.getElementById("modalSimuladorBot").style.display = "none";
 }
