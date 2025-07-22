@@ -1,14 +1,23 @@
 import { app, BrowserWindow } from 'electron';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { spawn } from 'child_process';
 
 // Em ES Modules, precisamos recriar __dirname manualmente:
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 let mainWindow;
+let serverProcess;
 
 app.whenReady().then(() => {
+  // Inicia o servidor Node.js
+  serverProcess = spawn(process.platform === 'win32' ? 'node.exe' : 'node', ['server.js'], {
+    cwd: __dirname,
+    stdio: 'inherit',
+    shell: true,
+  });
+
   mainWindow = new BrowserWindow({
     width: 2560,
     height: 1440,
@@ -29,6 +38,7 @@ app.whenReady().then(() => {
 });
 
 app.on("window-all-closed", () => {
+  if (serverProcess) serverProcess.kill();
   if (process.platform !== "darwin") app.quit();
 });
 
