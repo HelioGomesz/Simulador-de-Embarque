@@ -14,9 +14,13 @@ app.whenReady().then(() => {
   // Inicia o servidor Node.js
   serverProcess = spawn(process.platform === 'win32' ? 'node.exe' : 'node', ['server.js'], {
     cwd: __dirname,
-    stdio: 'inherit',
-    shell: true,
+    stdio: 'ignore', // Ignora a saída do servidor no console do Electron
+    detached: true, // Permite que o processo do servidor continue rodando após o Electron fechar
+    shell: false,
   });
+
+  serverProcess.unref(); // Permite que o processo do servidor continue rodando independentemente do Electron
+
 
   mainWindow = new BrowserWindow({
     width: 2560,
@@ -25,6 +29,7 @@ app.whenReady().then(() => {
     webPreferences: {
       preload: path.join(__dirname, "TelaIniciar", "PaginaIniciar.js"),
       nodeIntegration: true, // Só use se você realmente precisa disso (cuidado com segurança)
+      autohideMenuBar: true, // Oculta a barra de menu automaticamente
     },
   });
 
@@ -51,6 +56,7 @@ app.on("activate", () => {
       webPreferences: {
         preload: path.join(__dirname, "TelaIniciar", "PaginaIniciar.js"),
         nodeIntegration: true,
+        autohideMenuBar: true, // Oculta a barra de menu automaticamente
       },
     });
 
