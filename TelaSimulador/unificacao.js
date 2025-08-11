@@ -1,154 +1,159 @@
 // ===Função para unificar pallets fisicamente (PP + PG = um só pallet)===
 function unificarPalletsFisicamente(produto, quantidade, peso) {
-  const dadosProduto = produtos[produto];
-  const quantidadePP = dadosProduto.PP.quantidade;
-  const pesoPP = dadosProduto.PP.peso;
-  const quantidadePG = dadosProduto.PG.quantidade;
-  const pesoPG = dadosProduto.PG.peso;
-
-  // Soma dos valores PP + PG
-  const quantidadeUnificada = quantidadePP + quantidadePG;
-  const pesoUnificado = pesoPP + pesoPG;
-
-  // Usar o cubo selecionado como pallet pequeno
-  const palletPequeno = window.selectedCube;
-
-  // Encontrar o pallet grande correspondente
-  const idPalletPequeno = palletPequeno.getAttribute("id");
-  const numeroPallet = parseInt(idPalletPequeno.substring(1)); // Remove o "P" e pega o número
-  const palletGrande = document.getElementById(`G${numeroPallet + 1}`);
-
-  // Verificar se o pallet grande existe e está vazio
-  if (
-    !palletGrande ||
-    palletGrande.hasAttribute("data-tipo") ||
-    palletGrande.classList.contains("absorvido-permanente")
-  ) {
-    alert(
-      `É necessário que o pallet ${
-        palletGrande
-          ? palletGrande.getAttribute("id")
-          : "G" + (numeroPallet + 1)
-      } esteja vazio para unificação!`
+  // Permitir multiseleção de pallets pequenos para unificação
+  let palletsPequenos = [];
+  if (window.selectedCubes && window.selectedCubes.length > 0) {
+    palletsPequenos = window.selectedCubes.filter((cube) =>
+      cube.getAttribute("id").startsWith("P")
     );
+  } else if (window.selectedCube) {
+    palletsPequenos = [window.selectedCube];
+  }
+
+  if (!palletsPequenos.length) {
+    alert("Selecione ao menos um pallet pequeno para unificar.");
     return;
   }
 
-  // Unificar visualmente os dois pallets
-  unificarCubosVisualmente(palletPequeno, palletGrande);
+  palletsPequenos.forEach((palletPequeno) => {
+    const dadosProduto = produtos[produto];
 
-  // Adicionar produto ao pallet pequeno (pallet principal)
-  palletPequeno.setAttribute("data-tipo", "UNIFICADO");
-  palletPequeno.setAttribute("data-produto-especial", produto);
+    // Encontrar o pallet grande correspondente
+    const idPalletPequeno = palletPequeno.getAttribute("id");
+    const numeroPallet = parseInt(idPalletPequeno.substring(1));
+    const palletGrande = document.getElementById(`G${numeroPallet + 1}`);
 
-  // Criar bloco de produto unificado
-  const bloco = document.createElement("div");
-  bloco.className = "produto-bloco produto-especial-unificado";
-  bloco.setAttribute("data-categoria", produto);
-  bloco.innerHTML = `<div>${produto}</div><div class="quantidade-cubo">${quantidadeUnificada}</div>`;
+    // Verificar se o pallet grande existe e está vazio
+    if (
+      !palletGrande ||
+      palletGrande.hasAttribute("data-tipo") ||
+      palletGrande.classList.contains("absorvido-permanente")
+    ) {
+      alert(
+        `É necessário que o pallet ${
+          palletGrande
+            ? palletGrande.getAttribute("id")
+            : "G" + (numeroPallet + 1)
+        } esteja vazio para unificação!`
+      );
+      return;
+    }
 
-  // Adicionar indicador de tipo de pallet unificado
-  const tipoIndicator = document.createElement("div");
-  tipoIndicator.className = "tipo-pallet unificado";
-  tipoIndicator.textContent = "UNIFICADO";
-  palletPequeno.appendChild(tipoIndicator);
+    // Usar valores informados pelo usuário (modal)
+    const quantidadeUnificada = Number(quantidade);
+    const pesoUnificado = Number(peso);
 
-  // Adicionar indicador visual de unificação permanente
-  const indicadorUnificacao = document.createElement("div");
-  indicadorUnificacao.className = "indicador-unificacao-permanente";
-  indicadorUnificacao.innerHTML = `
-          <div style="position: absolute; top: -5px; right: -5px; background: #ff9800; color: white; 
-               border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; 
-               justify-content: center; font-size: 12px; font-weight: bold; z-index: 1000;">
-            🔗
-          </div>
-        `;
-  palletPequeno.appendChild(indicadorUnificacao);
+    // Unificar visualmente os dois pallets
+    unificarCubosVisualmente(palletPequeno, palletGrande);
 
-  palletPequeno.appendChild(bloco);
+    // Adicionar produto ao pallet pequeno (pallet principal)
+    palletPequeno.setAttribute("data-tipo", "UNIFICADO");
+    palletPequeno.setAttribute("data-produto-especial", produto);
 
-  // Aplicar visual de unificação permanente
-  palletPequeno.classList.add("unificado-permanente");
+    // Permitir múltiplos blocos do mesmo produto especial no cubo
+    const bloco = document.createElement("div");
+    bloco.className = "produto-bloco produto-especial-unificado";
+    bloco.setAttribute("data-categoria", produto);
+    bloco.innerHTML = `<div>${produto}</div><div class=\"quantidade-cubo\">${quantidadeUnificada}</div>`;
+    palletPequeno.appendChild(bloco);
+    // Adicionar indicador de tipo de pallet unificado e visual permanente apenas se não existir
+    if (!palletPequeno.querySelector(".tipo-pallet.unificado")) {
+      const tipoIndicator = document.createElement("div");
+      tipoIndicator.className = "tipo-pallet unificado";
+      tipoIndicator.textContent = "UNIFICADO";
+      palletPequeno.appendChild(tipoIndicator);
+    }
+    if (!palletPequeno.querySelector(".indicador-unificacao-permanente")) {
+      const indicadorUnificacao = document.createElement("div");
+      indicadorUnificacao.className = "indicador-unificacao-permanente";
+      indicadorUnificacao.innerHTML = `
+              <div style="position: absolute; top: -5px; right: -5px; background: #ff9800; color: white; 
+                   border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; 
+                   justify-content: center; font-size: 12px; font-weight: bold; z-index: 1000;">
+                🔗
+              </div>
+            `;
+      palletPequeno.appendChild(indicadorUnificacao);
+    }
 
-  // Marcar pallet grande como absorvido permanentemente
-  palletGrande.classList.add("absorvido-permanente");
-  palletGrande.style.opacity = "0.3";
-  palletGrande.style.pointerEvents = "none";
+    // Aplicar visual de unificação permanente
+    palletPequeno.classList.add("unificado-permanente");
 
-  // Adicionar indicador de absorção permanente
-  const indicadorAbsorcao = document.createElement("div");
-  indicadorAbsorcao.className = "indicador-absorcao-permanente";
-  indicadorAbsorcao.innerHTML = `
-          <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-               background: rgba(255, 152, 0, 0.9); color: white; padding: 5px; border-radius: 4px; 
-               font-size: 10px; font-weight: bold; z-index: 1000;">
-            UNIFICADO
-          </div>
-        `;
-  palletGrande.appendChild(indicadorAbsorcao);
+    // Marcar pallet grande como absorvido permanentemente
+    palletGrande.classList.add("absorvido-permanente");
+    palletGrande.style.opacity = "0.3";
+    palletGrande.style.pointerEvents = "none";
 
-  // Atualizar contador de produtos
-  atualizarContadorProdutos(palletPequeno);
+    // Adicionar indicador de absorção permanente
+    const indicadorAbsorcao = document.createElement("div");
+    indicadorAbsorcao.className = "indicador-absorcao-permanente";
+    indicadorAbsorcao.innerHTML = `
+            <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+                 background: rgba(255, 152, 0, 0.9); color: white; padding: 5px; border-radius: 4px; 
+                 font-size: 10px; font-weight: bold; z-index: 1000;">
+              UNIFICADO
+            </div>
+          `;
+    palletGrande.appendChild(indicadorAbsorcao);
 
-  // Adicionar à tabela
-  const table = document.getElementById("tabela-cupomList");
-  const row = table.insertRow();
-  row.setAttribute("data-id", palletPequeno.getAttribute("id"));
-  row.setAttribute("data-produto", produto);
-  row.classList.add("ativo", "unificado");
+    // Atualizar contador de produtos
+    atualizarContadorProdutos(palletPequeno);
 
-  // Calcular valor do produto unificado
-  const precoUnitario = dadosProduto.PP.precoUnitario; // Mesmo preço para PP e PG
-  const valorUnificado = quantidadeUnificada * precoUnitario;
+    // Adicionar à tabela (permitir múltiplas linhas para o mesmo cubo/produto)
+    const table = document.getElementById("tabela-cupomList");
+    const row = table.insertRow();
+    row.setAttribute("data-id", palletPequeno.getAttribute("id"));
+    row.setAttribute("data-produto", produto);
+    row.classList.add("ativo", "unificado");
 
-  row.innerHTML = `
-          <td>${palletPequeno.getAttribute("id")} + ${palletGrande.getAttribute(
-    "id"
-  )} (UNIFICADO)</td>
-          <td>${produto}</td>
-          <td>${quantidadeUnificada}</td>
-          <td>${pesoUnificado.toFixed(2)}</td>
-          <td>${formatarMoeda(valorUnificado)}</td>
-          <td><button onclick="removeEntry(this)">Excluir</button></td>
-        `;
+    // Calcular valor do produto unificado
+    const precoUnitario = dadosProduto.PP.precoUnitario; // Mesmo preço para PP e PG
+    const valorUnificado = quantidadeUnificada * precoUnitario;
 
-  // Atualizar totais
-  totalQuantidade += quantidadeUnificada;
-  totalPeso += pesoUnificado;
-  totalValor += valorUnificado; // NOVO: adicionar ao valor total
-  document.getElementById("Quantidade-container").innerText =
-    totalQuantidade.toFixed(2);
-  document.getElementById("peso-container").innerText = totalPeso.toFixed(2);
-  atualizarValorTotalComOuSemMarkup();
+    row.innerHTML = `
+            <td>${palletPequeno.getAttribute(
+              "id"
+            )} + ${palletGrande.getAttribute("id")} (UNIFICADO)</td>
+            <td>${produto}</td>
+            <td>${quantidadeUnificada}</td>
+            <td>${pesoUnificado.toFixed(2)}</td>
+            <td>${formatarMoeda(valorUnificado)}</td>
+            <td><button onclick=\"removeEntry(this)\">Excluir</button></td>
+          `;
 
-  // Cubagem
-  const cubagemPP = dadosProduto.PP.cubagem;
-  const cubagemPG = dadosProduto.PG.cubagem;
-  const cubagemUnificada = cubagemPP + cubagemPG;
-  cubagemOcupada += cubagemUnificada;
+    // Atualizar totais
+    totalQuantidade += quantidadeUnificada;
+    totalPeso += pesoUnificado;
+    totalValor += valorUnificado;
+    document.getElementById("Quantidade-container").innerText =
+      totalQuantidade.toFixed(2);
+    document.getElementById("peso-container").innerText = totalPeso.toFixed(2);
+    atualizarValorTotalComOuSemMarkup();
 
-  const ocupacao = (cubagemOcupada / cubagemTotal) * 100;
-  document.getElementById("ocupacao-container").innerText =
-    ocupacao.toFixed(2) + "%";
+    // Cubagem proporcional ao valor informado
+    let cubagemProduto = 0;
+    if (dadosProduto) {
+      const cubagemReferencia =
+        dadosProduto.PP.cubagem + dadosProduto.PG.cubagem;
+      const quantidadeReferencia =
+        dadosProduto.PP.quantidade + dadosProduto.PG.quantidade;
+      cubagemProduto =
+        (quantidadeUnificada * cubagemReferencia) / quantidadeReferencia;
+      cubagemOcupada += cubagemProduto;
+    }
+    const ocupacao = (cubagemOcupada / cubagemTotal) * 100;
+    document.getElementById("ocupacao-container").innerText =
+      ocupacao.toFixed(2) + "%";
 
-  // Volume total da unificação: quantidade total dividido pelo maior padrão CX (PP ou PG)
-  const padraoCxPP = dadosProduto.PP.padraoCx || 1;
-  const padraoCxPG = dadosProduto.PG.padraoCx || 1;
-  const padraoCxMaior = Math.max(padraoCxPP, padraoCxPG);
-  const volumeUnificado = Math.ceil(quantidadeUnificada / padraoCxMaior);
-  totalVolume += volumeUnificado;
-  document.getElementById("volumeTotal-container").innerText =
-    totalVolume.toFixed(2);
-
-  alert(
-    `Pallets unificados fisicamente!\n\nPallet ${palletPequeno.getAttribute(
-      "id"
-    )} + ${palletGrande.getAttribute(
-      "id"
-    )}\nQuantidade PP: ${quantidadePP} | Quantidade PG: ${quantidadePG}\nQuantidade Total: ${quantidadeUnificada}\nPeso Total: ${pesoUnificado.toFixed(
-      2
-    )}kg`
-  );
+    // Volume total da unificação: quantidade total dividido pelo maior padrão CX (PP ou PG)
+    const padraoCxPP = dadosProduto.PP.padraoCx || 1;
+    const padraoCxPG = dadosProduto.PG.padraoCx || 1;
+    const padraoCxMaior = Math.max(padraoCxPP, padraoCxPG);
+    const volumeUnificado = Math.ceil(quantidadeUnificada / padraoCxMaior);
+    totalVolume += volumeUnificado;
+    document.getElementById("volumeTotal-container").innerText =
+      totalVolume.toFixed(2);
+  });
 }
 
 // ===Função para unificar visualmente os cubos===
