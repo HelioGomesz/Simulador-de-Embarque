@@ -145,7 +145,6 @@ function unificarPalletsFisicamente(produto, quantidade, peso) {
     document.getElementById("ocupacao-container").innerText =
       ocupacao.toFixed(2) + "%";
 
-<<<<<<< HEAD
     // Volume total da unificação: quantidade total dividido pelo maior padrão CX (PP ou PG)
     const padraoCxPP = dadosProduto.PP.padraoCx || 1;
     const padraoCxPG = dadosProduto.PG.padraoCx || 1;
@@ -155,17 +154,6 @@ function unificarPalletsFisicamente(produto, quantidade, peso) {
     document.getElementById("volumeTotal-container").innerText =
       totalVolume.toFixed(2);
   });
-=======
-  alert(
-    `Pallets unificados fisicamente!\n\nPallet ${palletPequeno.getAttribute(
-      "id"
-    )} + ${palletGrande.getAttribute(
-      "id"
-    )}\nQuantidade PP: ${quantidadePP} | Quantidade PG: ${quantidadePG}\nQuantidade Total: ${quantidadeUnificada}\nPeso Total: ${pesoUnificado.toFixed(
-      2
-    )}kg`
-  );
->>>>>>> parent of 2e72c84 (:ok_hand: feat - Calculo de volume de unificação e correção da cubagem LM0001-8000)
 }
 
 // ===Função para unificar visualmente os cubos===
