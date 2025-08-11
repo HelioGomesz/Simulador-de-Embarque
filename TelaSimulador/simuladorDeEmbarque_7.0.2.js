@@ -153,12 +153,15 @@ function updateUnifyButton() {
     document.body.appendChild(unifyBtn);
   }
 
-  // Mostrar apenas se há exatamente 1 cubo pequeno selecionado e o par grande está vazio
+  // Mostrar se há pelo menos 1 pallet pequeno selecionado, todos aptos para unificação
+  const palletsPequenos = selectedCubes.filter((cube) =>
+    cube.getAttribute("id").startsWith("P")
+  );
   const canUnify =
-    selectedCubes.length === 1 &&
-    selectedCubes[0].getAttribute("id").startsWith("P") &&
-    !selectedCubes[0].hasAttribute("data-tipo") &&
-    isPalletGrandeVazio(selectedCubes[0]);
+    palletsPequenos.length > 0 &&
+    palletsPequenos.every(
+      (cube) => !cube.hasAttribute("data-tipo") && isPalletGrandeVazio(cube)
+    );
 
   unifyBtn.style.display = canUnify ? "block" : "none";
 }
@@ -184,8 +187,19 @@ function showUnifyModal() {
   const produtoSelect = document.getElementById("produto");
   produtoSelect.value = "LM0008-20000840";
 
-  // Preencher valores padrões
-  preencherValoresPadraoModal("LM0008-20000840");
+  // Preencher valores padrões SOMADOS para unificação
+  const dadosProduto = produtos["LM0008-20000840"];
+  if (dadosProduto) {
+    const quantidadeUnificada =
+      (dadosProduto.PP.quantidade || 0) + (dadosProduto.PG.quantidade || 0);
+    document.getElementById("quantidade").value = quantidadeUnificada;
+    document.getElementById("peso").value = (
+      (dadosProduto.PP.peso || 0) + (dadosProduto.PG.peso || 0)
+    ).toFixed(2);
+  } else {
+    document.getElementById("quantidade").value = "";
+    document.getElementById("peso").value = "";
+  }
 
   // Adicionar mensagem especial no modal
   const dicaDiv = document.querySelector(
@@ -378,36 +392,27 @@ document.getElementById("quantidade").addEventListener("input", function () {
   if (!produtoSelecionado || isNaN(novaQuantidade) || !selectedCubes.length)
     return;
 
-  // Só permitir cálculo automático se houver apenas 1 cubo selecionado
-  if (selectedCubes.length > 1) {
-    return; // Para múltiplos cubos, não fazer cálculo automático
-  }
-
   const dadosProduto = produtos[produtoSelecionado];
   if (!dadosProduto) return;
 
-  const idCube = selectedCubes[0].getAttribute("id");
-  const isPequeno = idCube.startsWith("P");
-
-  // Obter dados de referência do produto
-  const dadosReferencia = isPequeno ? dadosProduto.PP : dadosProduto.PG;
-  const quantidadeReferencia = dadosReferencia.quantidade;
-  const pesoReferencia = dadosReferencia.peso;
-
-  // Adicionar efeito visual
-  const pesoField = document.getElementById("peso");
-  pesoField.classList.add("calculando");
-
-  // Calcular novo peso usando regra de três
-  const novoPeso = (novaQuantidade * pesoReferencia) / quantidadeReferencia;
-
-  // Atualizar campo de peso
-  pesoField.value = novoPeso.toFixed(2);
-
-  // Remover efeito visual após um breve delay
-  setTimeout(() => {
-    pesoField.classList.remove("calculando");
-  }, 300);
+  // Para todos os cubos selecionados, calcular e atualizar o peso
+  selectedCubes.forEach((cube) => {
+    const idCube = cube.getAttribute("id");
+    const isPequeno = idCube.startsWith("P");
+    const dadosReferencia = isPequeno ? dadosProduto.PP : dadosProduto.PG;
+    const quantidadeReferencia = dadosReferencia.quantidade;
+    const pesoReferencia = dadosReferencia.peso;
+    // Adicionar efeito visual
+    const pesoField = document.getElementById("peso");
+    pesoField.classList.add("calculando");
+    // Calcular novo peso usando regra de três
+    const novoPeso = (novaQuantidade * pesoReferencia) / quantidadeReferencia;
+    // Atualizar campo de peso
+    pesoField.value = novoPeso.toFixed(2);
+    setTimeout(() => {
+      pesoField.classList.remove("calculando");
+    }, 300);
+  });
 
   // Verificar limite após alterar quantidade
   verificarLimiteModal();
@@ -421,36 +426,27 @@ document.getElementById("peso").addEventListener("input", function () {
 
   if (!produtoSelecionado || isNaN(novoPeso) || !selectedCubes.length) return;
 
-  // Só permitir cálculo automático se houver apenas 1 cubo selecionado
-  if (selectedCubes.length > 1) {
-    return; // Para múltiplos cubos, não fazer cálculo automático
-  }
-
   const dadosProduto = produtos[produtoSelecionado];
   if (!dadosProduto) return;
 
-  const idCube = selectedCubes[0].getAttribute("id");
-  const isPequeno = idCube.startsWith("P");
-
-  // Obter dados de referência do produto
-  const dadosReferencia = isPequeno ? dadosProduto.PP : dadosProduto.PG;
-  const quantidadeReferencia = dadosReferencia.quantidade;
-  const pesoReferencia = dadosReferencia.peso;
-
-  // Adicionar efeito visual
-  const quantidadeField = document.getElementById("quantidade");
-  quantidadeField.classList.add("calculando");
-
-  // Calcular nova quantidade usando regra de três
-  const novaQuantidade = (novoPeso * quantidadeReferencia) / pesoReferencia;
-
-  // Atualizar campo de quantidade
-  quantidadeField.value = Math.round(novaQuantidade);
-
-  // Remover efeito visual após um breve delay
-  setTimeout(() => {
-    quantidadeField.classList.remove("calculando");
-  }, 300);
+  // Para todos os cubos selecionados, calcular e atualizar a quantidade
+  selectedCubes.forEach((cube) => {
+    const idCube = cube.getAttribute("id");
+    const isPequeno = idCube.startsWith("P");
+    const dadosReferencia = isPequeno ? dadosProduto.PP : dadosProduto.PG;
+    const quantidadeReferencia = dadosReferencia.quantidade;
+    const pesoReferencia = dadosReferencia.peso;
+    // Adicionar efeito visual
+    const quantidadeField = document.getElementById("quantidade");
+    quantidadeField.classList.add("calculando");
+    // Calcular nova quantidade usando regra de três
+    const novaQuantidade = (novoPeso * quantidadeReferencia) / pesoReferencia;
+    // Atualizar campo de quantidade
+    quantidadeField.value = Math.round(novaQuantidade);
+    setTimeout(() => {
+      quantidadeField.classList.remove("calculando");
+    }, 300);
+  });
 
   // Verificar limite após alterar peso
   verificarLimiteModal();
@@ -474,23 +470,27 @@ function addEntry() {
     return;
   }
 
-  // Se apenas 1 cubo está selecionado, verificar lógica de unificação especial
+  // Se for produto especial, permitir multiseleção para unificação
+  if (isProdutoEspecial(produto)) {
+    // Para compatibilidade, setar window.selectedCubes
+    window.selectedCubes = selectedCubes;
+    unificarPalletsFisicamente(produto, quantidade, peso);
+    // Exibir alerta de confirmação apenas uma vez para toda a operação
+    alert(
+      `Produto ${produto} unificado com pallet existente!\nQuantidade total atualizada.`
+    );
+    closeModal();
+    return;
+  }
+
+  // Se apenas 1 cubo está selecionado, lógica normal
   if (selectedCubes.length === 1) {
     const cube = selectedCubes[0];
     window.selectedCube = cube; // para compatibilidade com funções existentes
 
-    // Verificar se é um produto especial que deve ser unificado
+    // Verificar se é um produto especial que deve ser unificado (caso já exista)
     if (unificarPalletsEspeciais(produto, quantidade, peso)) {
-      alert(
-        `Produto ${produto} unificado com pallet existente!\nQuantidade total atualizada.`
-      );
-      closeModal();
-      return;
-    }
-
-    // Verificar se é primeira inserção de produto especial
-    if (isProdutoEspecial(produto)) {
-      unificarPalletsFisicamente(produto, quantidade, peso);
+      // Alerta removido para evitar múltiplas confirmações
       closeModal();
       return;
     }
@@ -588,7 +588,7 @@ function addEntry() {
     return;
   }
 
-  // LÓGICA PARA MÚLTIPLOS CUBOS: Usar valores padrões para cada cubo
+  // LÓGICA PARA MÚLTIPLOS CUBOS: Usar os valores informados pelo usuário para cada cubo
   selectedCubes.forEach((cube) => {
     const idCube = cube.getAttribute("id");
     const categoria = produto;
@@ -596,17 +596,9 @@ function addEntry() {
     const tipoPallet = isPequeno ? "PP" : "PG";
     cube.setAttribute("data-tipo", tipoPallet);
 
-    // Usar valor padrão do produto para cada cubo
-    let quantidadeExibir = quantidade;
-    let pesoExibir = peso;
-    if (produtos[produto]) {
-      quantidadeExibir = isPequeno
-        ? produtos[produto].PP.quantidade
-        : produtos[produto].PG.quantidade;
-      pesoExibir = isPequeno
-        ? produtos[produto].PP.peso
-        : produtos[produto].PG.peso;
-    }
+    // Usar os valores informados pelo usuário (quantidade e peso do modal)
+    const quantidadeExibir = quantidade;
+    const pesoExibir = peso;
 
     // Criar bloco de produto
     const bloco = document.createElement("div");
@@ -658,9 +650,14 @@ function addEntry() {
     // Cubagem correta por produto e tipo de pallet
     let cubagemProduto = 0;
     if (produtos[produto]) {
-      cubagemProduto = isPequeno
-        ? produtos[produto].PP.cubagem
-        : produtos[produto].PG.cubagem;
+      // Proporcional à quantidade informada
+      const dadosReferencia = isPequeno
+        ? produtos[produto].PP
+        : produtos[produto].PG;
+      const quantidadeReferencia = dadosReferencia.quantidade;
+      const cubagemReferencia = dadosReferencia.cubagem;
+      cubagemProduto =
+        (quantidadeExibir * cubagemReferencia) / quantidadeReferencia;
       cubagemOcupada += cubagemProduto;
     }
     const ocupacao = (cubagemOcupada / cubagemTotal) * 100;
