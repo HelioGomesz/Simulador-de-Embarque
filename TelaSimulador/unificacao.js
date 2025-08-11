@@ -423,9 +423,18 @@ function adicionarProdutoEspecialUnificado(produto, quantidade, peso) {
   document.getElementById("ocupacao-container").innerText =
     ocupacao.toFixed(2) + "%";
 
+  // Volume total da unificação: quantidade total dividido pelo maior padrão CX (PP ou PG)
+  const padraoCxPP = dadosProduto.PP.padraoCx || 1;
+  const padraoCxPG = dadosProduto.PG.padraoCx || 1;
+  const padraoCxMaior = Math.max(padraoCxPP, padraoCxPG);
+  const volumeUnificado = Math.ceil(quantidadeUnificada / padraoCxMaior);
+  totalVolume += volumeUnificado;
+  document.getElementById("volumeTotal-container").innerText =
+    totalVolume.toFixed(2);
+
   alert(
     `Produto especial ${produto} adicionado com visual unificado!\n\nQuantidade PP: ${quantidadePP} | Quantidade PG: ${quantidadePG}\nQuantidade Total: ${quantidadeUnificada}\nPeso Total: ${pesoUnificado.toFixed(
       2
-    )}kg`
+    )}kg\nVolume Total: ${volumeUnificado}`
   );
 }
