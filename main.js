@@ -26,10 +26,10 @@ app.whenReady().then(() => {
     width: 2560,
     height: 1440,
     icon: path.join(__dirname, "icon.ico"),
+    autoHideMenuBar: true, // Oculta a barra de menu automaticamente
     webPreferences: {
       preload: path.join(__dirname, "TelaIniciar", "PaginaIniciar.js"),
       nodeIntegration: true, // Só use se você realmente precisa disso (cuidado com segurança)
-      autohideMenuBar: true, // Oculta a barra de menu automaticamente
     },
   });
 
@@ -53,10 +53,11 @@ app.on("activate", () => {
       width: 1200,
       height: 800,
       icon: path.join(__dirname, "icon.ico"),
+      autoHideMenuBar: true, // Oculta a barra de menu automaticamente
       webPreferences: {
         preload: path.join(__dirname, "TelaIniciar", "PaginaIniciar.js"),
         nodeIntegration: true,
-        autohideMenuBar: true, // Oculta a barra de menu automaticamente
+
       },
     });
 
