@@ -151,6 +151,7 @@ function unificarPalletsFisicamente(produto, quantidade, peso) {
   );
 }
 
+
 // ===Função para unificar visualmente os cubos===
 function unificarCubosVisualmente(cuboDestino, cuboOrigem) {
   // Adicionar classe de unificação ao cubo destino
