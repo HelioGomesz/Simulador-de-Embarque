@@ -118,6 +118,12 @@ function toggleCubeSelection(cube) {
   }
   updateAddProductButton();
   atualizarMensagemModal();
+
+  // Manter campos sempre habilitados para entrada manual
+  if (document.getElementById("modal").style.display === "block") {
+    document.getElementById("quantidade").disabled = false;
+    document.getElementById("peso").disabled = false;
+  }
 }
 
 // ===Atualiza visibilidade do botão flutuante de adicionar produto===
@@ -153,17 +159,37 @@ function updateUnifyButton() {
     document.body.appendChild(unifyBtn);
   }
 
-  // Mostrar se há pelo menos 1 pallet pequeno selecionado, todos aptos para unificação
-  const palletsPequenos = selectedCubes.filter((cube) =>
-    cube.getAttribute("id").startsWith("P")
-  );
-  const canUnify =
-    palletsPequenos.length > 0 &&
-    palletsPequenos.every(
-      (cube) => !cube.hasAttribute("data-tipo") && isPalletGrandeVazio(cube)
-    );
+  // Verificar se pode unificar um único par
+  const canUnifySingle =
+    selectedCubes.length === 1 &&
+    selectedCubes[0].getAttribute("id").startsWith("P") &&
+    !selectedCubes[0].hasAttribute("data-tipo") &&
+    isPalletGrandeVazio(selectedCubes[0]);
 
-  unifyBtn.style.display = canUnify ? "block" : "none";
+  // Verificar se pode unificar múltiplos pares
+  const canUnifyMultiple = podeUnificarMultiplos();
+
+  if (canUnifySingle) {
+    // Unificação única
+    unifyBtn.style.display = "block";
+    unifyBtn.title = "Unificar Pallet (Produtos Especiais)";
+    unifyBtn.onclick = showUnifyModal;
+  } else if (canUnifyMultiple) {
+    // Unificação múltipla
+    unifyBtn.style.display = "block";
+    unifyBtn.title = "Unificar Múltiplos Pallets (Produtos Especiais)";
+    unifyBtn.onclick = showMultiUnifyModal;
+    // Mudar visual para indicar unificação múltipla
+    unifyBtn.style.background = "linear-gradient(45deg, #ff9800, #ff5722)";
+    unifyBtn.innerHTML =
+      '<span style="font-size:1.7rem;line-height:1;display:flex;align-items:center;justify-content:center;">🔗🔗</span>';
+  } else {
+    unifyBtn.style.display = "none";
+    // Restaurar visual padrão
+    unifyBtn.style.background = "";
+    unifyBtn.innerHTML =
+      '<span style="font-size:1.7rem;line-height:1;display:flex;align-items:center;justify-content:center;">🔗</span>';
+  }
 }
 
 // ===Verifica se o pallet grande correspondente está vazio===
@@ -218,9 +244,34 @@ function showUnifyModal() {
 function showMultiAddModal() {
   document.getElementById("modal").style.display = "block";
   document.getElementById("produto").value = "";
-  document.getElementById("quantidade").value = "";
-  document.getElementById("peso").value = "";
+
+  // Para multiseleção, manter campos editáveis mas não limpar valores
+  if (selectedCubes.length > 1) {
+    // Não limpar campos - eles serão preenchidos automaticamente quando produto for selecionado
+    document.getElementById("quantidade").disabled = false;
+    document.getElementById("peso").disabled = false;
+  } else {
+    // Para seleção única, habilitar campos
+    document.getElementById("quantidade").disabled = false;
+    document.getElementById("peso").disabled = false;
+  }
+
   document.getElementById("limite-indicador").style.display = "none";
+
+  // Se há multiseleção, mostrar mensagem específica
+  if (selectedCubes.length > 1) {
+    const dicaDiv = document.querySelector(
+      '.modal-content div[style*="background-color: #e3f2fd"]'
+    );
+    if (dicaDiv) {
+      dicaDiv.innerHTML = `
+        💡 <strong>Multiseleção Ativa:</strong> ${selectedCubes.length} pallets selecionados<br />
+        📋 <strong>Comportamento:</strong> Cada tipo de pallet receberá seus próprios valores padrões cadastrados<br />
+        ✏️ <strong>Campos:</strong> Quantidade e peso mostram os padrões que serão aplicados
+      `;
+    }
+  }
+
   atualizarMensagemModal();
 }
 
@@ -233,15 +284,70 @@ function preencherValoresPadraoModal(produtoSelecionado) {
     document.getElementById("peso").value = "";
     return;
   }
-  // Usa o tipo do primeiro cubo selecionado
-  const idCube = selectedCubes[0].getAttribute("id");
-  const isPequeno = idCube.startsWith("P");
-  if (isPequeno) {
-    document.getElementById("quantidade").value = dadosProduto.PP.quantidade;
-    document.getElementById("peso").value = dadosProduto.PP.peso;
-  } else {
-    document.getElementById("quantidade").value = dadosProduto.PG.quantidade;
-    document.getElementById("peso").value = dadosProduto.PG.peso;
+
+  // Se há apenas um cubo selecionado, usar valores padrões normais
+  if (selectedCubes.length === 1) {
+    const idCube = selectedCubes[0].getAttribute("id");
+    const isPequeno = idCube.startsWith("P");
+    if (isPequeno) {
+      document.getElementById("quantidade").value = dadosProduto.PP.quantidade;
+      document.getElementById("peso").value = dadosProduto.PP.peso;
+    } else {
+      document.getElementById("quantidade").value = dadosProduto.PG.quantidade;
+      document.getElementById("peso").value = dadosProduto.PG.peso;
+    }
+    return;
+  }
+
+  // Para multiseleção: mostrar valores padrões de cada tipo
+  let valoresPP = null;
+  let valoresPG = null;
+
+  // Verificar se há cubos pequenos e grandes selecionados
+  const cubosPequenos = selectedCubes.filter((cube) =>
+    cube.getAttribute("id").startsWith("P")
+  );
+  const cubosGrandes = selectedCubes.filter((cube) =>
+    cube.getAttribute("id").startsWith("G")
+  );
+
+  if (cubosPequenos.length > 0) {
+    valoresPP = {
+      quantidade: dadosProduto.PP.quantidade,
+      peso: dadosProduto.PP.peso,
+    };
+  }
+
+  if (cubosGrandes.length > 0) {
+    valoresPG = {
+      quantidade: dadosProduto.PG.quantidade,
+      peso: dadosProduto.PG.peso,
+    };
+  }
+
+  // Se há ambos os tipos, mostrar que cada tipo terá seus próprios valores padrões
+  if (valoresPP && valoresPG) {
+    document.getElementById(
+      "quantidade"
+    ).value = `PP: ${valoresPP.quantidade} | PG: ${valoresPG.quantidade}`;
+    document.getElementById(
+      "peso"
+    ).value = `PP: ${valoresPP.peso} | PG: ${valoresPG.peso}`;
+    // Manter campos habilitados para entrada manual (opcional)
+    document.getElementById("quantidade").disabled = false;
+    document.getElementById("peso").disabled = false;
+  } else if (valoresPP) {
+    document.getElementById("quantidade").value = valoresPP.quantidade;
+    document.getElementById("peso").value = valoresPP.peso;
+    // Habilitar campos para seleção única
+    document.getElementById("quantidade").disabled = false;
+    document.getElementById("peso").disabled = false;
+  } else if (valoresPG) {
+    document.getElementById("quantidade").value = valoresPG.quantidade;
+    document.getElementById("peso").value = valoresPG.peso;
+    // Habilitar campos para seleção única
+    document.getElementById("quantidade").disabled = false;
+    document.getElementById("peso").disabled = false;
   }
 }
 
@@ -345,6 +451,11 @@ document.querySelectorAll(".cube").forEach((cube) => {
 function closeModal() {
   document.getElementById("modal").style.display = "none";
   document.getElementById("limite-indicador").style.display = "none";
+
+  // Reabilitar campos
+  document.getElementById("quantidade").disabled = false;
+  document.getElementById("peso").disabled = false;
+
   clearCubeSelection();
 }
 
@@ -352,6 +463,12 @@ function clearCubeSelection() {
   selectedCubes.forEach((cube) => cube.classList.remove("selecionado"));
   selectedCubes = [];
   updateAddProductButton();
+
+  // Reabilitar campos quando não há seleção
+  if (document.getElementById("modal").style.display === "block") {
+    document.getElementById("quantidade").disabled = false;
+    document.getElementById("peso").disabled = false;
+  }
 }
 
 // Inserir dados automáticos no form (Modal) conforme produto selecionado
@@ -367,14 +484,44 @@ document.getElementById("produto").addEventListener("change", function () {
     return;
   }
 
-  // Usar o primeiro cubo selecionado como referência
-  const idCube = selectedCubes[0].getAttribute("id");
-  const isPequeno = idCube.startsWith("P");
+  // Para multiseleção, verificar se há cubos de tipos diferentes
+  const cubosPequenos = selectedCubes.filter((cube) =>
+    cube.getAttribute("id").startsWith("P")
+  );
+  const cubosGrandes = selectedCubes.filter((cube) =>
+    cube.getAttribute("id").startsWith("G")
+  );
 
-  if (isPequeno) {
+  if (selectedCubes.length === 1) {
+    // Seleção única: usar o tipo do cubo selecionado
+    const idCube = selectedCubes[0].getAttribute("id");
+    const isPequeno = idCube.startsWith("P");
+
+    if (isPequeno) {
+      document.getElementById("quantidade").value = dadosProduto.PP.quantidade;
+      document.getElementById("peso").value = dadosProduto.PP.peso;
+    } else {
+      document.getElementById("quantidade").value = dadosProduto.PG.quantidade;
+      document.getElementById("peso").value = dadosProduto.PG.peso;
+    }
+  } else if (cubosPequenos.length > 0 && cubosGrandes.length > 0) {
+    // Multiseleção com tipos mistos: usar o padrão do primeiro cubo como referência
+    const primeiroCubo = selectedCubes[0];
+    const isPrimeiroPequeno = primeiroCubo.getAttribute("id").startsWith("P");
+
+    if (isPrimeiroPequeno) {
+      document.getElementById("quantidade").value = dadosProduto.PP.quantidade;
+      document.getElementById("peso").value = dadosProduto.PP.peso;
+    } else {
+      document.getElementById("quantidade").value = dadosProduto.PG.quantidade;
+      document.getElementById("peso").value = dadosProduto.PG.peso;
+    }
+  } else if (cubosPequenos.length > 0) {
+    // Apenas cubos pequenos: usar padrão PP
     document.getElementById("quantidade").value = dadosProduto.PP.quantidade;
     document.getElementById("peso").value = dadosProduto.PP.peso;
-  } else {
+  } else if (cubosGrandes.length > 0) {
+    // Apenas cubos grandes: usar padrão PG
     document.getElementById("quantidade").value = dadosProduto.PG.quantidade;
     document.getElementById("peso").value = dadosProduto.PG.peso;
   }
@@ -388,7 +535,6 @@ document.getElementById("produto").addEventListener("change", function () {
 document.getElementById("quantidade").addEventListener("input", function () {
   const produtoSelecionado = document.getElementById("produto").value;
   const novaQuantidade = parseFloat(this.value);
-
   if (!produtoSelecionado || isNaN(novaQuantidade) || !selectedCubes.length)
     return;
 
@@ -414,7 +560,6 @@ document.getElementById("quantidade").addEventListener("input", function () {
     }, 300);
   });
 
-  // Verificar limite após alterar quantidade
   verificarLimiteModal();
   atualizarMensagemModal();
 });
@@ -423,7 +568,6 @@ document.getElementById("quantidade").addEventListener("input", function () {
 document.getElementById("peso").addEventListener("input", function () {
   const produtoSelecionado = document.getElementById("produto").value;
   const novoPeso = parseFloat(this.value);
-
   if (!produtoSelecionado || isNaN(novoPeso) || !selectedCubes.length) return;
 
   const dadosProduto = produtos[produtoSelecionado];
@@ -448,7 +592,6 @@ document.getElementById("peso").addEventListener("input", function () {
     }, 300);
   });
 
-  // Verificar limite após alterar peso
   verificarLimiteModal();
   atualizarMensagemModal();
 });
@@ -604,7 +747,7 @@ function addEntry() {
     const bloco = document.createElement("div");
     bloco.className = "produto-bloco";
     bloco.setAttribute("data-categoria", categoria);
-    bloco.innerHTML = `<div>${produto}</div><div class="quantidade-cubo">${quantidadeExibir}</div>`;
+    bloco.innerHTML = `<div>${produto}</div><div class=\"quantidade-cubo\">${quantidadeExibir}</div>`;
 
     // Adicionar indicador de tipo de pallet se não existir
     if (!cube.querySelector(".tipo-pallet")) {
@@ -637,7 +780,7 @@ function addEntry() {
       2
     )}</td><td>${formatarMoeda(
       valorProduto
-    )}</td><td><button onclick="removeEntry(this)">Excluir</button></td>`;
+    )}</td><td><button onclick=\"removeEntry(this)\">Excluir</button></td>`;
 
     totalQuantidade += quantidadeExibir;
     totalPeso += pesoExibir;
@@ -673,9 +816,11 @@ function addEntry() {
     }
     const volumeProduto = Math.ceil(quantidadeExibir / padraoCx);
     totalVolume += volumeProduto;
-    document.getElementById("volumeTotal-container").innerText =
-      totalVolume.toFixed(2);
   });
+
+  // Atualizar volume total
+  document.getElementById("volumeTotal-container").innerText =
+    totalVolume.toFixed(2);
 
   closeModal();
 }
@@ -975,6 +1120,7 @@ function verificarLimiteModal() {
     return;
   }
 
+  // Para multiseleção, usar o primeiro cubo selecionado como referência para verificação de limite
   // Se quantidade está vazia ou inválida, não mostrar indicador
   if (quantidadeInput === "" || isNaN(quantidade) || quantidade <= 0) {
     limiteIndicador.style.display = "none";
@@ -1002,7 +1148,7 @@ function verificarLimiteModal() {
         }
       });
 
-      // Obter padrão do primeiro produto
+      // Obter padrão do primeiro produto baseado no tipo do cubo
       const idCube = selectedCubes[0].getAttribute("id");
       const isPequeno = idCube.startsWith("P");
       const firstProductData = produtos[firstProduct];
@@ -1022,7 +1168,9 @@ function verificarLimiteModal() {
         limiteIndicador.style.border = "1px solid #ef5350";
         limiteIndicador.innerHTML = `
                 ⚠️ <strong>LIMITE EXCEDIDO!</strong><br>
-                Padrão do primeiro produto: ${padraoQuantidade} unidades<br>
+                Padrão do primeiro produto (${
+                  isPequeno ? "PP" : "PG"
+                }): ${padraoQuantidade} unidades<br>
                 Quantidade atual no pallet: ${totalQuantitySameFamily} unidades<br>
                 Quantidade tentando adicionar: ${quantidade} unidades<br>
                 <span style="color: #d32f2f; font-size: 14px;">EXCEDENTE: ${excedente} unidades</span><br>
@@ -1036,7 +1184,9 @@ function verificarLimiteModal() {
         limiteIndicador.style.border = "1px solid #4caf50";
         limiteIndicador.innerHTML = `
                 ✅ <strong>DENTRO DO LIMITE</strong><br>
-                Padrão do primeiro produto: ${padraoQuantidade} unidades<br>
+                Padrão do primeiro produto (${
+                  isPequeno ? "PP" : "PG"
+                }): ${padraoQuantidade} unidades<br>
                 Quantidade atual no pallet: ${totalQuantitySameFamily} unidades<br>
                 Quantidade tentando adicionar: ${quantidade} unidades<br>
                 <span style="color: #388e3c; font-size: 14px;">RESTANTE: ${restante} unidades</span>
@@ -1054,7 +1204,7 @@ function verificarLimiteModal() {
             `;
     }
   } else {
-    // Primeiro produto - mostrar padrão
+    // Primeiro produto - mostrar padrão baseado no tipo do cubo
     const idCube = selectedCubes[0].getAttribute("id");
     const isPequeno = idCube.startsWith("P");
     const produtoData = produtos[produtoSelecionado];
@@ -1068,7 +1218,9 @@ function verificarLimiteModal() {
     limiteIndicador.style.border = "1px solid #2196f3";
     limiteIndicador.innerHTML = `
             📊 <strong>PRIMEIRO PRODUTO</strong><br>
-            Padrão estabelecido: ${padraoQuantidade} unidades<br>
+            Padrão estabelecido (${
+              isPequeno ? "PP" : "PG"
+            }): ${padraoQuantidade} unidades<br>
             Este será o limite máximo para este pallet
           `;
   }
@@ -1085,7 +1237,8 @@ function atualizarMensagemModal() {
     dicaDiv.innerHTML = `
       💡 <strong>Dica:</strong> Selecione pelo menos um pallet para continuar.<br />
       📊 <strong>Limite:</strong> O padrão do primeiro produto define o limite máximo do pallet.<br />
-      🔗 <strong>Unificação:</strong> Produtos LM0008-2000 e LM0012-2400 são automaticamente unificados com visual especial.
+      🔗 <strong>Unificação:</strong> Produtos LM0008-2000 e LM0012-2400 são automaticamente unificados com visual especial.<br />
+      🔗🔗 <strong>Unificação Múltipla:</strong> Selecione múltiplos pares PP+PG para unificação simultânea.
     `;
   } else if (selectedCubes.length === 1) {
     dicaDiv.innerHTML = `
@@ -1095,11 +1248,61 @@ function atualizarMensagemModal() {
       ⚡ <strong>Cálculo Automático:</strong> ATIVO - valores personalizados permitidos.
     `;
   } else {
+    // Verificar se há possibilidade de unificação múltipla
+    const podeUnificar = podeUnificarMultiplos();
+    const cubosPequenos = selectedCubes.filter((cube) =>
+      cube.getAttribute("id").startsWith("P")
+    );
+    const cubosGrandes = selectedCubes.filter((cube) =>
+      cube.getAttribute("id").startsWith("G")
+    );
+
+    let infoValores = "";
+    if (cubosPequenos.length > 0 && cubosGrandes.length > 0) {
+      infoValores = `<br />📋 <strong>Como os valores serão aplicados:</strong><br />
+        • Pallets PP (${cubosPequenos.length}): Receberão quantidade e peso padrões PP do produto<br />
+        • Pallets PG (${cubosGrandes.length}): Receberão quantidade e peso padrões PG do produto<br />
+        💡 <strong>Nota:</strong> Cada tipo de pallet recebe seus próprios valores padrões cadastrados`;
+    } else if (cubosPequenos.length > 0) {
+      infoValores = `<br />📋 <strong>Como os valores serão aplicados:</strong><br />
+        • Pallets PP (${cubosPequenos.length}): Receberão quantidade e peso padrões PP do produto<br />
+        💡 <strong>Nota:</strong> Os campos são preenchidos automaticamente com os valores padrões PP do produto`;
+    } else if (cubosGrandes.length > 0) {
+      infoValores = `<br />📋 <strong>Como os valores serão aplicados:</strong><br />
+        • Pallets PG (${cubosGrandes.length}): Receberão quantidade e peso padrões PG do produto<br />
+        💡 <strong>Nota:</strong> Os campos são preenchidos automaticamente com os valores padrões PG do produto`;
+    }
+
+    let infoUnificacao = "";
+    if (podeUnificar) {
+      // Contar pares válidos para unificação
+      let paresValidos = 0;
+      cubosPequenos.forEach((palletPequeno) => {
+        const idPalletPequeno = palletPequeno.getAttribute("id");
+        const numeroPallet = parseInt(idPalletPequeno.substring(1));
+        const palletGrande = document.getElementById(`G${numeroPallet + 1}`);
+
+        if (
+          palletGrande &&
+          !palletGrande.hasAttribute("data-tipo") &&
+          !palletGrande.classList.contains("absorvido-permanente") &&
+          selectedCubes.includes(palletGrande)
+        ) {
+          paresValidos++;
+        }
+      });
+
+      infoUnificacao = `<br />🔗🔗 <strong>Unificação Múltipla Disponível:</strong><br />
+        • Pares válidos para unificação: ${paresValidos}<br />
+        • Produtos elegíveis: LM0008-2000 e LM0012-2400<br />
+        • Use o botão 🔗🔗 para unificar todos os pares simultaneamente`;
+    }
+
     dicaDiv.innerHTML = `
-      💡 <strong>Dica:</strong> Para múltiplos pallets, os valores padrões serão usados automaticamente.<br />
+      💡 <strong>Dica:</strong> Para múltiplos pallets, cada tipo recebe seus próprios valores padrões cadastrados.<br />
       📊 <strong>Limite:</strong> O padrão do primeiro produto define o limite máximo do pallet.<br />
       🔗 <strong>Unificação:</strong> Produtos LM0008-2000 e LM0012-2400 são automaticamente unificados com visual especial.<br />
-      ⚠️ <strong>Cálculo Automático:</strong> DESATIVADO - use valores padrões para consistência.
+      ✏️ <strong>Valores Padrões:</strong> ATIVOS - cada tipo de pallet recebe seus valores específicos.${infoValores}${infoUnificacao}
     `;
   }
 }

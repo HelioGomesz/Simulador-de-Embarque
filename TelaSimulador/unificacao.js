@@ -156,7 +156,6 @@ function unificarPalletsFisicamente(produto, quantidade, peso) {
   });
 }
 
-
 // ===Função para unificar visualmente os cubos===
 function unificarCubosVisualmente(cuboDestino, cuboOrigem) {
   // Adicionar classe de unificação ao cubo destino
@@ -438,4 +437,384 @@ function adicionarProdutoEspecialUnificado(produto, quantidade, peso) {
       2
     )}kg\nVolume Total: ${volumeUnificado}`
   );
+}
+
+// ===Função para unificar múltiplos pares de pallets fisicamente (Multiseleção)===
+function unificarPalletsMultiplos(produto) {
+  const dadosProduto = produtos[produto];
+  if (!dadosProduto) {
+    alert("Produto não encontrado na base de dados!");
+    return;
+  }
+
+  // Verificar se há seleção múltipla
+  if (selectedCubes.length === 0) {
+    alert("Selecione pelo menos um pallet para unificação!");
+    return;
+  }
+
+  // Separar pallets pequenos e grandes selecionados
+  const palletsPequenos = selectedCubes.filter(
+    (cube) =>
+      cube.getAttribute("id").startsWith("P") &&
+      !cube.hasAttribute("data-tipo") &&
+      !cube.classList.contains("unificado-permanente")
+  );
+
+  const palletsGrandes = selectedCubes.filter(
+    (cube) =>
+      cube.getAttribute("id").startsWith("G") &&
+      !cube.hasAttribute("data-tipo") &&
+      !cube.classList.contains("absorvido-permanente")
+  );
+
+  if (palletsPequenos.length === 0) {
+    alert("Selecione pelo menos um pallet pequeno (P) para unificação!");
+    return;
+  }
+
+  // Encontrar pares válidos para unificação
+  const paresUnificacao = [];
+
+  palletsPequenos.forEach((palletPequeno) => {
+    const idPalletPequeno = palletPequeno.getAttribute("id");
+    const numeroPallet = parseInt(idPalletPequeno.substring(1));
+    const palletGrande = document.getElementById(`G${numeroPallet + 1}`);
+
+    // Verificar se o pallet grande correspondente está disponível
+    if (
+      palletGrande &&
+      !palletGrande.hasAttribute("data-tipo") &&
+      !palletGrande.classList.contains("absorvido-permanente") &&
+      palletsGrandes.includes(palletGrande)
+    ) {
+      paresUnificacao.push({
+        pequeno: palletPequeno,
+        grande: palletGrande,
+      });
+    }
+  });
+
+  if (paresUnificacao.length === 0) {
+    alert(
+      "Nenhum par válido de pallets PP+PG encontrado para unificação!\n\nPara unificar:\n• Selecione pallets pequenos (P) e seus correspondentes grandes (G)\n• Os pallets devem estar vazios\n• Os pares devem ser consecutivos (P1+G2, P3+G4, etc.)"
+    );
+    return;
+  }
+
+  // Confirmar unificação múltipla
+  const confirmacao = confirm(
+    `Confirmar unificação de ${paresUnificacao.length} pares de pallets?\n\n` +
+      `Produto: ${produto}\n` +
+      `Pares a unificar:\n` +
+      paresUnificacao
+        .map(
+          (par) =>
+            `${par.pequeno.getAttribute("id")} + ${par.grande.getAttribute(
+              "id"
+            )}`
+        )
+        .join("\n") +
+      `\n\nCada par receberá:\n` +
+      `• Quantidade: ${
+        dadosProduto.PP.quantidade + dadosProduto.PG.quantidade
+      }\n` +
+      `• Peso: ${(dadosProduto.PP.peso + dadosProduto.PG.peso).toFixed(2)}kg`
+  );
+
+  if (!confirmacao) return;
+
+  // Executar unificação para cada par
+  let totalQuantidadeUnificada = 0;
+  let totalPesoUnificado = 0;
+  let totalValorUnificado = 0;
+  let totalCubagemUnificada = 0;
+  let totalVolumeUnificado = 0;
+
+  paresUnificacao.forEach((par, index) => {
+    const palletPequeno = par.pequeno;
+    const palletGrande = par.grande;
+
+    // Calcular valores unificados para este par
+    const quantidadeUnificada =
+      dadosProduto.PP.quantidade + dadosProduto.PG.quantidade;
+    const pesoUnificado = dadosProduto.PP.peso + dadosProduto.PG.peso;
+    const precoUnitario = dadosProduto.PP.precoUnitario;
+    const valorUnificado = quantidadeUnificada * precoUnitario;
+    const cubagemUnificada = dadosProduto.PP.cubagem + dadosProduto.PG.cubagem;
+
+    // Calcular volume unificado
+    const padraoCxPP = dadosProduto.PP.padraoCx || 1;
+    const padraoCxPG = dadosProduto.PG.padraoCx || 1;
+    const padraoCxMaior = Math.max(padraoCxPP, padraoCxPG);
+    const volumeUnificado = Math.ceil(quantidadeUnificada / padraoCxMaior);
+
+    // Unificar visualmente
+    unificarCubosVisualmente(palletPequeno, palletGrande);
+
+    // Configurar pallet pequeno como unificado
+    palletPequeno.setAttribute("data-tipo", "UNIFICADO");
+    palletPequeno.setAttribute("data-produto-especial", produto);
+    palletPequeno.classList.add("unificado-permanente");
+
+    // Criar bloco de produto unificado
+    const bloco = document.createElement("div");
+    bloco.className = "produto-bloco produto-especial-unificado";
+    bloco.setAttribute("data-categoria", produto);
+    bloco.innerHTML = `<div>${produto}</div><div class="quantidade-cubo">${quantidadeUnificada}</div>`;
+
+    // Adicionar indicadores
+    const tipoIndicator = document.createElement("div");
+    tipoIndicator.className = "tipo-pallet unificado";
+    tipoIndicator.textContent = "UNIFICADO";
+    palletPequeno.appendChild(tipoIndicator);
+
+    const indicadorUnificacao = document.createElement("div");
+    indicadorUnificacao.className = "indicador-unificacao-permanente";
+    indicadorUnificacao.innerHTML = `
+      <div style="position: absolute; top: -5px; right: -5px; background: #ff9800; color: white; 
+           border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; 
+           justify-content: center; font-size: 12px; font-weight: bold; z-index: 1000;">
+        🔗
+      </div>
+    `;
+    palletPequeno.appendChild(indicadorUnificacao);
+    palletPequeno.appendChild(bloco);
+
+    // Configurar pallet grande como absorvido
+    palletGrande.classList.add("absorvido-permanente");
+    palletGrande.style.opacity = "0.3";
+    palletGrande.style.pointerEvents = "none";
+
+    const indicadorAbsorcao = document.createElement("div");
+    indicadorAbsorcao.className = "indicador-absorcao-permanente";
+    indicadorAbsorcao.innerHTML = `
+      <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+           background: rgba(255, 152, 0, 0.9); color: white; padding: 5px; border-radius: 4px; 
+           font-size: 10px; font-weight: bold; z-index: 1000;">
+        UNIFICADO
+      </div>
+    `;
+    palletGrande.appendChild(indicadorAbsorcao);
+
+    // Atualizar contador
+    atualizarContadorProdutos(palletPequeno);
+
+    // Adicionar à tabela
+    const table = document.getElementById("tabela-cupomList");
+    const row = table.insertRow();
+    row.setAttribute("data-id", palletPequeno.getAttribute("id"));
+    row.setAttribute("data-produto", produto);
+    row.classList.add("ativo", "unificado");
+
+    row.innerHTML = `
+      <td>${palletPequeno.getAttribute("id")} + ${palletGrande.getAttribute(
+      "id"
+    )} (UNIFICADO)</td>
+      <td>${produto}</td>
+      <td>${quantidadeUnificada}</td>
+      <td>${pesoUnificado.toFixed(2)}</td>
+      <td>${formatarMoeda(valorUnificado)}</td>
+      <td><button onclick="removeEntry(this)">Excluir</button></td>
+    `;
+
+    // Acumular totais
+    totalQuantidadeUnificada += quantidadeUnificada;
+    totalPesoUnificado += pesoUnificado;
+    totalValorUnificado += valorUnificado;
+    totalCubagemUnificada += cubagemUnificada;
+    totalVolumeUnificado += volumeUnificado;
+  });
+
+  // Atualizar totais globais
+  totalQuantidade += totalQuantidadeUnificada;
+  totalPeso += totalPesoUnificado;
+  totalValor += totalValorUnificado;
+  cubagemOcupada += totalCubagemUnificada;
+  totalVolume += totalVolumeUnificado;
+
+  // Atualizar interface
+  document.getElementById("Quantidade-container").innerText =
+    totalQuantidade.toFixed(2);
+  document.getElementById("peso-container").innerText = totalPeso.toFixed(2);
+  atualizarValorTotalComOuSemMarkup();
+
+  const ocupacao = (cubagemOcupada / cubagemTotal) * 100;
+  document.getElementById("ocupacao-container").innerText =
+    ocupacao.toFixed(2) + "%";
+  document.getElementById("volumeTotal-container").innerText =
+    totalVolume.toFixed(2);
+
+  // Mostrar resumo da unificação múltipla
+  alert(
+    `✅ Unificação múltipla concluída com sucesso!\n\n` +
+      `Produto: ${produto}\n` +
+      `Pares unificados: ${paresUnificacao.length}\n\n` +
+      `Resumo por par:\n` +
+      `• Quantidade PP: ${dadosProduto.PP.quantidade} | Quantidade PG: ${dadosProduto.PG.quantidade}\n` +
+      `• Quantidade Total por par: ${
+        dadosProduto.PP.quantidade + dadosProduto.PG.quantidade
+      }\n` +
+      `• Peso Total por par: ${(
+        dadosProduto.PP.peso + dadosProduto.PG.peso
+      ).toFixed(2)}kg\n\n` +
+      `Totais acumulados:\n` +
+      `• Quantidade Total: ${totalQuantidadeUnificada}\n` +
+      `• Peso Total: ${totalPesoUnificado.toFixed(2)}kg\n` +
+      `• Valor Total: ${formatarMoeda(totalValorUnificado)}`
+  );
+
+  // Limpar seleção e fechar modal
+  clearCubeSelection();
+  closeModal();
+}
+
+// ===Função para verificar se pode unificar múltiplos pallets===
+function podeUnificarMultiplos() {
+  if (selectedCubes.length === 0) return false;
+
+  // Verificar se há pelo menos um pallet pequeno selecionado
+  const palletsPequenos = selectedCubes.filter(
+    (cube) =>
+      cube.getAttribute("id").startsWith("P") &&
+      !cube.hasAttribute("data-tipo") &&
+      !cube.classList.contains("unificado-permanente")
+  );
+
+  if (palletsPequenos.length === 0) return false;
+
+  // Verificar se há pares válidos
+  let paresValidos = 0;
+  palletsPequenos.forEach((palletPequeno) => {
+    const idPalletPequeno = palletPequeno.getAttribute("id");
+    const numeroPallet = parseInt(idPalletPequeno.substring(1));
+    const palletGrande = document.getElementById(`G${numeroPallet + 1}`);
+
+    if (
+      palletGrande &&
+      !palletGrande.hasAttribute("data-tipo") &&
+      !palletGrande.classList.contains("absorvido-permanente") &&
+      selectedCubes.includes(palletGrande)
+    ) {
+      paresValidos++;
+    }
+  });
+
+  return paresValidos > 0;
+}
+
+// ===Função para mostrar modal de unificação múltipla===
+function showMultiUnifyModal() {
+  if (!podeUnificarMultiplos()) {
+    alert(
+      "Para unificação múltipla:\n\n• Selecione pallets pequenos (P) e seus correspondentes grandes (G)\n• Os pallets devem estar vazios\n• Os pares devem ser consecutivos (P1+G2, P3+G4, etc.)\n• Apenas produtos especiais podem ser unificados"
+    );
+    return;
+  }
+
+  // Contar pares válidos
+  const palletsPequenos = selectedCubes.filter(
+    (cube) =>
+      cube.getAttribute("id").startsWith("P") &&
+      !cube.hasAttribute("data-tipo") &&
+      !cube.classList.contains("unificado-permanente")
+  );
+
+  let paresValidos = 0;
+  const paresInfo = [];
+
+  palletsPequenos.forEach((palletPequeno) => {
+    const idPalletPequeno = palletPequeno.getAttribute("id");
+    const numeroPallet = parseInt(idPalletPequeno.substring(1));
+    const palletGrande = document.getElementById(`G${numeroPallet + 1}`);
+
+    if (
+      palletGrande &&
+      !palletGrande.hasAttribute("data-tipo") &&
+      !palletGrande.classList.contains("absorvido-permanente") &&
+      selectedCubes.includes(palletGrande)
+    ) {
+      paresValidos++;
+      paresInfo.push(`${idPalletPequeno} + ${palletGrande.getAttribute("id")}`);
+    }
+  });
+
+  // Mostrar modal de confirmação
+  const confirmacao = confirm(
+    `🔗 Unificação Múltipla de Pallets\n\n` +
+      `Pallets selecionados: ${selectedCubes.length}\n` +
+      `Pares válidos para unificação: ${paresValidos}\n\n` +
+      `Pares identificados:\n${paresInfo.join("\n")}\n\n` +
+      `Produtos elegíveis para unificação:\n` +
+      `• LM0008-20000840\n` +
+      `• LM0008-20000850\n` +
+      `• LM0012-24000840\n` +
+      `• LM0012-24000850\n\n` +
+      `Deseja continuar com a unificação múltipla?`
+  );
+
+  if (confirmacao) {
+    // Abrir modal para seleção do produto
+    document.getElementById("modal").style.display = "block";
+
+    // Limpar campos e mostrar mensagem especial
+    document.getElementById("produto").value = "";
+    document.getElementById("quantidade").value = "";
+    document.getElementById("peso").value = "";
+
+    // Atualizar mensagem do modal
+    const dicaDiv = document.querySelector(
+      '.modal-content div[style*="background-color: #e3f2fd"]'
+    );
+    if (dicaDiv) {
+      dicaDiv.innerHTML = `
+        🎯 <strong>Modo Unificação Múltipla Ativo!</strong><br />
+        📋 <strong>Pallets selecionados:</strong> ${selectedCubes.length}<br />
+        🔗 <strong>Pares para unificação:</strong> ${paresValidos}<br />
+        💡 <strong>Instruções:</strong> Selecione um produto especial para unificar todos os pares selecionados
+      `;
+    }
+
+    // Adicionar botão especial para unificação múltipla
+    const botaoUnificacao = document.createElement("button");
+    botaoUnificacao.textContent = "🔗 Unificar Múltiplos Pallets";
+    botaoUnificacao.style.cssText = `
+      background: linear-gradient(45deg, #ff9800, #ff5722);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-weight: bold;
+      margin: 10px 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    `;
+    botaoUnificacao.onclick = () => {
+      const produto = document.getElementById("produto").value;
+      if (!produto) {
+        alert("Selecione um produto antes de unificar!");
+        return;
+      }
+
+      if (!isProdutoEspecial(produto)) {
+        alert(
+          "Apenas produtos especiais podem ser unificados!\n\nProdutos elegíveis:\n• LM0008-20000840\n• LM0008-20000850\n• LM0012-24000840\n• LM0012-24000850"
+        );
+        return;
+      }
+
+      unificarPalletsMultiplos(produto);
+    };
+
+    // Inserir botão antes dos botões existentes
+    const botoesExistentes = document.querySelector(".modal-content button");
+    if (botoesExistentes) {
+      botoesExistentes.parentNode.insertBefore(
+        botaoUnificacao,
+        botoesExistentes
+      );
+    }
+
+    atualizarMensagemModal();
+  }
 }

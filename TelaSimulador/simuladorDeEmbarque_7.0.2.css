@@ -646,6 +646,19 @@ th {
   border-color: #ffc107;
 }
 
+/* Estilos para campos desabilitados na multiseleção */
+.modal-content input:disabled,
+.modal-content input[disabled] {
+  background-color: #f5f5f5;
+  color: #666;
+  cursor: not-allowed;
+  border-color: #ddd;
+}
+
+.modal-content input:disabled::placeholder {
+  color: #999;
+}
+
 button:hover {
   background-color: #8fb0d3;
 }
@@ -886,4 +899,78 @@ button:hover {
   background-color: #6d1b7b;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
   transform: scale(1.08);
+}
+
+.floating-unify-btn {
+  position: fixed;
+  right: 32px;
+  bottom: 240px;
+  z-index: 2000;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #ff9800;
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+.floating-unify-btn:hover {
+  background-color: #f57c00;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+  transform: scale(1.08);
+}
+
+/* Estilos para unificação múltipla */
+.floating-unify-btn[style*="linear-gradient"] {
+  background: linear-gradient(45deg, #ff9800, #ff5722) !important;
+  animation: unificacaoMultiplaPulse 2s ease-in-out infinite;
+}
+
+.floating-unify-btn[style*="linear-gradient"]:hover {
+  background: linear-gradient(45deg, #ff5722, #ff9800) !important;
+  transform: scale(1.12);
+  box-shadow: 0 12px 32px rgba(255, 87, 34, 0.4);
+}
+
+@keyframes unificacaoMultiplaPulse {
+  0% {
+    box-shadow: 0 4px 16px rgba(255, 152, 0, 0.4);
+  }
+  50% {
+    box-shadow: 0 8px 24px rgba(255, 87, 34, 0.6);
+  }
+  100% {
+    box-shadow: 0 4px 16px rgba(255, 152, 0, 0.4);
+  }
+}
+
+/* Indicador visual para unificação múltipla */
+.floating-unify-btn[style*="linear-gradient"]::before {
+  content: "🔗🔗";
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: linear-gradient(45deg, #ff5722, #ff9800);
+  color: white;
+  font-size: 12px;
+  padding: 4px 6px;
+  border-radius: 50%;
+  border: 2px solid white;
+  animation: indicadorUnificacaoMultipla 1.5s ease-in-out infinite;
+}
+
+@keyframes indicadorUnificacaoMultipla {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+  50% {
+    transform: scale(1.1) rotate(180deg);
+  }
 }
