@@ -1,6 +1,6 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #f3f2f2;
+  background-color: #e9ebeb;
   margin: 0;
   padding: 0;
 }
@@ -130,7 +130,7 @@ header {
 .caminhao {
   display: flex;
   gap: 10px;
-  background-color: #ddd;
+  background-color: #cacaca;
   padding: 10px;
   border-radius: 5px;
   width: 100%;
@@ -150,7 +150,7 @@ header {
   width: 140px;
   height: 85px;
   background-color: #10898d79;
-  color: rgb(133, 131, 131);
+  color: #858383;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -296,73 +296,67 @@ header {
   background-color: #4f8b92;
 }
 .produto-bloco[data-categoria="LM0006-4000830"] {
-  background-color: #1089ec;
+  background-color: #064b85;
 }
 .produto-bloco[data-categoria="LM0006-4000840"] {
-  background-color: #48a1eb;
+  background-color: #0862ac;
 }
 .produto-bloco[data-categoria="LM0006-4000850"] {
-  background-color: #7abef5;
+  background-color: #1c77c2;
 }
 .produto-bloco[data-categoria="LM0006-4000865"] {
-  background-color: #97c9f1;
-  color: black;
+  background-color: #3691db;
 }
 .produto-bloco[data-categoria="LM0007-3200830"] {
   background-color: #ec7834;
 }
 .produto-bloco[data-categoria="LM0008-3500840"] {
-  background-color: #ffc107;
-  color: black;
+  background-color: #916e05;
 }
 .produto-bloco[data-categoria="LM0008-3500850"] {
-  background-color: #f7d05e;
-  color: black;
+  background-color: #c4991b;
 }
 .produto-bloco[data-categoria="LM0008-7000850"] {
-  background-color: #86511f;
+  background-color: #b47439;
 }
 .produto-bloco[data-categoria="LM0008-13000840"] {
-  background-color: #b86e29;
+  background-color: #8f6743;
 }
 .produto-bloco[data-categoria="LM0008-13000850"] {
-  background-color: #ec8e36;
-  color: black;
+  background-color: #663f1a;
 }
 .produto-bloco[data-categoria="LM0008-20000840"] {
-  background-color: #eca270;
-  color: black;
+  background-color: #c7743c;
 }
 .produto-bloco[data-categoria="LM0008-20000850"] {
-  background-color: #e2b699;
-  color: black;
+  background-color: #e98949;
 }
 .produto-bloco[data-categoria="LM0009-4000840"] {
-  background-color: #690d07;
+  background-color: #1b663a;
 }
 .produto-bloco[data-categoria="LM0009-4000850"] {
-  background-color: #9b2820;
+  background-color: #1ca053;
 }
 .produto-bloco[data-categoria="LM0009-8000840"] {
-  background-color: #b15a53;
+  background-color: #32c26e;
 }
 .produto-bloco[data-categoria="LM0009-8000850"] {
-  background-color: #e0847f;
+  background-color: #4c8865;
 }
 .produto-bloco[data-categoria="LM0010-2000830"] {
-  background-color: #8b58a3;
+  background-color: #6d1a94;
 }
 .produto-bloco[data-categoria="LM0010-2000840"] {
-  background-color: #b836f4;
+  background-color: #9320c9;
 }
 .produto-bloco[data-categoria="LM0010-2000850"] {
-  background-color: #985ab4;
+  background-color: #b836f4;
 }
 .produto-bloco[data-categoria="LM0010-2000865"] {
-  background-color: #774a8b;
+  background-color: #bb7ada;
 }
 .produto-bloco[data-categoria="LM0011-12000840"] {
-  background-color: #b6ab49;
+  background-color: #928a3d;
 }
 .produto-bloco[data-categoria="LM0011-12000850"] {
   background-color: #a1962f;
@@ -371,19 +365,19 @@ header {
   background-color: #f4369e;
 }
 .produto-bloco[data-categoria="LM0012-24000850"] {
-  background-color: #ad407c;
+  background-color: #e770b2;
 }
 
 .quantidade-cubo {
   display: block;
   font-size: 1em;
   font-weight: bold;
-  color: #333;
+  color: #f0eded;
   margin-top: 2px;
 }
 
 .cube.restaurado {
-  background-color: #777262 !important;
+  background-color: #dbc479 !important;
   color: white !important;
   border: 2px solid #555 !important;
   animation: restoreCube 0.5s ease-out;
