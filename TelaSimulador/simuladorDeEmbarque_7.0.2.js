@@ -159,36 +159,18 @@ function updateUnifyButton() {
     document.body.appendChild(unifyBtn);
   }
 
-  // Verificar se pode unificar um único par
-  const canUnifySingle =
-    selectedCubes.length === 1 &&
-    selectedCubes[0].getAttribute("id").startsWith("P") &&
-    !selectedCubes[0].hasAttribute("data-tipo") &&
-    isPalletGrandeVazio(selectedCubes[0]);
-
-  // Verificar se pode unificar múltiplos pares
+  // Só permite unificação múltipla
   const canUnifyMultiple = podeUnificarMultiplos();
-
-  if (canUnifySingle) {
-    // Unificação única
-    unifyBtn.style.display = "block";
-    unifyBtn.title = "Unificar Pallet (Produtos Especiais)";
-    unifyBtn.onclick = showUnifyModal;
-  } else if (canUnifyMultiple) {
-    // Unificação múltipla
+  if (canUnifyMultiple) {
     unifyBtn.style.display = "block";
     unifyBtn.title = "Unificar Múltiplos Pallets (Produtos Especiais)";
     unifyBtn.onclick = showMultiUnifyModal;
-    // Mudar visual para indicar unificação múltipla
     unifyBtn.style.background = "linear-gradient(45deg, #ff9800, #ff5722)";
-    unifyBtn.innerHTML =
-      '<span style="font-size:1.7rem;line-height:1;display:flex;align-items:center;justify-content:center;">🔗🔗</span>';
+    unifyBtn.innerHTML = '<span style="font-size:1.7rem;line-height:1;display:flex;align-items:center;justify-content:center;">🔗🔗</span>';
   } else {
     unifyBtn.style.display = "none";
-    // Restaurar visual padrão
     unifyBtn.style.background = "";
-    unifyBtn.innerHTML =
-      '<span style="font-size:1.7rem;line-height:1;display:flex;align-items:center;justify-content:center;">🔗</span>';
+    unifyBtn.innerHTML = '<span style="font-size:1.7rem;line-height:1;display:flex;align-items:center;justify-content:center;">🔗</span>';
   }
 }
 
