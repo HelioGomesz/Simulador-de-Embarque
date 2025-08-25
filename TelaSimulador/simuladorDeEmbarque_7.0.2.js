@@ -731,7 +731,7 @@ function addEntry() {
     return;
   }
 
-  // LÓGICA PARA MÚLTIPLOS CUBOS: Usar os valores informados pelo usuário para cada cubo
+  // LÓGICA PARA MÚLTIPLOS CUBOS: Usar os valores padrões do tipo de cada cubo
   selectedCubes.forEach((cube) => {
     const idCube = cube.getAttribute("id");
     const categoria = produto;
@@ -739,9 +739,10 @@ function addEntry() {
     const tipoPallet = isPequeno ? "PP" : "PG";
     cube.setAttribute("data-tipo", tipoPallet);
 
-    // Usar os valores informados pelo usuário (quantidade e peso do modal)
-    const quantidadeExibir = quantidade;
-    const pesoExibir = peso;
+    // Usar os valores padrões do produto conforme o tipo do cubo
+    const dadosReferencia = isPequeno ? produtos[produto].PP : produtos[produto].PG;
+    const quantidadeExibir = dadosReferencia.quantidade;
+    const pesoExibir = dadosReferencia.peso;
 
     // Criar bloco de produto
     const bloco = document.createElement("div");
@@ -794,9 +795,6 @@ function addEntry() {
     let cubagemProduto = 0;
     if (produtos[produto]) {
       // Proporcional à quantidade informada
-      const dadosReferencia = isPequeno
-        ? produtos[produto].PP
-        : produtos[produto].PG;
       const quantidadeReferencia = dadosReferencia.quantidade;
       const cubagemReferencia = dadosReferencia.cubagem;
       cubagemProduto =
@@ -808,12 +806,7 @@ function addEntry() {
       ocupacao.toFixed(2) + "%";
 
     // Calcular e atualizar volume total
-    let padraoCx = 1;
-    if (produtos[produto]) {
-      padraoCx = isPequeno
-        ? produtos[produto].PP.padraoCx
-        : produtos[produto].PG.padraoCx;
-    }
+    let padraoCx = dadosReferencia.padraoCx || 1;
     const volumeProduto = Math.ceil(quantidadeExibir / padraoCx);
     totalVolume += volumeProduto;
   });
