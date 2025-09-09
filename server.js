@@ -23,9 +23,13 @@
 import express from "express";
 import { PrismaClient } from "./generated/prisma/index.js";
 import cors from "cors";
+import multer from "multer";
+import XLSX from "xlsx";
 
 const prisma = new PrismaClient();
 const app = express();
+// Configuração do multer para upload de arquivos
+const upload = multer({ dest: "uploads/" });
 // Lista de origens permitidas (opcional - usado para restringir acesso em produção)
 const allowedOrigins = [
   "http://127.0.0.1:5500",
@@ -55,6 +59,38 @@ app.use(cors({
 }));
 app.use(express.json());
 
+// ROTA DE UPLOAD DE EXCEL E ATUALIZAÇÃO DE CUSTOS UNITÁRIOS
+app.post("/produtos/upload-excel", upload.single("excelFile"), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: "Arquivo não enviado." });
+    }
+    // Lê o arquivo Excel
+    const workbook = XLSX.readFile(req.file.path);
+    const sheetName = workbook.SheetNames[0];
+    const sheet = workbook.Sheets[sheetName];
+    const rows = XLSX.utils.sheet_to_json(sheet);
+
+    let atualizados = 0;
+    // Para cada linha, atualiza o custo unitário do produto
+    for (const row of rows) {
+      // Ajuste os nomes das colunas conforme o seu Excel (ex: Produto, CustoUnit)
+      const produto = row["Produto"] || row["produto"];
+      const custoUnit = row["Custo Unit"] || row["custo unit"] || row["CustoUnit"] || row["custoUnit"];
+      if (produto && custoUnit !== undefined) {
+        // Atualiza no banco de dados
+        const result = await prisma.produtos.updateMany({
+          where: { produto: produto },
+          data: { custoUnit: Number(custoUnit) },
+        });
+        if (result.count > 0) atualizados += result.count;
+      }
+    }
+    return res.json({ atualizados });
+  } catch (err) {
+    return res.status(500).json({ error: "Erro ao processar o arquivo." });
+  }
+});
 //ROTA DE CRIAÇÃO DE PRODUTOS
 //Cria um novo produto
 app.post("/produtos", async (req, res) => {

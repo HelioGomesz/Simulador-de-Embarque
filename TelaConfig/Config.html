@@ -26,6 +26,13 @@
         <div class="listagemGeral tabela-centralizado">
           <div class="tabela-cadastro">
             <h2>Cadastro de Produtos</h2>
+              <!-- Upload de Excel para atualização de custos -->
+              <form id="form-upload" enctype="multipart/form-data" style="margin-bottom: 16px;">
+                <label for="excelFile">Atualizar custos unitários via Excel:</label>
+                <input type="file" id="excelFile" name="excelFile" accept=".xlsx,.xls" />
+                <button type="submit">Upload</button>
+              </form>
+              <div id="resultado-upload" style="margin-bottom: 16px; color: green;"></div>
             <div class="linha-superior">
               <button class="btn-Incluir">Incluir</button>
               <div class="filtros filtros-direita">

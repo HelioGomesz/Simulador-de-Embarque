@@ -285,6 +285,39 @@ document.addEventListener("DOMContentLoaded", function () {
       e.target.value = value.toUpperCase();
     });
   }
+    // Integração do upload de Excel
+    const formUpload = document.getElementById("form-upload");
+    if (formUpload) {
+      formUpload.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        const inputFile = document.getElementById("excelFile");
+        const resultadoDiv = document.getElementById("resultado-upload");
+        resultadoDiv.textContent = "";
+        if (!inputFile.files.length) {
+          resultadoDiv.textContent = "Selecione um arquivo Excel.";
+          resultadoDiv.style.color = "red";
+          return;
+        }
+        const formData = new FormData();
+        formData.append("excelFile", inputFile.files[0]);
+        try {
+          const response = await axios.post("http://localhost:3000/produtos/upload-excel", formData, {
+            headers: { "Content-Type": "multipart/form-data" },
+          });
+          if (response.data && typeof response.data.atualizados === "number") {
+            resultadoDiv.textContent = `${response.data.atualizados} produtos atualizados com sucesso.`;
+            resultadoDiv.style.color = "green";
+            carregarProdutosBackend();
+          } else {
+            resultadoDiv.textContent = "Arquivo processado, mas nenhum produto foi atualizado.";
+            resultadoDiv.style.color = "orange";
+          }
+        } catch (err) {
+          resultadoDiv.textContent = "Erro ao processar o arquivo.";
+          resultadoDiv.style.color = "red";
+        }
+      });
+    }
   carregarLocalStorage();
 });
 
