@@ -775,9 +775,18 @@ function showMultiUnifyModal() {
       `;
     }
 
-    // Adicionar botão especial para unificação múltipla
+
+    // Remover botão de unificação múltipla existente, se houver
+    const modalContent = document.querySelector('.modal-content');
+    if (modalContent) {
+      const botaoExistente = modalContent.querySelector('button.botao-unificacao-multipla');
+      if (botaoExistente) botaoExistente.remove();
+    }
+
+    // Adicionar botão especial para unificação múltipla (se não existir)
     const botaoUnificacao = document.createElement("button");
     botaoUnificacao.textContent = "🔗 Unificar Múltiplos Pallets";
+    botaoUnificacao.className = "botao-unificacao-multipla";
     botaoUnificacao.style.cssText = `
       background: linear-gradient(45deg, #ff9800, #ff5722);
       color: white;
@@ -795,24 +804,19 @@ function showMultiUnifyModal() {
         alert("Selecione um produto antes de unificar!");
         return;
       }
-
       if (!isProdutoEspecial(produto)) {
         alert(
           "Apenas produtos especiais podem ser unificados!\n\nProdutos elegíveis:\n• LM0008-20000840\n• LM0008-20000850\n• LM0012-24000840\n• LM0012-24000850"
         );
         return;
       }
-
       unificarPalletsMultiplos(produto);
     };
 
     // Inserir botão antes dos botões existentes
     const botoesExistentes = document.querySelector(".modal-content button");
-    if (botoesExistentes) {
-      botoesExistentes.parentNode.insertBefore(
-        botaoUnificacao,
-        botoesExistentes
-      );
+    if (botoesExistentes && modalContent) {
+      modalContent.insertBefore(botaoUnificacao, botoesExistentes);
     }
 
     atualizarMensagemModal();
