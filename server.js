@@ -20,6 +20,7 @@
 
 // Importando as dependências necessárias
 // Prisma Client é a biblioteca que permite interagir com o banco de dados
+import "dotenv/config";
 import express from "express";
 import { PrismaClient } from "./generated/prisma/index.js";
 import cors from "cors";
@@ -58,6 +59,13 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
+
+// Verifica se a variável de ambiente do banco está configurada
+if (!process.env.DATABASE_URL) {
+  console.error("DATABASE_URL não está definido. Crie um arquivo .env com a string de conexão do MongoDB.");
+  console.error("Exemplo: DATABASE_URL=\"mongodb+srv://usuario:senha@host/db?retryWrites=true&w=majority\"");
+  process.exit(1);
+}
 
 // ROTA DE UPLOAD DE EXCEL E ATUALIZAÇÃO DE CUSTOS UNITÁRIOS
 app.post("/produtos/upload-excel", upload.single("excelFile"), async (req, res) => {
