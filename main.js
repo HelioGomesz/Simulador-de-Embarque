@@ -14,12 +14,20 @@ app.whenReady().then(() => {
   // Inicia o servidor Node.js
   serverProcess = spawn(process.platform === 'win32' ? 'node.exe' : 'node', ['server.js'], {
     cwd: __dirname,
-    stdio: 'ignore', // Ignora a saída do servidor no console do Electron
-    detached: true, // Permite que o processo do servidor continue rodando após o Electron fechar
+    stdio: ['ignore', 'pipe', 'pipe'],
+    detached: false,
     shell: false,
   });
 
-  serverProcess.unref(); // Permite que o processo do servidor continue rodando independentemente do Electron
+  serverProcess.stdout.on('data', (data) => {
+    console.log(`[server] ${data}`.toString());
+  });
+  serverProcess.stderr.on('data', (data) => {
+    console.error(`[server] ${data}`.toString());
+  });
+  serverProcess.on('exit', (code) => {
+    console.log(`[server] exited with code ${code}`);
+  });
 
 
   mainWindow = new BrowserWindow({
