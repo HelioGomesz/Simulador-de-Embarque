@@ -324,8 +324,8 @@ document.addEventListener("DOMContentLoaded", function () {
 // Modifica o carregamento inicial para usar o backend
 window.onload = function () {
   makeModalDraggable();
-  // Corrigir o botão principal da página
-  const botaoPrincipal = document.querySelector(".tabela-cadastro button");
-  botaoPrincipal.onclick = abrirCadastro;
+  // Corrigir o botão 'Incluir' para abrir o modal corretamente
+  const botaoIncluir = document.querySelector(".btn-Incluir");
+  if (botaoIncluir) botaoIncluir.onclick = abrirCadastro;
   carregarProdutosBackend(); // <-- carrega do backend
 };
