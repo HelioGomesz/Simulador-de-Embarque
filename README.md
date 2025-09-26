@@ -16,7 +16,7 @@ Esse projeto visa automatizar os processo de simulação de embarques que auxili
 
 ## Status do Projeto
 
-Em fase correção de bugs e pré-test.
+Em desenvolvimento, correção de bugs e pré-test
 
 ## To do List
 
@@ -144,6 +144,7 @@ Em fase correção de bugs e pré-test.
 # Conclusão
 
 - Previsão Outubro/2025
+
 
 
 
