@@ -6,7 +6,7 @@ Este é um projeto voltado para o programa LumIdeias, programa de melhoria cont�
 
 Esse projeto visa automatizar os processo de simulação de embarques que auxiliam na tarefa de planejamento tanto da área de PCP quanto na área da logística.
 
-# Badges
+## Badges
 
 ![Simulador de Embarque](https://img.shields.io/badge/Simulador%20de%20Embarque-blue)
 ![Status](https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow)
@@ -14,24 +14,11 @@ Esse projeto visa automatizar os processo de simulação de embarques que auxili
 ![CSS](https://img.shields.io/badge/CSS-pink)
 ![JavaScript](https://img.shields.io/badge/JavaScript-gold)
 
-# Índice
-
-- [Título e Imagem de capa](#Título-e-Imagem-de-capa)
-- [Badges](#badges)
-- [Índice](#índice)
-- [Descrição do Projeto](#descrição-do-projeto)
-- [Status do Projeto](#status-do-Projeto)
-- [Funcionalidades e Demonstração da Aplicação](#funcionalidades-e-demonstração-da-aplicação)
-- [Acesso ao Projeto](#acesso-ao-projeto)
-- [Tecnologias utilizadas](#tecnologias-utilizadas)
-- [Equipe](#Equipe)
-- [Conclusão](#conclusão)
-
-# Status do Projeto
+## Status do Projeto
 
 Em fase correção de bugs e pré-test.
 
-# To do List
+## To do List
 
 - Nanny
 
@@ -57,17 +44,8 @@ Em fase correção de bugs e pré-test.
   - [x] Conexão com banco de dados MongoDB ![](https://img.shields.io/badge/-%20Concluído-green)
   - [x] Teste Build ![](https://img.shields.io/badge/-Em%20Desenvolvimento-yellow)
 
-# Funcionalidades e Demonstração da Aplicação
+## Simulador de Embarque
 
-# Simulador de Embarque
-
-## Cadastro de Novos Produtos
-
-- No botão de incluir cadastre o produto com Qtd PP/Qtd PG /Peso PP/Peso PG/Cubagem PP/Cubagem PG/Padrão Caixa (Quantidade de produtos por caixa)/Custo unitário
-- Na lista de produtos cadastrados que aparecem na página podem ser editados ou excluídos
-- É possível realizar a busca de produto específico (Digite os primeiros 5 dígitos do produto) e clique na lupa para realizar a busca
-- No botão de limpar, será desfeito a busca e retorna a lista completa de produtos cadastrados
-- Caso necessite da lista de produtos já cadastrados, há disponível um botão de exportar para o excel.
 
 ## 🚀 Funcionalidades Principais
 
@@ -88,26 +66,6 @@ Em fase correção de bugs e pré-test.
 - **Unificação Única**: Para um par PP+PG (ex: P1+G2)
 - **Unificação Múltipla**: Para múltiplos pares PP+PG simultaneamente
 
-## 🔗 Unificação Múltipla
-
-### Como Usar:
-
-1. **Selecione múltiplos pares de pallets**:
-
-   - Pallets pequenos (P1, P3, P5, etc.)
-   - Pallets grandes correspondentes (G2, G4, G6, etc.)
-   - Os pares devem ser consecutivos
-
-2. **Identifique o botão de unificação múltipla**:
-
-   - Botão laranja com ícone 🔗🔗
-   - Aparece quando há pares válidos selecionados
-   - Visual diferenciado com gradiente laranja-vermelho
-
-3. **Execute a unificação**:
-   - Clique no botão 🔗🔗
-   - Selecione um produto especial (LM0008 ou LM0012)
-   - Confirme a operação
 
 ### Produtos Elegíveis para Unificação:
 
@@ -116,12 +74,13 @@ Em fase correção de bugs e pré-test.
 - **LM0012-24000840**
 - **LM0012-24000850**
 
-### Benefícios da Unificação Múltipla:
+### 4. **Cadastro de Novos Produtos**
 
-- ✅ **Eficiência**: Unifique vários pares simultaneamente
-- ✅ **Consistência**: Mesmo produto em todos os pares
-- ✅ **Visual**: Indicadores especiais para pallets unificados
-- ✅ **Controle**: Resumo detalhado de todas as operações
+- No botão de incluir você pode adicionar um produto baseado nos campos estabelecidos
+- A lista de produtos cadastrados que aparecem na página podem ser editados ou excluídos
+- É possível realizar a busca de produto específico (Digite os primeiros 5 dígitos do produto) e clique na lupa para realizar a busca
+- No botão de limpar, será desfeito a busca e retorna a lista completa de produtos cadastrados
+- Caso necessite da lista de produtos já cadastrados, há disponível um botão de exportar para o excel.
 
 ## 📋 Instruções de Uso
 
@@ -141,25 +100,6 @@ Em fase correção de bugs e pré-test.
 3. Selecione um produto especial
 4. Confirme a operação
 5. Todos os pares são unificados simultaneamente
-
-## 🎨 Indicadores Visuais
-
-### Seleção Múltipla:
-
-- **Bordas azuis** nos pallets selecionados
-- **Sombras azuis** para destaque visual
-
-### Unificação:
-
-- **Bordas laranjas** nos pallets unificados
-- **Ícone 🔗** indicando unificação
-- **Pallets absorvidos** com transparência
-
-### Unificação Múltipla:
-
-- **Botão com gradiente** laranja-vermelho
-- **Ícone 🔗🔗** duplo
-- **Animação pulsante** para destaque
 
 ## 🔧 Arquivos Principais
 
@@ -183,8 +123,6 @@ Em fase correção de bugs e pré-test.
 - Produtos da mesma família no mesmo pallet
 - Valores padrões específicos por tipo de pallet
 
-# Acesso ao Projeto
-
 # Tecnologias utilizadas
 
 - VsCode
@@ -193,7 +131,9 @@ Em fase correção de bugs e pré-test.
 - HTML
 - CSS
 - ELECTRON.JS
-- BANCO DE DADOS (incluir banco de dados em fase de criação pela time TI/ Viabilizar o MongoDB para integrar no próprio código)
+- Mongo DB
+- Axios
+- Express.js
 
 # Equipe
 
@@ -204,8 +144,6 @@ Em fase correção de bugs e pré-test.
 # Conclusão
 
 - Previsão Outubro/2025
-hi
-## 📞 Suporte
 
-Para dúvidas ou problemas com a funcionalidade de unificação múltipla, consulte a documentação ou entre em contato com a equipe de desenvolvimento.
+
 
