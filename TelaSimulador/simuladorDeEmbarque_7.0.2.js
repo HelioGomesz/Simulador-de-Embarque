@@ -12,6 +12,47 @@ let selectedCubes = []; // variável para cubos selecionados
 
 let produtos = {};
 
+// === Notificações não-bloqueantes (substitui alert/confirm) ===
+function ensureNotificationUI() {
+  if (document.getElementById("snackbar-container")) return;
+  const container = document.createElement("div");
+  container.id = "snackbar-container";
+  container.style.position = "fixed";
+  container.style.right = "24px";
+  container.style.bottom = "24px";
+  container.style.display = "flex";
+  container.style.flexDirection = "column";
+  container.style.gap = "8px";
+  container.style.zIndex = 3000;
+  document.body.appendChild(container);
+
+  const style = document.createElement("style");
+  style.innerHTML = `
+    .snackbar { min-width: 240px; max-width: 440px; padding: 12px 16px; border-radius: 6px; box-shadow: 0 6px 18px rgba(0,0,0,0.18); color: #fff; font-size: 14px; display: flex; align-items: center; justify-content: space-between; gap: 12px; opacity: 0; transform: translateY(8px); transition: opacity .18s ease, transform .18s ease; }
+    .snackbar.show { opacity: 1; transform: translateY(0); }
+    .snackbar.success { background: #2e7d32; }
+    .snackbar.error { background: #c62828; }
+    .snackbar.info { background: #1976d2; }
+    .snackbar button { background: transparent; border: none; color: #fff; cursor: pointer; font-weight: 600; }
+  `;
+  document.head.appendChild(style);
+}
+
+function showNotification(type, message, durationMs) {
+  try { ensureNotificationUI(); } catch (e) {}
+  const container = document.getElementById("snackbar-container");
+  if (!container) return;
+  const div = document.createElement("div");
+  div.className = `snackbar ${type || "info"}`;
+  div.innerHTML = `<span style="line-height:1.2">${message}</span><button aria-label="Fechar">OK</button>`;
+  const close = () => { div.classList.remove("show"); setTimeout(() => div.remove(), 200); };
+  div.querySelector("button").onclick = close;
+  container.appendChild(div);
+  requestAnimationFrame(() => div.classList.add("show"));
+  const ttl = typeof durationMs === "number" ? durationMs : 2800;
+  setTimeout(close, ttl);
+}
+
 // ===Função para carregar produtos do backend e montar o objeto produtos===
 async function carregarProdutosBackend() {
   try {
@@ -38,7 +79,7 @@ async function carregarProdutosBackend() {
     });
     atualizarSelectProdutos();
   } catch (error) {
-    alert("Erro ao carregar produtos do backend: " + error.message);
+    showNotification("error", "Erro ao carregar produtos do backend: " + error.message);
   }
 }
 
@@ -140,39 +181,9 @@ function updateAddProductButton() {
     document.body.appendChild(btn);
   }
   btn.style.display = selectedCubes.length > 0 ? "block" : "none";
-
-  // Atualizar botão de unificação
-  updateUnifyButton();
 }
 
-// ===Verifica se pode unificar e atualiza o botão de unificação===
-function updateUnifyButton() {
-  let unifyBtn = document.getElementById("unifyBtn");
-  if (!unifyBtn) {
-    unifyBtn = document.createElement("button");
-    unifyBtn.id = "unifyBtn";
-    unifyBtn.className = "floating-unify-btn";
-    unifyBtn.title = "Unificar Pallet (Produtos Especiais)";
-    unifyBtn.innerHTML =
-      '<span style="font-size:1.7rem;line-height:1;display:flex;align-items:center;justify-content:center;">🔗</span>';
-    unifyBtn.onclick = showUnifyModal;
-    document.body.appendChild(unifyBtn);
-  }
-
-  // Só permite unificação múltipla
-  const canUnifyMultiple = podeUnificarMultiplos();
-  if (canUnifyMultiple) {
-    unifyBtn.style.display = "block";
-    unifyBtn.title = "Unificar Múltiplos Pallets (Produtos Especiais)";
-    unifyBtn.onclick = showMultiUnifyModal;
-    unifyBtn.style.background = "linear-gradient(45deg, #ff9800, #ff5722)";
-    unifyBtn.innerHTML = '<span style="font-size:1.7rem;line-height:1;display:flex;align-items:center;justify-content:center;">🔗🔗</span>';
-  } else {
-    unifyBtn.style.display = "none";
-    unifyBtn.style.background = "";
-    unifyBtn.innerHTML = '<span style="font-size:1.7rem;line-height:1;display:flex;align-items:center;justify-content:center;">🔗</span>';
-  }
-}
+// (Removido) Botão flutuante de unificação múltipla
 
 // ===Verifica se o pallet grande correspondente está vazio===
 function isPalletGrandeVazio(palletPequeno) {
@@ -187,40 +198,7 @@ function isPalletGrandeVazio(palletPequeno) {
   );
 }
 
-// ===Mostra o modal de unificação com produtos especiais===
-function showUnifyModal() {
-  document.getElementById("modal").style.display = "block";
-
-  // Selecionar automaticamente o primeiro produto especial
-  const produtoSelect = document.getElementById("produto");
-  produtoSelect.value = "LM0008-20000840";
-
-  // Preencher valores padrões SOMADOS para unificação
-  const dadosProduto = produtos["LM0008-20000840"];
-  if (dadosProduto) {
-    const quantidadeUnificada =
-      (dadosProduto.PP.quantidade || 0) + (dadosProduto.PG.quantidade || 0);
-    document.getElementById("quantidade").value = quantidadeUnificada;
-    document.getElementById("peso").value = (
-      (dadosProduto.PP.peso || 0) + (dadosProduto.PG.peso || 0)
-    ).toFixed(2);
-  } else {
-    document.getElementById("quantidade").value = "";
-    document.getElementById("peso").value = "";
-  }
-
-  // Adicionar mensagem especial no modal
-  const dicaDiv = document.querySelector(
-    '.modal-content div[style*="background-color: #e3f2fd"]'
-  );
-  if (dicaDiv) {
-    dicaDiv.innerHTML +=
-      "<br />🎯 <strong>Modo Unificação:</strong> Produto especial selecionado automaticamente!";
-  }
-
-  document.getElementById("limite-indicador").style.display = "none";
-  atualizarMensagemModal();
-}
+// (Removido) Modal de unificação acionado por botão flutuante
 
 // ===Mostra o modal de adicionar produto para múltiplos cubos===
 function showMultiAddModal() {
@@ -401,30 +379,7 @@ document.querySelectorAll(".cube").forEach((cube) => {
       box-shadow: 0 8px 24px rgba(0,0,0,0.22); 
       transform: scale(1.08); 
     }
-    .floating-unify-btn { 
-      position: fixed; 
-      right: 32px; 
-      bottom: 240px; 
-      z-index: 2000; 
-      width: 56px; 
-      height: 56px; 
-      border-radius: 50%; 
-      background-color: #ff9800; 
-      color: #fff; 
-      border: none; 
-      box-shadow: 0 4px 16px rgba(0,0,0,0.18); 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      font-size: 2rem; 
-      cursor: pointer; 
-      transition: background 0.2s, box-shadow 0.2s, transform 0.2s; 
-    } 
-    .floating-unify-btn:hover { 
-      background-color: #f57c00; 
-      box-shadow: 0 8px 24px rgba(0,0,0,0.22); 
-      transform: scale(1.08); 
-    }
+    /* (Removido) estilos do botão flutuante de unificação múltipla */
   `;
   document.head.appendChild(style);
 })();
@@ -439,11 +394,21 @@ function closeModal() {
   document.getElementById("peso").disabled = false;
 
   clearCubeSelection();
+
+  // Corrigir perda de foco no Electron/Chromium após diálogos
+  setTimeout(() => {
+    try { window.focus(); } catch (e) {}
+    const produtoInput = document.getElementById("produto");
+    if (produtoInput) {
+      try { produtoInput.focus(); } catch (e) {}
+    }
+  }, 0);
 }
 
 function clearCubeSelection() {
   selectedCubes.forEach((cube) => cube.classList.remove("selecionado"));
   selectedCubes = [];
+  if (typeof window !== "undefined") { window.selectedCubes = []; }
   updateAddProductButton();
 
   // Reabilitar campos quando não há seleção
@@ -460,7 +425,7 @@ document.getElementById("produto").addEventListener("change", function () {
 
   const dadosProduto = produtos[produtoSelecionado];
   if (!dadosProduto) {
-    alert("Produto não cadastrado na base!");
+    showNotification("error", "Produto não cadastrado na base!");
     document.getElementById("quantidade").value = "";
     document.getElementById("peso").value = "";
     return;
@@ -587,11 +552,11 @@ function addEntry() {
   const peso = parseFloat(pesoInput);
 
   if (!selectedCubes.length) {
-    alert("Selecione pelo menos um pallet.");
+    showNotification("info", "Selecione pelo menos um pallet.");
     return;
   }
   if (isNaN(quantidade) || isNaN(peso)) {
-    alert("Preencha quantidade e peso.");
+    showNotification("error", "Preencha quantidade e peso.");
     return;
   }
 
@@ -600,10 +565,8 @@ function addEntry() {
     // Para compatibilidade, setar window.selectedCubes
     window.selectedCubes = selectedCubes;
     unificarPalletsFisicamente(produto, quantidade, peso);
-    // Exibir alerta de confirmação apenas uma vez para toda a operação
-    alert(
-      `Produto ${produto} unificado com pallet existente!\nQuantidade total atualizada.`
-    );
+    // Notificação não-bloqueante para evitar bug de foco no Electron
+    showNotification("success", `Produto ${produto} unificado com pallet existente! Quantidade total atualizada.`);
     closeModal();
     return;
   }
@@ -708,7 +671,11 @@ function addEntry() {
     totalVolume += volumeProduto;
     document.getElementById("volumeTotal-container").innerText =
       totalVolume.toFixed(2);
-
+    // Feedback visual para inclusão de produto normal
+    showNotification(
+      "success",
+      `Produto ${produto} incluído no pallet ${idCube}.`
+    );
     closeModal();
     return;
   }
@@ -796,7 +763,11 @@ function addEntry() {
   // Atualizar volume total
   document.getElementById("volumeTotal-container").innerText =
     totalVolume.toFixed(2);
-
+  // Feedback visual para inclusão em múltiplos pallets
+  showNotification(
+    "success",
+    `Produto ${produto} incluído em ${selectedCubes.length} pallets.`
+  );
   closeModal();
 }
 
@@ -1212,8 +1183,7 @@ function atualizarMensagemModal() {
     dicaDiv.innerHTML = `
       💡 <strong>Dica:</strong> Selecione pelo menos um pallet para continuar.<br />
       📊 <strong>Limite:</strong> O padrão do primeiro produto define o limite máximo do pallet.<br />
-      🔗 <strong>Unificação:</strong> Produtos LM0008-2000 e LM0012-2400 são automaticamente unificados com visual especial.<br />
-      🔗🔗 <strong>Unificação Múltipla:</strong> Selecione múltiplos pares PP+PG para unificação simultânea.
+      🔗 <strong>Unificação:</strong> Produtos LM0008-2000 e LM0012-2400 são automaticamente unificados com visual especial.
     `;
   } else if (selectedCubes.length === 1) {
     dicaDiv.innerHTML = `
@@ -1223,8 +1193,7 @@ function atualizarMensagemModal() {
       ⚡ <strong>Cálculo Automático:</strong> ATIVO - valores personalizados permitidos.
     `;
   } else {
-    // Verificar se há possibilidade de unificação múltipla
-    const podeUnificar = podeUnificarMultiplos();
+    // (Removido) referência à unificação múltipla
     const cubosPequenos = selectedCubes.filter((cube) =>
       cube.getAttribute("id").startsWith("P")
     );
@@ -1248,36 +1217,11 @@ function atualizarMensagemModal() {
         💡 <strong>Nota:</strong> Os campos são preenchidos automaticamente com os valores padrões PG do produto`;
     }
 
-    let infoUnificacao = "";
-    if (podeUnificar) {
-      // Contar pares válidos para unificação
-      let paresValidos = 0;
-      cubosPequenos.forEach((palletPequeno) => {
-        const idPalletPequeno = palletPequeno.getAttribute("id");
-        const numeroPallet = parseInt(idPalletPequeno.substring(1));
-        const palletGrande = document.getElementById(`G${numeroPallet + 1}`);
-
-        if (
-          palletGrande &&
-          !palletGrande.hasAttribute("data-tipo") &&
-          !palletGrande.classList.contains("absorvido-permanente") &&
-          selectedCubes.includes(palletGrande)
-        ) {
-          paresValidos++;
-        }
-      });
-
-      infoUnificacao = `<br />🔗🔗 <strong>Unificação Múltipla Disponível:</strong><br />
-        • Pares válidos para unificação: ${paresValidos}<br />
-        • Produtos elegíveis: LM0008-2000 e LM0012-2400<br />
-        • Use o botão 🔗🔗 para unificar todos os pares simultaneamente`;
-    }
-
     dicaDiv.innerHTML = `
       💡 <strong>Dica:</strong> Para múltiplos pallets, cada tipo recebe seus próprios valores padrões cadastrados.<br />
       📊 <strong>Limite:</strong> O padrão do primeiro produto define o limite máximo do pallet.<br />
       🔗 <strong>Unificação:</strong> Produtos LM0008-2000 e LM0012-2400 são automaticamente unificados com visual especial.<br />
-      ✏️ <strong>Valores Padrões:</strong> ATIVOS - cada tipo de pallet recebe seus valores específicos.${infoValores}${infoUnificacao}
+      ✏️ <strong>Valores Padrões:</strong> ATIVOS - cada tipo de pallet recebe seus valores específicos.${infoValores}
     `;
   }
 }
@@ -1301,7 +1245,7 @@ function confirmarMarkup() {
   const input = document.getElementById("markupInputModal");
   const valor = parseFloat(input.value);
   if (isNaN(valor) || valor <= 0) {
-    alert("Digite um valor de markup válido (ex: 1.9)");
+    showNotification("error", "Digite um valor de markup válido (ex: 1.9)");
     input.focus();
     return;
   }
