@@ -1,9 +1,18 @@
 // === ROBÔ DE SIMULAÇÃO DE DEMANDA ===
 function abrirModalSimuladorBot() {
-  document.getElementById("modalSimuladorBot").style.display = "block";
+  const modal = document.getElementById("modalSimuladorBot");
+  modal.style.display = "block";
   document.getElementById("resultadoSimuladorBot").innerHTML = "";
   document.getElementById("produtoSimuladorBot").value = "";
   document.getElementById("quantidadeSimuladorBot").value = "";
+  
+  // Posicionar o modal no centro da tela inicialmente
+  modal.style.left = "50%";
+  modal.style.top = "50%";
+  modal.style.transform = "translate(-50%, -50%)";
+  
+  // Tornar o modal arrastável
+  makeRoboModalDraggable();
 }
 
 function simularDemandaBot() {
@@ -133,4 +142,34 @@ function simularDemandaBot() {
 
 function fecharModalSimuladorBot() {
   document.getElementById("modalSimuladorBot").style.display = "none";
+}
+
+// === FUNÇÃO PARA PERMITIR ARRASTAR O MODAL DO ROBÔ NA PÁGINA COM O MOUSE ===
+function makeRoboModalDraggable() {
+  const modal = document.getElementById("modalSimuladorBot");
+  const header = document.getElementById("modalSimuladorBotHeader");
+  let offsetX = 0, offsetY = 0, mouseX = 0, mouseY = 0;
+
+  header.onmousedown = function (event) {
+    event.preventDefault();
+    mouseX = event.clientX;
+    mouseY = event.clientY;
+    
+    // Remover transform para usar left/top
+    modal.style.transform = "none";
+
+    document.onmousemove = function (event) {
+      offsetX = event.clientX - mouseX;
+      offsetY = event.clientY - mouseY;
+      modal.style.left = modal.offsetLeft + offsetX + "px";
+      modal.style.top = modal.offsetTop + offsetY + "px";
+      mouseX = event.clientX;
+      mouseY = event.clientY;
+    };
+
+    document.onmouseup = function () {
+      document.onmousemove = null;
+      document.onmouseup = null;
+    };
+  };
 }
