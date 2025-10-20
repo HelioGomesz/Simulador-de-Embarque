@@ -470,11 +470,11 @@ header {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 8px;
 }
 .card {
   background-color: white;
-  padding: 20px;
+  padding: 15px;
   border-radius: 5px;
   box-shadow: 1px 2px 2px rgba(0, 0, 0, 0.2);
   min-width: 100px;
@@ -487,25 +487,48 @@ header {
 
 .card p {
   text-align: center;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
 }
 
 .card.quantidade {
-  border-left: 15px solid #5ac6da;
+  border-left: 12px solid #5ac6da;
 }
 .card.valorTotal {
-  border-left: 15px solid #2b1b83;
+  border-left: 12px solid #2b1b83;
 }
 .card.peso {
-  border-left: 15px solid #0077cc;
+  border-left: 12px solid #0077cc;
 }
 .card.ocupacao {
-  border-left: 15px solid #c281ee;
+  border-left: 12px solid #c281ee;
 }
 .card.volume {
-  border-left: 15px solid #952dda;
+  border-left: 12px solid #952dda;
 }
+
+/* --- Ajuste automático do Valor Total --- */
+#valorTotal-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  text-align: center;
+
+  /* Ajuste de tamanho automático */
+  font-size: clamp(1.2rem, 1.5vw, 1rem);
+  font-weight: bold;
+  color: #070707;
+
+  /* Evita quebra e mantém o texto dentro do card */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  /* Animação suave quando o tamanho muda */
+  transition: font-size 0.3s ease;
+}
+
 
 .listagemGeral.container-centralizado {
   align-items: flex-start;
