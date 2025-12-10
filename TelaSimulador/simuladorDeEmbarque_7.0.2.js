@@ -560,15 +560,40 @@ function addEntry() {
     return;
   }
 
-  // Se for produto especial, permitir multiseleção para unificação
+  // Se for produto especial: decidir entre unificação automática ou inclusão normal
   if (isProdutoEspecial(produto)) {
-    // Para compatibilidade, setar window.selectedCubes
-    window.selectedCubes = selectedCubes;
-    unificarPalletsFisicamente(produto, quantidade, peso);
-    // Notificação não-bloqueante para evitar bug de foco no Electron
-    showNotification("success", `Produto ${produto} unificado com pallet existente! Quantidade total atualizada.`);
-    closeModal();
-    return;
+    // Se houver apenas 1 cubo selecionado e a quantidade for menor que o padrão
+    // do tipo desse cubo, tratamos como inclusão normal (permitindo completar depois
+    // com outro modelo da mesma família). Caso contrário, mantém a unificação.
+    if (selectedCubes.length === 1) {
+      const cube = selectedCubes[0];
+      const idCube = cube.getAttribute("id") || "";
+      const isPequeno = idCube.startsWith("P");
+      const dadosProduto = produtos[produto];
+      const padrao = dadosProduto
+        ? isPequeno
+          ? dadosProduto.PP.quantidade
+          : dadosProduto.PG.quantidade
+        : null;
+
+      if (padrao !== null && !isNaN(padrao) && quantidade < padrao) {
+        // Quantidade abaixo do padrão: permitir inclusão normal (fallthrough)
+      } else {
+        // Quantidade igual/maior que padrão (ou dados faltando): executar unificação
+        window.selectedCubes = selectedCubes;
+        unificarPalletsFisicamente(produto, quantidade, peso);
+        showNotification("success", `Produto ${produto} unificado com pallet existente! Quantidade total atualizada.`);
+        closeModal();
+        return;
+      }
+    } else {
+      // Multiseleção: manter comportamento de unificação automática
+      window.selectedCubes = selectedCubes;
+      unificarPalletsFisicamente(produto, quantidade, peso);
+      showNotification("success", `Produto ${produto} unificado com pallet existente! Quantidade total atualizada.`);
+      closeModal();
+      return;
+    }
   }
 
   // Se apenas 1 cubo está selecionado, lógica normal
