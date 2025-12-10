@@ -928,13 +928,18 @@ function removeEntry(button) {
   document.getElementById("peso-container").innerText = totalPeso.toFixed(2);
   atualizarValorTotalComOuSemMarkup();
 
-  // Subtrair cubagem do produto removido
+  // Subtrair cubagem do produto removido (proporcional à quantidade removida)
   let cubagemProduto = 0;
   if (produtos[produto]) {
     const isPequeno = idCube.startsWith("P");
-    cubagemProduto = isPequeno
-      ? produtos[produto].PP.cubagem
-      : produtos[produto].PG.cubagem;
+    const dadosReferencia = isPequeno
+      ? produtos[produto].PP
+      : produtos[produto].PG;
+    // Usar REGRA DE TRÊS: se quantidadeReferência = cubagemReferência, então quantidade = ?
+    const quantidadeReferencia = dadosReferencia.quantidade;
+    const cubagemReferencia = dadosReferencia.cubagem;
+    // Calcular cubagem proporcional à quantidade que está sendo removida
+    cubagemProduto = (quantidade * cubagemReferencia) / quantidadeReferencia;
     cubagemOcupada -= cubagemProduto;
   }
 
