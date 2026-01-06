@@ -143,7 +143,8 @@ Em desenvolvimento, correção de bugs e pré-test
 
 # Conclusão
 
-- Previsão Outubro/2025
+- Previsão para finalização de novas funções e aprimoramentos em Fev/26
+
 
 
 
