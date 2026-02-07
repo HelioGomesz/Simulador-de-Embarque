@@ -34,7 +34,6 @@ Em desenvolvimento, correção de bugs e pré-test
   - [x] Visualização do PDF ![](https://img.shields.io/badge/-%20Concluído-green)
   - [x] Ajuste da página de configurações ![](https://img.shields.io/badge/-%20Concluído-green)
   - [x] Volume do container completo ![](https://img.shields.io/badge/-%20Concluído-green)
-  - [x] Resumo Geral da simulação (Produtos e quantidade) ![](https://img.shields.io/badge/-Em%20Desenvolvimento-yellow)
 
 - Hélio
 
@@ -143,7 +142,8 @@ Em desenvolvimento, correção de bugs e pré-test
 
 # Conclusão
 
-- Previsão para finalização de novas funções e aprimoramentos em Fev/26
+- Previsão para finalização de novas funções e aprimoramentos em Mar/26
+
 
 
 
