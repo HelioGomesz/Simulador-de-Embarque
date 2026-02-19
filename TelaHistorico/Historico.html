@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Histórico de Simulações</title>
+    <link rel="stylesheet" href="Historico.css" />
+  </head>
+
+  <body>
+    <header>
+      <h1>Histórico de Simulações</h1>
+      <nav>
+        <ul>
+          <li>
+            <a href="../TelaSimulador/simuladorDeEmbarque_7.0.2.html"
+              >🔙 Voltar ao Simulador</a
+            >
+          </li>
+          <li>
+            <a href="../TelaConfig/Config.html">⚙️ Configurações</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="layout-principal">
+      <div class="container-historico">
+        <div class="cabecalho-historico">
+          <h2>Simulações Salvas</h2>
+          <button class="btn-atualizar" onclick="carregarSimulacoes()">
+            🔄 Atualizar
+          </button>
+        </div>
+
+        <div id="loading" class="loading" style="display: none;">
+          Carregando simulações...
+        </div>
+
+        <div id="mensagem-vazia" class="mensagem-vazia" style="display: none;">
+          <p>Nenhuma simulação salva ainda.</p>
+          <p>
+            <a href="../TelaSimulador/simuladorDeEmbarque_7.0.2.html"
+              >Criar uma nova simulação</a
+            >
+          </p>
+        </div>
+
+        <div id="lista-simulacoes" class="lista-simulacoes"></div>
+      </div>
+    </main>
+
+    <!-- Modal de confirmação para deletar -->
+    <div class="modal" id="modalConfirmarDelete" style="display: none;">
+      <div class="modal-header">
+        <h2>Confirmar Exclusão</h2>
+      </div>
+      <div class="modal-content">
+        <p>Tem certeza que deseja excluir esta simulação?</p>
+        <p><strong id="nomeSimulacaoDelete"></strong></p>
+        <div style="margin-top: 16px">
+          <button onclick="confirmarDelete()" class="btn-danger">Excluir</button>
+          <button onclick="cancelarDelete()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCRIPT -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="Historico.js"></script>
+  </body>
+</html>

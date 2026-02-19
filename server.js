@@ -162,6 +162,107 @@ app.delete("/produtos/:id", async (req, res) => {
   res.status(200).json({ message: "Produto deletado com sucesso" }); //STATUS 200 TUDO OK E FOI DELETADO
 });
 
+// ========== ROTAS DE SIMULAÇÕES ==========
+
+//ROTA DE CRIAÇÃO DE SIMULAÇÃO
+//Cria uma nova simulação
+app.post("/simulacoes", async (req, res) => {
+  try {
+    const simulacao = await prisma.simulacoes.create({
+      data: {
+        nome: req.body.nome,
+        observacoes: req.body.observacoes || null,
+        pallets: JSON.stringify(req.body.pallets), // Converte objeto para JSON string
+        totais: JSON.stringify(req.body.totais), // Converte objeto para JSON string
+      },
+    });
+    res.status(201).json(simulacao); //STATUS 201 TUDO OK E FOI CRIADO
+  } catch (error) {
+    res.status(500).json({ error: "Erro ao criar simulação: " + error.message });
+  }
+});
+
+//ROTA DE LISTAGEM DE SIMULAÇÕES
+//Retorna todas as simulações cadastradas
+app.get("/simulacoes", async (req, res) => {
+  try {
+    const simulacoes = await prisma.simulacoes.findMany({
+      orderBy: {
+        criadoEm: "desc", // Mais recentes primeiro
+      },
+    });
+    // Parse dos JSON strings de volta para objetos
+    const simulacoesFormatadas = simulacoes.map((sim) => ({
+      ...sim,
+      pallets: JSON.parse(sim.pallets),
+      totais: JSON.parse(sim.totais),
+    }));
+    res.status(200).json(simulacoesFormatadas); //STATUS 200 OK
+  } catch (error) {
+    res.status(500).json({ error: "Erro ao listar simulações: " + error.message });
+  }
+});
+
+//ROTA DE BUSCAR UMA SIMULAÇÃO ESPECÍFICA
+//Retorna uma simulação pelo ID
+app.get("/simulacoes/:id", async (req, res) => {
+  try {
+    const simulacao = await prisma.simulacoes.findUnique({
+      where: {
+        id: req.params.id,
+      },
+    });
+    if (!simulacao) {
+      return res.status(404).json({ error: "Simulação não encontrada" });
+    }
+    // Parse dos JSON strings de volta para objetos
+    const simulacaoFormatada = {
+      ...simulacao,
+      pallets: JSON.parse(simulacao.pallets),
+      totais: JSON.parse(simulacao.totais),
+    };
+    res.status(200).json(simulacaoFormatada); //STATUS 200 OK
+  } catch (error) {
+    res.status(500).json({ error: "Erro ao buscar simulação: " + error.message });
+  }
+});
+
+//ROTA DE EDIÇÃO DE SIMULAÇÃO
+//:id é um parâmetro de rota que será passado na URL
+//Exemplo: /simulacoes/1234567890
+app.put("/simulacoes/:id", async (req, res) => {
+  try {
+    const simulacao = await prisma.simulacoes.update({
+      where: {
+        id: req.params.id, //id da simulação que será editada
+      },
+      data: {
+        nome: req.body.nome,
+        observacoes: req.body.observacoes || null,
+        pallets: JSON.stringify(req.body.pallets),
+        totais: JSON.stringify(req.body.totais),
+      },
+    });
+    res.status(200).json(simulacao); //STATUS 200 TUDO OK E FOI EDITADO
+  } catch (error) {
+    res.status(500).json({ error: "Erro ao atualizar simulação: " + error.message });
+  }
+});
+
+//ROTA DE DELEÇÃO DE SIMULAÇÃO
+app.delete("/simulacoes/:id", async (req, res) => {
+  try {
+    await prisma.simulacoes.delete({
+      where: {
+        id: req.params.id, //id da simulação que será deletada
+      },
+    });
+    res.status(200).json({ message: "Simulação deletada com sucesso" }); //STATUS 200 TUDO OK E FOI DELETADO
+  } catch (error) {
+    res.status(500).json({ error: "Erro ao deletar simulação: " + error.message });
+  }
+});
+
 app.listen(3000);
 
 console.log("Servidor rodando na porta 3000"); //Mensagem de confirmação de que o servidor está rodando

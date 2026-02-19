@@ -102,7 +102,20 @@ function atualizarSelectProdutos() {
 }
 
 // Chamar o carregamento dos produtos ao iniciar
-window.addEventListener("DOMContentLoaded", carregarProdutosBackend);
+window.addEventListener("DOMContentLoaded", async () => {
+  await carregarProdutosBackend();
+  // Verificar se há simulação para carregar
+  const simulacaoId = sessionStorage.getItem("simulacaoParaCarregar");
+  if (simulacaoId) {
+    await carregarSimulacaoDoBackend(simulacaoId);
+    sessionStorage.removeItem("simulacaoParaCarregar");
+    const modoEdicao = sessionStorage.getItem("modoEdicao");
+    if (modoEdicao === "true") {
+      sessionStorage.removeItem("modoEdicao");
+      showNotification("info", "Modo de edição ativado. Faça suas alterações e clique em 'Salvar Simulação' para atualizar.");
+    }
+  }
+});
 
 // ===Função para formatar valores em reais===
 function formatarMoeda(valor) {
@@ -1064,6 +1077,66 @@ function clearAll() {
   location.reload();
 }
 
+// Função para limpar estado do simulador sem recarregar a página
+function limparEstadoSimulador() {
+  // Limpar todos os pallets
+  const todosPallets = document.querySelectorAll(".cube");
+  todosPallets.forEach((pallet) => {
+    // Remover produtos
+    const produtosBlocos = pallet.querySelectorAll(".produto-bloco");
+    produtosBlocos.forEach(bloco => bloco.remove());
+    
+    // Remover indicadores
+    const tipoIndicator = pallet.querySelector(".tipo-pallet");
+    if (tipoIndicator) tipoIndicator.remove();
+    
+    const contador = pallet.querySelector(".contador-produtos");
+    if (contador) contador.remove();
+    
+    const indicadorQuantidade = pallet.querySelector(".quantidade-limite");
+    if (indicadorQuantidade) indicadorQuantidade.remove();
+    
+    // Remover classes e atributos
+    pallet.removeAttribute("data-tipo");
+    pallet.removeAttribute("data-produto-especial");
+    pallet.classList.remove("selecionado", "cheio", "unificado-permanente");
+    
+    // Restaurar pallets absorvidos
+    const idPallet = pallet.getAttribute("id");
+    if (idPallet.startsWith("G")) {
+      pallet.classList.remove("absorvido-permanente");
+      pallet.style.opacity = "";
+      pallet.style.pointerEvents = "";
+      const indicadorAbsorcao = pallet.querySelector(".indicador-absorcao-permanente");
+      if (indicadorAbsorcao) indicadorAbsorcao.remove();
+    }
+  });
+  
+  // Limpar tabela
+  const tabela = document.getElementById("tabela-cupomList");
+  tabela.innerHTML = "";
+  
+  // Resetar variáveis globais
+  totalQuantidade = 0;
+  totalPeso = 0;
+  totalValor = 0;
+  cubagemOcupada = 0;
+  totalVolume = 0;
+  selectedCubes = [];
+  selectedCube = null;
+  
+  // Atualizar exibição
+  document.getElementById("Quantidade-container").innerText = "0.00";
+  document.getElementById("peso-container").innerText = "0.00";
+  document.getElementById("valorTotal-container").innerText = "R$0,00";
+  document.getElementById("volumeTotal-container").innerText = "0.00";
+  document.getElementById("ocupacao-container").innerText = "0,00%";
+  
+  // Ocultar botão flutuante de adicionar
+  const btnAdd = document.querySelector(".floating-add-btn");
+  if (btnAdd) btnAdd.style.display = "none";
+}
+
 // ===FAZER DOWLOAD DA PAGINA DE SIMULAÇÃO===
 
 function downloadPDF() {
@@ -1298,4 +1371,377 @@ function atualizarValorTotalComOuSemMarkup() {
   }
   document.getElementById("valorTotal-container").innerText =
     formatarMoeda(valorExibir);
+}
+
+// ========== FUNÇÕES PARA SALVAR SIMULAÇÕES ==========
+
+// Função para abrir modal de salvar simulação
+function abrirModalSalvarSimulacao() {
+  // Verificar se há algo para salvar
+  const tabela = document.getElementById("tabela-cupomList");
+  const temProdutos = tabela && tabela.rows.length > 0;
+  
+  if (!temProdutos) {
+    showNotification("info", "Não há produtos para salvar. Adicione produtos aos pallets primeiro.");
+    return;
+  }
+
+  // Verificar se estamos editando uma simulação existente
+  const simulacaoIdParaEditar = sessionStorage.getItem("simulacaoIdParaEditar");
+  
+  if (simulacaoIdParaEditar) {
+    // Carregar dados da simulação para preencher o modal
+    axios.get(`http://localhost:3000/simulacoes/${simulacaoIdParaEditar}`)
+      .then(response => {
+        const simulacao = response.data;
+        document.getElementById("nomeSimulacao").value = simulacao.nome || "";
+        document.getElementById("observacoesSimulacao").value = simulacao.observacoes || "";
+        document.getElementById("modalSalvarSimulacao").style.display = "block";
+      })
+      .catch(error => {
+        console.error("Erro ao carregar simulação:", error);
+        // Gerar nome padrão se não conseguir carregar
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, "0");
+        const day = String(now.getDate()).padStart(2, "0");
+        const nomePadrao = `Simulação ${day}/${month}/${year}`;
+        document.getElementById("nomeSimulacao").value = nomePadrao;
+        document.getElementById("observacoesSimulacao").value = "";
+        document.getElementById("modalSalvarSimulacao").style.display = "block";
+      });
+  } else {
+    // Gerar nome padrão com data atual
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const day = String(now.getDate()).padStart(2, "0");
+    const nomePadrao = `Simulação ${day}/${month}/${year}`;
+    
+    document.getElementById("nomeSimulacao").value = nomePadrao;
+    document.getElementById("observacoesSimulacao").value = "";
+    document.getElementById("modalSalvarSimulacao").style.display = "block";
+  }
+}
+
+// Função para fechar modal de salvar simulação
+function fecharModalSalvarSimulacao() {
+  document.getElementById("modalSalvarSimulacao").style.display = "none";
+}
+
+// Função para capturar o estado atual do simulador
+function capturarEstadoSimulador() {
+  const estadoPallets = {};
+  
+  // Capturar estado de todos os pallets (P1, P3, P5... G2, G4, G6...)
+  const todosPallets = document.querySelectorAll(".cube");
+  
+  todosPallets.forEach((pallet) => {
+    const idPallet = pallet.getAttribute("id");
+    const tipo = pallet.getAttribute("data-tipo") || null;
+    const produtoEspecial = pallet.getAttribute("data-produto-especial") || null;
+    const isUnificado = pallet.classList.contains("unificado-permanente") || tipo === "UNIFICADO";
+    
+    // Capturar produtos no pallet
+    const produtosBlocos = pallet.querySelectorAll(".produto-bloco");
+    const produtos = [];
+    
+    produtosBlocos.forEach((bloco) => {
+      const produto = bloco.getAttribute("data-categoria");
+      const quantidadeElement = bloco.querySelector(".quantidade-cubo");
+      const quantidade = quantidadeElement ? parseFloat(quantidadeElement.textContent) : 0;
+      
+      produtos.push({
+        produto: produto,
+        quantidade: quantidade
+      });
+    });
+    
+    // Verificar se está unificado e qual pallet grande foi absorvido
+    let palletAbsorvido = null;
+    if (isUnificado && idPallet.startsWith("P")) {
+      const numeroPallet = parseInt(idPallet.substring(1));
+      const palletGrande = document.getElementById(`G${numeroPallet + 1}`);
+      if (palletGrande && palletGrande.classList.contains("absorvido-permanente")) {
+        palletAbsorvido = palletGrande.getAttribute("id");
+      }
+    }
+    
+    estadoPallets[idPallet] = {
+      tipo: tipo,
+      produtoEspecial: produtoEspecial,
+      isUnificado: isUnificado,
+      palletAbsorvido: palletAbsorvido,
+      produtos: produtos
+    };
+  });
+  
+  // Capturar totais
+  const totais = {
+    quantidade: totalQuantidade,
+    peso: totalPeso,
+    valor: totalValor,
+    cubagem: cubagemOcupada,
+    ocupacao: parseFloat(document.getElementById("ocupacao-container").innerText.replace("%", "")) || 0,
+    volume: totalVolume
+  };
+  
+  return {
+    pallets: estadoPallets,
+    totais: totais
+  };
+}
+
+// Função para salvar simulação no backend
+async function salvarSimulacao() {
+  const nome = document.getElementById("nomeSimulacao").value.trim();
+  const observacoes = document.getElementById("observacoesSimulacao").value.trim();
+  
+  if (!nome) {
+    showNotification("error", "Por favor, informe um nome para a simulação.");
+    document.getElementById("nomeSimulacao").focus();
+    return;
+  }
+  
+  try {
+    // Capturar estado atual
+    const estado = capturarEstadoSimulador();
+    
+    // Preparar dados para enviar
+    const dadosSimulacao = {
+      nome: nome,
+      observacoes: observacoes || null,
+      pallets: estado.pallets,
+      totais: estado.totais
+    };
+    
+    // Verificar se estamos editando uma simulação existente
+    const simulacaoIdParaEditar = sessionStorage.getItem("simulacaoIdParaEditar");
+    
+    if (simulacaoIdParaEditar) {
+      // Atualizar simulação existente
+      await axios.put(`http://localhost:3000/simulacoes/${simulacaoIdParaEditar}`, dadosSimulacao);
+      showNotification("success", `Simulação "${nome}" atualizada com sucesso!`);
+      sessionStorage.removeItem("simulacaoIdParaEditar");
+    } else {
+      // Criar nova simulação
+      await axios.post("http://localhost:3000/simulacoes", dadosSimulacao);
+      showNotification("success", `Simulação "${nome}" salva com sucesso!`);
+    }
+    
+    fecharModalSalvarSimulacao();
+    
+  } catch (error) {
+    console.error("Erro ao salvar simulação:", error);
+    showNotification("error", "Erro ao salvar simulação: " + (error.response?.data?.error || error.message));
+  }
+}
+
+// Função para carregar simulação do backend e restaurar estado
+async function carregarSimulacaoDoBackend(id) {
+  try {
+    const response = await axios.get(`http://localhost:3000/simulacoes/${id}`);
+    const simulacao = response.data;
+    
+    // Limpar estado atual sem recarregar
+    limparEstadoSimulador();
+    
+    // Aguardar um pouco para garantir que produtos foram carregados
+    await new Promise(resolve => setTimeout(resolve, 300));
+    
+    // Restaurar estado dos pallets
+    await restaurarEstadoSimulador(simulacao);
+    
+    // Salvar ID da simulação para permitir edição
+    sessionStorage.setItem("simulacaoIdParaEditar", id);
+    
+    showNotification("success", `Simulação "${simulacao.nome}" carregada com sucesso!`);
+    
+  } catch (error) {
+    console.error("Erro ao carregar simulação:", error);
+    showNotification("error", "Erro ao carregar simulação: " + (error.response?.data?.error || error.message));
+  }
+}
+
+// Função para restaurar estado do simulador
+async function restaurarEstadoSimulador(simulacao) {
+  // Aguardar produtos serem carregados
+  while (Object.keys(produtos).length === 0) {
+    await new Promise(resolve => setTimeout(resolve, 100));
+  }
+  
+  const estadoPallets = simulacao.pallets || {};
+  const totais = simulacao.totais || {};
+  
+  // Restaurar cada pallet
+  for (const [idPallet, estadoPallet] of Object.entries(estadoPallets)) {
+    const pallet = document.getElementById(idPallet);
+    if (!pallet) continue;
+    
+    // Limpar pallet primeiro
+    const produtosBlocos = pallet.querySelectorAll(".produto-bloco");
+    produtosBlocos.forEach(bloco => bloco.remove());
+    
+    // Restaurar tipo
+    if (estadoPallet.tipo) {
+      pallet.setAttribute("data-tipo", estadoPallet.tipo);
+    }
+    
+    // Restaurar produtos
+    if (estadoPallet.produtos && estadoPallet.produtos.length > 0) {
+      estadoPallet.produtos.forEach((produtoInfo) => {
+        const produto = produtoInfo.produto;
+        const quantidade = produtoInfo.quantidade;
+        
+        if (!produtos[produto]) {
+          console.warn(`Produto ${produto} não encontrado na base de dados`);
+          return;
+        }
+        
+        // Criar bloco de produto
+        const bloco = document.createElement("div");
+        bloco.className = "produto-bloco";
+        if (estadoPallet.isUnificado) {
+          bloco.classList.add("produto-especial-unificado");
+        }
+        bloco.setAttribute("data-categoria", produto);
+        bloco.innerHTML = `<div>${produto}</div><div class="quantidade-cubo">${quantidade}</div>`;
+        
+        pallet.appendChild(bloco);
+        
+        // Adicionar indicador de tipo se necessário
+        if (!pallet.querySelector(".tipo-pallet")) {
+          const tipoIndicator = document.createElement("div");
+          tipoIndicator.className = "tipo-pallet";
+          tipoIndicator.textContent = estadoPallet.tipo || (idPallet.startsWith("P") ? "PP" : "PG");
+          pallet.appendChild(tipoIndicator);
+        }
+        
+        // Se for unificado, restaurar visual de unificação
+        if (estadoPallet.isUnificado && estadoPallet.palletAbsorvido) {
+          const palletAbsorvido = document.getElementById(estadoPallet.palletAbsorvido);
+          if (palletAbsorvido) {
+            palletAbsorvido.classList.add("absorvido-permanente");
+            palletAbsorvido.style.opacity = "0.3";
+            palletAbsorvido.style.pointerEvents = "none";
+            
+            // Adicionar indicador de absorção
+            const indicadorAbsorcao = document.createElement("div");
+            indicadorAbsorcao.className = "indicador-absorcao-permanente";
+            indicadorAbsorcao.innerHTML = `
+              <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+                   background: rgba(255, 152, 0, 0.9); color: white; padding: 5px; border-radius: 4px; 
+                   font-size: 10px; font-weight: bold; z-index: 1000;">
+                UNIFICADO
+              </div>
+            `;
+            palletAbsorvido.appendChild(indicadorAbsorcao);
+          }
+          
+          pallet.setAttribute("data-tipo", "UNIFICADO");
+          pallet.setAttribute("data-produto-especial", estadoPallet.produtoEspecial || produto);
+          pallet.classList.add("unificado-permanente");
+        }
+        
+        atualizarContadorProdutos(pallet);
+      });
+    }
+    
+    // Adicionar à tabela do cupom
+    if (estadoPallet.produtos && estadoPallet.produtos.length > 0) {
+      estadoPallet.produtos.forEach((produtoInfo) => {
+        const produto = produtoInfo.produto;
+        const quantidade = produtoInfo.quantidade;
+        
+        if (!produtos[produto]) return;
+        
+        const isPequeno = idPallet.startsWith("P");
+        const dadosProduto = produtos[produto];
+        const dadosReferencia = isPequeno ? dadosProduto.PP : dadosProduto.PG;
+        
+        // Calcular peso proporcional
+        const pesoReferencia = dadosReferencia.peso;
+        const quantidadeReferencia = dadosReferencia.quantidade;
+        const peso = (quantidade * pesoReferencia) / quantidadeReferencia;
+        
+        // Calcular valor
+        const precoUnitario = dadosReferencia.precoUnitario || 0;
+        const valor = quantidade * precoUnitario;
+        
+        const table = document.getElementById("tabela-cupomList");
+        const row = table.insertRow();
+        row.setAttribute("data-id", idPallet);
+        row.setAttribute("data-produto", produto);
+        row.classList.add("ativo");
+        
+        if (estadoPallet.isUnificado && estadoPallet.palletAbsorvido) {
+          row.classList.add("unificado");
+          row.innerHTML = `
+            <td>${idPallet} + ${estadoPallet.palletAbsorvido} (UNIFICADO)</td>
+            <td>${produto}</td>
+            <td>${quantidade}</td>
+            <td>${peso.toFixed(2)}</td>
+            <td>${formatarMoeda(valor)}</td>
+            <td><button onclick="removeEntry(this)">Excluir</button></td>
+          `;
+        } else {
+          row.innerHTML = `
+            <td>${idPallet}</td>
+            <td>${produto}</td>
+            <td>${quantidade}</td>
+            <td>${peso.toFixed(2)}</td>
+            <td>${formatarMoeda(valor)}</td>
+            <td><button onclick="removeEntry(this)">Excluir</button></td>
+          `;
+        }
+      });
+    }
+  }
+  
+  // Recalcular totais baseado nos produtos restaurados
+  totalQuantidade = 0;
+  totalPeso = 0;
+  totalValor = 0;
+  cubagemOcupada = 0;
+  totalVolume = 0;
+  
+  // Recalcular baseado na tabela
+  const tabela = document.getElementById("tabela-cupomList");
+  for (let i = 0; i < tabela.rows.length; i++) {
+    const row = tabela.rows[i];
+    const idPallet = row.getAttribute("data-id");
+    const produto = row.getAttribute("data-produto");
+    const quantidade = parseFloat(row.cells[2].innerText);
+    const peso = parseFloat(row.cells[3].innerText);
+    const valor = parseValorBRL(row.cells[4].innerText);
+    
+    totalQuantidade += quantidade;
+    totalPeso += peso;
+    totalValor += valor;
+    
+    // Calcular cubagem
+    if (produtos[produto]) {
+      const isPequeno = idPallet.startsWith("P");
+      const dadosReferencia = isPequeno ? produtos[produto].PP : produtos[produto].PG;
+      const quantidadeReferencia = dadosReferencia.quantidade;
+      const cubagemReferencia = dadosReferencia.cubagem;
+      const cubagemProduto = (quantidade * cubagemReferencia) / quantidadeReferencia;
+      cubagemOcupada += cubagemProduto;
+      
+      // Calcular volume
+      const padraoCx = dadosReferencia.padraoCx || 1;
+      const volumeProduto = Math.ceil(quantidade / padraoCx);
+      totalVolume += volumeProduto;
+    }
+  }
+  
+  // Atualizar exibição dos totais
+  document.getElementById("Quantidade-container").innerText = totalQuantidade.toFixed(2);
+  document.getElementById("peso-container").innerText = totalPeso.toFixed(2);
+  atualizarValorTotalComOuSemMarkup();
+  document.getElementById("volumeTotal-container").innerText = totalVolume.toFixed(2);
+  
+  // Calcular ocupação
+  const ocupacao = (cubagemOcupada / cubagemTotal) * 100;
+  document.getElementById("ocupacao-container").innerText = ocupacao.toFixed(2) + "%";
 }
