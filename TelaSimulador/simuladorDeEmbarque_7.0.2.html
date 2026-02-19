@@ -13,6 +13,9 @@
       <nav>
         <ul>
           <li>
+            <a href="../TelaHistorico/Historico.html">📋 Histórico</a>
+          </li>
+          <li>
             <a href="../TelaConfig/Config.html">⚙️ Configurações</a>
           </li>
           <li><a href="../TelaIniciar/PaginaIniciar.html">🚪 Sair</a></li>
@@ -68,6 +71,23 @@
           justify-content: center;
         "
         >🤖</span
+      >
+    </button>
+    <!-- Botão flutuante para salvar simulação -->
+    <button
+      class="floating-save-btn"
+      onclick="abrirModalSalvarSimulacao()"
+      title="Salvar Simulação"
+    >
+      <span
+        style="
+          font-size: 1.7rem;
+          line-height: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        "
+        >💾</span
       >
     </button>
 
@@ -232,6 +252,32 @@
         <div style="margin-top: 16px">
           <button onclick="confirmarMarkup()">Confirmar</button>
           <button onclick="cancelarMarkup()">Cancelar</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal para salvar simulação -->
+    <div class="modal" id="modalSalvarSimulacao" style="display: none; z-index: 2003">
+      <div class="modal-header">
+        <h2>Salvar Simulação</h2>
+      </div>
+      <div class="modal-content">
+        <label for="nomeSimulacao">Nome da Simulação:</label>
+        <input
+          type="text"
+          id="nomeSimulacao"
+          placeholder="Ex: Container Cliente X - 20/02/26"
+          style="width: 100%; padding: 8px; margin-bottom: 10px; font-size: 1em"
+        />
+        <label for="observacoesSimulacao">Observações (opcional):</label>
+        <textarea
+          id="observacoesSimulacao"
+          placeholder="Adicione observações sobre esta simulação..."
+          style="width: 100%; padding: 8px; margin-bottom: 10px; font-size: 1em; min-height: 80px; resize: vertical"
+        ></textarea>
+        <div style="margin-top: 16px">
+          <button onclick="salvarSimulacao()">Salvar</button>
+          <button onclick="fecharModalSalvarSimulacao()">Cancelar</button>
         </div>
       </div>
     </div>

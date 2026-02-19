@@ -26,3 +26,13 @@ model Produtos {
   padraoCX Float?
   custoUnit Float?
 }
+
+model Simulacoes {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  nome        String   // Nome da simulação (ex: "Container Cliente X - 20/02/26")
+  observacoes String?  // Observações opcionais
+  pallets     String   // JSON com estado de todos os pallets
+  totais      String   // JSON com totais (quantidade, peso, valor, cubagem, ocupacao)
+  criadoEm    DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+}
