@@ -26,28 +26,50 @@ import { PrismaClient } from "./generated/prisma/index.js";
 import cors from "cors";
 import multer from "multer";
 import XLSX from "xlsx";
+import path from "path";
+import { fileURLToPath } from "url";
+import fs from "fs";
+
+// Determina o caminho base do servidor
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const appPath = process.env.APP_PATH || __dirname;
+
+// Garante que a pasta uploads existe
+const uploadsDir = path.join(appPath, "uploads");
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
 
 const prisma = new PrismaClient();
 const app = express();
 // Configuração do multer para upload de arquivos
-const upload = multer({ dest: "uploads/" });
+const upload = multer({ dest: uploadsDir });
 // Lista de origens permitidas (opcional - usado para restringir acesso em produção)
 const allowedOrigins = [
   "http://127.0.0.1:5500",
-  "http://127.0.0.1:5501"
+  "http://127.0.0.1:5501",
+  "http://localhost:3000",
+  "file://", // Permite requisições do Electron (file://)
+  null // Permite requisições sem origem (Electron)
 ];
 
 // Middleware CORS configurado
 app.use(cors({
   // A função 'origin' é chamada para cada requisição para verificar se ela pode acessar o servidor
   origin: (origin, callback) => {
-    // Se a requisição não tiver origem (ex: Postman ou mesma origem), ela é permitida
-    if (!origin) {
+    // Se a requisição não tiver origem (ex: Postman, Electron ou mesma origem), ela é permitida
+    if (!origin || origin.startsWith('file://')) {
       return callback(null, true);
     }
 
     // Se a origem estiver na lista de permitidas, também é permitida
     if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    // Permite localhost em qualquer porta (útil para desenvolvimento e Electron)
+    if (origin.startsWith('http://localhost:') || origin.startsWith('http://127.0.0.1:')) {
       return callback(null, true);
     }
 

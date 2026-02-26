@@ -6,6 +6,11 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+    "prisma:generate": "prisma generate",
+    "prebuild": "npm run prisma:generate",
+    "build": "electron-builder",
+    "build:win": "npm run prisma:generate && electron-builder --win",
+    "build:dir": "npm run prisma:generate && electron-builder --dir",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,15 +30,68 @@
     "prisma": "^6.12.0"
   },
   "build": {
-    "appId": "com.seuprojeto.simulador",
+    "appId": "com.simulador.embarque",
+    "productName": "Simulador de Embarque",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*",
+      "!node_modules/**/*",
+      "!dist/**/*",
+      "!.git/**/*",
+      "!.vscode/**/*",
+      "!.github/**/*",
+      "!.env.example",
+      "!*.md",
+      "!README.md",
+      "icon.ico"
+    ],
+    "asarUnpack": [
+      "server.js",
+      "generated/**/*",
+      "prisma/**/*",
+      ".env",
+      "Imagens/**/*"
+    ],
     "win": {
-      "icon": "Imagens/icon.ico"
+      "target": [
+        {
+          "target": "dir",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "Imagens/icon.ico",
+      "executableName": "Simulador de Embarque",
+      "artifactName": "${productName}-${version}-${ext}.${ext}",
+      "forceCodeSigning": false,
+      "verifyUpdateCodeSignature": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Simulador de Embarque"
     },
     "mac": {
-      "icon": "Imagens/icon.icns"
+      "icon": "Imagens/icon.icns",
+      "category": "public.app-category.utilities"
     },
     "linux": {
-      "icon": "Imagens/icon.png"
+      "icon": "Imagens/icon.png",
+      "target": [
+        "AppImage",
+        "deb"
+      ]
     }
   },
   "dependencies": {
