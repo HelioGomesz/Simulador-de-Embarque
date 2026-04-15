@@ -922,7 +922,7 @@ button:hover {
 .floating-save-btn {
   position: fixed;
   right: 32px;
-  bottom: 245px;
+  bottom: 310px;
   z-index: 2000;
   width: 56px;
   height: 56px;
