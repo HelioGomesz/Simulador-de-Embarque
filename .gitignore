@@ -34,3 +34,4 @@ electron-debug.log
 
 
 /generated/prisma
+.env
