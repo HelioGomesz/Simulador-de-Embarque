@@ -285,7 +285,33 @@ app.delete("/simulacoes/:id", async (req, res) => {
   }
 });
 
-app.listen(3000);
+const PORT = Number(process.env.PORT) || 3000;
 
-console.log("Servidor rodando na porta 3000"); //Mensagem de confirmação de que o servidor está rodando
-// Acesse a API em http://localhost:3000/produtos   
+async function startServer() {
+  try {
+    await prisma.$connect();
+    console.log("Conexão com o banco de dados estabelecida com sucesso.");
+  } catch (error) {
+    console.error("Falha ao conectar com o banco de dados:", error.message);
+    process.exit(1);
+  }
+
+  const server = app.listen(PORT, () => {
+    console.log(`Servidor rodando na porta ${PORT}`); //Mensagem de confirmação de que o servidor está rodando
+  });
+
+  server.on("error", (error) => {
+    if (error.code === "EADDRINUSE") {
+      console.error(
+        `A porta ${PORT} já está em uso. Feche a instância anterior do app ou altere a variável PORT no .env.`
+      );
+      process.exit(1);
+    }
+
+    console.error("Erro inesperado ao iniciar o servidor:", error.message);
+    process.exit(1);
+  });
+}
+
+startServer();
+// Acesse a API em http://localhost:3000/produtos
