@@ -34,6 +34,7 @@ Em desenvolvimento, correção de bugs e pré-test
   - [x] Visualização do PDF ![](https://img.shields.io/badge/-%20Concluído-green)
   - [x] Ajuste da página de configurações ![](https://img.shields.io/badge/-%20Concluído-green)
   - [x] Volume do container completo ![](https://img.shields.io/badge/-%20Concluído-green)
+   - [x] Alterar página inicial - Formato grid ![](https://img.shields.io/badge/-%20Pendente-red)
 
 - Hélio
 
